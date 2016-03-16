@@ -6,7 +6,7 @@ import javax.persistence.Table;
 import com.ogpis.entity.base.OrganizationEntity;
 
 @Entity
-@Table(name = "test_organization")
+@Table(name = "ogpis_organization")
 public class Organization extends OrganizationEntity {
 
 }

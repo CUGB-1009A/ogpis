@@ -6,7 +6,7 @@ import javax.persistence.Table;
 import com.ogpis.entity.base.DictionaryEntity;
 
 @Entity
-@Table(name = "test_dictionary")
+@Table(name = "ogpis_dictionary")
 public class Dictionary extends DictionaryEntity {
 
 }

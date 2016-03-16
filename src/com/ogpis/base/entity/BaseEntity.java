@@ -7,6 +7,11 @@ import java.util.UUID;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
+/**
+ * 实体基类，定义了公有属性
+ * @author Danny
+ *
+ */
 @MappedSuperclass
 public abstract class BaseEntity implements Serializable {
 

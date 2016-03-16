@@ -6,7 +6,7 @@ import javax.persistence.Table;
 import com.ogpis.entity.base.MenuItemEntity;
 
 @Entity
-@Table(name = "test_menu")
+@Table(name = "ogpis_menu")
 public class MenuItem extends MenuItemEntity {
 
 }

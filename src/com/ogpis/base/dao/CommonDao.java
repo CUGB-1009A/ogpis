@@ -2,6 +2,12 @@ package com.ogpis.base.dao;
 
 import java.util.List;
 
+/**
+ * 通用Dao接口
+ * 定义通用方法
+ * @author Danny
+ *
+ */
 public interface CommonDao {
 
 	/**

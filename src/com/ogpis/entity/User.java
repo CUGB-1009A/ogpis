@@ -6,7 +6,7 @@ import javax.persistence.Table;
 import com.ogpis.entity.base.UserEntity;
 
 @Entity
-@Table(name = "test_user")
+@Table(name = "ogpis_user")
 public class User extends UserEntity {
 
 }
