@@ -16,33 +16,30 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
-
+<html>
 <body>
 <!-- wrapper -->
 <div id="wrapper">
 	<!-- 网站头及导航栏 -->
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 		<%@ include file="main/main_header.jsp"%>
-<!-- 		<div id="fmain_header"></div> -->
 		<%@ include file="main/main_nav.jsp"%>
 	</nav>
 	<!--网页主体 -->
 	<div id="page-wrapper" style="height: 100%;">
 		<div class="container-fluid">
-			<%@ include file="main/main_center.jsp"%>
+			<div class="row">
+				<div class="col-lg-12">
+					<h1 class="page-header">
+						欢迎使用 <small>油气资源规划系统</small>
+					</h1>
+					<ol class="breadcrumb">
+						<li class="active"><i class="fa fa-dashboard"></i> Dashboard嘟嘟</li>
+					</ol>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
 </body>
-<script type="text/javascript">
-
-$(function(){
-<%-- 	$("#main_header").load("<%=path%>/main_header"); --%>
-<%-- 	$("#main_nav").load("<%=path%>/main_nav"); --%>
-<%-- 	$("#main_center").load("<%=path%>/main_center"); --%>
-});
-
-</script>
 </html>
-
-

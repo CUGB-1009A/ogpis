@@ -27,4 +27,11 @@ public class WelcomeAction {
 
 		return "main/main_nav";
 	}
+	
+	@RequestMapping(value = "/main", method = RequestMethod.GET)
+	public String main() {
+		System.out.println("main_nav");
+
+		return "main";
+	}
 }

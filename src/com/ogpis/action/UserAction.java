@@ -17,23 +17,24 @@ public class UserAction {
 	@Autowired
 	private UserService userService;
 
-	@RequestMapping(value = "/user/list", method = RequestMethod.GET)
+	@RequestMapping(value = "/user/list")
 	public String list(ModelMap model) {
 		List<User> users = userService.getAllUsers();
 		System.out.println("users.size()" + users.size());
 		model.addAttribute("users", users);
 		return "user/list";
 	}
-	
+
 	@RequestMapping(value = "/user/add", method = RequestMethod.GET)
-	public String add(){
+	public String add() {
 		return "user/add";
 	}
-	
 
 	@RequestMapping(value = "/user/save", method = RequestMethod.GET)
-	public String save(){
+	public String save(String loginId, String username, String password) {
 		System.out.println("save");
-		return "user/list";
+		System.out.println("loginId: " + loginId + " username: " + username
+				+ "password: " + password);
+		return "redirect:list";
 	}
 }

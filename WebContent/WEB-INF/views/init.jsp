@@ -31,7 +31,7 @@
 <%-- <script src="<%=path %>/assets/js/plugins/morris/morris.min.js"></script> --%>
 <%-- <script src="<%=path %>/assets/js/plugins/morris/morris-data.js"></script> --%>
 
-
+<%@ taglib uri="/WEB-INF/taglib/c.tld" prefix="c"%>
 
 <!--[if lte IE 8]>
   <link rel="stylesheet" href="assets/css/ace-ie.min.css" />
