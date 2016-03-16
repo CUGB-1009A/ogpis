@@ -32,8 +32,12 @@
 				<li class="active">用户管理</li>
 			</ul>
 		</div>
-		<div class="row">
-			<div class="col-xs-4">
+		<div class="btn-toolbar">
+			<div class="btn-group">
+				<button id="btnAdd"  class="btn-sm btn-success">添加用户</button>
+			</div>
+			<div class="btn-group">
+				<button id="btnAdd"  class="btn-sm">添加用户</button>
 				<button id="btnAdd"  class="btn-sm">添加用户</button>
 			</div>
 		</div>
@@ -45,39 +49,51 @@
 							<tr>
 								<th class="center">
 									<label>
-										<input type="checkbox" class="ace" />
+										<input type="checkbox"/>
 										<span class="lbl"></span>
 									</label>
 								</th>
-								<th>ID</th>
-								<th>用户名</th>
+								<th class="hidden">ID</th>
+								<th>登录账号</th>
+								<th class="hidden-480">显示名称</th>
+								<th class="hidden-480">密码</th>
 								<th class="hidden-480">状态</th>
-								<th class="hidden-480">状态</th>
-								<th class="hidden-480">状态</th>
+								<th class="hidden-480">操作</th>
 							</tr>
 						</thead>
 
 						<tbody>
 							<c:forEach items="${users}" var="item">  
-                 						<tr>
-								<td class="center">
-									<label>
-										<input type="checkbox" class="ace" />
-										<span class="lbl"></span>
-									</label>
-								</td>
-
-								<td>
-									<a href="#">ace.com</a>
-								</td>
-								<td>${item.name}ss</td>
-								<td class="hidden-480">3,330</td>
-								<td>Feb 12</td>
-
-								<td class="hidden-480">
-									<span class="label label-sm label-warning">Expiring</span>
-								</td>
-
+                 				<tr>
+									<td class="center">
+										<label>
+											<input type="checkbox"/>
+											<span class="lbl"></span>
+										</label>
+									</td>
+									<td class="hidden">${item.id}</td>
+									<td>${item.loginId}</td>
+									<td>${item.name}</td>
+									<td>${item.password}</td>
+									<td>
+										<span class="label label-sm label-warning">可用</span>
+									</td>
+									<td>
+										<p>
+											<a href="#" class="btn-sm btn-app btn-success no-radius">
+												<i class="icon-info bigger-200"></i>
+												查看
+											</a>
+											<a href="#" class="btn-sm btn-app btn-primary no-radius">
+												<i class="icon-edit bigger-200"></i>
+												编辑
+											</a>
+											<a href="#" class="btn-sm btn-app btn-danger no-radius">
+												<i class="icon-trash bigger-200"></i>
+												删除
+											</a>
+										</p>
+									</td>
 								</tr>
               				</c:forEach>  
 						</tbody>

@@ -35,6 +35,11 @@ public class UserAction {
 		System.out.println("save");
 		System.out.println("loginId: " + loginId + " username: " + username
 				+ "password: " + password);
+		User user = new User();
+		user.setLoginId(loginId);
+		user.setName(username);
+		user.setPassword(password);
+		userService.add(user);
 		return "redirect:list";
 	}
 }

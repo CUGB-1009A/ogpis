@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="<%=path %>/assets/bootstrap/css/bootstrap.min.css" type="text/css">
 <link rel="stylesheet" href="<%=path %>/assets/bootstrap/css/bootstrap-theme.css" type="text/css">
 <link rel="stylesheet" href="<%=path %>/assets/font-awesome/css/font-awesome.min.css" type="text/css">
+<link rel="stylesheet" href="<%=path %>/assets/font-awesome/css/font-awesome1.min.css" type="text/css">
 <link rel="stylesheet" href="<%=path %>/assets/css/form-elements.css" type="text/css">
 <link rel="stylesheet" href="<%=path %>/assets/css/style.css" type="text/css">
 <!-- Morris Charts CSS -->
