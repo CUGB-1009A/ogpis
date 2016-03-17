@@ -27,6 +27,7 @@ public class UserAction {
 
 	@RequestMapping(value = "/user/add", method = RequestMethod.GET)
 	public String add() {
+		//用户管理提交测试
 		return "user/add";
 	}
 
