@@ -2,12 +2,15 @@ package com.ogpis.dao;
 
 import java.util.List;
 
+import com.ogpis.base.common.paging.IPageList;
 import com.ogpis.base.dao.BaseDao;
 import com.ogpis.entity.User;
 
 public interface UserDao extends BaseDao<User, String> {
 
-	List<User> getAllUsers();
+	public List<User> getAllUsers();
+
+	public IPageList<User> getAllUsers(int pageNo, int pageSize);
 
 //	public String saveUser(User user);
 //	

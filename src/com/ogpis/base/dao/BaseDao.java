@@ -74,4 +74,10 @@ public interface BaseDao<T, ID extends Serializable> extends CommonDao {
 	 */
 	public List<T> queryEntityByExample(T entity, int start, int size);
 
+	/**
+	 * 批量删除
+	 * @param items 要删除实体的ID集合
+	 */
+	public void batchMarkDelete(ID[] items);
+
 }

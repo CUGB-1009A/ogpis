@@ -1,29 +1,31 @@
 package com.ogpis.base.dao.impl;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.ogpis.base.dao.BaseDao;
+import com.ogpis.base.entity.BaseEntity;
 import com.ogpis.base.exception.DAOException;
 
-public abstract class BaseDaoImpl<T, ID extends Serializable> extends
-		CommonDaoImpl  implements BaseDao<T, ID>{
+public abstract class BaseDaoImpl<T, ID extends Serializable> extends CommonDaoImpl implements BaseDao<T, ID> {
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public ID save(T entity) {
 		return (ID) super.getHibernateTemplate().save(entity);
 	}
+
 	@Override
 	public void saveEntities(List<T> entities) {
 		if (entities == null) {
 			throw new DAOException("请指定要添加的数据。");
 		}
 		try {
-			for(T entity :entities){
+			for (T entity : entities) {
 				super.getHibernateTemplate().save(entity);
 			}
-			//this.hibernateTemplate.flush();
+			// this.hibernateTemplate.flush();
 		} catch (Exception e) {
 			logger.error("添加数据失败," + e);
 			throw new DAOException("添加数据失败," + e.getMessage());
@@ -65,7 +67,7 @@ public abstract class BaseDaoImpl<T, ID extends Serializable> extends
 			throw new DAOException("更新数据失败," + e.getMessage());
 		}
 	}
-	
+
 	@Override
 	public T findById(ID id) {
 		try {
@@ -75,7 +77,7 @@ public abstract class BaseDaoImpl<T, ID extends Serializable> extends
 			throw new DAOException("获取数据失败," + e.getMessage());
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<T> queryEntityByExample(T entity) {
@@ -91,16 +93,27 @@ public abstract class BaseDaoImpl<T, ID extends Serializable> extends
 	@Override
 	public List<T> queryEntityByExample(T entity, int start, int size) {
 		try {
-			return (List<T>) this.getHibernateTemplate().findByExample(entity,
-					start, size);
+			return (List<T>) this.getHibernateTemplate().findByExample(entity, start, size);
 		} catch (Exception e) {
 			logger.error("获取多条数据失败," + e);
 			throw new DAOException("获取多条数据失败," + e.getMessage());
 		}
 	}
-	
-	
-	
+
+	@Override
+	public void batchMarkDelete(ID[] items) {
+		List persistentInstances = new ArrayList();
+		for (ID id : items) {
+			Object entity = findById(id);
+			if (entity instanceof BaseEntity) {
+				BaseEntity baseEntity = (BaseEntity) entity;
+				baseEntity.setDeleted(true);
+			}
+			persistentInstances.add(entity);
+		}
+		batchUpdate(persistentInstances);
+	}
+
 	/**
 	 * 获得Dao对于的实体类
 	 * 

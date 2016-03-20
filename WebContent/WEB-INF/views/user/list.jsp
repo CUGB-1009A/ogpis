@@ -32,7 +32,7 @@
 				<li class="active">用户管理</li>
 			</ul>
 		</div>
-		<div class="btn-toolbar">
+		<div class="btn-toolbar" style="text-align: right;">
 			<div class="btn-group">
 				<button id="btnAdd"  class="btn-sm btn-success">添加用户</button>
 			</div>
@@ -88,7 +88,7 @@
 												<i class="icon-edit bigger-200"></i>
 												编辑
 											</a>
-											<a href="#" class="btn-sm btn-app btn-danger no-radius">
+											<a href="javascript:onDelete('${item.id}');" class="btn-sm btn-app btn-danger no-radius">
 												<i class="icon-trash bigger-200"></i>
 												删除
 											</a>
@@ -107,12 +107,25 @@
 <script type="text/javascript">
 $(function(){
 	$("#btnAdd").click(function(){
-		alert("adas");
+		alert("sdf");
 		window.location.href="<%=path%>/user/add";
 	});
-	
-	
 });
+
+function onDelete(id){
+	$.ajax({
+		url:'<%=path%>/user/del',
+		data:{
+			id:id
+		},
+		success: function(){
+	       alert("删除成功！");
+// 	       var table = $('#sample-table-1').DataTable();
+// 	       table.reload();
+		}
+	});
+}
+
 </script>
 </html>
 	

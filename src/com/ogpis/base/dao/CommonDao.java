@@ -1,5 +1,6 @@
 package com.ogpis.base.dao;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -120,4 +121,15 @@ public interface CommonDao {
 	 */
 	public int executeHql(String hql, Object[] params);
 
+	/**
+	 * 批量保存
+	 * @param transientInstances
+	 */
+	public void batchSave(Collection transientInstances);
+	
+	/**
+	 * 批量更新
+	 * @param transientInstances
+	 */
+	public void batchUpdate(Collection transientInstances);
 }
