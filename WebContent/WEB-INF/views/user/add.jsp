@@ -96,7 +96,7 @@
 							</button>
 						</div>
 					</div>
-				</from>
+				</form>
 			</div><!-- /span -->
 		</div><!-- /row -->
 	</div>

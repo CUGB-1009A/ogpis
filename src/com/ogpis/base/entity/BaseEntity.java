@@ -65,7 +65,7 @@ public abstract class BaseEntity implements Serializable {
 		return deleted;
 	}
 
-	protected void setDeleted(boolean deleted) {
+	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
 	}
 
