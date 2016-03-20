@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+import org.springframework.util.Assert;
 
 import com.ogpis.base.dao.CommonDao;
 import com.ogpis.base.exception.DAOException;
@@ -46,6 +47,21 @@ public abstract class CommonDaoImpl extends HibernateDaoSupport implements Commo
 		}
 	}
 
+	/**
+	 * 通过HQL查询唯一对象
+	 */
+	@Override
+	public Object findUnique(String hql, Object... values) {
+		Assert.hasText(hql);
+		Query queryObject = this.getSession().createQuery(hql);
+		if (values != null) {
+			for (int i = 0; i < values.length; i++) {
+				queryObject.setParameter(i, values[i]);
+			}
+		}
+		return queryObject.uniqueResult();
+	}
+	
 	@SuppressWarnings("rawtypes")
 	@Override
 	public List queryByHql(final String hql, final List params, final int start, final int size) {
@@ -69,7 +85,7 @@ public abstract class CommonDaoImpl extends HibernateDaoSupport implements Commo
 			throw new DAOException("查询数据失败," + e.getMessage());
 		}
 	}
-
+	
 	@SuppressWarnings("rawtypes")
 	@Override
 	public List queryBySql(String sql) {
@@ -155,6 +171,11 @@ public abstract class CommonDaoImpl extends HibernateDaoSupport implements Commo
 		executeBatch(transientInstances, "update");
 	}
 
+	/**
+	 * 执行批量操作（暂行）
+	 * @param instances
+	 * @param batchType
+	 */
 	private void executeBatch(final Collection instances, final String batchType) {
 		getHibernateTemplate().execute(new HibernateCallback() {
 			@Override
@@ -182,4 +203,6 @@ public abstract class CommonDaoImpl extends HibernateDaoSupport implements Commo
 			}
 		});
 	}
+	
+	
 }

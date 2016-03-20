@@ -2,13 +2,17 @@ package com.ogpis.action;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.ogpis.base.common.paging.IPageList;
+import com.ogpis.base.common.paging.PageListUtil;
 import com.ogpis.entity.User;
 import com.ogpis.service.UserService;
 
@@ -19,9 +23,14 @@ public class UserAction {
 	private UserService userService;
 
 	@RequestMapping(value = "/user/list")
-	public String list(ModelMap model) {
+	public String list(HttpServletRequest request, ModelMap model) {
 		// List<User> users = userService.getAllUsers();
-		IPageList<User> users = userService.getAllUsers(1, 10);
+
+		int pageNo = ServletRequestUtils.getIntParameter(request, PageListUtil.PAGE_NO_NAME,
+				PageListUtil.DEFAULT_PAGE_NO);
+		int pageSize = ServletRequestUtils.getIntParameter(request, PageListUtil.PAGE_SIZE_NAME,
+				PageListUtil.DEFAULT_PAGE_SIZE);
+		IPageList<User> users = userService.getAllUsers(pageNo, 2);
 		// System.out.println("users.size()" + users.size());
 		model.addAttribute("users", users);
 		return "user/listTest";
@@ -51,7 +60,7 @@ public class UserAction {
 		System.out.println("delete");
 		System.out.println("id: " + id);
 		this.userService.batchMarkDelete(new String[] { id });
-		return list(model);
+		return list(null, model);
 	}
 
 }
