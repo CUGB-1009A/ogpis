@@ -50,8 +50,8 @@ public abstract class CommonDaoImpl extends HibernateDaoSupport implements Commo
 	/**
 	 * 通过HQL查询唯一对象
 	 */
-	@Override
-	public Object findUnique(String hql, Object... values) {
+
+	public Object findUnique1(String hql, Object... values) {
 		Assert.hasText(hql);
 		Query queryObject = this.getSession().createQuery(hql);
 		if (values != null) {
@@ -61,7 +61,27 @@ public abstract class CommonDaoImpl extends HibernateDaoSupport implements Commo
 		}
 		return queryObject.uniqueResult();
 	}
-	
+
+	@Override
+	public Object findUnique(final String hql, final Object... values) {
+		List result = this.getHibernateTemplate().executeFind(new HibernateCallback() {
+			@Override
+			public Object doInHibernate(Session session) throws HibernateException, SQLException {
+				Query queryObject = session.createQuery(hql);
+				if (values != null) {
+					for (int i = 0; i < values.length; i++) {
+						queryObject.setParameter(i, values[i]);
+					}
+				}
+				return queryObject.list();
+			}
+		});
+		if (result != null && result.size() == 1) {
+			return result.get(0);
+		}
+		return null;
+	}
+
 	@SuppressWarnings("rawtypes")
 	@Override
 	public List queryByHql(final String hql, final List params, final int start, final int size) {
@@ -85,7 +105,7 @@ public abstract class CommonDaoImpl extends HibernateDaoSupport implements Commo
 			throw new DAOException("查询数据失败," + e.getMessage());
 		}
 	}
-	
+
 	@SuppressWarnings("rawtypes")
 	@Override
 	public List queryBySql(String sql) {
@@ -165,7 +185,7 @@ public abstract class CommonDaoImpl extends HibernateDaoSupport implements Commo
 	public void batchSave(Collection transientInstances) {
 		executeBatch(transientInstances, "save");
 	}
-	
+
 	@Override
 	public void batchUpdate(Collection transientInstances) {
 		executeBatch(transientInstances, "update");
@@ -173,6 +193,7 @@ public abstract class CommonDaoImpl extends HibernateDaoSupport implements Commo
 
 	/**
 	 * 执行批量操作（暂行）
+	 * 
 	 * @param instances
 	 * @param batchType
 	 */
@@ -203,6 +224,5 @@ public abstract class CommonDaoImpl extends HibernateDaoSupport implements Commo
 			}
 		});
 	}
-	
-	
+
 }
