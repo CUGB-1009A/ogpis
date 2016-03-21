@@ -51,7 +51,10 @@ public interface BaseDao<T, ID extends Serializable> extends CommonDao {
 	 * @param entity 要更新的实体
 	 */
 	public void update(T entity);
+	
+	
 
+	
 	/**
 	 * 批量保存实体
 	 * @param entities
@@ -73,5 +76,7 @@ public interface BaseDao<T, ID extends Serializable> extends CommonDao {
 	 * @return
 	 */
 	public List<T> queryEntityByExample(T entity, int start, int size);
+	
+	
 
 }

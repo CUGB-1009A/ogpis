@@ -35,4 +35,11 @@ public class MenuItemServiceImpl extends BaseServiceImpl<MenuItem, String>
 		// TODO Auto-generated method stub
 		return MenuItemDao.findByParentId(id);
 	}
+
+	@Override
+	public void updateAll(List<String> list) {
+		// TODO Auto-generated method stub
+		MenuItemDao.updateAll(list);
+	}
+
 }

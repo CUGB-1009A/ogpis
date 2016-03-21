@@ -11,4 +11,6 @@ public interface MenuItemService extends BaseService<MenuItem, String> {
 
 	List<MenuItem> findByParentId(String id);
 
+	void updateAll(List<String> list);
+
 }

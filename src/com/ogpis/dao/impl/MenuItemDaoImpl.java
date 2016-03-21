@@ -37,4 +37,21 @@ public class MenuItemDaoImpl extends BaseDaoImpl<MenuItem, String> implements
 		return (List<MenuItem>) this.queryByHql(hql,
 				null);
 	}
+
+	@Override
+	public void updateAll(List<String> list) {
+		// TODO Auto-generated method stub
+		String temp="";
+		for(int i=0;i<list.size();i++)
+		{
+			temp+=list.get(i)+",";
+		}
+		temp=temp.substring(0, temp.length()-1);
+		String hql = "update MenuItem as m set m.deleted=true where m.id in ("+temp+")";
+		this.getHibernateTemplate().bulkUpdate(hql,null);
+	}
+
+
+
+
 }

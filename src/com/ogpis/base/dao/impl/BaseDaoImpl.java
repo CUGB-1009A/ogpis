@@ -56,6 +56,8 @@ public abstract class BaseDaoImpl<T, ID extends Serializable> extends
 		}
 	}
 
+
+	
 	@Override
 	public void update(T entity) {
 		try {

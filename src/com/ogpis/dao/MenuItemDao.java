@@ -11,4 +11,6 @@ public interface MenuItemDao extends BaseDao<MenuItem, String> {
 
 	List<MenuItem> findByParentId(String id);
 
+	void updateAll(List<String> list);
+
 }
