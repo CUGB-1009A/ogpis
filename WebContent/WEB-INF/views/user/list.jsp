@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@include file="/WEB-INF/views/init.jsp" %>
+ <script type="text/javascript" src="<c:url value='/assets/js/plugins/data-tables/jquery.dataTables.js'/>"></script>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -32,98 +33,110 @@
 				<li class="active">用户管理</li>
 			</ul>
 		</div>
-		<div class="btn-toolbar" style="text-align: right;">
-			<div class="btn-group">
-				<button id="btnAdd"  class="btn-sm btn-success">添加用户</button>
-			</div>
-			<div class="btn-group">
-				<button id="btnAdd"  class="btn-sm">添加用户</button>
-				<button id="btnAdd"  class="btn-sm">添加用户</button>
-			</div>
-		</div>
 		<div class="row">
-			<div class="col-xs-12">
-				<div class="table-responsive">
-					<table id="sample-table-1" class="table table-striped table-bordered table-hover">
-						<thead>
-							<tr>
-								<th class="center">
-									<label>
-										<input type="checkbox"/>
-										<span class="lbl"></span>
-									</label>
-								</th>
-								<th class="hidden">ID</th>
-								<th>登录账号</th>
-								<th class="hidden-480">显示名称</th>
-								<th class="hidden-480">密码</th>
-								<th class="hidden-480">状态</th>
-								<th class="hidden-480">操作</th>
-							</tr>
-						</thead>
-
-						<tbody>
-							<c:forEach items="${users}" var="item">  
-                 				<tr>
-									<td class="center">
-										<label>
-											<input type="checkbox"/>
-											<span class="lbl"></span>
-										</label>
-									</td>
-									<td class="hidden">${item.id}</td>
-									<td>${item.loginId}</td>
-									<td>${item.name}</td>
-									<td>${item.password}</td>
-									<td>
-										<span class="label label-sm label-warning">可用</span>
-									</td>
-									<td>
-										<p>
-											<a href="#" class="btn-sm btn-app btn-success no-radius">
-												<i class="icon-info bigger-200"></i>
-												查看
-											</a>
-											<a href="#" class="btn-sm btn-app btn-primary no-radius">
-												<i class="icon-edit bigger-200"></i>
-												编辑
-											</a>
-											<a href="javascript:onDelete('${item.id}');" class="btn-sm btn-app btn-danger no-radius">
-												<i class="icon-trash bigger-200"></i>
-												删除
-											</a>
-										</p>
-									</td>
-								</tr>
-              				</c:forEach>  
-						</tbody>
-					</table>
-				</div><!-- /.table-responsive -->
-			</div><!-- /span -->
-		</div><!-- /row -->
-	</div>
+            <div class="col-md-12">
+            	<div class="portlet box light-grey">
+					<div class="portlet-title">
+<!-- 						<div class="caption"><i class="icon-table"></i>用户管理</div> -->
+					</div>
+					<div class="portlet-body">
+						<div class="table-toolbar" style="text-align: right;">
+							<div class="btn-group">
+								<a href="<c:url value='/user/add'/>" class="btn-sm btn-app btn-success no-radius">
+									<i class="icon-plus bigger-200">添加用户</i>
+								</a>
+							</div>
+						</div>
+						<div class="dataTables_wrapper form-inline" role="grid">
+							<div class="table-scrollable">
+								<table class="table table-striped table-bordered table-hover" id="data-table">
+									<thead>
+										<tr>
+											<th class="table-checkbox"><input type="checkbox" class="group-checkable"/></th>
+											<th>登录名</th>
+											<th>姓名</th>
+											<th>是否可用</th>
+											<th>用户名</th>
+											<th>注册时间</th>
+										</tr>
+									</thead>
+									<tbody>
+										<c:forEach items="${users.items}" var="item">
+											<tr class="odd gradeX">
+												<td class="check_cell">
+												 <input type="checkbox" class="checkboxes" name="Id" value="${ item.id }" />
+												</td>
+												<td>${item.loginId}</td>
+												<td>${item.name}</td>
+												<td>${item.password}</td>
+												<td>${item.password}</td>
+												<td>${item.createTime.toLocaleString() }</td> 
+												<td>
+													<p>
+														<a href="#" class="btn-sm btn-app btn-success no-radius">
+															<i class="icon-info bigger-200"></i>
+															查看
+														</a>
+														<a href="#" class="btn-sm btn-app btn-primary no-radius">
+															<i class="icon-edit bigger-200"></i>
+															编辑
+														</a>
+														<a href="javascript:del('${ item.id }');" class="btn-sm btn-app btn-danger no-radius" >
+															<i class="icon-trash bigger-200"></i>
+															删除
+														</a>
+													</p>
+												</td>
+											</tr>
+										</c:forEach>
+									</tbody>
+								</table>
+							</div>
+							<c:import url ="../common/paging.jsp">
+		        				<c:param name="pageModelName" value="users"/>
+		        				<c:param name="urlAddress" value="/user/list"/>
+	       				 	</c:import>
+	       				 	
+	       				 	
+						</div>
+					</div>
+            	</div>
+            </div>
+		</div>
+	</div>	
 </div>
 </body>
 <script type="text/javascript">
-$(function(){
-	$("#btnAdd").click(function(){
-		alert("sdf");
-		window.location.href="<%=path%>/user/add";
-	});
-});
+function del(id){
+	var isDel =  confirm('确定删除该用户吗？', '确认对话框');
+	if(isDel){
+		alert(id);
+		window.location.href='<%=path%>/user/delete?id='+id;
+	}
+}
 
-function onDelete(id){
-	$.ajax({
-		url:'<%=path%>/user/del',
-		data:{
-			id:id
-		},
-		success: function(){
-	       alert("删除成功！");
-// 	       var table = $('#sample-table-1').DataTable();
-// 	       table.reload();
-		}
-	});
+function test(url,title,msg) {
+	alert(url);
+	if(title==null){title="确认"};
+	if(msg==null){msg="确认删除?"};
+	 $("BODY").append("<div id='dialog-message' title='"+title+"'><p>"+msg+"</p></div>");
+	 $("#dialog-message").dialog({
+				modal: true,
+				resizable:false,
+				position:'center',
+				buttons: {
+					确认: function() {
+						$(this).dialog( "close" );
+						$("#dialog-message").remove();
+						window.location.href=url;
+					},
+					取消:function(){
+						$(this).dialog( "close" );
+						$("#dialog-message").remove();
+					}
+				}
+			});
+	$("#dialog-message").dialog('open');
 }
 
 </script>

@@ -3,12 +3,18 @@ package com.ogpis.dao;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.annotation.security.RunAs;
+
 import org.hibernate.SessionFactory;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.ogpis.entity.Organization;
 import com.ogpis.entity.User;
@@ -16,37 +22,44 @@ import com.ogpis.entity.base.UserEntity;
 import com.ogpis.service.OrganizationService;
 import com.ogpis.service.UserService;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "classpath:config/application-context.xml" })
 public class UserDaoTest {
 
-	private static UserService userService;
-	private static OrganizationService organizationService;
+	@Autowired
+	private UserService userService;
 
-	@BeforeClass
-	public static void init() {
-		@SuppressWarnings("resource")
-		ApplicationContext context = new FileSystemXmlApplicationContext(
-				"classpath:config/application-context.xml");
-		// ApplicationContext context = new ClassPathXmlApplicationContext(
-		// "application-context.xml");
-		@SuppressWarnings("unused")
-		SessionFactory sessionFactory = (SessionFactory) context
-				.getBean("sessionFactory");
-		userService = context.getBean(UserService.class);
-		organizationService = context.getBean(OrganizationService.class);
+	@Autowired
+	private OrganizationService organizationService;
 
-	}
+	// @BeforeClass
+	// public static void init() {
+	// @SuppressWarnings("resource")
+	// ApplicationContext context = new FileSystemXmlApplicationContext(
+	// "classpath:config/application-context.xml");
+	// // ApplicationContext context = new ClassPathXmlApplicationContext(
+	// // "application-context.xml");
+	// @SuppressWarnings("unused")
+	// SessionFactory sessionFactory = (SessionFactory) context
+	// .getBean("sessionFactory");
+	// userService = context.getBean(UserService.class);
+	// organizationService = context.getBean(OrganizationService.class);
+	//
+	// }
 
 	@Test
 	public void testSaveUser() throws SQLException {
 		Organization org = organizationService
 				.findById("5fa94114-1e6a-47bb-aa17-27a123ff58d0");
 
-		User user = new User();
-		user.setName("niexiaod");
-		user.setPassword("password");
-		user.setOraganzation(org);
-		String id = userService.add(user);
-		System.out.println("userId :" + id);
+		for (int i = 0; i < 50; i++) {
+			User user = new User();
+			user.setName("niexiao" + i);
+			user.setPassword("password");
+			user.setOraganzation(org);
+			String id = userService.add(user);
+			System.out.println("userId :" + id);
+		}
 	}
 
 	@Test
@@ -87,6 +100,7 @@ public class UserDaoTest {
 
 		List<User> users = userService.getAllUsers();
 		System.out.println("users.size():" + users.size());
-		System.out.println("users.get(0).getOraganzation().getName():" + users.get(0).getOraganzation().getName());
+		System.out.println("users.get(0).getOraganzation().getName():"
+				+ users.get(0).getOraganzation().getName());
 	}
 }

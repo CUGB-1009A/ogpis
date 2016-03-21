@@ -84,14 +84,13 @@
 
 					<div class="clearfix form-actions">
 						<div class="col-md-12">
-							<button class="btn btn-info" type="submit" >
-								<i class="icon-ok bigger-110"></i>
+							<button class="btn-sm btn-success no-radius" type="submit" >
+								<i class="icon-ok bigger-200"></i>
 								确认
 							</button>
-
 							&nbsp; &nbsp; &nbsp;
-							<button class="btn" type="reset">
-								<i class="icon-undo bigger-110"></i>
+							<button class="btn-sm btn-success no-radius" type="reset">
+								<i class="icon-undo bigger-200"></i>
 								重置
 							</button>
 						</div>

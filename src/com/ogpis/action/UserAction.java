@@ -24,16 +24,14 @@ public class UserAction {
 
 	@RequestMapping(value = "/user/list")
 	public String list(HttpServletRequest request, ModelMap model) {
-		// List<User> users = userService.getAllUsers();
-
-		int pageNo = ServletRequestUtils.getIntParameter(request, PageListUtil.PAGE_NO_NAME,
-				PageListUtil.DEFAULT_PAGE_NO);
-		int pageSize = ServletRequestUtils.getIntParameter(request, PageListUtil.PAGE_SIZE_NAME,
-				PageListUtil.DEFAULT_PAGE_SIZE);
-		IPageList<User> users = userService.getAllUsers(pageNo, 2);
+		int pageNo = ServletRequestUtils.getIntParameter(request,
+				PageListUtil.PAGE_NO_NAME, PageListUtil.DEFAULT_PAGE_NO);
+		int pageSize = ServletRequestUtils.getIntParameter(request,
+				PageListUtil.PAGE_SIZE_NAME, PageListUtil.DEFAULT_PAGE_SIZE);
+		IPageList<User> users = userService.getAllUsers(pageNo, pageSize);
 		// System.out.println("users.size()" + users.size());
 		model.addAttribute("users", users);
-		return "user/listTest";
+		return "user/list";
 	}
 
 	@RequestMapping(value = "/user/add", method = RequestMethod.GET)
@@ -46,7 +44,8 @@ public class UserAction {
 	@RequestMapping(value = "/user/save", method = RequestMethod.GET)
 	public String save(String loginId, String username, String password) {
 		System.out.println("save");
-		System.out.println("loginId: " + loginId + " username: " + username + "password: " + password);
+		System.out.println("loginId: " + loginId + " username: " + username
+				+ "password: " + password);
 		User user = new User();
 		user.setLoginId(loginId);
 		user.setName(username);
@@ -55,12 +54,12 @@ public class UserAction {
 		return "redirect:list";
 	}
 
-	@RequestMapping(value = "/user/del")
-	public String delete(String id, ModelMap model) {
+	@RequestMapping(value = "/user/delete")
+	public String delete(HttpServletRequest request, ModelMap model, String id) {
 		System.out.println("delete");
 		System.out.println("id: " + id);
 		this.userService.batchMarkDelete(new String[] { id });
-		return list(null, model);
+		return list(request, model);
 	}
 
 }

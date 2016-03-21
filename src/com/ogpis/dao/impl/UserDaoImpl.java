@@ -18,7 +18,6 @@ public class UserDaoImpl extends BaseDaoImpl<User, String> implements UserDao {
 
 	@Override
 	public List<User> getAllUsers() {
-
 		return (List<User>) this.queryByHql("from User where deleted=false", null);
 	}
 
