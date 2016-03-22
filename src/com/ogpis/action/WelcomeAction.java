@@ -1,11 +1,21 @@
 package com.ogpis.action;
 
+import java.io.IOException;
+import javax.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.ogpis.service.MenuItemService;
 
 @Controller
 public class WelcomeAction {
+	
+	@Autowired 
+	MenuItemService menuItemService;
+	
 
 	@RequestMapping(value = "/main_center", method = RequestMethod.GET)
 	public String main_center() {
@@ -31,7 +41,21 @@ public class WelcomeAction {
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
 	public String main() {
 		System.out.println("main_nav");
-
 		return "main";
 	}
+
+	/**
+	 * 准备导航栏数据：json格式
+	 * @param resp
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/menuPrepared", method = RequestMethod.POST)
+	@ResponseBody
+	public void menuPrepared(HttpServletResponse resp) throws IOException {
+		System.out.println("准备列表");
+		String menuToJson = menuItemService.menuToJson();
+		resp.setCharacterEncoding("utf-8");
+		resp.getWriter().write(menuToJson);		
+	}
+	
 }

@@ -13,4 +13,7 @@ public interface MenuItemService extends BaseService<MenuItem, String> {
 
 	void updateAll(List<String> list);
 
+	String menuToJson();
+	
+
 }

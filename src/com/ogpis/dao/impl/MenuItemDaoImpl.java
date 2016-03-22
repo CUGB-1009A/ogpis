@@ -2,14 +2,12 @@ package com.ogpis.dao.impl;
 
 import java.util.List;
 
-import org.hibernate.Query;
-import org.hibernate.Session;
+import org.junit.Test;
 import org.springframework.stereotype.Repository;
-
 import com.ogpis.base.dao.impl.BaseDaoImpl;
 import com.ogpis.dao.MenuItemDao;
 import com.ogpis.entity.MenuItem;
-import com.ogpis.entity.User;
+
 
 @Repository
 public class MenuItemDaoImpl extends BaseDaoImpl<MenuItem, String> implements
@@ -50,8 +48,5 @@ public class MenuItemDaoImpl extends BaseDaoImpl<MenuItem, String> implements
 		String hql = "update MenuItem as m set m.deleted=true where m.id in ("+temp+")";
 		this.getHibernateTemplate().bulkUpdate(hql,null);
 	}
-
-
-
 
 }
