@@ -52,10 +52,9 @@ public class WelcomeAction {
 	@RequestMapping(value = "/menuPrepared", method = RequestMethod.POST)
 	@ResponseBody
 	public void menuPrepared(HttpServletResponse resp) throws IOException {
-		System.out.println("准备列表");
 		String menuToJson = menuItemService.menuToJson();
+		System.out.println(menuToJson);
 		resp.setCharacterEncoding("utf-8");
 		resp.getWriter().write(menuToJson);		
-	}
-	
+	}	
 }

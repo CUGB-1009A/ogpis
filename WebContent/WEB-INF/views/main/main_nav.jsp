@@ -24,39 +24,45 @@
     </ul>
 </div>
 <script type="text/javascript">
-	function addMenu(temp)
+	/*
+	 * 动态添加导航栏菜单
+	 *@temp:是topmenu
+	 */
+function addMenu(temp)
+{
+	if(temp.url!=null)
 	{
-		if(temp.url!=null)
-		{
-		$('.'+temp.ID).append("<a href=\"<%=basePath%>/"+temp.url+ "\"><i class=\"fa fa-fw fa-tasks\"></i>"+temp.name+"<i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i></a>");	
-		}
-		else{
-
-		  $('.'+temp.ID).append("<a href=\"javascript:;\" data-toggle=\"collapse\" data-target=\"#"+temp.ID+"\"><i class=\"fa fa-fw fa-tasks\"></i>"+temp.name+"<i class=\"fa fa-fw fa-caret-down\"></i></a><ul id=\""+temp.ID+"\" class=\"collapse\"></ul>");	
-          for(var i=0;i<temp.submenu.length;i++)
-        	  {
-        	$("#"+temp.ID).append("<li class=\""+temp.submenu[i].ID+"\"}></li>");
-        	  addMenu(temp.submenu[i]);
-        	  }			
-		}
+	$('.'+temp.ID).append("<a href=\"<%=basePath%>/"+temp.url+ "\"><i class=\"fa fa-fw fa-tasks\"></i>"+temp.name+"<i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i></a>");	
 	}
-	$(function(){
-		
-		$.ajax({   
-		     type : "post",   
-		     url : "<%=request.getContextPath()%>/menuPrepared", 
-		     dataType: "json", 
-		     contentType: "application/json",  
-		     success : function(data) {  	 
-		    	 for(var i=0;i<data.length;i++)
+	else{
+	  $('.'+temp.ID).append("<a href=\"javascript:;\" data-toggle=\"collapse\" data-target=\"#"+temp.ID+"\"><i class=\"fa fa-fw fa-tasks\"></i>"+temp.name+"<i class=\"fa fa-fw fa-caret-down\"></i></a><ul id=\""+temp.ID+"\" class=\"collapse\"></ul>");	
+         for(var i=0;i<temp.submenu.length;i++)
+       	  {
+       	$("#"+temp.ID).append("<li class=\""+temp.submenu[i].ID+"\"}></li>");
+       	  addMenu(temp.submenu[i]);
+       	  }			
+	}
+}
+
+ $(function(){	
+	$.ajax({   
+	     type : "post",   
+	     url : "<%=request.getContextPath()%>/menuPrepared", 
+	     dataType: "json", 
+	     contentType: "application/json",  
+	     success : function(data) { 
+    	 if(data.state!="empty")
+    		 {
+	    		 for(var i=0;i<data.length;i++)
 		    		 {
 		    		 $("#menuList").append("<li class=\""+data[i].ID+"\"}></li>");
 		    		 addMenu(data[i]);
-		    		 }	    	 
-		     },   
-		     error :function(){   
-		         alert("获取页面失败，请重试！");   
-		     }   
-		 });   
-	});	
-	</script>
+		    		 }	
+    		 }		    	    	 
+	     },   
+	     error :function(){   
+	         alert("获取页面失败，请重试！");   
+	     }   
+	 });   
+});	
+</script>

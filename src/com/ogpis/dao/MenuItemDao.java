@@ -10,6 +10,10 @@ public interface MenuItemDao extends BaseDao<MenuItem, String> {
 	List<MenuItem> findTopMenu();
 
 	List<MenuItem> findByParentId(String id);
+	
+	List<MenuItem> findAllChild();
 
 	void updateAll(List<String> list);
+
+	String menuToJson();
 }
