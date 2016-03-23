@@ -29,28 +29,46 @@ public class UserAction {
 		int pageSize = ServletRequestUtils.getIntParameter(request,
 				PageListUtil.PAGE_SIZE_NAME, PageListUtil.DEFAULT_PAGE_SIZE);
 		IPageList<User> users = userService.getAllUsers(pageNo, pageSize);
-		// System.out.println("users.size()" + users.size());
 		model.addAttribute("users", users);
 		return "user/list";
 	}
 
+	@RequestMapping(value = "/user/view", method = RequestMethod.GET)
+	public String view(HttpServletRequest request, ModelMap model, String id) {
+		User user = this.userService.findById(id);
+		model.addAttribute("user", user);
+		return "user/view";
+	}
+
 	@RequestMapping(value = "/user/add", method = RequestMethod.GET)
 	public String add() {
-		// 用户管理提交测试
-		// 用户管理提交测试2
-		return "user/add";
+		return "user/edit";
+	}
+
+	@RequestMapping(value = "/user/edit", method = RequestMethod.GET)
+	public String edit(HttpServletRequest request, ModelMap model, String id) {
+		User user = this.userService.findById(id);
+		model.addAttribute("user", user);
+		return "user/edit";
 	}
 
 	@RequestMapping(value = "/user/save", method = RequestMethod.GET)
-	public String save(String loginId, String username, String password) {
-		System.out.println("save");
-		System.out.println("loginId: " + loginId + " username: " + username
-				+ "password: " + password);
-		User user = new User();
-		user.setLoginId(loginId);
-		user.setName(username);
-		user.setPassword(password);
-		userService.add(user);
+	public String save(HttpServletRequest request, ModelMap model, User user,
+			String id, boolean isAdd) {
+		User bean = null;
+		if (isAdd) {
+			bean = new User();
+			bean.setPassword(user.getPassword());
+		} else {
+			bean = this.userService.findById(id);
+		}
+		bean.setLoginId(user.getLoginId());
+		bean.setName(user.getName());
+		if (isAdd) {
+			userService.add(bean);
+		} else {
+			userService.update(bean);
+		}
 		return "redirect:list";
 	}
 

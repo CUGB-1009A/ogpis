@@ -24,7 +24,7 @@ public class UserDaoImpl extends BaseDaoImpl<User, String> implements UserDao {
 	@Override
 	public IPageList<User> getAllUsers(int pageNo, int pageSize) {
 		int first = (pageNo - 1) * pageSize;
-		List<User> items = this.queryByHql("from User where deleted=false", null, first, pageSize);
+		List<User> items = this.queryByHql("from User where deleted=false order by createTime desc", null, first, pageSize);
 		// int count = this.queryByHql("select count(*) from User where
 		// deleted=false", null).indexOf(0);
 		int count = Integer.parseInt(this.findUnique("select count(*) from User where deleted=false", null).toString());

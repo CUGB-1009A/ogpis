@@ -37,7 +37,6 @@
             <div class="col-md-12">
             	<div class="portlet box light-grey">
 					<div class="portlet-title">
-<!-- 						<div class="caption"><i class="icon-table"></i>用户管理</div> -->
 					</div>
 					<div class="portlet-body">
 						<div class="table-toolbar" style="text-align: right;">
@@ -68,20 +67,20 @@
 												</td>
 												<td>${item.loginId}</td>
 												<td>${item.name}</td>
-												<td>${item.password}</td>
+												<td>${item.id}</td>
 												<td>${item.password}</td>
 												<td>${item.createTime.toLocaleString() }</td> 
 												<td>
 													<p>
-														<a href="#" class="btn-sm btn-app btn-success no-radius">
+														<a  class="btn-sm btn-app btn-success no-radius" data-toggle="modal" href="<c:url value='/user/view?id=${item.id }'/>" data-target="#myModal">
 															<i class="icon-info bigger-200"></i>
 															查看
 														</a>
-														<a href="#" class="btn-sm btn-app btn-primary no-radius">
+														<a  href="<c:url value='/user/edit?id=${item.id}'/>" class="btn-sm btn-app btn-primary no-radius">
 															<i class="icon-edit bigger-200"></i>
 															编辑
 														</a>
-														<a href="javascript:del('${ item.id }');" class="btn-sm btn-app btn-danger no-radius" >
+														<a href="javascript:del('<c:url value='/user/delete?id=${item.id}'/>');" class="btn-sm btn-app btn-danger no-radius" >
 															<i class="icon-trash bigger-200"></i>
 															删除
 														</a>
@@ -97,7 +96,14 @@
 		        				<c:param name="urlAddress" value="/user/list"/>
 	       				 	</c:import>
 	       				 	
-	       				 	
+	       				 	<!-- 模态框（Modal） -->
+							<div class="modal fade" id="myModal" tabindex="-1" role="dialog" 
+							   aria-labelledby="myModalLabel" aria-hidden="true"  >
+								<div class="modal-dialog">
+									<div class="modal-content">
+									</div><!-- /.modal-content -->
+								</div><!-- /.modal -->
+	       				 	</div>
 						</div>
 					</div>
             	</div>
@@ -107,13 +113,16 @@
 </div>
 </body>
 <script type="text/javascript">
-function del(id){
+function del(url){
 	var isDel =  confirm('确定删除该用户吗？', '确认对话框');
 	if(isDel){
-		alert(id);
-		window.location.href='<%=path%>/user/delete?id='+id;
+		window.location.href=url;
 	}
 }
+
+$('#myModal').on('show.bs.modal', function () {
+	  $("#myModalContent").val('sdf');
+	});
 
 function test(url,title,msg) {
 	alert(url);
@@ -138,6 +147,8 @@ function test(url,title,msg) {
 			});
 	$("#dialog-message").dialog('open');
 }
+
+
 
 </script>
 </html>
