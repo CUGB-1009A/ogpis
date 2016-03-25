@@ -17,17 +17,74 @@ public class MenuAction {
 	
 	@Autowired
 	private MenuItemService MenuItemService;
+	@SuppressWarnings("rawtypes")
 	private ArrayList list=new ArrayList();
 
 	
 	/*
-	 * 列表导航栏--菜单管理--按钮的入口，只入口执行一次，获取当前顶级菜单
+	 * 列表导航栏--菜单管理--按钮的入口，和下级菜单的响应
 	 */
 	@RequestMapping(value = "menu/list", method = RequestMethod.GET)
-	public String list(HttpServletRequest req) {
-		List<MenuItem> menuList = MenuItemService.findTopMenu();	
-			req.setAttribute("pageId", "");
-			req.setAttribute("menuList",menuList);	
+	public String list(String id,HttpServletRequest req,String currentPage) {
+		List<MenuItem> menuList;
+		int pagenumber=0;		
+			if(id=="")//响应的是顶级菜单
+			    {
+				 menuList = MenuItemService.findTopMenu();
+			    }
+			else
+				{
+				 menuList = MenuItemService.findByParentId(id);
+				}
+			if(menuList.size()==0)
+				req.setAttribute("totalPage", pagenumber);
+			else
+			req.setAttribute("menuList",listPage(currentPage,menuList));
+			
+			if(Math.floor(menuList.size()%5)==0)
+	     		pagenumber = (int) Math.floor(menuList.size())/5;
+		    else
+		    	pagenumber = (int) Math.floor(menuList.size()/5)+1;				
+			req.setAttribute("currentPage", currentPage);
+			req.setAttribute("totalPage", pagenumber);
+			req.setAttribute("pageId",id);
+		
+		return "menu/menuList";
+	}
+	
+	/*
+	 * 列表导航栏-返回显示的那一页的数据
+	 */
+	public  List<MenuItem>listPage(String currentPage,List<MenuItem> menuListTemp) {				
+		int pagenumber;
+		if(Math.floor(menuListTemp.size()%5)==0)
+			pagenumber = (int) Math.floor(menuListTemp.size())/5;
+		else
+			pagenumber = (int) Math.floor(menuListTemp.size()/5)+1;
+		List<MenuItem> menuList;		
+		if(Integer.valueOf(currentPage).intValue()==pagenumber)
+			menuList = menuListTemp.subList(5*(Integer.valueOf(currentPage).intValue()-1), menuListTemp.size());
+		else
+			menuList = menuListTemp.subList(5*(Integer.valueOf(currentPage).intValue()-1), 5*Integer.valueOf(currentPage).intValue());
+		return menuList;
+	}
+	
+	@RequestMapping(value = "menu/fenye", method = RequestMethod.GET)
+	public String fenye(String pageId,HttpServletRequest req,String currentPage) {
+		List<MenuItem> menuList ;
+		if(pageId=="")
+		    menuList = MenuItemService.findTopMenu();
+		else
+			menuList = MenuItemService.findByParentId(pageId);
+		int pagenumber;
+		if(Math.floor(menuList.size()%5)==0)
+			pagenumber = (int) Math.floor(menuList.size())/5;
+		else
+			pagenumber = (int) Math.floor(menuList.size()/5)+1;
+			req.setAttribute("pageId",pageId);
+			req.setAttribute("menuList",listPage(currentPage,menuList));	
+			req.setAttribute("currentPage", currentPage);
+			req.setAttribute("totalPage", pagenumber);
 		return "menu/menuList";
 	}
 	
@@ -35,35 +92,53 @@ public class MenuAction {
 	 * 到添加或修改页面(共用一个界面)，id==null则为新建,同时设置flag=1，id！=null则为修改（同时准备回显数据）
 	 */
 	@RequestMapping(value = "menu/toAddMenuUI", method = RequestMethod.GET)
-	public String toAddMenuUI(String pageId,String id,HttpServletRequest req) {
-		if(id=="")
+	public String toAddMenuUI(String pageId,String id,HttpServletRequest req,String currentPage) {
+		if(id=="")//新建
 		{
 			req.setAttribute("flag", 1);
 		}	       		
-		else
+		else//修改
 		{
 			MenuItem menuItem = MenuItemService.findById(id);
 			req.setAttribute("menuItem",menuItem);//回显数据
 			req.setAttribute("flag", 2);	
 		}
+		req.setAttribute("currentPage", currentPage);
 		req.setAttribute("pageId",pageId);
 		return "menu/menuUI";
 	}
 	
 	@RequestMapping(value = "menu/save", method = RequestMethod.GET)
-	public String save(String pageId,HttpServletRequest request,MenuItem menuItem) 
+	public String save(String pageId,HttpServletRequest request,MenuItem menuItem,String currentPage) 
 	{
+		List<MenuItem> menuList;
 		if(request.getParameter("hidden_id")=="")//新建一个菜单
 		    {
-				if(pageId=="")//首页新建
+				if(pageId=="")//首页新建，回到此菜单下的最后一页
 				{
 					menuItem.setFather(null);
 				}	
 				else
 				{
 					menuItem.setFather(MenuItemService.findById(pageId));
-				}			   
+				}	
 				MenuItemService.add(menuItem);
+				if(pageId=="")
+				{
+					menuList=  MenuItemService.findTopMenu();
+				}	
+				else
+				{
+					menuList = MenuItemService.findByParentId(pageId);
+				}
+				int pagenumber;
+				if(Math.floor(menuList.size()%5)==0)
+					pagenumber = (int) Math.floor(menuList.size()/5);
+				else
+					pagenumber = (int) Math.floor(menuList.size()/5)+1;
+			request.setAttribute("totalPage", pagenumber);
+			request.setAttribute("menuList", listPage(pagenumber+"",menuList));
+			request.setAttribute("currentPage", pagenumber);	
 		    }
 		else//修改一个菜单
 			{
@@ -73,50 +148,85 @@ public class MenuAction {
 				menuItem_old.setPriority(menuItem.getPriority());
 				menuItem_old.setUrl(menuItem.getUrl());
 				MenuItemService.update(menuItem_old);
+				if(pageId=="")
+				{
+					menuList=  MenuItemService.findTopMenu();
+				}
+				else
+				{
+					menuList = MenuItemService.findByParentId(pageId);
+				}
+				int pagenumber;
+				if(Math.floor(menuList.size()%5)==0)
+					pagenumber = (int) Math.floor(menuList.size()/5);
+				else
+					pagenumber = (int) Math.floor(menuList.size()/5)+1;
+			request.setAttribute("totalPage", pagenumber);
+			request.setAttribute("menuList", listPage(currentPage+"",menuList));
+			request.setAttribute("currentPage", currentPage);	
 			}
-		List<MenuItem> menuList;
-		if(pageId=="")
-			 menuList=  MenuItemService.findTopMenu();
-		else
-			 menuList = MenuItemService.findByParentId(pageId);
-		request.setAttribute("menuList",menuList);
-		request.setAttribute("pageId",pageId);
+			 		
+		request.setAttribute("pageId",pageId);	
 		return "menu/menuList";
 	}
 	
 	/*
 	 * 软删除，设置deleted为true，同时删除所有子目录（也是软删除）
 	 */
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/menu/deleteMenu", method = RequestMethod.GET)
-	public String deleteMenu(HttpServletRequest request,String pageId,String id) {		
+	public String deleteMenu(HttpServletRequest request,String pageId,String id,String currentPage) {		
 		/*
 		 * 批量软删除本节点及其下的所有节点
 		 */
 		deleteAllMenu(MenuItemService.findById(id));
-		System.out.println("执行完了一部");
 		MenuItemService.updateAll(list);
 		
 		List<MenuItem> menuList;
 		if(pageId=="")
 			 menuList=  MenuItemService.findTopMenu();
 		else
-			 menuList = MenuItemService.findByParentId(pageId);
-		request.setAttribute("menuList",menuList);
+			 menuList = MenuItemService.findByParentId(pageId);	
+		int pagenumber;
+		if(Math.floor(menuList.size()%5)==0)
+			pagenumber = (int) Math.floor(menuList.size()/5);
+		else
+			pagenumber = (int) Math.floor(menuList.size()/5)+1;
+		if(pagenumber!=0)
+		{
+			if(Math.floor(menuList.size()%5)==0&&Integer.valueOf(currentPage).intValue()==(pagenumber+1))
+			{
+			request.setAttribute("currentPage", pagenumber);
+			request.setAttribute("menuList",listPage(pagenumber+"",menuList));
+			}
+		else
+		{
+			request.setAttribute("menuList",listPage(currentPage,menuList));
+			request.setAttribute("currentPage", currentPage);
+		}
+		}
+		else
+			request.setAttribute("currentPage", 1);	
+
+	
+			
 		request.setAttribute("pageId",pageId);
-		System.out.println("=======================我执行完了！");
+		request.setAttribute("totalPage", pagenumber);
 		return "menu/menuList";
 	}
 	
-	@RequestMapping(value = "menu/nextMenu", method = RequestMethod.GET)
-	public String nextMenu(String id,HttpServletRequest req) {
+/*	@RequestMapping(value = "menu/nextMenu", method = RequestMethod.GET)
+	public String nextMenu(String id,HttpServletRequest req,String currentPage) {
 		List<MenuItem> menuList = MenuItemService.findByParentId(id);
-		req.setAttribute("menuList", menuList);
+		req.setAttribute("menuList", listPage(currentPage,menuList));
+		req.setAttribute("currentPage", currentPage);
+		req.setAttribute("totalPage", (int) Math.ceil(menuList.size()/5)+1);
 		req.setAttribute("pageId", id);
 		return "menu/menuList";			
 	}
-	
+	*/
 	@RequestMapping(value = "menu/previousMenu", method = RequestMethod.GET)
-	public String previousMenu(String pageId,HttpServletRequest req) {
+	public String previousMenu(String pageId,HttpServletRequest req,String currentPage) {
 		//第一步
 		MenuItem menuTemp = MenuItemService.findById(pageId);
 		List<MenuItem> menuList;
@@ -130,24 +240,32 @@ public class MenuAction {
 			menuList = MenuItemService.findByParentId(menuTemp.getFather().getId());
 			req.setAttribute("pageId", menuTemp.getFather().getId());
 			}
-		req.setAttribute("menuList", menuList);	
+		int pagenumber;
+		if(Math.floor(menuList.size()%5)==0)
+			pagenumber = (int) Math.floor(menuList.size()/5);
+		else
+			pagenumber = (int) Math.floor(menuList.size()/5)+1;
+		if(menuList.size()==0)
+			req.setAttribute("totalPage", 0);
+		else
+		    req.setAttribute("menuList", listPage(currentPage,menuList));	
+		req.setAttribute("currentPage", currentPage);
+		req.setAttribute("totalPage",pagenumber);
 		return "menu/menuList";			
 	}
 	
 	/*
 	 * 删除本节点及下所有子节点
 	 */
+	@SuppressWarnings("unchecked")
 	private void deleteAllMenu(MenuItem menuItem){
-		System.out.println("======================");
 		if(menuItem.getChildren().size()==0)
 		{
-			System.out.println(menuItem.getName());
 			list.add("\'"+menuItem.getId()+"\'");
 		}
 		
 		else
 		{	
-			System.out.println(menuItem.getName());
 			list.add("\'"+menuItem.getId()+"\'");
 			for(MenuItem temp:menuItem.getChildren())
 			{				
@@ -157,16 +275,26 @@ public class MenuAction {
 }
 
 		@RequestMapping(value = "menu/editToList", method = RequestMethod.GET)
-		public String editToList(String pageId,HttpServletRequest req) {
+		public String editToList(String pageId,HttpServletRequest req,String currentPage) {
 			List<MenuItem> menuList;
 			if(pageId=="")
 				menuList= MenuItemService.findTopMenu();
 			else
 					
 				menuList= MenuItemService.findByParentId(pageId);
-				req.setAttribute("menuList", menuList);
-				req.setAttribute("pageId", pageId);
-				return "menu/menuList";			
+			int pagenumber;
+			if(Math.floor(menuList.size()%5)==0)
+				pagenumber = (int) Math.floor(menuList.size()/5);
+			else
+				pagenumber = (int) Math.floor(menuList.size()/5)+1;
+			if(menuList.size()==0)
+				req.setAttribute("totalPage", 0);
+			else	
+				req.setAttribute("menuList", listPage(currentPage,menuList));
+			req.setAttribute("currentPage",currentPage);
+			req.setAttribute("pageId", pageId);
+			req.setAttribute("totalPage", pagenumber);
+			return "menu/menuList";			
 			}
 
 }

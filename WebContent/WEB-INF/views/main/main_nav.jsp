@@ -19,7 +19,7 @@
         </li>
         
           <li>
-            <a href="<%=basePath%>/menu/list"><i class="fa fa-fw fa-tasks"></i> 菜单管理<i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i></a>
+            <a href="<%=basePath%>/menu/list?id=&&currentPage=1"><i class="fa fa-fw fa-tasks"></i> 菜单管理<i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i></a>
           </li>         
     </ul>
 </div>

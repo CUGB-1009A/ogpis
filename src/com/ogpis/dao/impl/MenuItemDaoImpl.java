@@ -2,8 +2,6 @@ package com.ogpis.dao.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.junit.Test;
 import org.springframework.stereotype.Repository;
 import com.ogpis.base.dao.impl.BaseDaoImpl;
 import com.ogpis.dao.MenuItemDao;
@@ -69,7 +67,6 @@ public class MenuItemDaoImpl extends BaseDaoImpl<MenuItem, String> implements
 			}
 			 menu_json=menu_json.substring(0, menu_json.length()-1);
 			menu_json+="]";
-			System.out.println(menu_json);
 			return menu_json;
 		}
 	}
@@ -84,10 +81,8 @@ public class MenuItemDaoImpl extends BaseDaoImpl<MenuItem, String> implements
 		  List<MenuItem> tempChild = new ArrayList<MenuItem>();
 		  for(int i=0;i<menuAllChild.size();i++)
 		  {
-			  System.out.println("==="+menuAllChild.get(i).getFather().getId()+"===="+temp.getId());
 			  if(temp.getId().equals(menuAllChild.get(i).getFather().getId()))
 			  {
-				  System.out.println("我执行了 哈哈哈哈哈");
 				  tempChild.add(menuAllChild.get(i));  
 			  }				 
 		  }

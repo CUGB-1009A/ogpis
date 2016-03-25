@@ -36,17 +36,13 @@
 			<div class="btn-toolbar">
 				<div class="btn-group">
 					<button id="btnAdd" class="btn-sm btn-success">新建菜单</button>&nbsp;&nbsp;&nbsp;
-					<button id="back" class="btn-sm btn-success" style="display:none">返回</button>
+					<button id="back" class="btn-sm btn-success" style="display:none">返回上级菜单</button>
 				</div>
 			</div>
-			<div class="btn-toolbar">
-				<div class="btn-group">
-					
-				</div>
-			</div>
-			<div>
-			&nbsp;
-			</div>
+			
+			<div>&nbsp;</div>
+
+			
 			<div class="row">
 				<div class="col-xs-12">
 					<div class="table-responsive">
@@ -64,15 +60,15 @@
 							<tbody>
 								<c:forEach items="${menuList}" var="item">
 									<tr>
-										<td><a href="<%=path%>/menu/nextMenu?id=${item.id}&&pageId=${pageId}">${item.name}</a></td>
+										<td><a href="<%=path%>/menu/list?pageId=${pageId}&&id=${item.id}&&currentPage=1">${item.name}</a></td>
 										<td>${item.description}</td>
 										<td>${item.priority}</td>
 										<td>${item.url}</td>
 										<td>
 											<p>
-												<a href="<%=path%>/menu/toAddMenuUI?id=${item.id}&&pageId=${pageId}" class="btn-sm btn-app btn-primary no-radius">
+												<a href="<%=path%>/menu/toAddMenuUI?id=${item.id}&&pageId=${pageId}&&currentPage=${currentPage}" class="btn-sm btn-app btn-primary no-radius">
 													<i class="icon-edit bigger-200">修改</i> 
-												</a> &nbsp;&nbsp;&nbsp;<a href="<%=path%>/menu/deleteMenu?id=${item.id}&&pageId=${pageId}" class="btn-sm btn-app btn-danger no-radius">
+												</a> &nbsp;&nbsp;&nbsp;<a href="<%=path%>/menu/deleteMenu?id=${item.id}&&pageId=${pageId}&&currentPage=${currentPage}" class="btn-sm btn-app btn-danger no-radius">
 													<i class="icon-trash bigger-200">删除</i> 
 												</a>
 											</p>
@@ -87,7 +83,18 @@
 				<!-- /span -->
 			</div>
 			<!-- /row -->
+			
+			<!-- 分页部分 -->
+		<div>
+		<ul class="pagination">
+		<!-- 分页代码，动态添加 -->
+		</ul>
 		</div>
+			
+		</div>
+		
+		
+					
 		<!-- 文字说明部分 -->
 		<div id="page-wrapper" style="height: 15%;">
 		<div class="breadcrumbs" style="text-align: left;">
@@ -100,9 +107,86 @@
 </body>
 <!-- 新建按钮响应事件，转到添加菜单页面-->
 <script type="text/javascript">
+/**
+ * 分页功能部分
+ */
+ $(function(){
+	  var currentPage =${currentPage};
+	  var totalPage=${totalPage};
+      var nextPage = currentPage+1;
+      var previousPage = currentPage-1;
+      var pageId="${pageId}";
+	 if(totalPage<="1")
+		 {
+		 }		
+	 else if(totalPage<="5")
+		 {
+		  if(currentPage=="1")
+			 {
+			  $(".pagination").append("<li class=\"disabled\"><a href=\"#\">1</a></li>"); 
+			 }
+		  else
+			 {
+			 $(".pagination").append("<li><a href=\"<%=basePath%>/menu/fenye?currentPage="+previousPage+"&&pageId="+pageId+"\">&laquo;</a></li>"); 
+			 $(".pagination").append("<li><a href=\"<%=basePath%>/menu/fenye?currentPage=1&&pageId="+pageId+"\">1</a></li>"); 
+			 } 
+	 		for(var i=2;i<totalPage;i++)
+			 {
+			 if(currentPage==i)	
+				 $(".pagination").append("<li class=\"disabled\"><a href=\"#\">"+i+"</a></li>");
+			 else
+				 $(".pagination").append("<li><a href=\"<%=basePath%>/menu/fenye?currentPage="+i+"&&pageId="+pageId+"\">"+i+"</a></li>");
+			 } 
+		   if(currentPage==totalPage)
+			 $(".pagination").append("<li class=\"disabled\"><a href=\"#\">"+currentPage+"</a></li>"); 
+		 else
+		     {
+			 $(".pagination").append("<li><a href=\"<%=basePath%>/menu/fenye?currentPage="+totalPage+"&&pageId="+pageId+"\">"+totalPage+"</a></li>"); 
+			 $(".pagination").append(" <li><a href=\"<%=basePath%>/menu/fenye?currentPage="+nextPage+"&&pageId="+pageId+"\">&raquo;</a></li>"); 
+			 }  
+		 }
+	  else//5页以上的怎么写的
+	 {
+		  if(currentPage<=3)
+			  {
+			  if(currentPage!=1)
+					 $(".pagination").append("<li><a href=\"<%=basePath%>/menu/fenye?currentPage="+previousPage+"&&pageId="+pageId+"\">&laquo;</a></li>"); 
+			  for(var i=1;i<6;i++)
+				  if(i==currentPage)
+						$(".pagination").append("<li class=\"disabled\"><a href=\"#\">"+i+"</a></li>");
+				  else	  
+				 		$(".pagination").append("<li><a href=\"<%=basePath%>/menu/fenye?currentPage="+i+"&&pageId="+pageId+"\">"+i+"</a></li>");
+				 $(".pagination").append(" <li><a href=\"<%=basePath%>/menu/fenye?currentPage="+nextPage+"&&pageId="+pageId+"\">&raquo;</a></li>"); 
+			  }
+		  else if(currentPage<=totalPage-2)
+			  {
+				 $(".pagination").append("<li><a href=\"<%=basePath%>/menu/fenye?currentPage="+previousPage+"&&pageId="+pageId+"\">&laquo;</a></li>"); 
+			  for(var i=currentPage-2;i<=currentPage+2;i++)
+				  if(i==currentPage)
+						$(".pagination").append("<li class=\"disabled\"><a href=\"#\">"+i+"</a></li>");
+				  else	  
+				 		$(".pagination").append("<li><a href=\"<%=basePath%>/menu/fenye?currentPage="+i+"&&pageId="+pageId+"\">"+i+"</a></li>");
+				 $(".pagination").append(" <li><a href=\"<%=basePath%>/menu/fenye?currentPage="+nextPage+"&&pageId="+pageId+"\">&raquo;</a></li>"); 
+			  }
+		  else
+			  {
+				 $(".pagination").append("<li><a href=\"<%=basePath%>/menu/fenye?currentPage="+previousPage+"&&pageId="+pageId+"\">&laquo;</a></li>"); 
+			  for(var i=totalPage-4;i<=totalPage;i++)
+				  if(i==currentPage)
+						$(".pagination").append("<li class=\"disabled\"><a href=\"#\">"+i+"</a></li>");
+				  else	  
+				 		$(".pagination").append("<li><a href=\"<%=basePath%>/menu/fenye?currentPage="+i+"&&pageId="+pageId+"\">"+i+"</a></li>");
+			  if(currentPage!=totalPage)
+					 $(".pagination").append(" <li><a href=\"<%=basePath%>/menu/fenye?currentPage="+nextPage+"&&pageId="+pageId+"\">&raquo;</a></li>"); 
+			  }
+	 }  
+		 
+	 
+});
+ 
 $(function(){
 	$("#btnAdd").click(function(){
-		window.location.href="<%=path%>/menu/toAddMenuUI?pageId=${pageId}&&id=''";
+		window.location.href="<%=path%>/menu/toAddMenuUI?currentPage=${currentPage}&&pageId=${pageId}&&id=";
 	});
 });
 
@@ -116,7 +200,7 @@ $(function(){
 	{
 		$("#back").show();
 		$("#back").click(function(){
-		window.location.href="<%=path%>/menu/previousMenu?pageId=${pageId}";
+		window.location.href="<%=path%>/menu/previousMenu?pageId=${pageId}&&currentPage=1";
 		});		
 	}
 	

@@ -22,7 +22,7 @@ public class MenuItemServiceImplTest {
 		MenuItem menuItemFather = new MenuItem();
 		menuItemFather.setName("menuItemFather");
 		menuItemService.add(menuItemFather);
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 100; i++) {
 			MenuItem menuItemChild = new MenuItem();
 			menuItemChild.setName("menuItemChild" + i);
 			menuItemChild.setFather(menuItemFather);

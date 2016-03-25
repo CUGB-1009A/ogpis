@@ -34,7 +34,7 @@
 					<a href="<%=path%>/main">首页</a>
 				</li>
 				<li>
-					<a href="<%=path%>/menu/list">菜单管理</a>
+					<a href="<%=path%>/menu/list?id=&&currentPage=1">菜单管理</a>
 				</li>
 			</ul>
 		</div>
@@ -43,6 +43,7 @@
 				<form class="form-horizontal" role="form" id="formMenu" name="formMenu" action="<%=path%>/menu/save?pageId=${pageId}">
 					<input type="hidden" name="hidden_id" value="${menuItem.id}">
 					<input type="hidden" name="pageId" value="${pageId}">
+					<input type="hidden" name="currentPage" value="${currentPage}">
 					<div class="form-group">
 						<label class="col-sm-3 control-label no-padding-right" for="form-field-1">菜单名称</label>
 
@@ -115,9 +116,10 @@
 <script type="text/javascript">
 function reback()
 {
-	window.location.href="<%=path%>/menu/editToList?pageId=${pageId}";
-}
+	window.location.href="<%=path%>/menu/editToList?pageId=${pageId}&&currentPage=${currentPage}";
+};
 $(function(){
+	var param1 = "${pageId}";
 	$("#form-field-3").keyup(function(ev){	
 		    var oEvent = ev || event; 
 		    /*

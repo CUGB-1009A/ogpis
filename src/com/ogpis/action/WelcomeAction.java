@@ -53,7 +53,6 @@ public class WelcomeAction {
 	@ResponseBody
 	public void menuPrepared(HttpServletResponse resp) throws IOException {
 		String menuToJson = menuItemService.menuToJson();
-		System.out.println(menuToJson);
 		resp.setCharacterEncoding("utf-8");
 		resp.getWriter().write(menuToJson);		
 	}	
