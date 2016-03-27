@@ -1,8 +1,11 @@
 package com.ogpis.entity.base;
 
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 
 import com.ogpis.base.entity.BaseEntity;
+import com.ogpis.entity.ExpandoTable;
 
 @MappedSuperclass
 public class ExpandoColumnEntity extends BaseEntity {
@@ -10,7 +13,9 @@ public class ExpandoColumnEntity extends BaseEntity {
 	/**
 	 * 对应扩展表的ID
 	 */
-	private String tableId;
+	@ManyToOne
+	@JoinColumn(name = "table_id")
+	private ExpandoTable table;
 	/**
 	 * 扩展列的名称
 	 */
@@ -24,12 +29,12 @@ public class ExpandoColumnEntity extends BaseEntity {
 	 */
 	private String defalutData;
 
-	public String getTableId() {
-		return tableId;
+	public ExpandoTable getTable() {
+		return table;
 	}
 
-	public void setTableId(String tableId) {
-		this.tableId = tableId;
+	public void setTable(ExpandoTable table) {
+		this.table = table;
 	}
 
 	public String getName() {

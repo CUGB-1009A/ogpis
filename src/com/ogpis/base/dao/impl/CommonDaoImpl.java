@@ -20,7 +20,8 @@ import org.springframework.util.Assert;
 import com.ogpis.base.dao.CommonDao;
 import com.ogpis.base.exception.DAOException;
 
-public abstract class CommonDaoImpl extends HibernateDaoSupport implements CommonDao {
+public abstract class CommonDaoImpl extends HibernateDaoSupport implements
+		CommonDao {
 
 	/**
 	 * 用于记录日志
@@ -51,6 +52,7 @@ public abstract class CommonDaoImpl extends HibernateDaoSupport implements Commo
 	 * 通过HQL查询唯一对象
 	 */
 
+	@Deprecated
 	public Object findUnique1(String hql, Object... values) {
 		Assert.hasText(hql);
 		Query queryObject = this.getSession().createQuery(hql);
@@ -64,18 +66,20 @@ public abstract class CommonDaoImpl extends HibernateDaoSupport implements Commo
 
 	@Override
 	public Object findUnique(final String hql, final Object... values) {
-		List result = this.getHibernateTemplate().executeFind(new HibernateCallback() {
-			@Override
-			public Object doInHibernate(Session session) throws HibernateException, SQLException {
-				Query queryObject = session.createQuery(hql);
-				if (values != null) {
-					for (int i = 0; i < values.length; i++) {
-						queryObject.setParameter(i, values[i]);
+		List result = this.getHibernateTemplate().executeFind(
+				new HibernateCallback() {
+					@Override
+					public Object doInHibernate(Session session)
+							throws HibernateException, SQLException {
+						Query queryObject = session.createQuery(hql);
+						if (values != null) {
+							for (int i = 0; i < values.length; i++) {
+								queryObject.setParameter(i, values[i]);
+							}
+						}
+						return queryObject.list();
 					}
-				}
-				return queryObject.list();
-			}
-		});
+				});
 		if (result != null && result.size() == 1) {
 			return result.get(0);
 		}
@@ -84,22 +88,25 @@ public abstract class CommonDaoImpl extends HibernateDaoSupport implements Commo
 
 	@SuppressWarnings("rawtypes")
 	@Override
-	public List queryByHql(final String hql, final List params, final int start, final int size) {
+	public List queryByHql(final String hql, final List params,
+			final int start, final int size) {
 		try {
-			return (List) this.getHibernateTemplate().executeFind(new HibernateCallback() {
-				@Override
-				public Object doInHibernate(Session session) throws HibernateException, SQLException {
-					Query query = session.createQuery(hql);
-					query.setFirstResult(start);
-					query.setMaxResults(size);
-					if (params != null) {
-						for (int i = 0; i < params.size(); i++) {
-							query.setParameter(i, params.get(i));
+			return (List) this.getHibernateTemplate().executeFind(
+					new HibernateCallback() {
+						@Override
+						public Object doInHibernate(Session session)
+								throws HibernateException, SQLException {
+							Query query = session.createQuery(hql);
+							query.setFirstResult(start);
+							query.setMaxResults(size);
+							if (params != null) {
+								for (int i = 0; i < params.size(); i++) {
+									query.setParameter(i, params.get(i));
+								}
+							}
+							return query.list();
 						}
-					}
-					return query.list();
-				}
-			});
+					});
 		} catch (Exception e) {
 			logger.error("查询数据失败," + e);
 			throw new DAOException("查询数据失败," + e.getMessage());
@@ -111,7 +118,8 @@ public abstract class CommonDaoImpl extends HibernateDaoSupport implements Commo
 	public List queryBySql(String sql) {
 		try {
 			if (sql != null) {
-				return this.getHibernateTemplate().getSessionFactory().getCurrentSession().createSQLQuery(sql).list();
+				return this.getHibernateTemplate().getSessionFactory()
+						.getCurrentSession().createSQLQuery(sql).list();
 			} else {
 				return null;
 			}
@@ -123,29 +131,31 @@ public abstract class CommonDaoImpl extends HibernateDaoSupport implements Commo
 
 	@SuppressWarnings("rawtypes")
 	@Override
-	public List queryBySql(final String sql, final List params, final Class clazz, final Integer start,
-			final Integer size) {
+	public List queryBySql(final String sql, final List params,
+			final Class clazz, final Integer start, final Integer size) {
 		try {
 			// this.hibernateTemplate.
-			return (List) this.getHibernateTemplate().executeFind(new HibernateCallback() {
-				@Override
-				public Object doInHibernate(Session session) throws HibernateException, SQLException {
-					SQLQuery query = session.createSQLQuery(sql);
-					if (clazz != null) {
-						query.addEntity(clazz);
-					}
-					if (start != null && size != null) {
-						query.setFirstResult(start);
-						query.setMaxResults(size);
-					}
-					if (params != null) {
-						for (int i = 0; i < params.size(); i++) {
-							query.setParameter(i, params.get(i));
+			return (List) this.getHibernateTemplate().executeFind(
+					new HibernateCallback() {
+						@Override
+						public Object doInHibernate(Session session)
+								throws HibernateException, SQLException {
+							SQLQuery query = session.createSQLQuery(sql);
+							if (clazz != null) {
+								query.addEntity(clazz);
+							}
+							if (start != null && size != null) {
+								query.setFirstResult(start);
+								query.setMaxResults(size);
+							}
+							if (params != null) {
+								for (int i = 0; i < params.size(); i++) {
+									query.setParameter(i, params.get(i));
+								}
+							}
+							return query.list();
 						}
-					}
-					return query.list();
-				}
-			});
+					});
 		} catch (Exception e) {
 			logger.error("查询数据失败," + e);
 			e.printStackTrace();
@@ -155,7 +165,8 @@ public abstract class CommonDaoImpl extends HibernateDaoSupport implements Commo
 
 	@SuppressWarnings("rawtypes")
 	@Override
-	public List queryBySql(final String sql, final List params, final int start, final int size) {
+	public List queryBySql(final String sql, final List params,
+			final int start, final int size) {
 		return queryBySql(sql, params, null, start, size);
 	}
 
@@ -167,7 +178,8 @@ public abstract class CommonDaoImpl extends HibernateDaoSupport implements Commo
 
 	@SuppressWarnings("rawtypes")
 	@Override
-	public List queryBySql(final String sql, final List params, final Class clazz) {
+	public List queryBySql(final String sql, final List params,
+			final Class clazz) {
 		return queryBySql(sql, params, clazz, null, null);
 	}
 
@@ -200,10 +212,12 @@ public abstract class CommonDaoImpl extends HibernateDaoSupport implements Commo
 	private void executeBatch(final Collection instances, final String batchType) {
 		getHibernateTemplate().execute(new HibernateCallback() {
 			@Override
-			public Object doInHibernate(Session session) throws HibernateException, SQLException {
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
 				if (!instances.isEmpty()) {
 					int max = instances.size();
-					for (Iterator localIterator = instances.iterator(); localIterator.hasNext();) {
+					for (Iterator localIterator = instances.iterator(); localIterator
+							.hasNext();) {
 						Object pojo = localIterator.next();
 						if ("save".equals(batchType)) {
 							session.save(pojo);
