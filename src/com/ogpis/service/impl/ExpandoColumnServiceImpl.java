@@ -20,4 +20,10 @@ public class ExpandoColumnServiceImpl extends
 	protected ExpandoColumnDao getExpandoColumnDao() {
 		return (ExpandoColumnDao) this.baseDao;
 	}
+
+	@Override
+	public ExpandoColumn findByT_N(String tableId, String columnName) {
+		// TODO Auto-generated method stub
+		return getExpandoColumnDao().findByT_N(tableId, columnName);
+	}
 }

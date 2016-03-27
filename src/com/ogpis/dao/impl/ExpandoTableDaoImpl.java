@@ -27,7 +27,7 @@ public class ExpandoTableDaoImpl extends BaseDaoImpl<ExpandoTable, String>
 	}
 
 	@Override
-	public ExpandoTable findByTableName_ClassName(String tableName,
+	public ExpandoTable findByT_C(String tableName,
 			String className) {
 		String hql = "from ExpandoTable where name=? and className.className=?";
 		return (ExpandoTable) this.findUnique(hql, tableName, className);

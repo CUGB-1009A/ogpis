@@ -31,10 +31,10 @@ public class ExpandoTableServiceImpl extends
 	}
 
 	@Override
-	public ExpandoTable findByTableName_ClassName(String tableName,
+	public ExpandoTable findByT_C(String tableName,
 			String className) {
 		// TODO Auto-generated method stub
-		return getExpandoTableDao().findByTableName_ClassName(tableName,
+		return getExpandoTableDao().findByT_C(tableName,
 				className);
 	}
 }

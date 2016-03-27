@@ -9,6 +9,6 @@ public interface ExpandoTableDao extends BaseDao<ExpandoTable, String> {
 
 	public List<ExpandoTable> findByClassName(String className);
 
-	public ExpandoTable findByTableName_ClassName(String tableName,
+	public ExpandoTable findByT_C(String tableName,
 			String className);
 }

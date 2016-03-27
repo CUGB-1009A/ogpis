@@ -5,5 +5,5 @@ import com.ogpis.entity.ExpandoColumn;
 
 public interface ExpandoColumnService  extends BaseService<ExpandoColumn, String>{
 
-	
+	public ExpandoColumn findByT_N(String tableId, String columnName);
 }

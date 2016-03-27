@@ -1,28 +1,42 @@
 package com.ogpis.entity.base;
 
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 
 import com.ogpis.base.entity.BaseEntity;
+import com.ogpis.entity.ClassName;
+import com.ogpis.entity.ExpandoColumn;
+import com.ogpis.entity.ExpandoRow;
+import com.ogpis.entity.ExpandoTable;
 
 @MappedSuperclass
 public class ExpandoValueEntity extends BaseEntity {
 
 	/**
-	 * 对应扩展表ID
+	 * 对应扩展表
 	 */
-	private String tableId;
+	@ManyToOne
+	@JoinColumn(name = "table_id")
+	private ExpandoTable table;
 	/**
-	 * 对应扩展列ID
+	 * 对应扩展列
 	 */
-	private String columnId;
+	@ManyToOne
+	@JoinColumn(name = "column_id")
+	private ExpandoColumn column;
 	/**
-	 * 对应扩展行ID
+	 * 对应扩展行
 	 */
-	private String rowId;
+	@ManyToOne
+	@JoinColumn(name = "row_id")
+	private ExpandoRow row;
 	/**
 	 * 扩展的类的ID
 	 */
-	private String classNameId;
+	@ManyToOne
+	@JoinColumn(name = "classname_id")
+	private ClassName className;
 	/**
 	 * 扩展的类的实例的唯一标示
 	 */
@@ -32,36 +46,36 @@ public class ExpandoValueEntity extends BaseEntity {
 	 */
 	private String data;
 
-	public String getTableId() {
-		return tableId;
+	public ExpandoTable getTable() {
+		return table;
 	}
 
-	public void setTableId(String tableId) {
-		this.tableId = tableId;
+	public void setTable(ExpandoTable table) {
+		this.table = table;
 	}
 
-	public String getColumnId() {
-		return columnId;
+	public ExpandoColumn getColumn() {
+		return column;
 	}
 
-	public void setColumnId(String columnId) {
-		this.columnId = columnId;
+	public void setColumn(ExpandoColumn column) {
+		this.column = column;
 	}
 
-	public String getRowId() {
-		return rowId;
+	public ExpandoRow getRow() {
+		return row;
 	}
 
-	public void setRowId(String rowId) {
-		this.rowId = rowId;
+	public void setRow(ExpandoRow row) {
+		this.row = row;
 	}
 
-	public String getClassNameId() {
-		return classNameId;
+	public ClassName getClassName() {
+		return className;
 	}
 
-	public void setClassNameId(String classNameId) {
-		this.classNameId = classNameId;
+	public void setClassName(ClassName className) {
+		this.className = className;
 	}
 
 	public String getClassPK() {

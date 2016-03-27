@@ -8,6 +8,6 @@ import com.ogpis.entity.ExpandoTable;
 public interface ExpandoTableService  extends BaseService<ExpandoTable, String> {
 	public List<ExpandoTable> findByClassName(String className);
 	
-	public ExpandoTable findByTableName_ClassName(String tableName,
+	public ExpandoTable findByT_C(String tableName,
 			String className);
 }
