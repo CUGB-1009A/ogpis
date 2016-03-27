@@ -15,4 +15,9 @@ public class ClassNameDaoImpl extends BaseDaoImpl<ClassName, String> implements
 		return ClassName.class;
 	}
 
+	@Override
+	public ClassName findByClassName(String className) {
+		String hql = "from ClassName where className= ?";
+		return (ClassName) this.findUnique(hql, className);
+	}
 }

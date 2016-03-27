@@ -25,13 +25,10 @@ public class ExpandoTableServiceImplTest {
 
 	@Test
 	public void test() {
-
-		ClassName className = classNameService
-				.findById("68d338d9-da3d-4c34-888f-4e57bb8bc824");
-
+		ClassName className = classNameService.findByClassName("className");
 		ExpandoTable expandoTable = new ExpandoTable();
 		expandoTable.setClassName(className);
-		expandoTable.setName("testET");
+		expandoTable.setName("testET1");
 		expandoTableService.add(expandoTable);
 	}
 

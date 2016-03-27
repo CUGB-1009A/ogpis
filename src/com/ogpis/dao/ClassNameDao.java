@@ -5,4 +5,6 @@ import com.ogpis.entity.ClassName;
 
 public interface ClassNameDao extends BaseDao<ClassName, String> {
 
+	public ClassName findByClassName(String className);
+
 }
