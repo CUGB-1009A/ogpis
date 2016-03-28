@@ -20,4 +20,13 @@ public class ClassNameDaoImpl extends BaseDaoImpl<ClassName, String> implements
 		String hql = "from ClassName where className= ?";
 		return (ClassName) this.findUnique(hql, className);
 	}
+
+	@Override
+	public ClassName add(Class clazz) {
+		ClassName className = new ClassName();
+		className.setClassName(clazz.toString());
+		String id = this.save(className);
+		return this.findById(id);
+
+	}
 }
