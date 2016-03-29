@@ -23,6 +23,8 @@ public class BaseDaoImplTest {
 		ApplicationContext context = new FileSystemXmlApplicationContext("classpath:config/application-context.xml");
 		// ApplicationContext context = new ClassPathXmlApplicationContext(
 		// "application-context.xml");
+		
+		
 		@SuppressWarnings("unused")
 		SessionFactory sessionFactory = (SessionFactory) context.getBean("sessionFactory");
 		userDao = context.getBean(UserDao.class);
