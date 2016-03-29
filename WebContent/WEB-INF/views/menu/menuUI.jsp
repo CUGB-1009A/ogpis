@@ -40,7 +40,7 @@
 		</div>
 		<div class="row">
 			<div class="col-xs-12">
-				<form class="form-horizontal" role="form" id="formMenu" name="formMenu" action="<%=path%>/menu/save?pageId=${pageId}">
+				<form class="form-horizontal" role="form" id="formMenu" name="formMenu" action="<%=path%>/menu/save?pageId=${pageId}" onsubmit="return checkRight()">
 					<input type="hidden" name="hidden_id" value="${menuItem.id}">
 					<input type="hidden" name="pageId" value="${pageId}">
 					<input type="hidden" name="currentPage" value="${currentPage}">
@@ -125,7 +125,7 @@ $(function(){
 		    /*
 		    *判断第三个输入框中输入的是否为数字，不是数字的无效
 		    */
-		    if(!(String.fromCharCode(oEvent.keyCode)>=0&String.fromCharCode(oEvent.keyCode)<=9))
+		    if(!(String.fromCharCode(oEvent.keyCode)>='0'&&String.fromCharCode(oEvent.keyCode)<='9'))
                {
 		    	alert("请输入数字");
 		    	 var  temp= $("#form-field-3").val();
@@ -145,6 +145,18 @@ $(function(){
 	 ul.appendChild(obj); 
 
 });
+//检查提交表单的必要信息是否填写完整
+function checkRight(){
+	 var  temp1 = $("#form-field-1").val();
+	 var  temp2 = $("#form-field-3").val();
+	 alert(temp1);
+	 alert(temp2);
+	if(temp1==""||temp2=="")
+		{
+		alert("请将信息填写完整");
+		return false;
+		}  
+} 
 
 </script>
 </html>

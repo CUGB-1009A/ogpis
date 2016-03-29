@@ -50,11 +50,11 @@
 							class="table table-striped table-bordered table-hover">
 							<thead>
 								<tr>
-									<th class="hidden-480">菜单名称</th>
-									<th class="hidden-480">功能描述</th>
-									<th class="hidden-480">显示顺序</th>
-									<th class="hidden-480">URL</th>
-									<th class="hidden-480">相关操作</th>
+									<th class="hidden-480 text-center">菜单名称</th>
+									<th class="hidden-480 text-center">功能描述</th>
+									<th class="hidden-480 text-center">显示顺序</th>
+									<th class="hidden-480 text-center">URL</th>
+									<th class="hidden-480 text-center">相关操作</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -200,7 +200,7 @@ $(function(){
 	{
 		$("#back").show();
 		$("#back").click(function(){
-		window.location.href="<%=path%>/menu/previousMenu?pageId=${pageId}&&currentPage=1";
+		window.location.href="<%=path%>/menu/previousMenu?pageId=${pageId}&&currentPage=${currentPage}";
 		});		
 	}
 	
