@@ -7,13 +7,14 @@
 <div class="collapse navbar-collapse navbar-ex1-collapse">
     <ul class="nav navbar-nav side-nav" id="menuList">
         <li class="active">
-            <a href="<%=request.getContextPath()%>/main"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+            
+            <a href="<c:url value='/main'/>"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
         </li>
         <li>
             <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-tasks"></i> 系统管理 <i class="fa fa-fw fa-caret-down"></i></a>
             <ul id="demo" class="collapse">
                 <li>
-                    <a href="<%=basePath%>/user/list"><i class="fa fa-fw fa-user"></i> 用户管理 </a>
+                    <a href="<c:url value='/user/list'/>"><i class="fa fa-fw fa-user"></i> 用户管理 </a>
                 </li>
             </ul>
         </li>

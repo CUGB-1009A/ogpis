@@ -1,10 +1,11 @@
 package com.ogpis.base.dao;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
- * 通用Dao接口
- * 定义通用方法
+ * 通用Dao接口 定义通用方法
+ * 
  * @author Danny
  *
  */
@@ -64,8 +65,7 @@ public interface CommonDao {
 	 * @return
 	 */
 	@SuppressWarnings("rawtypes")
-	public List queryBySql(String sql, List params, Class clazz, Integer start,
-			Integer size);
+	public List queryBySql(String sql, List params, Class clazz, Integer start, Integer size);
 
 	/**
 	 * 使用sql进行查询
@@ -120,4 +120,19 @@ public interface CommonDao {
 	 */
 	public int executeHql(String hql, Object[] params);
 
+	/**
+	 * 批量保存
+	 * 
+	 * @param transientInstances
+	 */
+	public void batchSave(Collection transientInstances);
+
+	/**
+	 * 批量更新
+	 * 
+	 * @param transientInstances
+	 */
+	public void batchUpdate(Collection transientInstances);
+
+	Object findUnique(String hql, Object[] values);
 }

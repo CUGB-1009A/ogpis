@@ -35,5 +35,10 @@ public abstract class BaseServiceImpl<T, ID extends Serializable> implements
 		this.baseDao.update(entity);
 	}
 	
+	
+	@Override
+	public void batchMarkDelete(ID[] items){
+		this.baseDao.batchMarkDelete(items);
+	}
 
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ogpis.base.common.paging.IPageList;
 import com.ogpis.base.dao.BaseDao;
 import com.ogpis.base.service.impl.BaseServiceImpl;
 import com.ogpis.dao.UserDao;
@@ -26,5 +27,10 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements
 	@Override
 	public List<User> getAllUsers() {
 		return (List<User>) getUserDao().getAllUsers();
+	}
+
+	@Override
+	public IPageList<User> getAllUsers(int pageNo, int pageSize) {
+		return (IPageList<User> ) getUserDao().getAllUsers(pageNo,pageSize);
 	}
 }

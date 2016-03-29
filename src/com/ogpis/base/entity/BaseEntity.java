@@ -73,7 +73,7 @@ public abstract class BaseEntity implements Serializable {
 		return modifiedTime;
 	}
 
-	protected void setModifiedTime(Timestamp modifiedTime) {
+	public void setModifiedTime(Timestamp modifiedTime) {
 		this.modifiedTime = modifiedTime;
 	}
 

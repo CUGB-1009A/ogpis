@@ -1,6 +1,8 @@
 package com.ogpis.base.dao.impl;
 
 import java.sql.SQLException;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import org.hibernate.HibernateException;
@@ -13,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+import org.springframework.util.Assert;
 
 import com.ogpis.base.dao.CommonDao;
 import com.ogpis.base.exception.DAOException;
@@ -43,6 +46,44 @@ public abstract class CommonDaoImpl extends HibernateDaoSupport implements
 			logger.error("查询数据失败," + e);
 			throw new DAOException("查询数据失败," + e.getMessage());
 		}
+	}
+
+	/**
+	 * 通过HQL查询唯一对象
+	 */
+
+	@Deprecated
+	public Object findUnique1(String hql, Object... values) {
+		Assert.hasText(hql);
+		Query queryObject = this.getSession().createQuery(hql);
+		if (values != null) {
+			for (int i = 0; i < values.length; i++) {
+				queryObject.setParameter(i, values[i]);
+			}
+		}
+		return queryObject.uniqueResult();
+	}
+
+	@Override
+	public Object findUnique(final String hql, final Object... values) {
+		List result = this.getHibernateTemplate().executeFind(
+				new HibernateCallback() {
+					@Override
+					public Object doInHibernate(Session session)
+							throws HibernateException, SQLException {
+						Query queryObject = session.createQuery(hql);
+						if (values != null) {
+							for (int i = 0; i < values.length; i++) {
+								queryObject.setParameter(i, values[i]);
+							}
+						}
+						return queryObject.list();
+					}
+				});
+		if (result != null && result.size() == 1) {
+			return result.get(0);
+		}
+		return null;
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -150,6 +191,52 @@ public abstract class CommonDaoImpl extends HibernateDaoSupport implements
 			logger.error("执行HQL语句失败," + e);
 			throw new DAOException("执行HQL语句失败," + e.getMessage());
 		}
+	}
+
+	@Override
+	public void batchSave(Collection transientInstances) {
+		executeBatch(transientInstances, "save");
+	}
+
+	@Override
+	public void batchUpdate(Collection transientInstances) {
+		executeBatch(transientInstances, "update");
+	}
+
+	/**
+	 * 执行批量操作（暂行）
+	 * 
+	 * @param instances
+	 * @param batchType
+	 */
+	private void executeBatch(final Collection instances, final String batchType) {
+		getHibernateTemplate().execute(new HibernateCallback() {
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				if (!instances.isEmpty()) {
+					int max = instances.size();
+					for (Iterator localIterator = instances.iterator(); localIterator
+							.hasNext();) {
+						Object pojo = localIterator.next();
+						if ("save".equals(batchType)) {
+							session.save(pojo);
+						} else if ("update".equals(batchType)) {
+							session.update(pojo);
+						} else if ("merge".equals(batchType)) {
+							session.merge(pojo);
+						} else if ("saveOrUpdate".equals(batchType)) {
+							session.saveOrUpdate(pojo);
+						} else if ("remove".equals(batchType)) {
+							session.refresh(pojo);
+							session.delete(pojo);
+						}
+						session.flush();
+					}
+				}
+				return null;
+			}
+		});
 	}
 
 }
