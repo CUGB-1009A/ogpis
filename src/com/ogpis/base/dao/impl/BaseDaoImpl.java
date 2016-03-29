@@ -58,10 +58,12 @@ public abstract class BaseDaoImpl<T, ID extends Serializable> extends CommonDaoI
 		}
 	}
 
+
+	
 	@Override
 	public void update(T entity) {
 		try {
-			this.getHibernateTemplate().update(entity);
+			this.getHibernateTemplate().merge(entity);
 		} catch (Exception e) {
 			super.logger.error("更新数据失败," + e);
 			throw new DAOException("更新数据失败," + e.getMessage());

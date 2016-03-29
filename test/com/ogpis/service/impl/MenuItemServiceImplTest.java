@@ -1,8 +1,8 @@
 package com.ogpis.service.impl;
 
+
 import org.junit.BeforeClass;
 import org.junit.Test;
-
 import com.ogpis.TestUtil;
 import com.ogpis.entity.MenuItem;
 import com.ogpis.service.MenuItemService;
@@ -22,18 +22,21 @@ public class MenuItemServiceImplTest {
 		MenuItem menuItemFather = new MenuItem();
 		menuItemFather.setName("menuItemFather");
 		menuItemService.add(menuItemFather);
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 100; i++) {
 			MenuItem menuItemChild = new MenuItem();
 			menuItemChild.setName("menuItemChild" + i);
 			menuItemChild.setFather(menuItemFather);
 			menuItemService.add(menuItemChild);
 		}
-
 	}
+	
+
+	
+	
 
 	@Test
 	public void testFather() {
-		String fatherId = "ecb1518b-dacc-46b4-be20-22bdce664c70";
+		String fatherId = "a0fe9155-2651-4889-9a27-5255f95f6931";
 		MenuItem menuItemFather = menuItemService.findById(fatherId);
 		System.out.println("menuItemFather.getChildren().size(): "
 				+ menuItemFather.getChildren().size());

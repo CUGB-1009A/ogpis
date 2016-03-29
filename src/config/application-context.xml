@@ -30,11 +30,11 @@
 		<!-- 当数据库连接因为某种原因断掉之后，再重新从连接池中拿另外一个连接时实际上这个连接可能 已经无效，所以为了确保所拿到的连接全都有效需要在获取连接，返回连接以及连接空闲时进行 
 			有效性验证 下面3个设置为ture时进行验证，默认为false -->
 		<!-- 取得连接时是否进行有效性验证 -->
-		<!-- <property name="testOnBorrow" value="true" /> -->
+		 <!--<property name="testOnBorrow" value="true" /> -->
 		<!-- 返回连接时是否进行有效性验证 -->
-		<!-- <property name="testOnReturn" value="true" /> -->
+		 <!--<property name="testOnReturn" value="true" /> -->
 		<!-- 连接空闲时是否进行有效性验证 -->
-		<!-- <property name="testWhileIdle" value="true" /> -->
+		 <!--<property name="testWhileIdle" value="true" />--> 
 	</bean>
 
 	<bean id="sessionFactory"
@@ -58,7 +58,7 @@
 				<!-- 设置Hibernate方言 -->
 				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
 				<!-- 是否打印sql -->
-				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.show_sql">false</prop>
 				<!-- 格式化sql -->
 				<prop key="hibernate.format_sql">true</prop>
 				<!-- 是否自动更新表 -->
@@ -84,5 +84,5 @@
 	<context:annotation-config />
 	<context:component-scan base-package="com.ogpis" />
 
-	<tx:annotation-driven transaction-manager="transactionManager" />
+	<tx:annotation-driven transaction-manager="transactionManager"/>
 </beans>

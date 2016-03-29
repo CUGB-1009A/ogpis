@@ -1,6 +1,7 @@
 package com.ogpis.base.service.impl;
 
 import java.io.Serializable;
+import java.util.List;
 
 import com.ogpis.base.dao.BaseDao;
 import com.ogpis.base.service.BaseService;
@@ -14,7 +15,6 @@ public abstract class BaseServiceImpl<T, ID extends Serializable> implements
 		this.baseDao = baseDao;
 	}
 
-	
 	@Override
 	public ID add(T entity) {
 		return this.baseDao.save(entity);
@@ -34,6 +34,7 @@ public abstract class BaseServiceImpl<T, ID extends Serializable> implements
 	public void update(T entity) {
 		this.baseDao.update(entity);
 	}
+	
 	
 	@Override
 	public void batchMarkDelete(ID[] items){
