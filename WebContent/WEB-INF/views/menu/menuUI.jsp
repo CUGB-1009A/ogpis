@@ -31,19 +31,20 @@
 			<ul class="breadcrumb" id="ul">
 				<li>
 					<i class="icon-home home-icon"></i>
-					<a href="<%=path%>/main">首页</a>
+					<a href="<c:url value='/main'/>">首页</a>
 				</li>
 				<li>
-					<a href="<%=path%>/menu/list?id=&&currentPage=1">菜单管理</a>
+					<a href="<c:url value='/menu/list?id=&&pageId=&&pageNo=1'/>">菜单管理</a>
 				</li>
 			</ul>
 		</div>
 		<div class="row">
 			<div class="col-xs-12">
-				<form class="form-horizontal" role="form" id="formMenu" name="formMenu" action="<%=path%>/menu/save?pageId=${pageId}" onsubmit="return checkRight()">
-					<input type="hidden" name="hidden_id" value="${menuItem.id}">
+				<form class="form-horizontal" role="form" id="formMenu" name="formMenu" action="<%=path%>/menu/save" onsubmit="return checkRight()">
+					<input type="hidden" name="id" value="${menuItem.id}">
+					<input type="hidden" name="pageNo" value="${pageNo}">
 					<input type="hidden" name="pageId" value="${pageId}">
-					<input type="hidden" name="currentPage" value="${currentPage}">
+					<input type="hidden" name="flag" value="${flag}">
 					<div class="form-group">
 						<label class="col-sm-3 control-label no-padding-right" for="form-field-1">菜单名称</label>
 
@@ -74,6 +75,8 @@
 							<input type="text"  id="form-field-3" placeholder="菜单显示顺序..." class="col-xs-10 col-sm-5" name="priority" value="${menuItem.priority}">
 						    <span class="help-inline col-xs-4 col-sm-2">
 								<span class="middle" style="color:red">*必填项</span>
+								<br>
+								<span id="warning" class="middle" style="color:red;display:none">*请输入数字 !*</span>
 							</span>
 						</div>
 						
@@ -116,30 +119,39 @@
 <script type="text/javascript">
 function reback()
 {
-	window.location.href="<%=path%>/menu/editToList?pageId=${pageId}&&currentPage=${currentPage}";
+	window.location.href="<%=path%>/menu/editToList?pageId=${pageId}&&pageNo=${pageNo}";
 };
+
 $(function(){
 	var param1 = "${pageId}";
 	$("#form-field-3").keyup(function(ev){	
-		    var oEvent = ev || event; 
+		    var oEvent = ev || event; 		    
 		    /*
 		    *判断第三个输入框中输入的是否为数字，不是数字的无效
 		    */
-		    if(!(String.fromCharCode(oEvent.keyCode)>='0'&&String.fromCharCode(oEvent.keyCode)<='9'))
+		    var enterCode = oEvent.keyCode;
+		    if(!((enterCode>=48&&enterCode<=57)||enterCode==8||enterCode==9||enterCode==13))
                {
-		    	alert("请输入数字");
+		    	 $("#warning").show();
 		    	 var  temp= $("#form-field-3").val();
+		    	 temp = temp.substring(0,temp.length-1);
 				 $("#form-field-3").val(temp);
-               }		
+               }
+		    else
+		    	{
+		    	 $("#warning").hide();
+		    	}
 	});	
 });
+ 
+
 
 $(function(){
 	 var ul=document.getElementById("ul"); 
 	 var obj=document.createElement("li"); 
 	 var param = ${flag};
 	 if(param =='1')
-	    obj.innerHTML="添加菜单"; 
+	    obj.innerHTML="新建菜单"; 
 	 if(param =='2')
 	    obj.innerHTML="修改菜单";  
 	 ul.appendChild(obj); 
@@ -149,8 +161,6 @@ $(function(){
 function checkRight(){
 	 var  temp1 = $("#form-field-1").val();
 	 var  temp2 = $("#form-field-3").val();
-	 alert(temp1);
-	 alert(temp2);
 	if(temp1==""||temp2=="")
 		{
 		alert("请将信息填写完整");

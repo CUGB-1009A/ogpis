@@ -2,6 +2,7 @@ package com.ogpis.dao;
 
 import java.util.List;
 
+import com.ogpis.base.common.paging.IPageList;
 import com.ogpis.base.dao.BaseDao;
 import com.ogpis.entity.MenuItem;
 
@@ -16,4 +17,6 @@ public interface MenuItemDao extends BaseDao<MenuItem, String> {
 	void updateAll(List<String> list);
 
 	String menuToJson();
+
+	IPageList<MenuItem> getByParentId(String id, int pageNo, int pageSize);
 }
