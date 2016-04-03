@@ -7,16 +7,16 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.ogpis.entity.ClassName;
-import com.ogpis.entity.ExpandoColumn;
-import com.ogpis.entity.ExpandoRow;
-import com.ogpis.entity.ExpandoTable;
-import com.ogpis.entity.ExpandoValue;
-import com.ogpis.service.ClassNameService;
-import com.ogpis.service.ExpandoColumnService;
-import com.ogpis.service.ExpandoRowService;
-import com.ogpis.service.ExpandoTableService;
-import com.ogpis.service.ExpandoValueService;
+import com.ogpis.expando.entity.ClassName;
+import com.ogpis.expando.entity.ExpandoColumn;
+import com.ogpis.expando.entity.ExpandoRow;
+import com.ogpis.expando.entity.ExpandoTable;
+import com.ogpis.expando.entity.ExpandoValue;
+import com.ogpis.expando.service.ClassNameService;
+import com.ogpis.expando.service.ExpandoColumnService;
+import com.ogpis.expando.service.ExpandoRowService;
+import com.ogpis.expando.service.ExpandoTableService;
+import com.ogpis.expando.service.ExpandoValueService;
 
 ;;;
 

@@ -3,9 +3,10 @@ package com.ogpis.service.impl;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import com.ogpis.TestUtil;
-import com.ogpis.entity.MenuItem;
-import com.ogpis.service.MenuItemService;
+import com.ogpis.system.entity.MenuItem;
+import com.ogpis.system.service.MenuItemService;
 
 public class MenuItemServiceImplTest {
 

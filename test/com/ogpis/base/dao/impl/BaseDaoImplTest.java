@@ -9,9 +9,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import com.ogpis.base.dao.BaseDao;
-import com.ogpis.dao.UserDao;
-import com.ogpis.service.OrganizationService;
-import com.ogpis.service.UserService;
+import com.ogpis.system.dao.UserDao;
+import com.ogpis.system.service.OrganizationService;
+import com.ogpis.system.service.UserService;
 
 public class BaseDaoImplTest {
 

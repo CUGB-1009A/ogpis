@@ -16,11 +16,11 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.ogpis.entity.Organization;
-import com.ogpis.entity.User;
-import com.ogpis.entity.base.UserEntity;
-import com.ogpis.service.OrganizationService;
-import com.ogpis.service.UserService;
+import com.ogpis.system.entity.Organization;
+import com.ogpis.system.entity.User;
+import com.ogpis.system.entity.base.UserEntity;
+import com.ogpis.system.service.OrganizationService;
+import com.ogpis.system.service.UserService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:config/application-context.xml" })

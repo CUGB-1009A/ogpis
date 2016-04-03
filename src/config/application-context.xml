@@ -50,7 +50,9 @@
 <!-- 		</property> -->
 		<property name="packagesToScan">  
             <list>  
-                <value>com.ogpis.entity</value>  
+                <value>com.ogpis.system.entity</value>  
+                <value>com.ogpis.expando.entity</value>  
+                <value>com.ogpis.plan.entity</value>  
             </list>  
         </property>  
 		<property name="hibernateProperties">

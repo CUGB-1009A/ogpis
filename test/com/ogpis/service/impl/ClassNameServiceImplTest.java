@@ -9,8 +9,8 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.ogpis.entity.ClassName;
-import com.ogpis.service.ClassNameService;
+import com.ogpis.expando.entity.ClassName;
+import com.ogpis.expando.service.ClassNameService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 // 用于配置spring中测试的环境
@@ -24,7 +24,7 @@ public class ClassNameServiceImplTest {
 	@Test
 	public void test() {
 		ClassName className = new ClassName();
-		className.setClassName("className");
+		className.setClassName("className1");
 		classNameService.add(className);
 	}
 

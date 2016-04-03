@@ -6,8 +6,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.ogpis.TestUtil;
-import com.ogpis.entity.Dictionary;
-import com.ogpis.service.DictionaryService;
+import com.ogpis.system.entity.Dictionary;
+import com.ogpis.system.service.DictionaryService;
 
 public class DictionaryServiceImplTest {
 
