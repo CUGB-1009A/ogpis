@@ -3,19 +3,35 @@ package com.ogpis.expando.dao.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Repository;
 
 import com.ogpis.base.dao.impl.BaseDaoImpl;
+import com.ogpis.expando.dao.ClassNameDao;
 import com.ogpis.expando.dao.ExpandoTableDao;
+import com.ogpis.expando.entity.ClassName;
 import com.ogpis.expando.entity.ExpandoTable;
 
 @Repository
 public class ExpandoTableDaoImpl extends BaseDaoImpl<ExpandoTable, String>
 		implements ExpandoTableDao {
 
+	@Resource
+	private ClassNameDao classNameDao;
+
 	@Override
 	protected Class<ExpandoTable> getEntityClass() {
 		return ExpandoTable.class;
+	}
+
+	@Override
+	public ExpandoTable addTable(ClassName className, String tableName) {
+		ExpandoTable table = new ExpandoTable();
+		table.setClassName(className);
+		table.setName(tableName);
+		this.save(table);
+		return table;
 	}
 
 	@Override
@@ -27,9 +43,13 @@ public class ExpandoTableDaoImpl extends BaseDaoImpl<ExpandoTable, String>
 	}
 
 	@Override
-	public ExpandoTable findByT_C(String tableName,
-			String className) {
-		String hql = "from ExpandoTable where name=? and className.className=?";
-		return (ExpandoTable) this.findUnique(hql, tableName, className);
+	public ExpandoTable findByC_T(String className, String tableName) {
+		String hql = "from ExpandoTable where className.className=? and name=? ";
+		ExpandoTable expandoTable = (ExpandoTable) this.findUnique(hql,
+				className, tableName);
+		if (expandoTable == null) {
+			// 抛出异常
+		}
+		return expandoTable;
 	}
 }

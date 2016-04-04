@@ -30,7 +30,7 @@ public class ExpandoColumnServiceImplTest {
 
 	@Test
 	public void test() {
-		ExpandoTable table = expandoTableService.findByT_C(
+		ExpandoTable table = expandoTableService.getTable(
 				"testET", "className");
 		ExpandoColumn expandoColumn = new ExpandoColumn();
 		expandoColumn.setTable(table);

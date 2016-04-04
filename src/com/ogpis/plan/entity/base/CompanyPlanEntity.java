@@ -54,7 +54,7 @@ public class CompanyPlanEntity extends BaseEntity {
 	/**
 	 * 二维地震勘探公里数
 	 */
-	@Column(name="勘探工程(地震勘探)")
+	@Column(name="勘探工程")
 	private double exploration;
 
 	/**

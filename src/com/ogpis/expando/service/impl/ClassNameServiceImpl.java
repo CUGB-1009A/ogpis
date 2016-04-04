@@ -24,7 +24,11 @@ public class ClassNameServiceImpl extends BaseServiceImpl<ClassName, String>
 
 	@Override
 	public ClassName findByClassName(String className) {
-		return getClassNameDao().findByClassName(className);
+		ClassName cn = getClassNameDao().findByClassName(className);
+		// 如果没有找到对应的ClassName 则新建一个，保证每个类都有对应的ClassName
+		if (cn == null) {
+			getClassNameDao().addClassName(className);
+		}
+		return cn;
 	}
-
 }

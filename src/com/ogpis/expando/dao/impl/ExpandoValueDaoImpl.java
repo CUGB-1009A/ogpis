@@ -1,6 +1,8 @@
 package com.ogpis.expando.dao.impl;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -39,7 +41,8 @@ public class ExpandoValueDaoImpl extends BaseDaoImpl<ExpandoValue, String>
 			expandoRowDao.save(row);
 		}
 
-		ExpandoValue value = this.findByC_R(column, row);
+		ExpandoValue value = this.findByT_C_C(table.getId(), column.getId(),
+				classPK);
 		if (value == null) {
 			value = new ExpandoValue();
 			value.setClassName(className);
@@ -57,9 +60,20 @@ public class ExpandoValueDaoImpl extends BaseDaoImpl<ExpandoValue, String>
 	}
 
 	@Override
-	public ExpandoValue findByC_R(ExpandoColumn column, ExpandoRow row) {
-		String hql = "from ExpandoValue where column.id=? and row.id=?";
-		return (ExpandoValue) this.findUnique(hql, column.getId(), row.getId());
+	public ExpandoValue findByT_C_C(String tableId, String columnId,
+			String classPK) {
+		String hql = "from ExpandoValue where table.id=? and column.id=? and classPK=?";
+		return (ExpandoValue) this.findUnique(hql, tableId, columnId, classPK);
+	}
+
+	@Override
+	public List<ExpandoValue> findByT_CPK(String tableId, String classPK) {
+		String hql = "from ExpandoValue where table.id=? and classPK=?";
+
+		List<String> params = new ArrayList<String>();
+		params.add(tableId);
+		params.add(classPK);
+		return this.queryByHql(hql, params);
 	}
 
 }

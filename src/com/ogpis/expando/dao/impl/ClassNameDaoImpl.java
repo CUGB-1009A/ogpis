@@ -22,11 +22,11 @@ public class ClassNameDaoImpl extends BaseDaoImpl<ClassName, String> implements
 	}
 
 	@Override
-	public ClassName add(Class clazz) {
-		ClassName className = new ClassName();
-		className.setClassName(clazz.toString());
-		String id = this.save(className);
-		return this.findById(id);
+	public ClassName addClassName(String className) {
+		ClassName newClassName = new ClassName();
+		newClassName.setClassName(className);
+		this.save(newClassName);
+		return newClassName;
 
 	}
 }

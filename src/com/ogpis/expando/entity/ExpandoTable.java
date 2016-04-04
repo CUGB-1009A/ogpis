@@ -9,4 +9,5 @@ import com.ogpis.expando.entity.base.ExpandoTableEntity;
 @Table(name = "ogpis_expandotable")
 public class ExpandoTable extends ExpandoTableEntity {
 
+	public static final String DEFAULT_TABLE_NAME = "CUSTOM_FIELDS";
 }

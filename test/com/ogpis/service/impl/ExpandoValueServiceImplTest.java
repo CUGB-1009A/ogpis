@@ -42,9 +42,9 @@ public class ExpandoValueServiceImplTest {
 	public void test() {
 
 		ClassName className = classNameService.findByClassName("className");
-		ExpandoTable table = expandoTableService.findByT_C("testET1",
+		ExpandoTable table = expandoTableService.getTable("testET1",
 				className.getClassName());
-		ExpandoColumn column = expandoColumnService.findByT_N(table.getId(),
+		ExpandoColumn column = expandoColumnService.getColumn(table.getId(),
 				"expandoColumn1");
 		String classPK = "classPK";
 		String data = "data";

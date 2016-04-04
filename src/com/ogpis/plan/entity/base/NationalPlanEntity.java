@@ -232,4 +232,5 @@ public class NationalPlanEntity extends BaseEntity {
 		this.production_SG = production_SG;
 	}
 
+
 }
