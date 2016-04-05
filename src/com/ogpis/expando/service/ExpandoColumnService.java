@@ -35,6 +35,8 @@ public interface ExpandoColumnService extends
 	 */
 	public ExpandoColumn getColumn(String tableId, String columnName);
 
+	public List<ExpandoColumn> getDefaultTableColumns(String className);
+
 	
 
 	

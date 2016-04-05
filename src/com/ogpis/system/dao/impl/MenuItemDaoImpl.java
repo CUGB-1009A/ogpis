@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.ogpis.base.common.paging.IPageList;
+import com.ogpis.base.common.paging.PageListUtil;
 import com.ogpis.base.dao.impl.BaseDaoImpl;
 import com.ogpis.system.dao.MenuItemDao;
 import com.ogpis.system.entity.MenuItem;
@@ -117,6 +119,29 @@ public class MenuItemDaoImpl extends BaseDaoImpl<MenuItem, String> implements
 			String hql = "from MenuItem where deleted=false and father.id is not null order by priority ASC ";
 			return (List<MenuItem>) this.queryByHql(hql,
 					null);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public IPageList<MenuItem> getByParentId(String id, int pageNo, int pageSize) {
+
+		int first = (pageNo - 1) * pageSize;
+		List<MenuItem> items;
+		int count;
+		if(id=="")
+		{
+			System.out.println("1234567890");
+		items = this.queryByHql("from MenuItem where deleted=false and father.id is null order by priority ASC", null, first, pageSize);
+		count = Integer.parseInt(this.findUnique("select count(*) from MenuItem where deleted=false and father.id is null", null).toString());			
+		}
+		else
+		{
+			System.out.println(123457);
+			items = this.queryByHql("from MenuItem where deleted=false and father.id=\'"+id+"\' order by priority ASC", null, first, pageSize);
+			count = Integer.parseInt(this.findUnique("select count(*) from MenuItem where deleted=false and father.id=\'"+id+"\'", null).toString());				
+		}
+		System.out.println("count: " + count);
+		return PageListUtil.getPageList(count, pageNo, items, pageSize);
 	}
 
 }

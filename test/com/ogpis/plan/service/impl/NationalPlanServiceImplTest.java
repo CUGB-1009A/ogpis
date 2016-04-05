@@ -74,6 +74,23 @@ public class NationalPlanServiceImplTest {
 	}
 
 	@Test
+	public void testAddExpandoColumn() {
+
+		ClassName className = classNameService
+				.findByClassName(NationalPlan.class.toString());
+		ExpandoTable table = expandoTableService
+				.getDefaultTable(NationalPlan.class.toString());
+
+		ExpandoColumn column = expandoColumnService.addColumn(table,
+				"testColumn1", "String", "");
+		ExpandoColumn column2 = expandoColumnService.addColumn(table,
+				"testColumn2", "String", "");
+		ExpandoColumn column3 = expandoColumnService.addColumn(table,
+				"testColumn3", "String", "");
+
+	}
+
+	@Test
 	public void testAddExpandoValue() {
 
 		String classPK = "60c762b2-863a-46fa-9b3f-2c8aafeed6aa";

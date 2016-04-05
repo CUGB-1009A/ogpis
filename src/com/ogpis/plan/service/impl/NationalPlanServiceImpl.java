@@ -5,6 +5,7 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ogpis.base.common.paging.IPageList;
 import com.ogpis.base.service.impl.BaseServiceImpl;
 import com.ogpis.plan.dao.NationalPlanDao;
 import com.ogpis.plan.entity.NationalPlan;
@@ -32,6 +33,11 @@ public class NationalPlanServiceImpl extends
 		return getNationalPlanDao().addNationalPlan(planPeriod, planCode,
 				planName, explore_oil, explore_gas, explore_CBM, explore_SG,
 				production_oil, production_gas, production_CBM, production_SG);
+	}
+
+	@Override
+	public IPageList<NationalPlan> getNationalPlans(int pageNo, int pageSize) {
+		return getNationalPlanDao().getNationalPlans(pageNo, pageSize);
 	}
 
 }

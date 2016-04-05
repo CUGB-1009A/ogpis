@@ -57,8 +57,8 @@ public class UserDaoTest {
 			user.setName("niexiao" + i);
 			user.setPassword("password");
 			user.setOraganzation(org);
-			String id = userService.add(user);
-			System.out.println("userId :" + id);
+			user = userService.add(user);
+			System.out.println("userId :" + user.getId());
 		}
 	}
 
@@ -66,8 +66,8 @@ public class UserDaoTest {
 	public void testSaveOrg() throws SQLException {
 		Organization org = new Organization();
 		org.setName("new org");
-		String id = organizationService.add(org);
-		System.out.println("organizationId :" + id);
+		org = organizationService.add(org);
+		System.out.println("organizationId :" + org.getId());
 	}
 
 	@Test

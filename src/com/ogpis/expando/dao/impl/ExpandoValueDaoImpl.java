@@ -3,6 +3,7 @@ package com.ogpis.expando.dao.impl;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -58,6 +59,8 @@ public class ExpandoValueDaoImpl extends BaseDaoImpl<ExpandoValue, String>
 		return value;
 
 	}
+
+	
 
 	@Override
 	public ExpandoValue findByT_C_C(String tableId, String columnId,

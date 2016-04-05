@@ -20,7 +20,7 @@ public interface BaseService<T, ID extends Serializable> {
 	 *            实体
 	 * @return
 	 */
-	public ID add(T entity);
+	public T add(T entity);
 
 	/**
 	 * 删除实体
@@ -45,15 +45,19 @@ public interface BaseService<T, ID extends Serializable> {
 	 *            要更新的实体
 	 */
 	public void update(T entity);
-	
+
 	/**
 	 * 更新实体集合
-	 * @param entity 要更新的实体
+	 * 
+	 * @param entity
+	 *            要更新的实体
 	 */
 
 	/**
 	 * 批量删除
-	 * @param items 要删除的实体ID集合
+	 * 
+	 * @param items
+	 *            要删除的实体ID集合
 	 */
 	public void batchMarkDelete(ID[] items);
 

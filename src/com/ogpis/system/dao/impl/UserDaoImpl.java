@@ -12,7 +12,7 @@ import com.ogpis.system.entity.User;
 
 @Repository
 public class UserDaoImpl extends BaseDaoImpl<User, String> implements UserDao {
-	public String saveUser(User user) {
+	public User saveUser(User user) {
 		return save(user);
 	}
 

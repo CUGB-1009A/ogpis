@@ -8,12 +8,14 @@ import com.ogpis.base.dao.BaseDao;
 import com.ogpis.base.entity.BaseEntity;
 import com.ogpis.base.exception.DAOException;
 
-public abstract class BaseDaoImpl<T, ID extends Serializable> extends CommonDaoImpl implements BaseDao<T, ID> {
+public abstract class BaseDaoImpl<T, ID extends Serializable> extends
+		CommonDaoImpl implements BaseDao<T, ID> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public ID save(T entity) {
-		return (ID) super.getHibernateTemplate().save(entity);
+	public T save(T entity) {
+		ID id = (ID) super.getHibernateTemplate().save(entity);
+		return this.findById(id);
 	}
 
 	@Override
@@ -58,12 +60,10 @@ public abstract class BaseDaoImpl<T, ID extends Serializable> extends CommonDaoI
 		}
 	}
 
-
-	
 	@Override
 	public void update(T entity) {
 		try {
-			this.getHibernateTemplate().merge(entity);
+			this.getHibernateTemplate().update(entity);
 		} catch (Exception e) {
 			super.logger.error("更新数据失败," + e);
 			throw new DAOException("更新数据失败," + e.getMessage());
@@ -95,7 +95,8 @@ public abstract class BaseDaoImpl<T, ID extends Serializable> extends CommonDaoI
 	@Override
 	public List<T> queryEntityByExample(T entity, int start, int size) {
 		try {
-			return (List<T>) this.getHibernateTemplate().findByExample(entity, start, size);
+			return (List<T>) this.getHibernateTemplate().findByExample(entity,
+					start, size);
 		} catch (Exception e) {
 			logger.error("获取多条数据失败," + e);
 			throw new DAOException("获取多条数据失败," + e.getMessage());

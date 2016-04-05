@@ -1,6 +1,7 @@
 package com.ogpis.expando.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.ogpis.base.dao.BaseDao;
 import com.ogpis.expando.entity.ClassName;

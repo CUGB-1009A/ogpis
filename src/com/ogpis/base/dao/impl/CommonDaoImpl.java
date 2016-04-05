@@ -71,13 +71,16 @@ public abstract class CommonDaoImpl extends HibernateDaoSupport implements
 					@Override
 					public Object doInHibernate(Session session)
 							throws HibernateException, SQLException {
-						Query queryObject = session.createQuery(hql);
+						Query queryObject = session.createQuery(hql)
+								.setMaxResults(30);
 						if (values != null) {
 							for (int i = 0; i < values.length; i++) {
 								queryObject.setParameter(i, values[i]);
 							}
 						}
-						return queryObject.list();
+						List result = queryObject.list();
+						session.close();
+						return result;
 					}
 				});
 		if (result != null && result.size() == 1) {

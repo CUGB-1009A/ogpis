@@ -20,7 +20,7 @@
         </li>
         
           <li>
-            <a href="<%=basePath%>/menu/list?id=&&currentPage=1"><i class="fa fa-fw fa-tasks"></i> 菜单管理<i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i></a>
+            <a href="<c:url value='/menu/list?pageId=&&id=&&pageNo=1'/>"><i class="fa fa-fw fa-tasks"></i> 菜单管理<i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i></a>
           </li>         
     </ul>
 </div>
@@ -29,7 +29,7 @@
 	 * 动态添加导航栏菜单
 	 *@temp:是topmenu
 	 */
-function addMenu(temp)
+ function addMenu(temp)
 {
 	if(temp.url!=null)
 	{
@@ -43,7 +43,7 @@ function addMenu(temp)
        	  addMenu(temp.submenu[i]);
        	  }			
 	}
-}
+} 
 
  $(function(){	
 	$.ajax({   

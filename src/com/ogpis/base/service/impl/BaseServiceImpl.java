@@ -16,7 +16,7 @@ public abstract class BaseServiceImpl<T, ID extends Serializable> implements
 	}
 
 	@Override
-	public ID add(T entity) {
+	public T add(T entity) {
 		return this.baseDao.save(entity);
 	}
 
