@@ -52,7 +52,7 @@
 						<label class="col-sm-3 control-label no-padding-right" for="form-field-1">规划名称</label>
 
 						<div class="col-sm-9">
-							<input type="text" id="form-field-1" placeholder="请输入规划名称.." class="col-xs-10 col-sm-5" name="loginId" value="${nationalPlan.planName}">
+							<input type="text" id="form-field-1" placeholder="请输入规划名称.." class="col-xs-10 col-sm-5" name="planName" value="${nationalPlan.planName}">
 						</div>
 					</div>
 
@@ -62,7 +62,7 @@
 						<label class="col-sm-3 control-label no-padding-right" for="form-field-1">规划代号</label>
 
 						<div class="col-sm-9">
-							<input type="text" id="form-field-1" placeholder="请输入规划代号.." class="col-xs-10 col-sm-5" name="name" value="${nationalPlan.planCode }">
+							<input type="text" id="form-field-1" placeholder="请输入规划代号.." class="col-xs-10 col-sm-5" name="planCode" value="${nationalPlan.planCode }">
 						</div>
 					</div>
 					

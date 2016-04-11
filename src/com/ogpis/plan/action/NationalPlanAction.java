@@ -29,20 +29,6 @@ import com.ogpis.plan.service.NationalPlanService;
 @Controller
 public class NationalPlanAction {
 
-	@Autowired
-	private NationalPlanService nationalPlanService;
-
-	@Autowired
-	private ClassNameService classNameService;
-	@Autowired
-	private ExpandoTableService ExpandoTableService;
-
-	@Autowired
-	private ExpandoColumnService expandoColumnService;
-
-	@Autowired
-	private ExpandoValueService expandoValueService;
-
 	@RequestMapping(value = "/plan/national/list")
 	public String list(HttpServletRequest request, ModelMap model) {
 		int pageNo = ServletRequestUtils.getIntParameter(request,
@@ -67,7 +53,7 @@ public class NationalPlanAction {
 	public String edit(HttpServletRequest request, ModelMap model, String id) {
 		NationalPlan nationalPlan = this.nationalPlanService.findById(id);
 
-		ExpandoTable defaultTable = ExpandoTableService
+		ExpandoTable defaultTable = expandoTableService
 				.getDefaultTable(NationalPlan.class.toString());
 
 		List<ExpandoValue> expandoValues = expandoValueService.getRowValues(
@@ -97,18 +83,16 @@ public class NationalPlanAction {
 			bean = this.nationalPlanService.findById(id);
 		}
 		bean.setPlanPeriod(nationalPlan.getPlanPeriod());
-//		if (isAdd) {
-//			nationalPlanService.add(bean);
-//		} else {
-//			nationalPlanService.update(bean);
-//		}
-		System.out.println("findByClassName");
+		bean.setPlanCode(nationalPlan.getPlanCode());
+		if (isAdd) {
+			nationalPlanService.add(bean);
+		} else {
+			nationalPlanService.update(bean);
+		}
 		ClassName className = classNameService
 				.findByClassName(NationalPlan.class.toString());
-		System.out.println("getDefaultTable");
-		ExpandoTable table = ExpandoTableService
+		ExpandoTable table = expandoTableService
 				.getDefaultTable(NationalPlan.class.toString());
-		System.out.println("getDefaultTableColumns");
 		List<ExpandoColumn> columns = expandoColumnService
 				.getDefaultTableColumns(NationalPlan.class.toString());
 		Map<String, String> data = new HashedMap();
@@ -117,12 +101,20 @@ public class NationalPlanAction {
 			String value = (String) request.getParameter(column.getName());
 			data.put(column.getName(), value);
 		}
-		System.out.println("addValues");
-		expandoValueService.addValues(className, table, columns, bean.getId(),
+		expandoValueService.addValues(className, table, columns, id,
 				data);
-		System.out.println("addValue end");
 
 		return "redirect:list";
 	}
 
+	@Autowired
+	private NationalPlanService nationalPlanService;
+	@Autowired
+	private ClassNameService classNameService;
+	@Autowired
+	private ExpandoTableService expandoTableService;
+	@Autowired
+	private ExpandoColumnService expandoColumnService;
+	@Autowired
+	private ExpandoValueService expandoValueService;
 }

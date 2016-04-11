@@ -1,7 +1,6 @@
 package com.ogpis.expando.service.impl;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -9,8 +8,8 @@ import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.ogpis.base.entity.BaseEntity;
 import com.ogpis.base.service.impl.BaseServiceImpl;
 import com.ogpis.expando.dao.ExpandoRowDao;
 import com.ogpis.expando.dao.ExpandoValueDao;
@@ -19,12 +18,9 @@ import com.ogpis.expando.entity.ExpandoColumn;
 import com.ogpis.expando.entity.ExpandoRow;
 import com.ogpis.expando.entity.ExpandoTable;
 import com.ogpis.expando.entity.ExpandoValue;
-import com.ogpis.expando.service.ClassNameService;
-import com.ogpis.expando.service.ExpandoColumnService;
-import com.ogpis.expando.service.ExpandoRowService;
-import com.ogpis.expando.service.ExpandoTableService;
 import com.ogpis.expando.service.ExpandoValueService;
 
+@Transactional
 @Service
 public class ExpandoValueServiceImpl extends
 		BaseServiceImpl<ExpandoValue, String> implements ExpandoValueService {
@@ -46,6 +42,7 @@ public class ExpandoValueServiceImpl extends
 				data);
 	}
 
+	@Transactional(readOnly = false)
 	@Override
 	public void addValues(ClassName className, ExpandoTable table,
 			List<ExpandoColumn> columns, String classPK,

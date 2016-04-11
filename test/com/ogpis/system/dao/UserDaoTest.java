@@ -1,4 +1,4 @@
-package com.ogpis.dao;
+package com.ogpis.system.dao;
 
 import java.sql.SQLException;
 import java.util.List;

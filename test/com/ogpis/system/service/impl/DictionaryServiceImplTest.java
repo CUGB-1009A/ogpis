@@ -1,4 +1,4 @@
-package com.ogpis.service.impl;
+package com.ogpis.system.service.impl;
 
 import static org.junit.Assert.fail;
 

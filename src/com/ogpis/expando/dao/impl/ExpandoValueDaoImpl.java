@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.ogpis.base.dao.impl.BaseDaoImpl;
+import com.ogpis.base.entity.BaseEntity;
 import com.ogpis.expando.dao.ExpandoRowDao;
 import com.ogpis.expando.dao.ExpandoValueDao;
 import com.ogpis.expando.entity.ClassName;

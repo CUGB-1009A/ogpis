@@ -1,4 +1,4 @@
-package com.ogpis.service.impl;
+package com.ogpis.expando.service.impl;
 
 import javax.annotation.Resource;
 

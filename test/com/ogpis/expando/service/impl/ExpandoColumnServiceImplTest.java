@@ -1,4 +1,4 @@
-package com.ogpis.service.impl;
+package com.ogpis.expando.service.impl;
 
 import java.util.List;
 
@@ -9,24 +9,21 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.ogpis.expando.entity.ClassName;
 import com.ogpis.expando.entity.ExpandoColumn;
 import com.ogpis.expando.entity.ExpandoTable;
 import com.ogpis.expando.service.ClassNameService;
 import com.ogpis.expando.service.ExpandoColumnService;
 import com.ogpis.expando.service.ExpandoTableService;
+import com.ogpis.expando.service.ExpandoValueService;
+import com.ogpis.plan.entity.NationalPlan;
+import com.ogpis.plan.service.NationalPlanService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 // 用于配置spring中测试的环境
 @ContextConfiguration(locations = { "classpath:config/application-context.xml" })
 // 用于指定配置文件所在的位置
 public class ExpandoColumnServiceImplTest {
-
-	@Resource
-	private ExpandoTableService expandoTableService;
-	@Resource
-	private ClassNameService classNameService;
-	@Resource
-	private ExpandoColumnService expandoColumnService;
 
 	@Test
 	public void test() {
@@ -49,5 +46,27 @@ public class ExpandoColumnServiceImplTest {
 		String test = expandoColumn.getTable().getClassName().getClassName();
 		System.out.println(test);
 	}
+	
+	@Test
+	public void testAddColumn(){
+	
+		ExpandoTable table = expandoTableService
+				.getDefaultTable(NationalPlan.class.toString());
+		String name="testColumn2";
+		String type="String";
+		String defalutData="defaultData";
+		expandoColumnService.addColumn(table, name, type, defalutData);
+	}
+	
+	@Resource
+	private NationalPlanService nationalPlanService;
+	@Resource
+	private ClassNameService classNameService;
+	@Resource
+	private ExpandoTableService expandoTableService;
+	@Resource
+	private ExpandoColumnService expandoColumnService;
+	@Resource
+	private ExpandoValueService expandoValueService;
 
 }

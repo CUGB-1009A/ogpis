@@ -4,6 +4,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
+@Deprecated
 public class TestUtil {
 	private static ApplicationContext context;
 

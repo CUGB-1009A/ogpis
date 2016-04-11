@@ -18,6 +18,7 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.springframework.util.Assert;
 
 import com.ogpis.base.dao.CommonDao;
+import com.ogpis.base.entity.BaseEntity;
 import com.ogpis.base.exception.DAOException;
 
 public abstract class CommonDaoImpl extends HibernateDaoSupport implements
@@ -54,14 +55,22 @@ public abstract class CommonDaoImpl extends HibernateDaoSupport implements
 
 	@Deprecated
 	public Object findUnique1(String hql, Object... values) {
-		Assert.hasText(hql);
-		Query queryObject = this.getSession().createQuery(hql);
-		if (values != null) {
-			for (int i = 0; i < values.length; i++) {
-				queryObject.setParameter(i, values[i]);
+		List list = null;
+		try {
+			if (values != null) {
+				list = this.getHibernateTemplate().find(hql, values);
+			} else {
+				list = this.getHibernateTemplate().find(hql);
 			}
+		} catch (Exception e) {
+			logger.error("查询数据失败," + e);
+			throw new DAOException("查询数据失败," + e.getMessage());
 		}
-		return queryObject.uniqueResult();
+		if (list != null && list.size() == 1) {
+			
+			return list.get(0);
+		}
+		return null;
 	}
 
 	@Override
@@ -79,6 +88,7 @@ public abstract class CommonDaoImpl extends HibernateDaoSupport implements
 							}
 						}
 						List result = queryObject.list();
+						session.flush();
 						session.close();
 						return result;
 					}
