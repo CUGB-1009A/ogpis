@@ -21,7 +21,10 @@
         
           <li>
             <a href="<%=basePath%>/menu/list?id=&&currentPage=1"><i class="fa fa-fw fa-tasks"></i> 菜单管理<i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i></a>
-          </li>         
+          </li>   
+          <li>
+              <a href="<c:url value='/dictionary/list'/>"><i class="fa fa-fw fa-book"></i> 数据字典 </a>
+           </li>      
     </ul>
 </div>
 <script type="text/javascript">

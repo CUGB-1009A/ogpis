@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.ogpis.base.dao.BaseDao;
 import com.ogpis.base.service.BaseService;
+import com.ogpis.entity.Dictionary;
 
 public abstract class BaseServiceImpl<T, ID extends Serializable> implements
 		BaseService<T, ID> {
@@ -39,6 +40,6 @@ public abstract class BaseServiceImpl<T, ID extends Serializable> implements
 	@Override
 	public void batchMarkDelete(ID[] items){
 		this.baseDao.batchMarkDelete(items);
-	}
+	}	
 
 }

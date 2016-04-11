@@ -3,6 +3,8 @@ package com.ogpis.base.service;
 import java.io.Serializable;
 import java.util.List;
 
+import com.ogpis.entity.Dictionary;
+
 /**
  * Service基类，定义Service的基本方法
  * 
@@ -56,5 +58,6 @@ public interface BaseService<T, ID extends Serializable> {
 	 * @param items 要删除的实体ID集合
 	 */
 	public void batchMarkDelete(ID[] items);
+
 
 }

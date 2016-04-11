@@ -26,11 +26,8 @@
 			<li>
 					<i class="icon-home home-icon"></i>
 					<a href="#">首页</a>
-				</li>
-				<li>
-					<a href="#">系统管理</a>
-				</li>
-				<li class="active">用户管理</li>
+				</li>				
+				<li class="active">数据字典</li>
 			</ul>
 		</div>
 		<div class="row">
