@@ -63,7 +63,7 @@
 											<th>天然气产量</th>
 											<th>煤层气产量</th>
 											<th>页岩气产量</th>
-											<th>操作</th>
+											<th style="min-width: 200px;">操作</th>
 										</tr>
 									</thead>
 									<tbody>
