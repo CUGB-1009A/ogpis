@@ -21,8 +21,8 @@ import com.ogpis.expando.service.ClassNameService;
 import com.ogpis.expando.service.ExpandoColumnService;
 import com.ogpis.expando.service.ExpandoTableService;
 import com.ogpis.expando.service.ExpandoValueService;
-import com.ogpis.plan.entity.NationalPlan;
-import com.ogpis.plan.service.NationalPlanService;
+import com.ogpis.plan.entity.NationalPlanData;
+import com.ogpis.plan.service.NationalPlanDataService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:config/application-context.xml" })
@@ -32,11 +32,11 @@ public class ExpandoValueServiceImplTest {
 	public void testAddValues() {
 		String classPK = "c1276fa4-d47b-4120-b9cd-e20b22bb0175";
 		ClassName className = classNameService
-				.findByClassName(NationalPlan.class.toString());
+				.findByClassName(NationalPlanData.class.toString());
 		ExpandoTable table = ExpandoTableService
-				.getDefaultTable(NationalPlan.class.toString());
+				.getDefaultTable(NationalPlanData.class.toString());
 		List<ExpandoColumn> columns = expandoColumnService
-				.getDefaultTableColumns(NationalPlan.class.toString());
+				.getDefaultTableColumns(NationalPlanData.class.toString());
 		Map<String, String> data = new HashedMap();
 		for (ExpandoColumn column : columns) {
 			String value = column.getName() + "-testValue0";
@@ -47,7 +47,7 @@ public class ExpandoValueServiceImplTest {
 	}
 
 	@Resource
-	private NationalPlanService nationalPlanService;
+	private NationalPlanDataService nationalPlanService;
 	@Resource
 	private ClassNameService classNameService;
 	@Resource

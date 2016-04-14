@@ -8,26 +8,26 @@ import org.springframework.stereotype.Repository;
 import com.ogpis.base.common.paging.IPageList;
 import com.ogpis.base.common.paging.PageListUtil;
 import com.ogpis.base.dao.impl.BaseDaoImpl;
-import com.ogpis.plan.dao.NationalPlanDao;
-import com.ogpis.plan.entity.NationalPlan;
+import com.ogpis.plan.dao.NationalPlanDataDao;
+import com.ogpis.plan.entity.NationalPlanData;
 import com.ogpis.system.entity.User;
 
 @Repository
-public class NationalPlanDaoImpl extends BaseDaoImpl<NationalPlan, String>
-		implements NationalPlanDao {
+public class NationalPlanDaoDataImpl extends BaseDaoImpl<NationalPlanData, String>
+		implements NationalPlanDataDao {
 
 	@Override
-	protected Class<NationalPlan> getEntityClass() {
+	protected Class<NationalPlanData> getEntityClass() {
 		// TODO Auto-generated method stub
-		return NationalPlan.class;
+		return NationalPlanData.class;
 	}
 
 	@Override
-	public NationalPlan addNationalPlan(Date planPeriod, int planCode,
+	public NationalPlanData addNationalPlan(Date planPeriod, int planCode,
 			String planName, double explore_oil, double explore_gas,
 			double explore_CBM, double explore_SG, double production_oil,
 			double production_gas, double production_CBM, double production_SG) {
-		NationalPlan newNationalPlan = new NationalPlan();
+		NationalPlanData newNationalPlan = new NationalPlanData();
 
 		newNationalPlan.setPlanPeriod(planPeriod);
 		newNationalPlan.setPlanCode(planCode);
@@ -45,14 +45,14 @@ public class NationalPlanDaoImpl extends BaseDaoImpl<NationalPlan, String>
 	}
 
 	@Override
-	public IPageList<NationalPlan> getNationalPlans(int pageNo, int pageSize) {
+	public IPageList<NationalPlanData> getNationalPlans(int pageNo, int pageSize) {
 		int first = (pageNo - 1) * pageSize;
-		List<NationalPlan> items = this
+		List<NationalPlanData> items = this
 				.queryByHql(
-						"from NationalPlan where deleted=false order by createTime desc",
+						"from NationalPlanData where deleted=false order by createTime desc",
 						null, first, pageSize);
 		int count = Integer.parseInt(this.findUnique(
-				"select count(*) from NationalPlan where deleted=false", null)
+				"select count(*) from NationalPlanData where deleted=false", null)
 				.toString());
 		return PageListUtil.getPageList(count, pageNo, items, pageSize);
 	}

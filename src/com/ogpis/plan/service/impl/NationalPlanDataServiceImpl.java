@@ -8,25 +8,25 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ogpis.base.common.paging.IPageList;
 import com.ogpis.base.service.impl.BaseServiceImpl;
-import com.ogpis.plan.dao.NationalPlanDao;
-import com.ogpis.plan.entity.NationalPlan;
-import com.ogpis.plan.service.NationalPlanService;
+import com.ogpis.plan.dao.NationalPlanDataDao;
+import com.ogpis.plan.entity.NationalPlanData;
+import com.ogpis.plan.service.NationalPlanDataService;
 
 @Service
-public class NationalPlanServiceImpl extends
-		BaseServiceImpl<NationalPlan, String> implements NationalPlanService {
+public class NationalPlanDataServiceImpl extends
+		BaseServiceImpl<NationalPlanData, String> implements NationalPlanDataService {
 
 	@Autowired
-	protected void setNationalPlanDao(NationalPlanDao nationalPlanDao) {
+	protected void setNationalPlanDao(NationalPlanDataDao nationalPlanDao) {
 		setBaseDao(nationalPlanDao);
 	}
 
-	protected NationalPlanDao getNationalPlanDao() {
-		return (NationalPlanDao) this.baseDao;
+	protected NationalPlanDataDao getNationalPlanDao() {
+		return (NationalPlanDataDao) this.baseDao;
 	}
 
 	@Override
-	public NationalPlan addNationalPlan(Date planPeriod, int planCode,
+	public NationalPlanData addNationalPlan(Date planPeriod, int planCode,
 			String planName, double explore_oil, double explore_gas,
 			double explore_CBM, double explore_SG, double production_oil,
 			double production_gas, double production_CBM, double production_SG) {
@@ -37,7 +37,7 @@ public class NationalPlanServiceImpl extends
 	}
 
 	@Override
-	public IPageList<NationalPlan> getNationalPlans(int pageNo, int pageSize) {
+	public IPageList<NationalPlanData> getNationalPlans(int pageNo, int pageSize) {
 		return getNationalPlanDao().getNationalPlans(pageNo, pageSize);
 	}
 

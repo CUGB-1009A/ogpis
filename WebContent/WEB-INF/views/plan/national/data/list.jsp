@@ -15,8 +15,8 @@
 <div id="wrapper">
 <!-- 网站头及导航栏 -->
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-		<%@ include file="../../main/main_header.jsp"%>
-		<%@ include file="../../main/main_nav.jsp"%>
+		<%@ include file="../../../main/main_header.jsp"%>
+		<%@ include file="../../../main/main_nav.jsp"%>
 	</nav>
 	<!--网页主体 -->
 	
@@ -41,7 +41,7 @@
 					<div class="portlet-body">
 						<div class="table-toolbar" style="text-align: right;">
 							<div class="btn-group">
-								<a href="<c:url value='/plan/national/add'/>" class="btn-sm btn-app btn-success no-radius">
+								<a href="<c:url value='/plan/national/data/add'/>" class="btn-sm btn-app btn-success no-radius">
 									<i class="icon-plus bigger-200">添加规划信息</i>
 								</a>
 							</div>
@@ -89,7 +89,7 @@
 															<i class="icon-info bigger-200"></i>
 															查看
 														</a>
-														<a  href="<c:url value='/plan/national/edit?id=${item.id}'/>" class="btn-sm btn-app btn-primary no-radius">
+														<a  href="<c:url value='/plan/national/data/edit?id=${item.id}'/>" class="btn-sm btn-app btn-primary no-radius">
 															<i class="icon-edit bigger-200"></i>
 															编辑
 														</a>
@@ -104,9 +104,9 @@
 									</tbody>
 								</table>
 							</div>
-							<c:import url ="../../common/paging.jsp">
+							<c:import url ="../../../common/paging.jsp">
 		        				<c:param name="pageModelName" value="nationalPlans"/>
-		        				<c:param name="urlAddress" value="/plan/national/list"/>
+		        				<c:param name="urlAddress" value="/plan/national/data/list"/>
 	       				 	</c:import>
 	       				 	
 	       				 	<!-- 模态框（Modal） -->

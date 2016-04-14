@@ -18,8 +18,8 @@
 <div id="wrapper">
 <!-- 网站头及导航栏 -->
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-		<%@ include file="../../main/main_header.jsp"%>
-		<%@ include file="../../main/main_nav.jsp"%>
+		<%@ include file="../../../main/main_header.jsp"%>
+		<%@ include file="../../../main/main_nav.jsp"%>
 	</nav>
 	<!--网页主体 -->
 	
@@ -34,7 +34,7 @@
 					<a href="#">规划管理</a>
 				</li>
 				<li>
-					<a href='<c:url value="/plan/national/list"/>'>全国规划</a>
+					<a href='<c:url value="/plan/national/data/list"/>'>全国规划</a>
 				</li>
 				<li class="active">
 					<c:if test='<%=!isAdd %>'>编辑规划</c:if>
@@ -44,7 +44,7 @@
 		</div>
 		<div class="row">
 			<div class="col-xs-12">
-				<form class="form-horizontal" role="form" action="<%=path%>/plan/national/save">
+				<form class="form-horizontal" role="form" action="<%=path%>/plan/national/data/save">
 					<input type="hidden" value="<%=isAdd%>" name="isAdd"/>
 					<input type="hidden" value="${nationalPlan.id }" name="id"/>
 				

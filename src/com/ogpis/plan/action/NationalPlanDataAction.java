@@ -23,38 +23,38 @@ import com.ogpis.expando.service.ClassNameService;
 import com.ogpis.expando.service.ExpandoColumnService;
 import com.ogpis.expando.service.ExpandoTableService;
 import com.ogpis.expando.service.ExpandoValueService;
-import com.ogpis.plan.entity.NationalPlan;
-import com.ogpis.plan.service.NationalPlanService;
+import com.ogpis.plan.entity.NationalPlanData;
+import com.ogpis.plan.service.NationalPlanDataService;
 
 @Controller
-public class NationalPlanAction {
+public class NationalPlanDataAction {
 
-	@RequestMapping(value = "/plan/national/list")
+	@RequestMapping(value = "/plan/national/data/list")
 	public String list(HttpServletRequest request, ModelMap model) {
 		int pageNo = ServletRequestUtils.getIntParameter(request,
 				PageListUtil.PAGE_NO_NAME, PageListUtil.DEFAULT_PAGE_NO);
 		int pageSize = ServletRequestUtils.getIntParameter(request,
 				PageListUtil.PAGE_SIZE_NAME, PageListUtil.DEFAULT_PAGE_SIZE);
-		IPageList<NationalPlan> nationalPlans = nationalPlanService
+		IPageList<NationalPlanData> nationalPlans = nationalPlanService
 				.getNationalPlans(pageNo, pageSize);
 		model.addAttribute("nationalPlans", nationalPlans);
-		return "/plan/national/list";
+		return "/plan/national/data/list";
 	}
 
-	@RequestMapping(value = "/plan/national/add", method = RequestMethod.GET)
+	@RequestMapping(value = "/plan/national/data/add", method = RequestMethod.GET)
 	public String add(HttpServletRequest request, ModelMap model) {
 		List<ExpandoColumn> columns = expandoColumnService
-				.getDefaultTableColumns(NationalPlan.class.toString());
+				.getDefaultTableColumns(NationalPlanData.class.toString());
 		model.addAttribute("columns", columns);
-		return "/plan/national/edit";
+		return "/plan/national/data/edit";
 	}
 
-	@RequestMapping(value = "/plan/national/edit", method = RequestMethod.GET)
+	@RequestMapping(value = "/plan/national/data/edit", method = RequestMethod.GET)
 	public String edit(HttpServletRequest request, ModelMap model, String id) {
-		NationalPlan nationalPlan = this.nationalPlanService.findById(id);
+		NationalPlanData nationalPlan = this.nationalPlanService.findById(id);
 
 		ExpandoTable defaultTable = expandoTableService
-				.getDefaultTable(NationalPlan.class.toString());
+				.getDefaultTable(NationalPlanData.class.toString());
 
 		List<ExpandoValue> expandoValues = expandoValueService.getRowValues(
 				defaultTable.getId(), id);
@@ -64,21 +64,21 @@ public class NationalPlanAction {
 		}
 
 		List<ExpandoColumn> columns = expandoColumnService
-				.getDefaultTableColumns(NationalPlan.class.toString());
+				.getDefaultTableColumns(NationalPlanData.class.toString());
 
 		model.addAttribute("expandoValuesMap", expandoValuesMap);
 		model.addAttribute("columns", columns);
 		model.addAttribute("nationalPlan", nationalPlan);
 
-		return "plan/national/edit";
+		return "plan/national/data/edit";
 	}
 
-	@RequestMapping(value = "/plan/national/save", method = RequestMethod.GET)
+	@RequestMapping(value = "/plan/national/data/save", method = RequestMethod.GET)
 	public String save(HttpServletRequest request, ModelMap model,
-			NationalPlan nationalPlan, String id, boolean isAdd) {
-		NationalPlan bean = null;
+			NationalPlanData nationalPlan, String id, boolean isAdd) {
+		NationalPlanData bean = null;
 		if (isAdd) {
-			bean = new NationalPlan();
+			bean = new NationalPlanData();
 		} else {
 			bean = this.nationalPlanService.findById(id);
 		}
@@ -90,11 +90,11 @@ public class NationalPlanAction {
 			nationalPlanService.update(bean);
 		}
 		ClassName className = classNameService
-				.findByClassName(NationalPlan.class.toString());
+				.findByClassName(NationalPlanData.class.toString());
 		ExpandoTable table = expandoTableService
-				.getDefaultTable(NationalPlan.class.toString());
+				.getDefaultTable(NationalPlanData.class.toString());
 		List<ExpandoColumn> columns = expandoColumnService
-				.getDefaultTableColumns(NationalPlan.class.toString());
+				.getDefaultTableColumns(NationalPlanData.class.toString());
 		Map<String, String> data = new HashedMap();
 
 		for (ExpandoColumn column : columns) {
@@ -108,7 +108,7 @@ public class NationalPlanAction {
 	}
 
 	@Autowired
-	private NationalPlanService nationalPlanService;
+	private NationalPlanDataService nationalPlanService;
 	@Autowired
 	private ClassNameService classNameService;
 	@Autowired

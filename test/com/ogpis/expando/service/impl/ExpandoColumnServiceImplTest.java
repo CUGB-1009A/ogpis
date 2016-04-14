@@ -16,8 +16,8 @@ import com.ogpis.expando.service.ClassNameService;
 import com.ogpis.expando.service.ExpandoColumnService;
 import com.ogpis.expando.service.ExpandoTableService;
 import com.ogpis.expando.service.ExpandoValueService;
-import com.ogpis.plan.entity.NationalPlan;
-import com.ogpis.plan.service.NationalPlanService;
+import com.ogpis.plan.entity.NationalPlanData;
+import com.ogpis.plan.service.NationalPlanDataService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 // 用于配置spring中测试的环境
@@ -51,7 +51,7 @@ public class ExpandoColumnServiceImplTest {
 	public void testAddColumn(){
 	
 		ExpandoTable table = expandoTableService
-				.getDefaultTable(NationalPlan.class.toString());
+				.getDefaultTable(NationalPlanData.class.toString());
 		String name="testColumn2";
 		String type="String";
 		String defalutData="defaultData";
@@ -59,7 +59,7 @@ public class ExpandoColumnServiceImplTest {
 	}
 	
 	@Resource
-	private NationalPlanService nationalPlanService;
+	private NationalPlanDataService nationalPlanService;
 	@Resource
 	private ClassNameService classNameService;
 	@Resource

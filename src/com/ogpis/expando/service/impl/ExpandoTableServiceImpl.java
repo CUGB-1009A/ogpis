@@ -14,7 +14,7 @@ import com.ogpis.expando.entity.ClassName;
 import com.ogpis.expando.entity.ExpandoTable;
 import com.ogpis.expando.service.ClassNameService;
 import com.ogpis.expando.service.ExpandoTableService;
-import com.ogpis.plan.entity.NationalPlan;
+import com.ogpis.plan.entity.NationalPlanData;
 
 @Service
 public class ExpandoTableServiceImpl extends

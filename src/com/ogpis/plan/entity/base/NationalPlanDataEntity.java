@@ -8,7 +8,7 @@ import javax.persistence.MappedSuperclass;
 import com.ogpis.base.entity.BaseEntity;
 
 @MappedSuperclass
-public class NationalPlanEntity extends BaseEntity {
+public class NationalPlanDataEntity extends BaseEntity {
 
 	/**
 	 * 规划时间段
