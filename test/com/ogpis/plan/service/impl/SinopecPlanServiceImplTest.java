@@ -7,8 +7,8 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.ogpis.plan.entity.SinopecPlan;
-import com.ogpis.plan.service.SinopecPlanService;
+import com.ogpis.plan.entity.SinopecPlanData;
+import com.ogpis.plan.service.SinopecPlanDataService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 // 用于配置spring中测试的环境
@@ -17,11 +17,11 @@ import com.ogpis.plan.service.SinopecPlanService;
 public class SinopecPlanServiceImplTest {
 
 	@Resource
-	private SinopecPlanService sinopecPlanSevice;
+	private SinopecPlanDataService sinopecPlanSevice;
 
 	@Test
 	public void test() {
-		sinopecPlanSevice.add(new SinopecPlan());
+		sinopecPlanSevice.add(new SinopecPlanData());
 	}
 
 }

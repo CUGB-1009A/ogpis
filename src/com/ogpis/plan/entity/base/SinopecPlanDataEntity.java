@@ -4,7 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
-public class SinopecPlanEntity extends CompanyPlanEntity {
+public class SinopecPlanDataEntity extends CompanyPlanEntity {
 
 	@Column(name = "油田勘探")
 	private String ytkt;
