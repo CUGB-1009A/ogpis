@@ -130,7 +130,7 @@ $(function(){
 		    *判断第三个输入框中输入的是否为数字，不是数字的无效
 		    */
 		    var enterCode = oEvent.keyCode;
-		    if(!((enterCode>=48&&enterCode<=57)||enterCode==8||enterCode==9||enterCode==13))
+		    if(!((enterCode>=48&&enterCode<=57)||enterCode==8||enterCode==9||enterCode==13||(enterCode>=96&&enterCode<=105)))
                {
 		    	 $("#warning").show();
 		    	 var  temp= $("#form-field-3").val();
