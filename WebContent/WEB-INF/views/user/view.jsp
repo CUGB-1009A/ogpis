@@ -8,7 +8,7 @@
 	      &times;
 	</button>
 	<h4 class="modal-title" id="myModalLabel">
-		  用户详情
+		用户详情
 	</h4>
 </div>
 <div class="modal-body" id="myModalContent">

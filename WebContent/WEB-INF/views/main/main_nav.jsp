@@ -21,7 +21,11 @@
         
           <li>
             <a href="<c:url value='/menu/list?pageId=&&id=&&pageNo=1'/>"><i class="fa fa-fw fa-tasks"></i> 菜单管理<i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i></a>
-          </li>         
+          </li> 
+          
+           <li>
+            <a href="<c:url value='/plan/national/list'/>"><i class="fa fa-fw fa-tasks"></i> 全国规划管理<i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i></a>
+          </li>          
     </ul>
 </div>
 <script type="text/javascript">
