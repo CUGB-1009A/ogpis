@@ -4,6 +4,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.ejb.criteria.expression.SearchedCaseExpression;
+
 import com.ogpis.base.dao.BaseDao;
 import com.ogpis.base.entity.BaseEntity;
 import com.ogpis.base.exception.DAOException;
@@ -74,6 +78,12 @@ public abstract class BaseDaoImpl<T, ID extends Serializable> extends
 	public T findById(ID id) {
 		try {
 			return this.getHibernateTemplate().get(getEntityClass(), id);
+/*			Session session = this.getHibernateTemplate().getSessionFactory().getCurrentSession();
+			Transaction trans =session.beginTransaction();
+			trans.begin();
+			T t=(T)session.createQuery("from NationalPlan where id='"+id+"'").uniqueResult();
+			trans.commit();
+			return t;*/
 		} catch (Exception e) {
 			super.logger.error("获取数据失败," + e);
 			throw new DAOException("获取数据失败," + e.getMessage());

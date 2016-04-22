@@ -83,7 +83,7 @@ public class PlanDocumentEntity extends BaseEntity {
 	@Column(name = "文档地址")
 	private String documentAddress;
 
-	@Column(name = "上传时间")
+	@Column(columnDefinition="DATE",name = "上传时间")
 	private Date uploadDate;
 
 	@Column(name = "上传用户")

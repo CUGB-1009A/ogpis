@@ -2,29 +2,27 @@ package com.ogpis.plan.action;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import javax.servlet.http.HttpSession;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileItemFactory;
+import org.apache.commons.fileupload.ProgressListener;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
-
 import com.ogpis.base.common.paging.IPageList;
 import com.ogpis.base.common.paging.PageListUtil;
 import com.ogpis.plan.entity.NationalPlan;
@@ -34,8 +32,8 @@ import com.ogpis.plan.service.PlanDocumentService;
 
 
 @Controller
-public class NationalPlanAction {
-	
+public class NationalPlanAction  {
+	Logger log = Logger.getLogger(NationalPlanAction.class);  
 
 	@Autowired
 	private NationalPlanService nationalPlanService;
@@ -45,36 +43,32 @@ public class NationalPlanAction {
 	@SuppressWarnings("rawtypes")
 	private ArrayList idList=new ArrayList();
 	
+	/*读取全国规划列表函数*/
 	@RequestMapping(value = "/plan/national/list")
 	public String list(HttpServletRequest request, ModelMap model) {
 		int pageNo = ServletRequestUtils.getIntParameter(request,
 				PageListUtil.PAGE_NO_NAME, PageListUtil.DEFAULT_PAGE_NO);
-		int pageSize = ServletRequestUtils.getIntParameter(request,
-				PageListUtil.PAGE_SIZE_NAME, PageListUtil.DEFAULT_PAGE_SIZE);
+		int pageSize = 6;
 		IPageList<NationalPlan> nationalPlans = nationalPlanService
 				.getNationalPlans(pageNo, pageSize);
 		model.addAttribute("nationalPlans", nationalPlans);	
-		return "/plan/national/list";
+		return "plan/national/list";
 	}
 	
-	@RequestMapping(value = "/plan/national/add")
-	public String add(HttpServletRequest request, ModelMap model) {		
-		return "/plan/national/edit";
-	
+	@RequestMapping(value = "/plan/national/toEditPage")
+	public String toEditPage(HttpServletRequest request, ModelMap model,String id) {
+		if(id!=null)
+		{
+			NationalPlan nationalPlan = this.nationalPlanService.findById(id);
+			model.addAttribute("nationalPlan", nationalPlan);
+		}	
+		return "/plan/national/edit";	
 	}
 	
-	@RequestMapping(value = "/plan/national/edit")
-	public String edit(HttpServletRequest request, ModelMap model,String id) {		
-		NationalPlan nationalPlan = this.nationalPlanService.findById(id);
-		model.addAttribute("nationalPlan", nationalPlan);
-		return "/plan/national/edit";
-	
-	}
-	
+	/*添加、修改规划函数*/
 	@RequestMapping(value = "/plan/national/save", method = RequestMethod.GET)
 	public String save(HttpServletRequest request, ModelMap model,boolean isAdd,String id,NationalPlan nationalPlan) {		
 
-		System.out.println(nationalPlan.getEndTime());
 		NationalPlan bean = null;
 		if(isAdd){
 			bean = new NationalPlan();
@@ -101,6 +95,7 @@ public class NationalPlanAction {
 	
 	}
 	
+	/*单个删除规划函数*/
 	@RequestMapping(value = "/plan/national/delete")
 	public String delete(HttpServletRequest request, ModelMap model,String id) {		
 		NationalPlan nationalPlan = this.nationalPlanService.findById(id);
@@ -110,31 +105,19 @@ public class NationalPlanAction {
 	
 	}
 	
+	/*显示tab页1-4函数*/
 	@RequestMapping(value = "/plan/national/show")
 	public String show(HttpServletRequest request, ModelMap model,String id,String flag) {		
-		
-		NationalPlan nationalPlan =  this.nationalPlanService.findById(id);		
-		/*Set<PlanDocument> planDocumentSet = nationalPlan.getPlanDocument();
-		model.addAttribute("planDocumentSet", planDocumentSet);*/
+		NationalPlan nationalPlan =  this.nationalPlanService.findById(id);
+		Set<PlanDocument> planDocumentSet = nationalPlan.getPlanDocument();
+		model.addAttribute("planDocumentSet", planDocumentSet);
 		model.addAttribute("nationalPlan", nationalPlan);
 		model.addAttribute("flag",flag);
 		return  "/plan/national/detail";
 	
 	}
 	
-	@RequestMapping(value = "/plan/national/editOverview")
-	public String editOverview(HttpServletRequest request, ModelMap model,String id,NationalPlan nationalPlan) {		
-
-		NationalPlan bean = this.nationalPlanService.findById(id);
-		bean.setPlanName(nationalPlan.getPlanName());
-		bean.setReleaseUnit(nationalPlan.getReleaseUnit());
-		bean.setReleaseDate(nationalPlan.getReleaseDate());
-		bean.setPlanDescription(nationalPlan.getPlanDescription());
-		nationalPlanService.update(bean);
-		return "redirect:list";
-	
-	}
-	
+	/*批量删除规划函数*/
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/plan/national/deleteBatch" ,method = RequestMethod.POST)
 	public void deleteBatch(HttpServletResponse resp,HttpServletRequest request, ModelMap model) throws IOException {		
@@ -152,28 +135,69 @@ public class NationalPlanAction {
 	 resp.getWriter().write(success);		
 	}
 
+	/*提交文件表单函数*/
 	@RequestMapping(value = "/plan/national/uploadFiles",method = RequestMethod.POST)
-	public void uploadFiles(@RequestParam MultipartFile[] file ,HttpServletResponse resp,HttpServletRequest request, ModelMap model,String id) throws IOException {				
+	public void uploadFiles(String id,HttpServletResponse resp,HttpServletRequest request) throws Exception {				
+		final HttpSession hs = request.getSession();
 		NationalPlan nationalPlan = nationalPlanService.findById(id);
 		Set<PlanDocument> planDocumentList = new HashSet<PlanDocument>();
+		planDocumentList.addAll(nationalPlan.getPlanDocument());
 		PlanDocument bean = null;
-		
-		for(MultipartFile fileTemp:file)
+		request.setCharacterEncoding("utf-8");
+		boolean isMultipart = ServletFileUpload.isMultipartContent(request);  
+        if(!isMultipart)
+        {  
+        	resp.sendRedirect("show?id="+id+"&&flag=2");
+        }  
+		FileItemFactory factory = new DiskFileItemFactory();
+		ServletFileUpload upload = new ServletFileUpload(factory);
+		upload.setProgressListener(new ProgressListener()
 		{
-			bean = new PlanDocument();
-			String fileName = request.getServletContext().getRealPath("/")+"planFileUpload\\national\\"+fileTemp.getOriginalFilename();
-			File localFile = new File(fileName);
-			fileTemp.transferTo(localFile);
-			bean.setDocumentAddress("planFileUpload\\national\\"+fileTemp.getOriginalFilename());
-			bean.setDocumentDescription(request.getParameter("fileDescription"));
-			bean.setUploadDate(new Date());
-			bean.setDocumentSize(fileTemp.getSize()+"");
-			bean.setDocumentName(fileTemp.getOriginalFilename());
-			planDocumentService.add(bean);
-			planDocumentList.add(bean);			
-		}
+			public void update(long pBytesRead , long pContentLength ,int pItems)
+			{
+				int rate = Math.round(new Float(pBytesRead)/new Float(pContentLength)*100);
+				hs.setAttribute("proInfo", rate);
+			}			
+		});
+		List items = upload.parseRequest(request);
+		System.out.println("itemsSize:"+items.size());
+		Iterator iter = items.iterator();
+	      while (iter.hasNext())  //表单中有几个input标签，就循环几次
+	      {  	    	  
+	    	  bean = new PlanDocument();
+	          FileItem item = (FileItem) iter.next();  
+	          if (item.isFormField()) 
+	          {  
+	        	  
+	          } 
+	          else 
+	          {                  
+	                String fileName = item.getName();  
+	                File uploadedFile = new File( request.getServletContext().getRealPath("/")+"planFileUpload\\national\\"+fileName);  
+	                item.write(uploadedFile);  
+	      	        bean.setDocumentAddress("planFileUpload\\national\\"+fileName);
+	    			bean.setDocumentDescription(request.getParameter("fileDescription"));
+	    			bean.setUploadDate(new Date());
+	    			bean.setDocumentSize(item.getSize()+"");
+	    			bean.setDocumentName(fileName);
+	    			planDocumentList.add(bean);	
+	    			planDocumentService.add(bean);
+	          }  
+	    }  		
 		nationalPlan.setPlanDocument(planDocumentList);
-		nationalPlanService.update(nationalPlan);
+		nationalPlanService.update(nationalPlan);	      
 		resp.sendRedirect("show?id="+id+"&&flag=2");
-	}	
+	}
+	
+	/*Ajax获取进度函数*/
+	  @RequestMapping(value = "/plan/national/process.json", method = RequestMethod.POST)  
+	  public void process(HttpServletRequest request,HttpServletResponse response) throws Exception 
+	  { 	       
+	     response.setContentType("application/json");
+	     response.setCharacterEncoding("utf-8");
+	     response.getWriter().write("{\"rate\":"+request.getSession().getAttribute("proInfo")+"}");         
+	  }
+	
+
+	
 }

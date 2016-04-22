@@ -38,7 +38,7 @@
 					<div class="portlet-body">
 						<div class="table-toolbar" style="text-align: right;">
 							<div class="btn-group">
-								<a href="<c:url value='/plan/national/add'/>" class="btn-sm btn-app btn-success no-radius">
+								<a href="<c:url value='/plan/national/toEditPage'/>" class="btn-sm btn-app btn-success no-radius">
 									<i class="icon-plus bigger-200">&nbsp;添加规划</i>
 								</a>
 								&nbsp;
@@ -55,10 +55,6 @@
 											<th rowspan="2" class="table-checkbox"><input type="checkbox" class="group-checkable" name="checkboxFirst"/>全选</th>
 											<th rowspan="2">规划名称</th>
 											<th rowspan="2">规划代号</th>
-											<th rowspan="2">发布单位</th>
-											<th rowspan="2">发布时间</th>
-											<th rowspan="2">规划起始时间</th>
-											<th rowspan="2">规划截止时间</th>
 											<th colspan="3">详细资料</th>
 											<th rowspan="2">规划跟踪</th>
 											<th rowspan="2">操作</th>
@@ -77,17 +73,13 @@
 												</td>
 												<td>${item.planName}</td>
 												<td>${item.planCode}</td>
-												<td>${item.releaseUnit}</td>
-												<td>${item.releaseDate}</td>
-												<td>${item.startTime}</td>
-												<td>${item.endTime}</td>
 												<td><a href="<c:url value='/plan/national/show?id=${item.id}&&flag=1'/>">规划概述</a></td>
-												<td><a href="<c:url value='/plan/national/show?id=${item.id}&&flag=2'/>">文档资料</a></td>
+												<td><a href="<c:url value='/plan/national/show?id=${item.id}&&flag=2'/>">文档资料<span class="badge btn-danger" >${item.planDocument.size()}</span></a></td>
 												<td><a href="<c:url value='/plan/national/show?id=${item.id}&&flag=3'/>">量化表格</a></td> 
 												<td><a href="<c:url value='/plan/national/show?id=${item.id}&&flag=4'/>">跟踪规划</a></td>
 												<td>
 													<p>
-														<a  href="<c:url value='/plan/national/edit?id=${item.id}'/>" class="btn-sm btn-app btn-primary no-radius">
+														<a  href="<c:url value='/plan/national/toEditPage?id=${item.id}'/>" class="btn-sm btn-app btn-primary no-radius">
 															<i class="icon-edit bigger-200"></i>
 															编辑
 														</a>
@@ -105,7 +97,7 @@
 							</div>
 							<c:import url ="../../common/paging.jsp">
 		        				<c:param name="pageModelName" value="nationalPlans"/>
-		        				<c:param name="urlAddress" value="/national/plan/list"/>
+		        				<c:param name="urlAddress" value="/plan/national/list"/>
 	       				 	</c:import>
 						</div>
 					</div>
@@ -116,6 +108,7 @@
 </div>
 </body>
 <script type="text/javascript">
+
 function del(url){
 	var isDel =  confirm('确定删除该规划？', '确认对话框');
 	if(isDel){
@@ -123,6 +116,7 @@ function del(url){
 	}
 }
 
+/* 批量删除规划响应函数 */
 function delAll()
 {
 	var checkedObject =  $("input[name='checkbox']:checked");
@@ -156,19 +150,19 @@ function delAll()
 	}
 }
 
+/* 全选响应函数 */
 $(function(){
 			$("[name='checkboxFirst']").click(function(){		
-		
-			if($("[name='checkboxFirst']").is(':checked'))
+			if($("[name='checkboxFirst']")[0].checked)
 				{
-				$("[name='checkbox']").attr("checked",true);//全选
+				 for(var i=0;i<$("[name='checkbox']").length;++i)
+					$("[name='checkbox']")[i].checked=true; 
 				}
 			else
 				{
-				$("[name='checkbox']").attr("checked",false);//取消全选
-				}
-			
-			
+				 for(var i=0;i<$("[name='checkbox']").length;++i)
+					$("[name='checkbox']")[i].checked=false; 
+				}			
 	});
 });
 

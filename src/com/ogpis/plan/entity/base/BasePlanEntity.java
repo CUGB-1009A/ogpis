@@ -1,19 +1,16 @@
 package com.ogpis.plan.entity.base;
 
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.FetchType;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.servlet.jsp.jstl.core.Config;
 
 import org.springframework.format.annotation.DateTimeFormat;
-
 import com.ogpis.base.entity.BaseEntity;
 import com.ogpis.plan.entity.PlanDocument;
 
@@ -35,23 +32,23 @@ public class BasePlanEntity extends BaseEntity {
 	@Column(name = "规划描述")
 	private String planDescription;
 
-	@OneToMany(cascade = { CascadeType.ALL })
+	@OneToMany(fetch=FetchType.EAGER)
 	@Column(name = "规划文档")
-	private Set<PlanDocument> planDocument;
+	private Set<PlanDocument> planDocument ;
 	
 	
-	@Column(name = "开始时间")
+	@Column(columnDefinition="DATE",name = "开始时间")
 	@DateTimeFormat( pattern = "yyyy-MM-dd" )
 	private Date startTime;
 	
-	@Column(name = "结束时间")
+	@Column(columnDefinition="DATE",name = "结束时间")
 	@DateTimeFormat( pattern = "yyyy-MM-dd" )
 	private Date endTime;
 
 	@Column(name = "发布单位")
 	private String releaseUnit;
 
-	@Column(name = "发布时间")
+	@Column(columnDefinition="DATE",name = "发布时间")
 	@DateTimeFormat( pattern = "yyyy-MM-dd" )
 	private Date releaseDate;
 

@@ -56,7 +56,7 @@
 						</div>
 					</div>
 
-					<div class="space-4"></div>
+					<div class="space-0"></div>
 					
 					<div class="form-group">
 						<label class="col-sm-3 control-label no-padding-right" for="form-field-2">规划代号</label>
@@ -66,7 +66,7 @@
 						</div>
 					</div>
 
-					<div class="space-4"></div>
+					<div class="space-2"></div>
 					
 					<div class="form-group">
 						<label class="col-sm-3 control-label no-padding-right" for="form-field-3">发布单位</label>
@@ -75,27 +75,27 @@
 							<input type="text" id="form-field-3" placeholder="发布单位..." class="col-xs-10 col-sm-5" name="releaseUnit" value="${nationalPlan.releaseUnit }">
 						</div>
 					</div>
-					<div class="space-4"></div>
+					<div class="space-2"></div>
 			 		
 					  <div class="form-group">
 						<label class="col-sm-3 control-label no-padding-right" for="form-field-4">发布时间</label>
 						   	
 						   	<div class="col-sm-9">
 							   	<div class="input-append date date_picker" data-date-format="dd MM yyyy" data-link-field="form-field-4" data-link-format="yyyy-mm-dd">
-							   		<input type="text" id="form-field-4" placeholder="发布时间..." class="col-xs-10 col-sm-5" name="releaseDate" value="${nationalPlan.releaseDate.toLocaleString()}" readonly>
+							   		<input type="text" id="form-field-4" placeholder="发布时间..." class="col-xs-10 col-sm-5" name="releaseDate" value="" readonly>
 							   		<span class="add-on"><i class="col-sm-2 icon-th"></i></span>	
 							   	</div>		   
 							</div>
 					</div> 
 					
-					<div class="space-4"></div>
+					<div class="space-2"></div>
 					
 					  <div class="form-group">
 						<label class="col-sm-3 control-label no-padding-right" for="form-field-5">规划起始时间</label>
 
 						<div class="col-sm-9">
 							<div class="input-append date date_picker" data-date-format="dd MM yyyy" data-link-field="form-field-5" data-link-format="yyyy-mm-dd">
-								<input type="text" id="form-field-5" placeholder="规划起始时间..." class="col-xs-10 col-sm-5" name="startTime" value="${nationalPlan.startTime.toLocaleString()}" readonly>
+								<input type="text" id="form-field-5" placeholder="规划起始时间..." class="col-xs-10 col-sm-5" name="startTime" value="" readonly>
 								<span class="add-on"><i class="col-sm-2 icon-th"></i></span>	
 							</div>
 						</div>
@@ -108,7 +108,7 @@
 
 						<div class="col-sm-9">
 							<div class="input-append date date_picker" data-date-format="dd MM yyyy" data-link-field="form-field-6" data-link-format="yyyy-mm-dd">
-								<input type="text" id="form-field-6" placeholder="规划截止时间..." class="col-xs-10 col-sm-5" name="endTime" value="${nationalPlan.endTime.toLocaleString()}" readonly>
+								<input type="text" id="form-field-6" placeholder="规划截止时间..." class="col-xs-10 col-sm-5" name="endTime" value="" readonly>
 								<span class="add-on"><i class="col-sm-2 icon-th"></i></span>	
 							</div>
 						</div>
@@ -131,11 +131,6 @@
 								<i class="icon-ok bigger-200"></i>
 								确认
 							</button>
-							&nbsp; &nbsp; &nbsp;
-							<button class="btn-sm btn-success no-radius" type="reset">
-								<i class="icon-undo bigger-200"></i>
-								重置
-							</button>
 						</div>
 					</div>
 				</form>
@@ -145,14 +140,25 @@
 </div>
 </body>
 <script type="text/javascript">
+/* 回显时间和规划描述字段，去掉时分秒（虽然在库中没有，但获取的时候自动添0了) */
 var description = '${nationalPlan.planDescription}';
+var endtime = '${nationalPlan.endTime}';
+var starttime = '${nationalPlan.startTime}';
+var releasedate = '${nationalPlan.releaseDate}';
+endtime = endtime.substring(0,endtime.indexOf(' '));
+starttime = starttime.substring(0,starttime.indexOf(' '));
+releasedate = releasedate.substring(0,releasedate.indexOf(' '));
 $(function(){
+	document.getElementById("form-field-4").value = releasedate ;
+	document.getElementById("form-field-5").value = starttime ;
+	document.getElementById("form-field-6").value = endtime ;	
 	document.getElementById("form-field-7").value = description ;
-	/* $("#form-field-7").value = description ;  */
 });
 
+/* 日期选择定制 */
 $(function(){
 	$(".date_picker").datetimepicker({
+			language:"ch",
 		    weekStart: 1,
 	        todayBtn:  1,
 			autoclose: 1,

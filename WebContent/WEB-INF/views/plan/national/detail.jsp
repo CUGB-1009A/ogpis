@@ -25,7 +25,7 @@
 		<%@ include file="../../main/main_nav.jsp"%>
 	</nav>
 	<!--网页主体 -->
-<div id="page-wrapper" style="height:100%;">
+<div id="page-wrapper" style="height:100%">
 		<div class="breadcrumbs" id="breadcrumbs" style="text-align: left;">
 			<ul class="breadcrumb">
 				<li>
@@ -85,179 +85,8 @@
 		</ul>
 		
 		<div id="myTabContent" class="tab-content">
-		<!-- tab页第一项 -->
-		<div class="tab-pane fade" id="overview">	      
-		<div class="row">
-			<div class="col-xs-12">
-			&nbsp;
-				<form class="form-horizontal" role="form" action="<%=path%>/plan/national/editOverview">
-				<input type="hidden" value="${nationalPlan.id}" name="id"/>				
-					<div class="form-group">
-						<label class="col-sm-3 control-label no-padding-right" for="form-field-1">规划名称</label>
-
-						<div class="col-sm-9">
-							<input type="text" id="form-field-1" placeholder="规划名称..." class="col-xs-10 col-sm-5" name="planName" value="${nationalPlan.planName }" readonly>
-						</div>
-					</div>
-
-					<div class="space-4"></div>
-					
-					<div class="form-group">
-						<label class="col-sm-3 control-label no-padding-right" for="form-field-3">发布单位</label>
-
-						<div class="col-sm-9">
-							<input type="text" id="form-field-3" placeholder="发布单位..." class="col-xs-10 col-sm-5" name="releaseUnit" value="${nationalPlan.releaseUnit }"readonly>
-						</div>
-					</div>
-					<div class="space-4"></div>
-			 		
-					  <div class="form-group">
-						<label class="col-sm-3 control-label no-padding-right" for="form-field-4">发布时间</label>
-						   	
-						   	<div class="col-sm-9">
-						   		<%-- <div class="input-append date date_picker" data-date-format="dd MM yyyy" data-link-field="form-field-4" data-link-format="yyyy-mm-dd">
-						   			<input type="text" id="form-field-4" placeholder="发布时间..." class="col-xs-10 col-sm-5" name="releaseDate" value="${nationalPlan.releaseDate.toLocaleString()}" readonly>		   
-									<span class="add-on"><i class="col-sm-2 icon-th"></i></span>	
-								</div> --%>
-								<input type="text" id="form-field-4" placeholder="发布时间..." class="col-xs-10 col-sm-5" name="releaseDate" value="${nationalPlan.releaseDate.toLocaleString()}" readonly>		   
-							</div>
-					</div> 
-					
-					<div class="space-4"></div>
-					
-					 <div class="form-group">
-						<label class="col-sm-3 control-label no-padding-right" for="form-field-7">规划描述</label>
-
-						<div class="col-sm-9">
-						    <textArea id="form-field-7"  style="height:100px" placeholder="规划描述..." class="col-xs-10 col-sm-5" name="planDescription"></textArea>
-						</div>
-					</div>  
-				<!-- 	<div class="clearfix form-actions">
-						<div class="col-md-12">
-							<button class="btn-sm btn-success no-radius" type="submit" >
-								<i class="icon-ok bigger-200"></i>
-								确认修改
-							</button>
-						</div>
-					</div> -->
-				</form>
-			</div><!-- /span -->
-		</div><!-- /row -->
-	 </div>
-		  <!--  tab页第二项 -->
-	 <div class="tab-pane fade" id="document">
-	 &nbsp;
-		 <div class="row">
-            <div class="col-md-12">
-            	<div class="portlet box light-grey">
-					<div class="portlet-title">
-					</div>
-					<div class="portlet-body">
-						<div class="table-toolbar" style="text-align: right;">
-							<div class="btn-group">
-								<a href="javascript:showModal();" class="btn-sm btn-app btn-success no-radius">
-									<i class="icon-plus bigger-200">&nbsp;上传文档</i>
-								</a>
-							</div>
-						</div>
-						<div class="dataTables_wrapper form-inline" role="grid">
-							<div class="table-scrollable">
-								<table class="table table-striped table-bordered table-hover" id="data-table">
-									<thead>
-										<tr>
-											<th class="table-checkbox"><input type="checkbox" class="group-checkable" name="checkboxFirst"/>全选</th>
-											<th>文档名称</th>
-											<th>文档描述</th>
-											<th>上传时间</th>
-											<!-- <th>上传者</th> -->
-											<th>操作</th>
-										</tr>
-									</thead>
-									
-									<tbody>
-										<c:forEach items="${planDocumentSet}" var="item">
-											<tr class="odd gradeX">
-												<td class="check_cell">
-												 <input type="checkbox" class="checkboxes" name="checkbox" value="${item.id}" />
-												</td>
-												<td>${item.documentName}</td>
-												<td>${item.documentDescription}</td>
-												<td>${item.uploadDate}</td>
-												<td>
-													<p>
-														<a  href="<c:url value='/plan/national/downloadDoc?id=${item.id}'/>" class="btn-sm btn-app btn-primary no-radius">
-															<i class="icon-success bigger-200"></i>
-															下载
-														</a>
-														&nbsp;
-														<a href="javascript:del('<c:url value='/plan/national/deleteDoc?id=${item.id}'/>');" class="btn-sm btn-app btn-danger no-radius" >
-															<i class="icon-trash bigger-200"></i>
-															删除
-														</a>
-													</p>
-												</td>
-											</tr>
-										</c:forEach>
-									</tbody>
-								</table>
-							</div>
-							<!-- 模态框 -->
-							<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width:1600px">  
-							  <div class="modal-dialog">  
-							    <div class="modal-content">  
-							      <div class="modal-header">  
-							        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>  
-							        <h3 class="modal-title">文件上传</h3>  
-							      </div>  
-							      <div class="modal-body"> 
-									
-									<div class="row">
-										<div class="col-md-12" >
-											<form id="docForm" class="form-horizontal" role="form" action="<%=path%>/plan/national/uploadFiles" method="post" enctype="multipart/form-data">
-											<input type="hidden" id="hiddenId" value="${nationalPlan.id}" name="id"/>	
-												<div class="form-group col-md-8 col-md-offset-2 " >
-												    <label class="col-md-4 control-label">选择文件</label>
-												    <div class="col-md-8">
-														<input id="file" type="file" name="file" onchange="showFileList()" multiple>
-												    </div>
-												</div>
-												
-												<div class="form-group col-md-offset-2 col-md-8" >
-													<label class="col-md-4 control-label">文件清单</label>
-												    <div class="col-md-8">
-														<textarea id="fileList" name="fileList" rows="4" cols="20" style="height:120px;width:400px" readonly></textarea>
-												    </div>
-												</div>
-												
-												<div class="form-group col-md-offset-2 col-md-8" >
-													<label class="col-md-4 control-label"></label>
-												</div>
-												
-												<div class="form-group col-md-offset-2 col-md-8" >
-													<label class="col-md-4 control-label">文件描述</label>
-												    <div class="col-md-8">
-														<textarea id="fileDescription" name="fileDescription" rows="4" cols="20" style="height:120px;width:400px"></textarea>
-												    </div>
-												</div>
-											</form>
-										</div>
-									</div>
-
-							      </div>  
-							      <div class="modal-footer">
-							        <button type="button" class="btn btn-primary" id="upload">上传</button>    
-							        <button type="button" class="btn btn-default" id="cancel">取消</button>   
-							      </div>  
-							    </div><!-- /.modal-content -->  
-							  </div><!-- /.modal-dialog -->  
-							</div><!-- /.modal -->  
-
-						</div>
-					</div>
-            	</div>
-            </div>
-		</div>
-	</div>
+		<%@ include file="Tab1Detail.jsp"%>
+		<%@ include file="Tab2Doc.jsp"%>
 		    
 		    
 		    <div class="tab-pane fade " id="excel">
@@ -274,6 +103,23 @@
 </div>
 </body>
 <script type="text/javascript">
+/* 回显时间和规划描述字段，去掉时分秒（虽然在库中没有，但获取的时候自动添0了) */
+var description = '${nationalPlan.planDescription}';
+var endtime = '${nationalPlan.endTime}';
+var starttime = '${nationalPlan.startTime}';
+var releasedate = '${nationalPlan.releaseDate}';
+endtime = endtime.substring(0,endtime.indexOf(' '));
+starttime = starttime.substring(0,starttime.indexOf(' '));
+releasedate = releasedate.substring(0,releasedate.indexOf(' '));
+$(function(){
+	document.getElementById("form-field-4").value = releasedate ;
+	document.getElementById("form-field-5").value = starttime ;
+	document.getElementById("form-field-6").value = endtime ;	
+	document.getElementById("form-field-7").value = description ;
+});
+
+
+/* 判断进入哪个TAB页 */
 $(function(){
 	var flag = ${flag};
 	if(flag=='1')
@@ -286,39 +132,25 @@ $(function(){
 		$("#track").toggleClass ('in active'); 	
 });
 
-var description = '${nationalPlan.planDescription}';
-$(function(){
-	document.getElementById("form-field-7").value = description ;
-	/* $("#form-field-7").value = description ;  */
-});
-
-$(function(){
-	$(".date_picker").datetimepicker({
-		    weekStart: 1,
-	        todayBtn:  1,
-			autoclose: 1,
-			todayHighlight: 1,
-			startView: 2,
-			minView: 2,
-			forceParse: 0
-	});
-});
-
+/* 初始化模态框，清空模态框一切信息，设置上传按钮可用，警示信息隐藏 */
 function showModal()
-{
+{	
 	$("#myModal").modal("show");
+	document.getElementById("fileDescription").value = "" ;
+	document.getElementById("fileList").value = "" ;
+	var fileInput = $("#file");  
+	fileInput.replaceWith(fileInput.clone());  
+	document.getElementById("upload").disabled = false ;
+	$("#sizeWarning").hide();
 }
 
 var nationalPlanId =  '${nationalPlan.id}';
 $(function(){
 	$("#cancel").click(function(){
-		document.getElementById("fileDescription").value = "" ;
-		document.getElementById("fileList").value = "" ;
-		var fileInput = $("#file");  
-		fileInput.replaceWith(fileInput.clone());  
 		$("#myModal").modal("hide");
 	});
 	$("#upload").click(function(){
+		
 		var temp = document.getElementById("fileList").value;
 		if(temp=="")
 			{
@@ -326,31 +158,71 @@ $(function(){
 			return;
 			}
 		$("#docForm").submit();
+		$('#myModalProgress').modal({backdrop: 'static', keyboard: false});
+		var eventFun = function(){	
+			$.ajax({
+				type:'post',
+				url:'<%=path%>/plan/national/process.json',
+				dateType:'json',
+				contentType:"application/json",
+				success:function(data){
+					$('#proBar').css('width',data.rate+''+'%');  
+				    $('#showProgress')[0].innerHTML = data.rate+'%';  					
+					if(data.rate==100) 
+					{
+						window.clearInterval(intId);
+						$("#myModalProgress").modal("hide");
+						$("#myModal").modal("hide");			
+					}
+				},
+				error:function(){
+					alert("上传文件错误");
+				}
+			});
+		}
+		var intId = window.setInterval(eventFun,1000);  
 		var tempId =  document.getElementById("hiddenId").value;
 		document.getElementById("fileDescription").value = "" ;
 		document.getElementById("fileList").value = "" ;
 		var fileInput = $("#file");  
 		fileInput.replaceWith(fileInput.clone());  
-		$("#myModal").modal("hide");
 	});
 	
 });
 
+/* 文件选择完成后执行函数（判断是否有文件超过范围） */
 function showFileList()
 {
-	var fileNames ="";
+	var firstOver="";//记录哪些文件超过规定Size
+	var fileMax = false ;//是否有文件超过规定Size
+	var fileNames ="";//记录文件清单 内容
 	var imageEle = document.getElementById("file");
-
 	var fileList = imageEle.files;
-
 	for(var i = 0 ; i < fileList.length ; i ++)
 	{
+		
 		var file = fileList[i];
 		fileNames += "第" + (i + 1) + "个：" + file.name+'\r\n';
+		if(file.size>5120000000)
+			{
+			firstOver +=(i+1)+","
+			fileMax = true ;		
+			}
 	}
 	document.getElementById("fileList").value = fileNames;
+	if(fileMax)
+		{
+		 firstOver = firstOver.substring(0,firstOver.length-1);
+		 document.getElementById("sizeWarning").innerHTML = "第"+firstOver+"个文件超过500M,不允许上传！" ;		 
+		 document.getElementById("upload").disabled = true ;
+		 $("#sizeWarning").show();
+		}
+	else
+		{
+		document.getElementById("upload").disabled = false ;
+		$("#sizeWarning").hide();
+		}	
 }
-
 
 
 </script>
