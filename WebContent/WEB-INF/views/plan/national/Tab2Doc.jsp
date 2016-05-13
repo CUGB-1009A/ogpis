@@ -1,6 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!--  tab页第二项 -->
+<%
+String tomcatPath = request.getSession().getServletContext().getRealPath("/");
+%>
 <div class="tab-pane fade" id="document">
 	&nbsp;
 	<div class="row">
@@ -12,8 +14,13 @@
 						<div class="btn-group">
 							<a href="javascript:showModal();"
 								class="btn-sm btn-app btn-success no-radius"> <i
-								class="icon-plus bigger-200">&nbsp;上传文档</i>
+								class="icon-arrow-up bigger-200">&nbsp;上传文档</i>
 							</a>
+							
+							&nbsp;
+								<a href="javascript:delChosenDoc();" class="btn-sm btn-app btn-danger no-radius">
+									<i class="icon-trash bigger-200">&nbsp;批量删除(未实现)</i>
+								</a>
 						</div>
 					</div>
 					<div class="dataTables_wrapper form-inline" role="grid">
@@ -33,7 +40,8 @@
 								</thead>
 
 								<tbody>
-									<c:forEach items="${planDocumentSet}" var="item">
+								  <c:forEach items="${planDocumentSet}" var="item">
+									<c:if test='${item.deleted==false}'>
 										<tr class="odd gradeX">
 											<td class="check_cell"><input type="checkbox"
 												class="checkboxes" name="checkbox" value="${item.id}" /></td>
@@ -43,17 +51,18 @@
 											<td>
 												<p>
 													<a
-														href="<c:url value='/plan/national/edit?id=${item.id}'/>"
+														href="<%=request.getContextPath()%>/${item.documentAddress}"
 														class="btn-sm btn-app btn-primary no-radius"> <i
-														class="icon-success bigger-200"></i> 下载
+														class="icon-success icon-arrow-down bigger-200"></i> 下载
 													</a> &nbsp; <a
-														href="javascript:del('<c:url value='/plan/national/deleteDoc?id=${item.id}'/>');"
+														href="javascript:del('<c:url value='/plan/national/deleteDoc?id=${item.id}&&nationalPlanId=${nationalPlan.id}'/>');"
 														class="btn-sm btn-app btn-danger no-radius"> <i
 														class="icon-trash bigger-200"></i> 删除
 													</a>
 												</p>
 											</td>
 										</tr>
+									  </c:if>
 									</c:forEach>
 								</tbody>
 							</table>
@@ -131,25 +140,21 @@
 										<h3 class="modal-title">文件上传进度</h3>
 									</div>
 									<div class="modal-body">
-
 										<div class="row">
 											<div class="col-md-12">
-
-												<div class="progress" style="width: 50%">
+												<div class="progress" style="width: 100%">
 													<div id="proBar"
 														class="progress-bar progress-bar-success progress-bar-striped"
 														role="progressbar" style="width: 0%">
 														<span id="showProgress"></span>
 													</div>
 												</div>
-
 											</div>
 										</div>
-
 									</div>
 									<div class="modal-footer">
 										<button type="button" class="btn btn-default"
-											id="cancelUploading">取消上传</button>
+											id="cancelUploading">取消上传(未实现)</button>
 									</div>
 								</div>
 								<!-- /.modal-content -->
@@ -179,4 +184,14 @@
 			}
 		});
 	});
+	
+    /*删除文件交互对话框 */
+	function del(url){
+		var isDel =  confirm('确定删除该文档？', '确认对话框');
+		if(isDel){
+			window.location.href=url;
+		}
+	}
+    
+
 </script>

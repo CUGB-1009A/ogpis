@@ -1,14 +1,17 @@
 package com.ogpis.plan.entity.base;
 
 import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 
+import org.hibernate.annotations.Entity;
+
 import com.ogpis.base.entity.BaseEntity;
 import com.ogpis.system.entity.User;
+import com.ogpis.plan.entity.NationalPlan;
+import  com.ogpis.plan.entity.base.BasePlanEntity;
 
 /**
  * 规划文档，定义了规划文档实体的字段信息
@@ -89,6 +92,20 @@ public class PlanDocumentEntity extends BaseEntity {
 	@Column(name = "上传用户")
 	private User uploadUser;
 	
+	
+	@ManyToOne
+	@JoinColumn(name = "对应规划id")
+	private NationalPlan father1;
+
+	public NationalPlan getFather1() {
+		return father1;
+	}
+
+	public void setFather1(NationalPlan father1) {
+		this.father1 = father1;
+	}
+
+
 	
 
 }

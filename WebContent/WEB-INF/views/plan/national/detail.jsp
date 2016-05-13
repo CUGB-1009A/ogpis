@@ -52,32 +52,42 @@
 			 	
 			   <c:if test='<%=flag.equals("2") %>'>
 			   <li class="active">
-			   		<a href="#document" data-toggle="tab">文档资料</a>
+			   		<a href="#document" data-toggle="tab" >文档资料</a>
 			   	</li>
 			   	</c:if>			   	
 			   	 <c:if test='<%=!flag.equals("2") %>'>
 			   <li>
-			   		<a href="#document" data-toggle="tab">文档资料</a>
+			   		<a href="#document" data-toggle="tab" >文档资料</a>
 			   	</li>
 			   	</c:if>
 			   	
 			    <c:if test='<%=flag.equals("3") %>'>
 			   	<li class="active">
-			   		<a href="#excel" data-toggle="tab">量化表</a>
+			   		<a href="#indexEntry" data-toggle="tab">规划指标录入</a>
 			   	</li>
 			   	</c:if>
 			   		 <c:if test='<%=!flag.equals("3") %>'>
 			   	<li>
-			   		<a href="#excel" data-toggle="tab">量化表</a>
+			   		<a href="#indexEntry" data-toggle="tab">规划指标录入</a>
 			   	</li>
 			   	</c:if>
 			   	
 			    <c:if test='<%=flag.equals("4") %>'>
 			   	<li class="active">
-			   		<a href="#track" data-toggle="tab">规划跟踪</a>
+			   		<a href="#completeEntry" data-toggle="tab">完成情况录入</a>
 			   	</li>
 			   	</c:if>
 			   		 <c:if test='<%=!flag.equals("4") %>'>
+			   	<li>
+			   		<a href="#completeEntry" data-toggle="tab">完成情况录入</a>
+			   	</li>
+			   	</c:if>
+			   	 <c:if test='<%=flag.equals("5") %>'>
+			   	<li class="active">
+			   		<a href="#track" data-toggle="tab">规划跟踪</a>
+			   	</li>
+			   	</c:if>
+			   		 <c:if test='<%=!flag.equals("5") %>'>
 			   	<li>
 			   		<a href="#track" data-toggle="tab">规划跟踪</a>
 			   	</li>
@@ -87,14 +97,12 @@
 		<div id="myTabContent" class="tab-content">
 		<%@ include file="Tab1Detail.jsp"%>
 		<%@ include file="Tab2Doc.jsp"%>
-		    
-		    
-		    <div class="tab-pane fade " id="excel">
-		      <p>I am the excel about the national plan</p>
-		    </div>
-		   	<div class="tab-pane fade" id="track">
-		      <p>I will track the plan</p>
-		  	 </div>
+		<%@ include file="Tab3Index.jsp"%>
+		<%@ include file="Tab4Complete.jsp"%>
+		<%@ include file="Tab5Track.jsp"%>
+
+
+		  	
 				
 				</div>
 			</div><!-- /span -->
@@ -123,13 +131,22 @@ $(function(){
 $(function(){
 	var flag = ${flag};
 	if(flag=='1')
-		$("#overview").toggleClass("in active");		
+		{
+		$("#overview").toggleClass("in active");
+		}
 	if(flag=='2')
+		{
 		$("#document").toggleClass("in active");
+		}
 	if(flag=='3')
+		{
 		$("#excel").toggleClass("in active");
+		}
 	if(flag=='4')
-		$("#track").toggleClass ('in active'); 	
+		{
+		$("#track").toggleClass ('in active');
+		}
+		 	
 });
 
 /* 初始化模态框，清空模态框一切信息，设置上传按钮可用，警示信息隐藏 */
@@ -203,7 +220,7 @@ function showFileList()
 		
 		var file = fileList[i];
 		fileNames += "第" + (i + 1) + "个：" + file.name+'\r\n';
-		if(file.size>5120000000)
+		if(file.size>1000000000)
 			{
 			firstOver +=(i+1)+","
 			fileMax = true ;		

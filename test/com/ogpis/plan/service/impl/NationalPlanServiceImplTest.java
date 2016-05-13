@@ -23,8 +23,12 @@ import com.ogpis.expando.service.ExpandoColumnService;
 import com.ogpis.expando.service.ExpandoRowService;
 import com.ogpis.expando.service.ExpandoTableService;
 import com.ogpis.expando.service.ExpandoValueService;
+import com.ogpis.plan.entity.NationalPlan;
 import com.ogpis.plan.entity.NationalPlanData;
+import com.ogpis.plan.entity.PlanDocument;
 import com.ogpis.plan.service.NationalPlanDataService;
+import com.ogpis.plan.service.NationalPlanService;
+import com.ogpis.plan.service.PlanDocumentService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 // 用于配置spring中测试的环境
@@ -32,6 +36,13 @@ import com.ogpis.plan.service.NationalPlanDataService;
 // 用于指定配置文件所在的位置
 public class NationalPlanServiceImplTest {
 
+	
+	@Resource 
+	private NationalPlanService nationalPlanServives;
+	
+	@Resource 
+	private PlanDocumentService planDocumentService;
+	
 	@Resource
 	private NationalPlanDataService nationalPlanService;
 	@Resource
@@ -44,7 +55,46 @@ public class NationalPlanServiceImplTest {
 	private ExpandoRowService expandoRowService;
 	@Resource
 	private ExpandoValueService expandoValueService;
+	
+	@Test
+	public void testAddPlanDocument()
+	{
+		System.out.println(12);
+		PlanDocument planDocument = new PlanDocument();
+		planDocument.setDeleted(false);
+		planDocument.setFather1(nationalPlanServives.findById("1aed5cbd-7a80-43cb-9fdf-30924aac2a5f"));
+		planDocument.setDocumentDescription("测试处加入");
+		planDocument.setUploadUser(null);
+		planDocumentService.add(planDocument);
+		System.out.println("add success");
+		
+	}
 
+	/*
+	 * 从规划得到文档的数量
+	 */
+	
+	@Test
+	public void testFromPlanToDocument()
+	{
+		System.out.println(123);
+		PlanDocument planDocument = planDocumentService.findById("75732b82-9519-4e77-b532-1b426e2bd1a6");
+		NationalPlan nationalPlan = planDocument.getFather1();
+		System.out.println(nationalPlan.getPlanDescription());
+		System.out.println("find document success");
+		
+	}
+	
+	@Test
+	public void testFromDocumentToPlan()
+	{
+		System.out.println(123);
+		NationalPlan nationalPlan = nationalPlanServives.findById("1aed5cbd-7a80-43cb-9fdf-30924aac2a5f");
+		System.out.println(nationalPlan.getChildren1().size());
+		System.out.println("find document success");
+		
+	}
+	
 	@Ignore
 	@Test
 	public void test() {

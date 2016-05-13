@@ -52,17 +52,11 @@
 								<table class="table table-striped table-bordered table-hover" id="data-table">
 									<thead>
 										<tr>
-											<th rowspan="2" class="table-checkbox"><input type="checkbox" class="group-checkable" name="checkboxFirst"/>全选</th>
-											<th rowspan="2">规划名称</th>
-											<th rowspan="2">规划代号</th>
-											<th colspan="3">详细资料</th>
-											<th rowspan="2">规划跟踪</th>
-											<th rowspan="2">操作</th>
-										</tr>
-										<tr>
-											<th>规划概述</th>
-											<th>文档资料</th>
-											<th>量化表</th>
+											<th class="table-checkbox"><input type="checkbox" class="group-checkable" name="checkboxFirst"/>全选</th>
+											<th>规划名称</th>
+											<th>规划代号</th>
+											<th>信息</th>											
+											<th>操作</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -71,15 +65,21 @@
 												<td class="check_cell">
 												 <input type="checkbox" class="checkboxes" name="checkbox" value="${item.id}" />
 												</td>
-												<td>${item.planName}</td>
+												<td><a href="<c:url value='/plan/national/showDetail?id=${item.id}'/>">${item.planName}</a></td>
 												<td>${item.planCode}</td>
-												<td><a href="<c:url value='/plan/national/show?id=${item.id}&&flag=1'/>">规划概述</a></td>
-												<td><a href="<c:url value='/plan/national/show?id=${item.id}&&flag=2'/>">文档资料<span class="badge btn-danger" >${item.planDocument.size()}</span></a></td>
+												<%-- <td><a href="<c:url value='/plan/national/show?id=${item.id}&&flag=1'/>">规划概述</a></td>
+												<td><a href="<c:url value='/plan/national/show?id=${item.id}&&flag=2'/>">文档资料<span class="badge btn-danger" >${item.children1.size()}</span></a></td>
 												<td><a href="<c:url value='/plan/national/show?id=${item.id}&&flag=3'/>">量化表格</a></td> 
 												<td><a href="<c:url value='/plan/national/show?id=${item.id}&&flag=4'/>">跟踪规划</a></td>
-												<td>
+												 --%>
+												 <td>
+												 <a href="<c:url value='/plan/national/show?id=${item.id}&&flag=2'/>"><i class="glyphicon glyphicon-file"></i> ${item.children1.size()}</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+												 <a href="<c:url value='/plan/national/show?id=${item.id}&&flag=3'/>"><i class="glyphicon glyphicon-chart"></i>指标个数 0</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+												 <i class="icon-time"> ${item.modifiedTime}</i>
+												 </td>
+												 <td>
 													<p>
-														<a  href="<c:url value='/plan/national/toEditPage?id=${item.id}'/>" class="btn-sm btn-app btn-primary no-radius">
+														<a  href="<c:url value='/plan/national/show?id=${item.id}&&flag=1'/>" class="btn-sm btn-app btn-primary no-radius">
 															<i class="icon-edit bigger-200"></i>
 															编辑
 														</a>
