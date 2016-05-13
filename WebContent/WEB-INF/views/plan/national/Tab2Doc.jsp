@@ -1,8 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!--  tab页第二项 -->
-<%
-String tomcatPath = request.getSession().getServletContext().getRealPath("/");
-%>
 <div class="tab-pane fade" id="document">
 	&nbsp;
 	<div class="row">
@@ -19,7 +16,7 @@ String tomcatPath = request.getSession().getServletContext().getRealPath("/");
 							
 							&nbsp;
 								<a href="javascript:delChosenDoc();" class="btn-sm btn-app btn-danger no-radius">
-									<i class="icon-trash bigger-200">&nbsp;批量删除(未实现)</i>
+									<i class="icon-trash bigger-200">&nbsp;批量删除</i>
 								</a>
 						</div>
 					</div>
@@ -41,7 +38,6 @@ String tomcatPath = request.getSession().getServletContext().getRealPath("/");
 
 								<tbody>
 								  <c:forEach items="${planDocumentSet}" var="item">
-									<c:if test='${item.deleted==false}'>
 										<tr class="odd gradeX">
 											<td class="check_cell"><input type="checkbox"
 												class="checkboxes" name="checkbox" value="${item.id}" /></td>
@@ -62,7 +58,6 @@ String tomcatPath = request.getSession().getServletContext().getRealPath("/");
 												</p>
 											</td>
 										</tr>
-									  </c:if>
 									</c:forEach>
 								</tbody>
 							</table>
@@ -162,9 +157,6 @@ String tomcatPath = request.getSession().getServletContext().getRealPath("/");
 							<!-- /.modal-dialog -->
 						</div>
 						<!-- /.modal -->
-
-
-
 					</div>
 				</div>
 			</div>
@@ -185,6 +177,40 @@ String tomcatPath = request.getSession().getServletContext().getRealPath("/");
 		});
 	});
 	
+	/* 批量删除文档响应函数 */
+	function delChosenDoc() 
+	{
+		var checkedObject =  $("input[name='checkbox']:checked");
+		if(checkedObject.length==0)
+			{
+			alert("至少选择一个文档再删除！");
+			return false;
+			}	
+		var isDelAll =  confirm('确定删除选定文档？', '确认对话框');
+		var idTemp="";
+		if(isDelAll)
+		{
+			for(var i=0;i<checkedObject.length;i++)
+			{
+				idTemp+=checkedObject[i].value+",";
+			}
+			$.ajax({
+				url:"<%=request.getContextPath()%>/plan/national/deleteDocBatch",
+				data:{"Ids":idTemp},
+				type:"POST",
+				async:true,
+				success:function()
+				{
+					window.location.href="<%=request.getContextPath()%>/plan/national/show?flag=2&&id=${nationalPlan.id}";
+				},
+				error:function()
+				{
+					alert("批量删除错误");
+				}			
+			});
+		}
+	}
+	
     /*删除文件交互对话框 */
 	function del(url){
 		var isDel =  confirm('确定删除该文档？', '确认对话框');
@@ -192,6 +218,4 @@ String tomcatPath = request.getSession().getServletContext().getRealPath("/");
 			window.location.href=url;
 		}
 	}
-    
-
 </script>

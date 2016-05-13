@@ -95,16 +95,12 @@
 		</ul>
 		
 		<div id="myTabContent" class="tab-content">
-		<%@ include file="Tab1Detail.jsp"%>
-		<%@ include file="Tab2Doc.jsp"%>
-		<%@ include file="Tab3Index.jsp"%>
-		<%@ include file="Tab4Complete.jsp"%>
-		<%@ include file="Tab5Track.jsp"%>
-
-
-		  	
-				
-				</div>
+			<%@ include file="Tab1Detail.jsp"%>
+			<%@ include file="Tab2Doc.jsp"%>
+			<%@ include file="Tab3Index.jsp"%>
+			<%@ include file="Tab4Complete.jsp"%>
+			<%@ include file="Tab5Track.jsp"%>			
+		</div>
 			</div><!-- /span -->
 		</div><!-- /row -->
 	</div>
@@ -140,9 +136,13 @@ $(function(){
 		}
 	if(flag=='3')
 		{
-		$("#excel").toggleClass("in active");
+		$("#indexEntry").toggleClass("in active");
 		}
 	if(flag=='4')
+		{
+		$("#completeEntry").toggleClass ('in active');
+		}
+	if(flag=='5')
 		{
 		$("#track").toggleClass ('in active');
 		}

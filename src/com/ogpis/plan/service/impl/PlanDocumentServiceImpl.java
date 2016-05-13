@@ -1,5 +1,7 @@
 package com.ogpis.plan.service.impl;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ogpis.base.service.impl.BaseServiceImpl;
@@ -16,8 +18,15 @@ implements PlanDocumentService{
 		setBaseDao(planDocument);
 	}
 
-	protected PlanDocumentDao getNationalPlanDao() {
+	protected PlanDocumentDao getPlanDocumentDao() {
 		return (PlanDocumentDao) this.baseDao;
+	}
+
+	@Override
+	public void updateAll(ArrayList<String> idList) {
+		System.out.println("enter the service ");
+		getPlanDocumentDao().updateAll(idList);
+		
 	}
 
 }

@@ -9,10 +9,10 @@
     <meta name="author" content="">
      <link href="<%=path%>/assets/bootstrap/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
     <title>油气资源规划管理系统</title>
-    <%
+  <%--   <%
     	boolean isAdd = request.getAttribute("nationalPlan")==null;
     	System.out.println(isAdd);
-    %> 
+    %>  --%>
 </head>
 <html>
 <body>
@@ -36,16 +36,18 @@
 					<a href="<c:url value='/plan/national/list'/>">全国规划管理</a>
 				</li>
 				
-				<li class="active">
+				<%-- <li class="active">
 					<c:if test='<%=!isAdd %>'>编辑规划</c:if>
 					<c:if test='<%=isAdd %>'>添加规划</c:if>
-				</li>
+				</li> --%>
+				
+				<li class="active">添加规划</li>
 			</ul>
 		</div>
 		<div class="row">
 			<div class="col-xs-12">
 				<form class="form-horizontal" role="form" action="<%=path%>/plan/national/save">
-					<input type="hidden" value="<%=isAdd%>" name="isAdd"/>
+					<input type="hidden" value="true" name="isAdd"/>
 					<input type="hidden" value="${nationalPlan.id}" name="id"/>
 				
 					<div class="form-group">

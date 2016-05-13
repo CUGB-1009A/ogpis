@@ -43,7 +43,9 @@ public class NationalPlanAction  {
 	@SuppressWarnings("rawtypes")
 	private ArrayList idList=new ArrayList();
 	
-	/*读取全国规划列表函数*/
+	/*
+	 * 读取全国规划列表函数
+	 */
 	@RequestMapping(value = "/plan/national/list")
 	public String list(HttpServletRequest request, ModelMap model) {
 		int pageNo = ServletRequestUtils.getIntParameter(request,
@@ -55,16 +57,6 @@ public class NationalPlanAction  {
 		return "plan/national/list";
 	}
 	
-	@RequestMapping(value = "/plan/national/toEditPage")
-	public String toEditPage(HttpServletRequest request, ModelMap model,String id) {
-		if(id!=null)
-		{
-			NationalPlan nationalPlan = this.nationalPlanService.findById(id);
-			model.addAttribute("nationalPlan", nationalPlan);
-		}	
-		return "/plan/national/edit";	
-	}
-	
 	/*
 	 * 普通用户查看规划响应函数
 	 */
@@ -73,16 +65,26 @@ public class NationalPlanAction  {
 		return "/plan/national/showDetail";	
 	}
 	
-	/*添加、修改规划函数*/
+	/*
+	 * 到添加规划页面
+	 */
+	@RequestMapping(value = "/plan/national/toEditPage")
+	public String toEditPage(HttpServletRequest request, ModelMap model,String id) {	
+		return "/plan/national/edit";	
+	}
+	
+	/*
+	 * 添加、修改规划函数
+	 */
 	@RequestMapping(value = "/plan/national/save", method = RequestMethod.GET)
-	public String save(HttpServletRequest request, ModelMap model,boolean isAdd,String id,NationalPlan nationalPlan) {		
+	public String save(HttpServletRequest request, boolean isAdd,ModelMap model,String id,NationalPlan nationalPlan) {		
 
 		NationalPlan bean = null;
 		if(isAdd){
 			bean = new NationalPlan();
 		}
 		else{
-			bean = this.nationalPlanService.findById(id);
+			bean = nationalPlanService.findById(id);
 		}
 		bean.setPlanName(nationalPlan.getPlanName());
 		bean.setPlanCode(nationalPlan.getPlanCode());
@@ -98,48 +100,45 @@ public class NationalPlanAction  {
 		else {
 			nationalPlanService.update(bean);
 		}		
-		model.addAttribute("nationalPlan", nationalPlan);
 		return "redirect:list";
 	
 	}
 	
-	/*单个删除规划函数,同时软删除对应规划文档*/
+	/*
+	 * 单个删除规划函数,同时软删除对应规划文档
+	 */
 	@RequestMapping(value = "/plan/national/delete")
 	public String delete(HttpServletRequest request, ModelMap model,String id) {		
 		NationalPlan nationalPlan = this.nationalPlanService.findById(id);
 		nationalPlan.setDeleted(true);
-		Set<PlanDocument> planDocumentSet = nationalPlan.getChildren1();
+		Set<PlanDocument> planDocumentSet = nationalPlan.getChildren();
 		for(PlanDocument temp:planDocumentSet)
 		{
 			temp.setDeleted(true);
+			temp.setFatherNational(null);
 			planDocumentService.update(temp);
 		}
-		nationalPlan.setChildren1(null);
 		nationalPlanService.update(nationalPlan);
 		return "redirect:list";
 	
 	}
 	
-	/*显示tab页1-4函数*/
+	/*显示tab页1-5函数*/
 	@RequestMapping(value = "/plan/national/show")
 	public String show(HttpServletRequest request, ModelMap model,String id,String flag) {	
 		NationalPlan nationalPlan =  this.nationalPlanService.findById(id);
 		model.addAttribute("nationalPlan", nationalPlan);
-		Set<PlanDocument> planDocumentSet = nationalPlan.getChildren1();
-		Set<PlanDocument> planDocumentList = new HashSet<PlanDocument>();
-		for(PlanDocument temp:planDocumentSet){
-			if(!temp.getDeleted())
-				planDocumentList.add(temp);
-		}
-		nationalPlan.setChildren1(planDocumentList);
-		nationalPlanService.update(nationalPlan);
-		model.addAttribute("planDocumentSet", planDocumentList);
+		Set<PlanDocument> planDocumentSet = nationalPlan.getChildren();
+		model.addAttribute("planDocumentSet", planDocumentSet);
 		model.addAttribute("flag",flag);
+		System.out.println("点击的是第"+flag);
 		return  "/plan/national/detail";
 	
 	}
 	
-	/*批量删除规划函数*/
+	/*
+	 * 批量删除规划函数
+	 */
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/plan/national/deleteBatch" ,method = RequestMethod.POST)
 	public void deleteBatch(HttpServletResponse resp,HttpServletRequest request, ModelMap model) throws IOException {		
@@ -157,21 +156,22 @@ public class NationalPlanAction  {
 	 {
 		 System.out.println(idList.get(i).toString().substring(1,idList.get(i).toString().length()-1));
 		 NationalPlan nationalPlan = nationalPlanService.findById(idList.get(i).toString().substring(1,idList.get(i).toString().length()-1));
-		 Set<PlanDocument> planDocumentSet = nationalPlan.getChildren1();
+		 Set<PlanDocument> planDocumentSet = nationalPlan.getChildren();
 		 for(PlanDocument temp : planDocumentSet)
 		 {
 			 temp.setDeleted(true);
+			 temp.setFatherNational(null);
 			 planDocumentService.update(temp);
 		 }
-		 nationalPlan.setChildren1(null);
-		 nationalPlanService.update(nationalPlan);
 	 }
 	 String success = "{\"flag1\":\"success\"}";     
      resp.setCharacterEncoding("utf-8");
 	 resp.getWriter().write(success);		
 	}
 
-	/*提交文件表单函数*/
+	/*
+	 * 提交上传文件表单函数
+	 */
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value = "/plan/national/uploadFiles",method = RequestMethod.POST)
 	public void uploadFiles(String id,HttpServletResponse resp,HttpServletRequest request) throws Exception {	
@@ -179,7 +179,7 @@ public class NationalPlanAction  {
 		final HttpSession hs = request.getSession();
 		NationalPlan nationalPlan = nationalPlanService.findById(id);
 		Set<PlanDocument> planDocumentList = new HashSet<PlanDocument>();
-		planDocumentList.addAll(nationalPlan.getChildren1());
+		planDocumentList.addAll(nationalPlan.getChildren());
 		PlanDocument bean = null;
 		request.setCharacterEncoding("utf-8");
 		boolean isMultipart = ServletFileUpload.isMultipartContent(request); 
@@ -234,19 +234,21 @@ public class NationalPlanAction  {
     			bean.setUploadDate(new Date());
     			bean.setDocumentSize(item.getSize()+"");
     			bean.setDocumentName(fileName);
-    			bean.setFather1(nationalPlan);
+    			bean.setFatherNational(nationalPlan);
     			planDocumentList.add(bean);	
     			planDocumentService.add(bean);
     			System.out.println("全部文件上传完成时间："+new Date());
           }  
     }  		
-	nationalPlan.setChildren1(planDocumentList);
+	nationalPlan.setChildren(planDocumentList);
 	nationalPlanService.update(nationalPlan);
 	System.out.println("文件上传完成时间："+new Date());
 	resp.sendRedirect("show?id="+id+"&&flag=2");
 }
 	
-	/*Ajax获取进度函数*/
+	/*
+	 * Ajax获取进度函数
+	 */
 	  @RequestMapping(value = "/plan/national/process.json", method = RequestMethod.POST)  
 	  public void process(HttpServletRequest request,HttpServletResponse response) throws Exception 
 	  { 	       
@@ -255,31 +257,38 @@ public class NationalPlanAction  {
 	     response.getWriter().write("{\"rate\":"+request.getSession().getAttribute("proInfo")+"}");         
 	  }
 	  
-	  /*单个删除文件函数*/
+	  /*
+	   * 单个删除文件函数
+	   */
 	  @RequestMapping(value = "/plan/national/deleteDoc")
 	  public void deleteDoc(HttpServletRequest request,HttpServletResponse response, ModelMap model,String id,String nationalPlanId) throws IOException
 	  {
 		  PlanDocument planDocument = planDocumentService.findById(id);
+		  planDocument.setFatherNational(null);
 		  planDocument.setDeleted(true);
 		  planDocumentService.update(planDocument);
 		  response.sendRedirect("show?id="+nationalPlanId+"&&flag=2");
 	  }
 	  
 		/*批量删除文件函数*/
-/*		@SuppressWarnings("unchecked")
+		@SuppressWarnings("unchecked")
 		@RequestMapping(value = "/plan/national/deleteDocBatch" ,method = RequestMethod.POST)
 		public void deleteDocBatch(HttpServletResponse resp,HttpServletRequest request, ModelMap model) throws IOException {		
 		 String Ids = request.getParameter("Ids");
 		 String idTemp;
+		 System.out.println(Ids);
 		 while(Ids.length()>1)
 		 {
 			 idTemp = Ids.substring(0,Ids.indexOf(","));
 			 Ids = Ids.substring(Ids.indexOf(",")+1,Ids.length());
 			 idList.add("\'"+idTemp+"\'");
 		 }
+		 System.out.println(idList.toString());
+		 System.out.println(idList.size());
 		 planDocumentService.updateAll(idList);
+		 System.out.println(idList.toString());
 		 String success = "{\"flag1\":\"success\"}";     
 	     resp.setCharacterEncoding("utf-8");
 		 resp.getWriter().write(success);		
-		}*/	
+		}	
 }

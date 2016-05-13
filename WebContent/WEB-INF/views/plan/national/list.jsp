@@ -43,7 +43,7 @@
 								</a>
 								&nbsp;
 								<a href="javascript:delAll();" class="btn-sm btn-app btn-danger no-radius">
-									<i class="icon-minus bigger-200">&nbsp;批量删除</i>
+									<i class="icon-trash bigger-200">&nbsp;批量删除</i>
 								</a>
 							</div>
 						</div>
@@ -67,17 +67,12 @@
 												</td>
 												<td><a href="<c:url value='/plan/national/showDetail?id=${item.id}'/>">${item.planName}</a></td>
 												<td>${item.planCode}</td>
-												<%-- <td><a href="<c:url value='/plan/national/show?id=${item.id}&&flag=1'/>">规划概述</a></td>
-												<td><a href="<c:url value='/plan/national/show?id=${item.id}&&flag=2'/>">文档资料<span class="badge btn-danger" >${item.children1.size()}</span></a></td>
-												<td><a href="<c:url value='/plan/national/show?id=${item.id}&&flag=3'/>">量化表格</a></td> 
-												<td><a href="<c:url value='/plan/national/show?id=${item.id}&&flag=4'/>">跟踪规划</a></td>
-												 --%>
-												 <td>
-												 <a href="<c:url value='/plan/national/show?id=${item.id}&&flag=2'/>"><i class="glyphicon glyphicon-file"></i> ${item.children1.size()}</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-												 <a href="<c:url value='/plan/national/show?id=${item.id}&&flag=3'/>"><i class="glyphicon glyphicon-chart"></i>指标个数 0</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-												 <i class="icon-time"> ${item.modifiedTime}</i>
-												 </td>
-												 <td>
+												<td>
+													 <a href="<c:url value='/plan/national/show?id=${item.id}&&flag=2'/>"><i class="glyphicon glyphicon-file"></i> ${item.children.size()}</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+													 <a href="<c:url value='/plan/national/show?id=${item.id}&&flag=3'/>"><i class="glyphicon glyphicon-chart"></i>指标个数 0</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+													 <i class="icon-time"> ${item.modifiedTime}</i>
+												</td>
+												<td>
 													<p>
 														<a  href="<c:url value='/plan/national/show?id=${item.id}&&flag=1'/>" class="btn-sm btn-app btn-primary no-radius">
 															<i class="icon-edit bigger-200"></i>

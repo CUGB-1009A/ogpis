@@ -5,13 +5,9 @@ import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
-
-import org.hibernate.annotations.Entity;
-
 import com.ogpis.base.entity.BaseEntity;
 import com.ogpis.system.entity.User;
 import com.ogpis.plan.entity.NationalPlan;
-import  com.ogpis.plan.entity.base.BasePlanEntity;
 
 /**
  * 规划文档，定义了规划文档实体的字段信息
@@ -21,10 +17,6 @@ import  com.ogpis.plan.entity.base.BasePlanEntity;
  */
 @MappedSuperclass
 public class PlanDocumentEntity extends BaseEntity {
-
-//	@ManyToOne
-//	@JoinColumn(name = "对应规划Id")
-//	private BasePlanEntity plan;
 
 	@Column(name = "文档名称")
 	private String documentName;
@@ -92,18 +84,33 @@ public class PlanDocumentEntity extends BaseEntity {
 	@Column(name = "上传用户")
 	private User uploadUser;
 	
-	
 	@ManyToOne
-	@JoinColumn(name = "对应规划id")
-	private NationalPlan father1;
+	@JoinColumn(name = "对应全国规划id")
+	private NationalPlan fatherNational;
 
-	public NationalPlan getFather1() {
-		return father1;
+	public NationalPlan getFatherNational() {
+		return fatherNational;
 	}
 
-	public void setFather1(NationalPlan father1) {
-		this.father1 = father1;
+	public void setFatherNational(NationalPlan fatherNational) {
+		this.fatherNational = fatherNational;
 	}
+	
+/*	@ManyToOne
+	@JoinColumn(name = "对应中石化规划id")
+	private NationalPlan fatherSinopec;
+
+	public NationalPlan getFatherSinopec() {
+		return fatherSinopec;
+	}
+
+	public void setFatherSinopec(NationalPlan fatherSinopec) {
+		this.fatherSinopec = fatherSinopec;
+	}*/
+
+
+
+
 
 
 	

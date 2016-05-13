@@ -41,6 +41,7 @@ public class NationalPlanDaoImpl extends BaseDaoImpl<NationalPlan, String>
 	public void updateAll(ArrayList<String> idList) {
 		// TODO Auto-generated method stub
 		String temp="";
+		System.out.println(idList.toString());
 		for(int i=0;i<idList.size();i++)
 		{
 			temp+=idList.get(i)+",";

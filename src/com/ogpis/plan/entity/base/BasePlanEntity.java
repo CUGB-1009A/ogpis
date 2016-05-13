@@ -1,23 +1,10 @@
 package com.ogpis.plan.entity.base;
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.OneToMany;
-import javax.servlet.jsp.jstl.core.Config;
-
-import org.hibernate.annotations.Entity;
 import org.springframework.format.annotation.DateTimeFormat;
 import com.ogpis.base.entity.BaseEntity;
-import com.ogpis.plan.entity.NationalPlan;
-import com.ogpis.plan.entity.PlanDocument;
-import com.ogpis.system.entity.MenuItem;
 
 /**
  * 规划信息的基类，定义了规划信息的公有字段
@@ -36,22 +23,6 @@ public class BasePlanEntity extends BaseEntity {
 
 	@Column(name = "规划描述")
 	private String planDescription;
-
-	/*@OneToMany(fetch=FetchType.EAGER)
-	@Column(name = "规划文档")
-	private Set<PlanDocument> planDocument ;*/
-	
-	
-	@OneToMany(fetch=FetchType.EAGER,cascade = { CascadeType.ALL }, mappedBy = "father1")
-	private Set<PlanDocument> children1;
-	
-	public Set<PlanDocument> getChildren1() {
-		return children1;
-	}
-
-	public void setChildren1(Set<PlanDocument> children1) {
-		this.children1 = children1;
-	}
 
 	@Column(columnDefinition="DATE",name = "开始时间")
 	@DateTimeFormat( pattern = "yyyy-MM-dd" )
@@ -91,14 +62,6 @@ public class BasePlanEntity extends BaseEntity {
 	public void setPlanDescription(String planDescription) {
 		this.planDescription = planDescription;
 	}
-
-	/*public Set<PlanDocument> getPlanDocument() {
-		return planDocument;
-	}
-
-	public void setPlanDocument(Set<PlanDocument> planDocument) {
-		this.planDocument = planDocument;
-	}*/
 
 	public Date getStartTime() {
 		return startTime;
