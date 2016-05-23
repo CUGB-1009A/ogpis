@@ -39,10 +39,10 @@
             <a href="#doc" data-toggle="collapse" class="nav-header collapsed">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-folder-close"></i> 文档管理 <i class="fa fa-fw fa-caret-down"></i></a>
             <ul id="doc" class="nav nav-list collapse secondmenu" style="height:0px;">
                 <li>
-                    <a href="<c:url value='/user/list'/>"><i class="glyphicon glyphicon-file"></i> 规划文档管理 </a>
+                    <a href="<c:url value='/document/list'/>"><i class="glyphicon glyphicon-file"></i> 规划文档管理 </a>
                 </li>
                 <li>
-                    <a href="<c:url value='/user/list'/>"><i class="glyphicon glyphicon-trash"></i> 文档回收站 </a>
+                    <a href="<c:url value='/document/trash'/>"><i class="glyphicon glyphicon-trash"></i> 文档回收站 </a>
                 </li>
             </ul>
         </li> 

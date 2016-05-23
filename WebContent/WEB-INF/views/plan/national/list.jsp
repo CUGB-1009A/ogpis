@@ -20,7 +20,7 @@
 	<!--网页主体 -->
 
 	
-	<div id="page-wrapper" style="height:100%;">
+	<div id="page-wrapper" style="height:98%;width:100%">
 		<div class="breadcrumbs" id="breadcrumbs" style="text-align: left;">
 			<ul class="breadcrumb">
 				<li>

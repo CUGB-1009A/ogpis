@@ -2,11 +2,13 @@ package com.ogpis.plan.action;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,10 +27,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import com.ogpis.base.common.paging.IPageList;
 import com.ogpis.base.common.paging.PageListUtil;
+import com.ogpis.document.entity.PlanDocument;
+import com.ogpis.document.service.PlanDocumentService;
 import com.ogpis.plan.entity.NationalPlan;
-import com.ogpis.plan.entity.PlanDocument;
 import com.ogpis.plan.service.NationalPlanService;
-import com.ogpis.plan.service.PlanDocumentService;
 
 
 @Controller
@@ -93,6 +95,7 @@ public class NationalPlanAction  {
 		bean.setStartTime(nationalPlan.getStartTime());
 		bean.setEndTime(nationalPlan.getEndTime());		
 		bean.setReleaseDate(nationalPlan.getReleaseDate());
+		bean.setModifiedTime(new Timestamp(System.currentTimeMillis()));
 				
 		if (isAdd) {
 			nationalPlanService.add(bean);
@@ -175,7 +178,6 @@ public class NationalPlanAction  {
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value = "/plan/national/uploadFiles",method = RequestMethod.POST)
 	public void uploadFiles(String id,HttpServletResponse resp,HttpServletRequest request) throws Exception {	
-		System.out.println("进入该函数的时间"+new Date());
 		final HttpSession hs = request.getSession();
 		NationalPlan nationalPlan = nationalPlanService.findById(id);
 		Set<PlanDocument> planDocumentList = new HashSet<PlanDocument>();
@@ -199,13 +201,10 @@ public class NationalPlanAction  {
 				hs.setAttribute("proInfo", rate);
 			}			
 		});
-		System.out.println("到这里的时间："+new Date());
 		List items = upload.parseRequest(request);
-		System.out.println("到这里的时间12："+new Date());
 		Iterator iter = items.iterator();
 		Iterator iter1 = items.iterator();
 		String  fileDescription ="";
-		System.out.println("到这里的时间："+new Date());
 		while(iter1.hasNext())
 		{
 			FileItem item = (FileItem) iter1.next(); 
@@ -216,8 +215,7 @@ public class NationalPlanAction  {
 	          } 
 		}
       while (iter.hasNext())  //表单中有几个input标签，就循环几次
-      {  	    	  
-    	 
+      {  	    	     	 
           FileItem item = (FileItem) iter.next(); 
           if (item.isFormField()) 
           {  
@@ -226,10 +224,16 @@ public class NationalPlanAction  {
           else 
           {  	bean = new PlanDocument();
         	    System.out.println("上传文件时间"+new Date());            
-                String fileName = item.getName();  
-                File uploadedFile = new File( request.getServletContext().getRealPath("/")+"planFileUpload\\national\\"+fileName);  
+                String fileName = item.getName();
+                /*
+                 * 这里发现ie获取的是路径加文件名，chrome获取的是文件名，这里我们只需要文件名，所以有路径的要先去路径
+                 */
+                if(fileName.contains("\\"));
+                	fileName = fileName.substring(fileName.lastIndexOf("\\")+1, fileName.length());
+                String prefix= new Random(System.currentTimeMillis()).nextInt()+"";
+                File uploadedFile = new File( request.getServletContext().getRealPath("/")+"planFileUpload\\national"+"\\"+prefix+fileName);           	
                 item.write(uploadedFile);  
-      	        bean.setDocumentAddress("planFileUpload\\national\\"+fileName);
+      	        bean.setDocumentAddress("planFileUpload\\national\\"+prefix+fileName);
     			bean.setDocumentDescription(fileDescription);
     			bean.setUploadDate(new Date());
     			bean.setDocumentSize(item.getSize()+"");
@@ -237,12 +241,10 @@ public class NationalPlanAction  {
     			bean.setFatherNational(nationalPlan);
     			planDocumentList.add(bean);	
     			planDocumentService.add(bean);
-    			System.out.println("全部文件上传完成时间："+new Date());
           }  
     }  		
 	nationalPlan.setChildren(planDocumentList);
 	nationalPlanService.update(nationalPlan);
-	System.out.println("文件上传完成时间："+new Date());
 	resp.sendRedirect("show?id="+id+"&&flag=2");
 }
 	

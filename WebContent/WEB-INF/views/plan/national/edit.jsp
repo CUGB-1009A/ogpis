@@ -9,10 +9,7 @@
     <meta name="author" content="">
      <link href="<%=path%>/assets/bootstrap/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
     <title>油气资源规划管理系统</title>
-  <%--   <%
-    	boolean isAdd = request.getAttribute("nationalPlan")==null;
-    	System.out.println(isAdd);
-    %>  --%>
+
 </head>
 <html>
 <body>
@@ -36,11 +33,6 @@
 					<a href="<c:url value='/plan/national/list'/>">全国规划管理</a>
 				</li>
 				
-				<%-- <li class="active">
-					<c:if test='<%=!isAdd %>'>编辑规划</c:if>
-					<c:if test='<%=isAdd %>'>添加规划</c:if>
-				</li> --%>
-				
 				<li class="active">添加规划</li>
 			</ul>
 		</div>
@@ -58,7 +50,7 @@
 						</div>
 					</div>
 
-					<div class="space-0"></div>
+					<div class="space-4"></div>
 					
 					<div class="form-group">
 						<label class="col-sm-3 control-label no-padding-right" for="form-field-2">规划代号</label>
@@ -68,7 +60,7 @@
 						</div>
 					</div>
 
-					<div class="space-2"></div>
+					<div class="space-4"></div>
 					
 					<div class="form-group">
 						<label class="col-sm-3 control-label no-padding-right" for="form-field-3">发布单位</label>
@@ -77,7 +69,7 @@
 							<input type="text" id="form-field-3" placeholder="发布单位..." class="col-xs-10 col-sm-5" name="releaseUnit" value="${nationalPlan.releaseUnit }">
 						</div>
 					</div>
-					<div class="space-2"></div>
+					<div class="space-4"></div>
 			 		
 					  <div class="form-group">
 						<label class="col-sm-3 control-label no-padding-right" for="form-field-4">发布时间</label>
@@ -90,7 +82,7 @@
 							</div>
 					</div> 
 					
-					<div class="space-2"></div>
+					<div class="space-4"></div>
 					
 					  <div class="form-group">
 						<label class="col-sm-3 control-label no-padding-right" for="form-field-5">规划起始时间</label>

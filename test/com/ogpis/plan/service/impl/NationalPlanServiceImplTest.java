@@ -62,7 +62,7 @@ public class NationalPlanServiceImplTest {
 		System.out.println(12);
 		PlanDocument planDocument = new PlanDocument();
 		planDocument.setDeleted(false);
-		planDocument.setFather1(nationalPlanServives.findById("1aed5cbd-7a80-43cb-9fdf-30924aac2a5f"));
+		planDocument.setFatherNational(nationalPlanServives.findById("1aed5cbd-7a80-43cb-9fdf-30924aac2a5f"));
 		planDocument.setDocumentDescription("测试处加入");
 		planDocument.setUploadUser(null);
 		planDocumentService.add(planDocument);
@@ -79,7 +79,7 @@ public class NationalPlanServiceImplTest {
 	{
 		System.out.println(123);
 		PlanDocument planDocument = planDocumentService.findById("75732b82-9519-4e77-b532-1b426e2bd1a6");
-		NationalPlan nationalPlan = planDocument.getFather1();
+		NationalPlan nationalPlan = planDocument.getFatherNational();
 		System.out.println(nationalPlan.getPlanDescription());
 		System.out.println("find document success");
 		
@@ -90,7 +90,7 @@ public class NationalPlanServiceImplTest {
 	{
 		System.out.println(123);
 		NationalPlan nationalPlan = nationalPlanServives.findById("1aed5cbd-7a80-43cb-9fdf-30924aac2a5f");
-		System.out.println(nationalPlan.getChildren1().size());
+		System.out.println(nationalPlan.getChildren().size());
 		System.out.println("find document success");
 		
 	}

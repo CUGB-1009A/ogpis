@@ -46,11 +46,10 @@
 											<td>${item.uploadDate}</td>
 											<td>
 												<p>
-													<a
-														href="<%=request.getContextPath()%>/${item.documentAddress}"
-														class="btn-sm btn-app btn-primary no-radius"> <i
-														class="icon-success icon-arrow-down bigger-200"></i> 下载
-													</a> &nbsp; <a
+													<a  href="<c:url value='/document/downloadDocument?id=${item.id}'/>" class="btn-sm btn-app btn-primary no-radius">
+															<i class="icon-arrow-down bigger-200"></i>
+															下载
+														</a> &nbsp; <a
 														href="javascript:del('<c:url value='/plan/national/deleteDoc?id=${item.id}&&nationalPlanId=${nationalPlan.id}'/>');"
 														class="btn-sm btn-app btn-danger no-radius"> <i
 														class="icon-trash bigger-200"></i> 删除

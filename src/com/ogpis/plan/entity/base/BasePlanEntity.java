@@ -23,6 +23,12 @@ public class BasePlanEntity extends BaseEntity {
 
 	@Column(name = "规划描述")
 	private String planDescription;
+	
+	@Column(name="规划维度")
+	private String planDimension;
+	
+	@Column(name="规划关键词")
+	private String keyWords;
 
 	@Column(columnDefinition="DATE",name = "开始时间")
 	@DateTimeFormat( pattern = "yyyy-MM-dd" )
@@ -93,6 +99,22 @@ public class BasePlanEntity extends BaseEntity {
 
 	public void setReleaseDate(Date releaseDate) {
 		this.releaseDate = releaseDate;
+	}
+	
+	public String getPlanDimension() {
+		return planDimension;
+	}
+
+	public void setPlanDimension(String planDimension) {
+		this.planDimension = planDimension;
+	}
+	
+	public String getKeyWords() {
+		return keyWords;
+	}
+
+	public void setKeyWords(String keyWords) {
+		this.keyWords = keyWords;
 	}
 
 }

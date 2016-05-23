@@ -6,8 +6,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.FetchType;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
-
-import com.ogpis.plan.entity.PlanDocument;
+import com.ogpis.document.entity.PlanDocument;
 
 /**
  * 全国规划
