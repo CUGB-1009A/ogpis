@@ -38,7 +38,7 @@
 					<div class="portlet-body">
 						<div class="table-toolbar" style="text-align: right;">
 							<div class="btn-group">
-								<a href="<c:url value='/plan/national/toEditPage'/>" class="btn-sm btn-app btn-success no-radius">
+								<a href="javascript:downloadZip()" class="btn-sm btn-app btn-success no-radius">
 									<i class="icon-arrow-down bigger-200">&nbsp;打包下载</i>
 								</a>
 								&nbsp;
@@ -93,6 +93,29 @@
 						</div>
 					</div>
             	</div>
+            
+            <div class="modal fade" id="myModalTips" tabindex="-1"
+							role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+							style="width: 1600px">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-body">
+										<div class="row">
+											<div class="col-md-12">
+												<div class="progress" style="width: 100%">
+													<div id="proBar">
+														<span id="showProgress">打包中，请稍后.....</span>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- /.modal-content -->
+							</div>
+							<!-- /.modal-dialog -->
+						</div>
+						
             </div>
 		</div>
 	</div>	
@@ -101,22 +124,22 @@
 <script type="text/javascript">
 
 function del(url){
-	var isDel =  confirm('确定从服务器删除该文档？', '确认对话框');
+	var isDel =  confirm('确定删除该文档？', '确认对话框');
 	if(isDel){
 		window.location.href=url;
 	}
 }
 
-/* 批量删除规划响应函数 */
+/* 批量删除文档响应函数 */
 function delAll()
 {
 	var checkedObject =  $("input[name='checkbox']:checked");
 	if(checkedObject.length==0)
 		{
-		alert("至少选择一个文档再清空！");
+		alert("至少选择一个文档再删除！");
 		return false;
 		}	
-	var isDelAll =  confirm('确定彻底删除所选文档？', '确认对话框');
+	var isDelAll =  confirm('确定删除选定文档？', '确认对话框');
 	var idTemp="";
 	if(isDelAll)
 	{
@@ -135,7 +158,55 @@ function delAll()
 			},
 			error:function()
 			{
-				alert("批量删除错误");
+				alert("批量清除错误");
+			}			
+		});
+	}
+}
+
+/* 打包下载文档响应函数 */
+function downloadZip()
+{
+	var checkedObject =  $("input[name='checkbox']:checked");
+	if(checkedObject.length==0)
+		{
+		alert("至少选择一个文档再打包下载！");
+		return false;
+		}	
+	var idTemp="";
+	$("#myModalTips").modal("show");		
+	if(true)
+	{		
+		for(var i=0;i<checkedObject.length;i++)
+		{
+			idTemp+=checkedObject[i].value+",";
+		}		
+		$.ajax({
+			url:"<%=path%>/document/zipDocuments",
+			data:{"Ids":idTemp},
+			type:"POST",
+			async:true,
+			success:function(data)
+			{
+				$("#myModalTips").modal("hide");
+				var downloadNow =  confirm('打包已完成，开始下载？', '确认对话框');
+				if(downloadNow)//下载
+				  window.location.href="<%=path%>/document/downloadZip?zipFileName="+ data.tmpFileName;
+ 				else//不下载，同时需要删除后台的压缩文件
+ 				  <%-- window.location.href="<%=path%>/document/deleteZip?zipFileName="+ data.tmpFileName; --%>		  				  
+				$.ajax({
+					url:"<%=path%>/document/downloadZip",
+					data:{"zipFileName":data.tmpFileName},
+					type:"POST",
+					async:true,
+					success:function(){
+						
+					}
+				})
+			},
+			error:function()
+			{
+				alert("打包下载失败");
 			}			
 		});
 	}

@@ -179,23 +179,33 @@ function downloadZip()
 	var idTemp="";
 	$("#myModalTips").modal("show");		
 	if(true)
-	{
+	{		
 		for(var i=0;i<checkedObject.length;i++)
 		{
 			idTemp+=checkedObject[i].value+",";
-		}
-		
+		}		
 		$.ajax({
 			url:"<%=path%>/document/zipDocuments",
 			data:{"Ids":idTemp},
 			type:"POST",
 			async:true,
-			success:function()
+			success:function(data)
 			{
 				$("#myModalTips").modal("hide");
 				var downloadNow =  confirm('打包已完成，开始下载？', '确认对话框');
-				if(downloadNow)
-				window.location.href="<%=path%>/document/downloadZip";
+				if(downloadNow)//下载
+				  window.location.href="<%=path%>/document/downloadZip?zipFileName="+ data.tmpFileName;
+ 				else//不下载，同时需要删除后台的压缩文件
+ 				  <%-- window.location.href="<%=path%>/document/deleteZip?zipFileName="+ data.tmpFileName; --%>		  				  
+				$.ajax({
+					url:"<%=path%>/document/downloadZip",
+					data:{"zipFileName":data.tmpFileName},
+					type:"POST",
+					async:true,
+					success:function(){
+						
+					}
+				})
 			},
 			error:function()
 			{

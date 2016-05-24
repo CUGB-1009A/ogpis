@@ -230,7 +230,7 @@ public class NationalPlanAction  {
                  */
                 if(fileName.contains("\\"));
                 	fileName = fileName.substring(fileName.lastIndexOf("\\")+1, fileName.length());
-                String prefix= new Random(System.currentTimeMillis()).nextInt()+"";
+                String prefix= System.currentTimeMillis()+"";
                 File uploadedFile = new File( request.getServletContext().getRealPath("/")+"planFileUpload\\national"+"\\"+prefix+fileName);           	
                 item.write(uploadedFile);  
       	        bean.setDocumentAddress("planFileUpload\\national\\"+prefix+fileName);

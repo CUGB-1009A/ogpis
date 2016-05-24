@@ -113,6 +113,7 @@ public class PlanDocumentAction {
 	public void deleteDocuments(HttpServletResponse resp,HttpServletRequest request, ModelMap model,String id) throws IOException {
 		 String Ids = request.getParameter("Ids");
 		 String idTemp;
+		 idList.clear();
 		 while(Ids.length()>1)
 		 {
 			 idTemp = Ids.substring(0,Ids.indexOf(","));
@@ -133,6 +134,7 @@ public class PlanDocumentAction {
 	public void removeDocuments(HttpServletResponse resp,HttpServletRequest request, ModelMap model) throws IOException {
 		 String Ids = request.getParameter("Ids");
 		 String idTemp;
+		 idList.clear();
 		 while(Ids.length()>1)
 		 {
 			 idTemp = Ids.substring(0,Ids.indexOf(","));
@@ -166,11 +168,9 @@ public class PlanDocumentAction {
 	@RequestMapping(value = "/document/zipDocuments")
 	public void zipDocuments(HttpServletResponse response,HttpServletRequest request, ModelMap model) throws IOException, ServletException
 		{
-		File fileTempExist = new File(request.getServletContext().getRealPath("/")+ "temp.zip");
-		if(fileTempExist.exists()) 
-			fileTempExist.delete();
 		String Ids = request.getParameter("Ids");
-		String idTemp;	
+		String idTemp;
+		idList.clear();
 		while(Ids.length()>1)
 		 {
 			 idTemp = Ids.substring(0,Ids.indexOf(","));
@@ -178,7 +178,8 @@ public class PlanDocumentAction {
 			 idList.add("\'"+idTemp+"\'");
 		 }
 		int fileNum = idList.size();
-		String tmpFileName ="temp.zip";
+		String tmpFileName =System.currentTimeMillis()+".zip";
+		System.out.println(tmpFileName);
 		String FilePath = request.getServletContext().getRealPath("/");
 		byte[] buffer = new byte[1024];
 		String strZipPath = FilePath + tmpFileName;
@@ -190,13 +191,14 @@ public class PlanDocumentAction {
 			temp = idList.get(i).toString();
 			planDocument = planDocumentService.findById(temp.substring(1,temp.length()-1));
 			files[i] = new File(request.getServletContext().getRealPath("/")+ planDocument.getDocumentAddress()); 		
-		} 
+		}
+		System.out.println("本次压缩几个文件"+files.length);
 		try{
 			ZipOutputStream out = new ZipOutputStream(new FileOutputStream(strZipPath));
 			for(int i=0;i<fileNum;i++)
 			{
 				FileInputStream fis = new FileInputStream(files[i]);
-				out.putNextEntry(new ZipEntry(System.currentTimeMillis() + files[i].getName()));
+				out.putNextEntry(new ZipEntry(files[i].getName().substring(13, files[i].getName().length())));
 				int len;
 				while((len = fis.read(buffer))>0){
 					out.write(buffer, 0, len);
@@ -210,14 +212,15 @@ public class PlanDocumentAction {
 		{
 			e.printStackTrace();
 		}
-		 String success = "{\"flag1\":\"success\"}";     
+		 String success = "{\"tmpFileName\":\""+tmpFileName+"\"}";  
+		 response.setContentType("application/json");
 	     response.setCharacterEncoding("utf-8");
 		 response.getWriter().write(success);
 	}
 	
 
 	@RequestMapping(value = "/document/downloadZip")
-	public void downloadZip(HttpServletResponse response,HttpServletRequest request, ModelMap model) throws IOException, ServletException
+	public void downloadZip(HttpServletResponse response,HttpServletRequest request, ModelMap model,String zipFileName) throws IOException, ServletException
 		{
 		     response.setContentType("application/x-msdownload");
 	         //设置编码方式
@@ -226,7 +229,7 @@ public class PlanDocumentAction {
 	         response.setHeader("Content-Disposition", "attachment;filename="+"download.zip");      
 	         //读取目标文件，通过response将目标文件写到客户端  
 	         //获取目标文件的绝对路径  
-	         String fullFileName = request.getServletContext().getRealPath("/")+ "temp.zip";  
+	         String fullFileName = request.getServletContext().getRealPath("/")+zipFileName;  
 	         //读取文件  
 	         InputStream in = new FileInputStream(fullFileName);  
 	         OutputStream out = response.getOutputStream();             
@@ -238,9 +241,18 @@ public class PlanDocumentAction {
 	         }  		           
 	         in.close();  
 	         out.close();
-	         File fileTemp = new File(request.getServletContext().getRealPath("/")+ "temp.zip");   		 
+	         File fileTemp = new File(request.getServletContext().getRealPath("/")+ zipFileName);   		 
 	         if(fileTemp.exists())
 	        	 fileTemp.delete();
+		}
+	
+	@RequestMapping(value = "/document/deleteZip")
+	public void deleteZip(HttpServletResponse response,HttpServletRequest request, ModelMap model) throws IOException, ServletException
+		{
+		String zipFileName = request.getParameter("zipFileName");
+		 File fileTemp = new File(request.getServletContext().getRealPath("/")+ zipFileName);   		 
+         if(fileTemp.exists())
+        	 fileTemp.delete();
 		}
 }
 	
