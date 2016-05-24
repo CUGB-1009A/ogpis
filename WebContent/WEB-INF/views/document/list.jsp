@@ -96,18 +96,19 @@
 					</div>
             	</div>
             	
-            		<div class="modal fade" id="myModalTips" tabindex="-1"
+            			<div class="modal fade" id="myModalTips" tabindex="-1"
 							role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
 							style="width: 1600px">
 							<div class="modal-dialog">
 								<div class="modal-content">
+									<div class="modal-header">
+										<h3 class="modal-title">提示</h3>
+									</div>
 									<div class="modal-body">
 										<div class="row">
 											<div class="col-md-12">
-												<div class="progress" style="width: 100%">
-													<div id="proBar">
-														<span id="showProgress">打包中，请稍后.....</span>
-													</div>
+												<div style="width: 100%">
+													<span>正在打包中 ... ...</span>
 												</div>
 											</div>
 										</div>
@@ -117,7 +118,7 @@
 							</div>
 							<!-- /.modal-dialog -->
 						</div>
-						
+				
 						
             </div>
 		</div>
@@ -177,7 +178,7 @@ function downloadZip()
 		return false;
 		}	
 	var idTemp="";
-	$("#myModalTips").modal("show");		
+	$('#myModalTips').modal({backdrop: 'static', keyboard: false});		
 	if(true)
 	{		
 		for(var i=0;i<checkedObject.length;i++)
@@ -195,17 +196,16 @@ function downloadZip()
 				var downloadNow =  confirm('打包已完成，开始下载？', '确认对话框');
 				if(downloadNow)//下载
 				  window.location.href="<%=path%>/document/downloadZip?zipFileName="+ data.tmpFileName;
- 				else//不下载，同时需要删除后台的压缩文件
- 				  <%-- window.location.href="<%=path%>/document/deleteZip?zipFileName="+ data.tmpFileName; --%>		  				  
-				$.ajax({
-					url:"<%=path%>/document/downloadZip",
-					data:{"zipFileName":data.tmpFileName},
-					type:"POST",
-					async:true,
-					success:function(){
-						
-					}
-				})
+ 				else//不下载，同时需要删除后台的压缩文件	  				  
+					$.ajax({
+						url:"<%=path%>/document/deleteZip",
+						data:{"zipFileName":data.tmpFileName},
+						type:"POST",
+						async:true,
+						success:function(){
+							
+						}
+					});
 			},
 			error:function()
 			{
