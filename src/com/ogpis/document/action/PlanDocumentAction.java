@@ -2,11 +2,17 @@ package com.ogpis.document.action;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -107,15 +113,12 @@ public class PlanDocumentAction {
 	public void deleteDocuments(HttpServletResponse resp,HttpServletRequest request, ModelMap model,String id) throws IOException {
 		 String Ids = request.getParameter("Ids");
 		 String idTemp;
-		 System.out.println(Ids);
 		 while(Ids.length()>1)
 		 {
 			 idTemp = Ids.substring(0,Ids.indexOf(","));
 			 Ids = Ids.substring(Ids.indexOf(",")+1,Ids.length());
 			 idList.add("\'"+idTemp+"\'");
 		 }
-		 System.out.println(idList.toString());
-		 System.out.println(idList.size());
 		 planDocumentService.updateAll(idList);
 		 String success = "{\"flag1\":\"success\"}";     
 	     resp.setCharacterEncoding("utf-8");
@@ -155,5 +158,109 @@ public class PlanDocumentAction {
 	     resp.setCharacterEncoding("utf-8");
 		 resp.getWriter().write(success);
 	}
+	
+	/*
+	 * 文件打包
+	 */
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/document/zipDocuments")
+	public void zipDocuments(HttpServletResponse response,HttpServletRequest request, ModelMap model) throws IOException, ServletException
+		{
+		File fileTempExist = new File(request.getServletContext().getRealPath("/")+ "temp.zip");
+		if(fileTempExist.exists()) 
+			fileTempExist.delete();
+		String Ids = request.getParameter("Ids");
+		String idTemp;	
+		while(Ids.length()>1)
+		 {
+			 idTemp = Ids.substring(0,Ids.indexOf(","));
+			 Ids = Ids.substring(Ids.indexOf(",")+1,Ids.length());
+			 idList.add("\'"+idTemp+"\'");
+		 }
+		int fileNum = idList.size();
+		String tmpFileName ="temp.zip";
+		String FilePath = request.getServletContext().getRealPath("/");
+		byte[] buffer = new byte[1024];
+		String strZipPath = FilePath + tmpFileName;
+		File[] files = new File[fileNum];
+		PlanDocument planDocument = null;
+		String temp = "";
+		for(int i=0;i<idList.size();i++)
+		{
+			temp = idList.get(i).toString();
+			planDocument = planDocumentService.findById(temp.substring(1,temp.length()-1));
+			files[i] = new File(request.getServletContext().getRealPath("/")+ planDocument.getDocumentAddress()); 		
+		} 
+		try{
+			ZipOutputStream out = new ZipOutputStream(new FileOutputStream(strZipPath));
+			for(int i=0;i<fileNum;i++)
+			{
+				FileInputStream fis = new FileInputStream(files[i]);
+				out.putNextEntry(new ZipEntry(System.currentTimeMillis() + files[i].getName()));
+				int len;
+				while((len = fis.read(buffer))>0){
+					out.write(buffer, 0, len);
+				}
+				out.closeEntry();
+				fis.close();
+			}
+			out.close();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		 String success = "{\"flag1\":\"success\"}";     
+	     response.setCharacterEncoding("utf-8");
+		 response.getWriter().write(success);
+	}
+	
 
+	@RequestMapping(value = "/document/downloadZip")
+	public void downloadZip(HttpServletResponse response,HttpServletRequest request, ModelMap model) throws IOException, ServletException
+		{
+		     response.setContentType("application/x-msdownload");
+	         //设置编码方式
+	         response.setCharacterEncoding("utf-8");
+	         //设置Content-Disposition  
+	         response.setHeader("Content-Disposition", "attachment;filename="+"download.zip");      
+	         //读取目标文件，通过response将目标文件写到客户端  
+	         //获取目标文件的绝对路径  
+	         String fullFileName = request.getServletContext().getRealPath("/")+ "temp.zip";  
+	         //读取文件  
+	         InputStream in = new FileInputStream(fullFileName);  
+	         OutputStream out = response.getOutputStream();             
+	         //写文件  
+	         int b;  
+	         while((b=in.read())!= -1)  
+	         {  
+	            out.write(b);  
+	         }  		           
+	         in.close();  
+	         out.close();
+	         File fileTemp = new File(request.getServletContext().getRealPath("/")+ "temp.zip");   		 
+	         if(fileTemp.exists())
+	        	 fileTemp.delete();
+		}
 }
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
