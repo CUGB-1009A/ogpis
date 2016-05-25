@@ -16,4 +16,7 @@ public interface PlanDocumentDao extends BaseDao<PlanDocument,String> {
 
 	void removeAllDocument(ArrayList<String> idList);
 
+	IPageList<PlanDocument> getDocumentsByPlan(String selectCondition, String inputValue, String selectValue,
+			int pageNo, int pageSize);
+
 }

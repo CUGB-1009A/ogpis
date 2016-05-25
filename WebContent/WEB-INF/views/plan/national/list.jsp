@@ -54,11 +54,11 @@
 								<a href="javascript:delAll();" class="btn-sm btn-app btn-danger no-radius">
 									<i class="icon-trash bigger-200">&nbsp;批量删除</i>
 								</a>
+								&nbsp;&nbsp;
 							</form>
 					
 							</div>
 						</div>
-						&nbsp;
 						
 						<div class="dataTables_wrapper form-inline" role="grid">
 							<div class="table-scrollable">

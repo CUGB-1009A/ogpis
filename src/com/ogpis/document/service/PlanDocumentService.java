@@ -16,4 +16,7 @@ public interface PlanDocumentService extends BaseService<PlanDocument,String>{
 
 	void removeAllDocument(ArrayList<String> idList);
 
+	IPageList<PlanDocument> getDocumentsByPlan(String selectCondition, String inputValue, String selectValue,
+			int pageNo, int pageSize);
+
 }

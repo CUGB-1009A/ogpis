@@ -76,4 +76,31 @@ public class PlanDocumentDaoImpl extends BaseDaoImpl<PlanDocument,String>impleme
 		
 	}
 
+	@Override
+	public IPageList<PlanDocument> getDocumentsByPlan(String selectCondition, String inputValue, String selectValue,
+			int pageNo, int pageSize) {
+		int first = (pageNo - 1) * pageSize;
+		String hql="";
+		String hqlCount="";
+		if(selectCondition.equals("1"))
+		{
+			System.out.println("按规划查询的");
+			hql = "from PlanDocument where deleted=false and fatherNational='"+selectValue+"' order by createTime desc";
+			hqlCount = "select count(*) from PlanDocument where deleted=false and fatherNational='"+selectValue+"'";
+		}
+		if(selectCondition.equals("2"))
+		{
+			System.out.println("按文档名称查询的");
+			hql = "from PlanDocument where deleted=false and documentName like '%"+inputValue+"%' order by createTime desc";
+			hqlCount = "select count(*) from PlanDocument where deleted=false and documentName like '%"+inputValue+"%'";
+		}
+		@SuppressWarnings("unchecked")
+		List<PlanDocument> items = this
+				.queryByHql(hql,null, first, pageSize);
+		int count = Integer.parseInt(this.findUnique(
+				hqlCount, null)
+				.toString());
+		return PageListUtil.getPageList(count, pageNo, items, pageSize);
+	}
+
 }

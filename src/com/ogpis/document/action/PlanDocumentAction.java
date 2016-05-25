@@ -9,6 +9,7 @@ import java.io.OutputStream;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -26,12 +27,17 @@ import com.ogpis.base.common.paging.IPageList;
 import com.ogpis.base.common.paging.PageListUtil;
 import com.ogpis.document.entity.PlanDocument;
 import com.ogpis.document.service.PlanDocumentService;
+import com.ogpis.plan.entity.NationalPlan;
+import com.ogpis.plan.service.NationalPlanService;
 
 @Controller
 public class PlanDocumentAction {
 	
 	@Autowired
 	PlanDocumentService planDocumentService;
+	
+	@Autowired
+	NationalPlanService nationalPlanService;
 	
 	@SuppressWarnings("rawtypes")
 	private ArrayList idList=new ArrayList();
@@ -254,6 +260,36 @@ public class PlanDocumentAction {
          if(fileTemp.exists())
         	 fileTemp.delete();
 		}
+	
+	@RequestMapping(value = "/document/findAllPlans")
+	public void findAllPlans(HttpServletRequest request , HttpServletResponse response) throws IOException {
+		List<NationalPlan> nationalPlans = nationalPlanService.getAllPlans();
+		String result = "[";  
+		for(NationalPlan temp:nationalPlans)
+		{
+			result+="{\"planName\":\""+temp.getPlanName()+"\",\"planId\":\""+temp.getId()+"\"},";
+		}
+		result = result.substring(0, result.length()-1);
+		result+="]";
+		response.setCharacterEncoding("utf-8");
+		response.getWriter().write(result);
+	}
+	
+	@RequestMapping(value = "/document/queryDocument")
+	public String queryDocument(HttpServletRequest request , HttpServletResponse response,ModelMap model,String inputValue,String selectValue,String selectCondition){
+		
+		int pageNo = ServletRequestUtils.getIntParameter(request,
+				PageListUtil.PAGE_NO_NAME, PageListUtil.DEFAULT_PAGE_NO);
+		int pageSize = 6;
+		IPageList<PlanDocument> planDocuments =planDocumentService
+				.getDocumentsByPlan(selectCondition,inputValue,selectValue,pageNo, pageSize);
+		model.addAttribute("planDocuments", planDocuments);	
+		model.addAttribute("inputValue", inputValue);	
+		model.addAttribute("selectCondition", selectCondition);	
+		model.addAttribute("selectValue", selectValue);	
+		
+		return "document/list";
+	}
 }
 	
 	

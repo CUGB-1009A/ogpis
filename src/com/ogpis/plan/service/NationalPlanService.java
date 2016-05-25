@@ -1,6 +1,7 @@
 package com.ogpis.plan.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.ogpis.base.common.paging.IPageList;
 import com.ogpis.base.service.BaseService;
@@ -13,5 +14,7 @@ public interface NationalPlanService extends BaseService<NationalPlan, String>{
 	void updateAll(ArrayList<String> idList);
 
 	IPageList<NationalPlan> getNationalPlansByCondition(String condition,int pageNo, int pageSize);
+
+	List<NationalPlan> getAllPlans();
 
 }

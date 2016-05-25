@@ -1,6 +1,7 @@
 package com.ogpis.plan.dao;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.ogpis.base.common.paging.IPageList;
 import com.ogpis.base.dao.BaseDao;
@@ -15,5 +16,7 @@ public interface NationalPlanDao extends BaseDao<NationalPlan, String>   {
 	void updateAll(ArrayList<String> idList);
 
 	IPageList<NationalPlan> getNationalPlansByCondition(String conditon,int pageNo, int pageSize);
+
+	List<NationalPlan> getAllPlans();
 
 }

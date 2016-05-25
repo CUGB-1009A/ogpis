@@ -1,6 +1,7 @@
 package com.ogpis.plan.service.impl;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,6 +43,12 @@ public class NationalPlanServiceImpl extends BaseServiceImpl<NationalPlan, Strin
 	public IPageList<NationalPlan> getNationalPlansByCondition(String condition,int pageNo, int pageSize) {
 		// TODO Auto-generated method stub
 		 return getNationalPlanDao().getNationalPlansByCondition(condition,pageNo,pageSize);
+	}
+
+	@Override
+	public List<NationalPlan> getAllPlans() {
+		// TODO Auto-generated method stub
+		return getNationalPlanDao().getAllPlans();
 	}
 
 }

@@ -68,4 +68,14 @@ public class NationalPlanDaoImpl extends BaseDaoImpl<NationalPlan, String>
 				return PageListUtil.getPageList(count, pageNo, items, pageSize);
 	}
 
+	@Override
+	public List<NationalPlan> getAllPlans() {
+		@SuppressWarnings("unchecked")
+		List<NationalPlan> items = this
+				.queryByHql(
+						"from NationalPlan where deleted=false order by createTime desc",
+						null);
+		return items;
+	}
+
 }
