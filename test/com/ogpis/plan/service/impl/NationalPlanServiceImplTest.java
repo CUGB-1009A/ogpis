@@ -1,7 +1,5 @@
 package com.ogpis.plan.service.impl;
 
-import static org.junit.Assert.*;
-
 import java.util.Date;
 import java.util.List;
 
@@ -13,9 +11,10 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.ogpis.document.entity.PlanDocument;
+import com.ogpis.document.service.PlanDocumentService;
 import com.ogpis.expando.entity.ClassName;
 import com.ogpis.expando.entity.ExpandoColumn;
-import com.ogpis.expando.entity.ExpandoRow;
 import com.ogpis.expando.entity.ExpandoTable;
 import com.ogpis.expando.entity.ExpandoValue;
 import com.ogpis.expando.service.ClassNameService;
@@ -25,10 +24,8 @@ import com.ogpis.expando.service.ExpandoTableService;
 import com.ogpis.expando.service.ExpandoValueService;
 import com.ogpis.plan.entity.NationalPlan;
 import com.ogpis.plan.entity.NationalPlanData;
-import com.ogpis.plan.entity.PlanDocument;
 import com.ogpis.plan.service.NationalPlanDataService;
 import com.ogpis.plan.service.NationalPlanService;
-import com.ogpis.plan.service.PlanDocumentService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 // 用于配置spring中测试的环境

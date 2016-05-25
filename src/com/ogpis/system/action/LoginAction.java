@@ -1,14 +1,17 @@
 package com.ogpis.system.action;
 
-
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
 @Controller
 public class LoginAction {
 
-	
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String test() {
 		System.out.println("index");
@@ -16,12 +19,19 @@ public class LoginAction {
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String login(String username, String password,HttpServletRequest request) {
+	public String login(String username, String password,
+			HttpServletRequest request) {
 		System.out.println("login");
 		System.out.println("username:" + username);
 		System.out.println("password:" + password);
-    	return "main";
-	
+		SecurityUtils.getSecurityManager().logout(SecurityUtils.getSubject());
+		// 登录后存放进shiro token
+		UsernamePasswordToken token = new UsernamePasswordToken(
+				username, password);
+		Subject subject = SecurityUtils.getSubject();
+		subject.login(token);
+		return "main";
+
 	}
 
 }
