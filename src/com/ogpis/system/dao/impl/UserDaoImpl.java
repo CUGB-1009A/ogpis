@@ -19,19 +19,31 @@ public class UserDaoImpl extends BaseDaoImpl<User, String> implements UserDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<User> getAllUsers() {
-		return (List<User>) this.queryByHql("from User where deleted=false", null);
+		return (List<User>) this.queryByHql("from User where deleted=false",
+				null);
 	}
 
 	@Override
 	public IPageList<User> getAllUsers(int pageNo, int pageSize) {
 		int first = (pageNo - 1) * pageSize;
-		List<User> items = this.queryByHql("from User where deleted=false order by createTime desc", null, first, pageSize);
+		List<User> items = this.queryByHql(
+				"from User where deleted=false order by createTime desc", null,
+				first, pageSize);
 		// int count = this.queryByHql("select count(*) from User where
 		// deleted=false", null).indexOf(0);
-		int count = Integer.parseInt(this.findUnique("select count(*) from User where deleted=false", null).toString());
+		int count = Integer.parseInt(this.findUnique(
+				"select count(*) from User where deleted=false", null)
+				.toString());
 		System.out.println("count: " + count);
 		// http://www.cnblogs.com/mabaishui/archive/2009/10/16/1584510.html
 		return PageListUtil.getPageList(count, pageNo, items, pageSize);
+	}
+
+	@Override
+	public User findByUserName(String userName) {
+		String hql = "from User where name=?";
+		User user = (User) this.findUnique(hql, userName);
+		return user;
 	}
 
 	@Override

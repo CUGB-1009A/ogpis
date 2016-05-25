@@ -33,4 +33,9 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements
 	public IPageList<User> getAllUsers(int pageNo, int pageSize) {
 		return (IPageList<User> ) getUserDao().getAllUsers(pageNo,pageSize);
 	}
+	
+	@Override
+	public User findByUserName(String userName){
+		return getUserDao().findByUserName(userName);
+	}
 }

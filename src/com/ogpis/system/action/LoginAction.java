@@ -1,8 +1,10 @@
 package com.ogpis.system.action;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
@@ -28,10 +30,13 @@ public class LoginAction {
 		// 登录后存放进shiro token
 		UsernamePasswordToken token = new UsernamePasswordToken(
 				username, password);
-		Subject subject = SecurityUtils.getSubject();
-		subject.login(token);
-		return "main";
-
+		try {
+			Subject subject = SecurityUtils.getSubject();
+			subject.login(token);;
+			return "main";
+		} catch (AuthenticationException e) {
+			//e.printStackTrace();
+			return "index";
+		}
 	}
-
 }
