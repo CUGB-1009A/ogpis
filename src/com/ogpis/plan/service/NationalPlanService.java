@@ -12,4 +12,6 @@ public interface NationalPlanService extends BaseService<NationalPlan, String>{
 
 	void updateAll(ArrayList<String> idList);
 
+	IPageList<NationalPlan> getNationalPlansByCondition(String condition,int pageNo, int pageSize);
+
 }

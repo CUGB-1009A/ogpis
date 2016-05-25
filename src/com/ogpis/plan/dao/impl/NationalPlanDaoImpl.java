@@ -52,4 +52,20 @@ public class NationalPlanDaoImpl extends BaseDaoImpl<NationalPlan, String>
 		
 	}
 
+	@Override
+	public IPageList<NationalPlan> getNationalPlansByCondition(String condition,int pageNo, int pageSize) {
+
+				int first = (pageNo - 1) * pageSize;
+				@SuppressWarnings("unchecked")
+				List<NationalPlan> items = this
+						.queryByHql(
+								"from NationalPlan where deleted=false and (planName like '%"+condition+"%' or planCode like '%"+condition+"%' or releaseUnit like '%"+condition+"%') order by createTime desc",
+								null, first, pageSize);
+				int count = Integer.parseInt(this.findUnique(
+						"select count(*) from NationalPlan where deleted=false and (planName like '%"+condition+"%' or planCode like '%"+condition+"%' or releaseUnit like '%"+condition+"%')", null)
+						.toString());
+				System.out.println(count);
+				return PageListUtil.getPageList(count, pageNo, items, pageSize);
+	}
+
 }

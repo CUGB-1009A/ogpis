@@ -38,6 +38,15 @@
 					<div class="portlet-body">
 						<div class="table-toolbar" style="text-align: right;">
 							<div class="btn-group">
+						<form id="queryNationalPlan" action="<%=path%>/plan/national/fuzzyQuery">
+							<span title="根据规划名，规划代号，规划单位等条件进行模糊匹配查询">模糊查询：</span>	
+								&nbsp;&nbsp;
+								<input type="text" id="inputFuzzyQuery" placeholder="模糊查询条件..."  name="condition" value="${condition}" >
+								&nbsp;&nbsp;
+								<a href="javascript:fuzzyQuery();" class="btn-sm btn-app btn-success no-radius">
+									<i class="icon-search bigger-200">&nbsp;查询</i>
+								</a>
+								&nbsp;&nbsp;&nbsp;&nbsp;
 								<a href="<c:url value='/plan/national/toEditPage'/>" class="btn-sm btn-app btn-success no-radius">
 									<i class="icon-plus bigger-200">&nbsp;添加规划</i>
 								</a>
@@ -45,8 +54,12 @@
 								<a href="javascript:delAll();" class="btn-sm btn-app btn-danger no-radius">
 									<i class="icon-trash bigger-200">&nbsp;批量删除</i>
 								</a>
+							</form>
+					
 							</div>
 						</div>
+						&nbsp;
+						
 						<div class="dataTables_wrapper form-inline" role="grid">
 							<div class="table-scrollable">
 								<table class="table table-striped table-bordered table-hover" id="data-table">
@@ -103,12 +116,23 @@
 </div>
 </body>
 <script type="text/javascript">
-
 function del(url){
 	var isDel =  confirm('确定删除该规划？', '确认对话框');
 	if(isDel){
 		window.location.href=url;
 	}
+}
+
+function fuzzyQuery()
+{
+	var temp = $("#inputFuzzyQuery").val();
+	if(temp=="")
+		{
+		alert("请输入查询条件！")
+		return ;
+		}
+	else
+		$("#queryNationalPlan").submit();
 }
 
 /* 批量删除规划响应函数 */
@@ -118,7 +142,7 @@ function delAll()
 	if(checkedObject.length==0)
 		{
 		alert("至少选择一个规划再删除！");
-		return false;
+		return;
 		}	
 	var isDelAll =  confirm('确定删除选定规划？', '确认对话框');
 	var idTemp="";

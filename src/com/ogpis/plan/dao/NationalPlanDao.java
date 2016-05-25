@@ -14,4 +14,6 @@ public interface NationalPlanDao extends BaseDao<NationalPlan, String>   {
 
 	void updateAll(ArrayList<String> idList);
 
+	IPageList<NationalPlan> getNationalPlansByCondition(String conditon,int pageNo, int pageSize);
+
 }

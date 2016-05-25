@@ -292,5 +292,19 @@ public class NationalPlanAction  {
 		 String success = "{\"flag1\":\"success\"}";     
 	     resp.setCharacterEncoding("utf-8");
 		 resp.getWriter().write(success);		
-		}	
+		}
+		
+		@RequestMapping(value = "/plan/national/fuzzyQuery")
+		public String fuzzyQuery(HttpServletRequest request, ModelMap model,String condition) {
+			System.out.println(condition);
+			int pageNo = ServletRequestUtils.getIntParameter(request,
+					PageListUtil.PAGE_NO_NAME, PageListUtil.DEFAULT_PAGE_NO);
+			int pageSize = 6;
+			IPageList<NationalPlan> nationalPlans = nationalPlanService
+					.getNationalPlansByCondition(condition,pageNo, pageSize);
+			System.out.println(nationalPlans.getItemCount());
+			model.addAttribute("nationalPlans", nationalPlans);
+			model.addAttribute("condition",condition);
+			return "plan/national/list";
+		}
 }

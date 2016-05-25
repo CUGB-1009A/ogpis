@@ -38,4 +38,10 @@ public class NationalPlanServiceImpl extends BaseServiceImpl<NationalPlan, Strin
 		
 	}
 
+	@Override
+	public IPageList<NationalPlan> getNationalPlansByCondition(String condition,int pageNo, int pageSize) {
+		// TODO Auto-generated method stub
+		 return getNationalPlanDao().getNationalPlansByCondition(condition,pageNo,pageSize);
+	}
+
 }
