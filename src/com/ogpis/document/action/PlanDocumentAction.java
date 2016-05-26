@@ -58,9 +58,9 @@ public class PlanDocumentAction {
 		int pageNo = ServletRequestUtils.getIntParameter(request,
 				PageListUtil.PAGE_NO_NAME, PageListUtil.DEFAULT_PAGE_NO);
 		int pageSize = 6;
-		IPageList<PlanDocument> documents =planDocumentService
+		IPageList<PlanDocument> planDocuments =planDocumentService
 				.getDeletedDocuments(pageNo, pageSize);
-		model.addAttribute("documents", documents);	
+		model.addAttribute("planDocuments", planDocuments);	
 		return "document/trash";
 	}
 	
@@ -289,6 +289,19 @@ public class PlanDocumentAction {
 		model.addAttribute("selectValue", selectValue);	
 		
 		return "document/list";
+	}
+	
+	@RequestMapping(value = "/document/queryTrashDocument")
+	public String queryTrashDocument(HttpServletRequest request , HttpServletResponse response,ModelMap model,String condition){
+		
+		int pageNo = ServletRequestUtils.getIntParameter(request,
+				PageListUtil.PAGE_NO_NAME, PageListUtil.DEFAULT_PAGE_NO);
+		int pageSize = 6;
+		IPageList<PlanDocument> planDocuments =planDocumentService
+				.getTrashDocumentsCondition(condition,pageNo, pageSize);
+		model.addAttribute("planDocuments", planDocuments);
+		model.addAttribute("condition", condition);	
+		return "document/trash";
 	}
 }
 	

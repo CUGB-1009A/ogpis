@@ -19,4 +19,6 @@ public interface PlanDocumentService extends BaseService<PlanDocument,String>{
 	IPageList<PlanDocument> getDocumentsByPlan(String selectCondition, String inputValue, String selectValue,
 			int pageNo, int pageSize);
 
+	IPageList<PlanDocument> getTrashDocumentsCondition(String condition, int pageNo, int pageSize);
+
 }

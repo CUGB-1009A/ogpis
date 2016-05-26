@@ -38,6 +38,17 @@
 					<div class="portlet-body">
 						<div class="table-toolbar" style="text-align: right;">
 							<div class="btn-group">
+							<form id="queryTrashDocument" action="<%=path%>/document/queryTrashDocument">
+							
+							<span title="输入查询值">查询条件：</span>	
+								&nbsp;
+								<input type="text" id="inputValue" placeholder="查询值..."  name="condition" value="${condition}" >
+								&nbsp;&nbsp;
+								<a href="javascript:queryTrashDocument();" class="btn-sm btn-app btn-success no-radius">
+									<i class="icon-search bigger-200">&nbsp;查询</i>
+								</a>
+								&nbsp;&nbsp;&nbsp;&nbsp;
+								
 								<a href="javascript:downloadZip()" class="btn-sm btn-app btn-success no-radius">
 									<i class="icon-arrow-down bigger-200">&nbsp;打包下载</i>
 								</a>
@@ -45,6 +56,7 @@
 								<a href="javascript:delAll();" class="btn-sm btn-app btn-danger no-radius">
 									<i class="icon-trash bigger-200">&nbsp;清空回收站</i>
 								</a>
+								</form>
 							</div>
 						</div>
 						<div class="dataTables_wrapper form-inline" role="grid">
@@ -60,7 +72,7 @@
 										</tr>
 									</thead>
 									<tbody>
-										<c:forEach items="${documents.items}" var="item">
+										<c:forEach items="${planDocuments.items}" var="item">
 											<tr class="odd gradeX">
 												<td class="check_cell">
 												 <input type="checkbox" class="checkboxes" name="checkbox" value="${item.id}" />
@@ -87,7 +99,7 @@
 								</table>
 							</div>
 							<c:import url ="../common/paging.jsp">
-		        				<c:param name="pageModelName" value="documents"/>
+		        				<c:param name="pageModelName" value="planDocuments"/>
 		        				<c:param name="urlAddress" value="/document/trash"/>
 	       				 	</c:import>
 						</div>
@@ -123,6 +135,16 @@
 </div>
 </body>
 <script type="text/javascript">
+function queryTrashDocument()
+{
+	var inputValue = $("#inputValue").val();
+	if(inputValue=="")
+		{
+		alert("请输入查询值！");
+		return ;
+		}
+	$("#queryTrashDocument").submit();
+}
 
 function del(url){
 	var isDel =  confirm('确定删除该文档？', '确认对话框');
