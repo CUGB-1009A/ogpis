@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -64,6 +63,10 @@ public class NationalPlanAction  {
 	 */
 	@RequestMapping(value = "/plan/national/showDetail")
 	public String showDetail(HttpServletRequest request, ModelMap model,String id) {	
+		NationalPlan nationalPlan = nationalPlanService.findById(id);
+		model.addAttribute("nationalPlan", nationalPlan);
+		Set<PlanDocument> planDocuments = nationalPlan.getChildren();
+		model.addAttribute("planDocuments", planDocuments);
 		return "/plan/national/showDetail";	
 	}
 	
@@ -134,7 +137,6 @@ public class NationalPlanAction  {
 		Set<PlanDocument> planDocumentSet = nationalPlan.getChildren();
 		model.addAttribute("planDocumentSet", planDocumentSet);
 		model.addAttribute("flag",flag);
-		System.out.println("点击的是第"+flag);
 		return  "/plan/national/detail";
 	
 	}
@@ -222,8 +224,7 @@ public class NationalPlanAction  {
         	  
           } 
           else 
-          {  	bean = new PlanDocument();
-        	    System.out.println("上传文件时间"+new Date());            
+          {  	bean = new PlanDocument();          
                 String fileName = item.getName();
                 /*
                  * 这里发现ie获取的是路径加文件名，chrome获取的是文件名，这里我们只需要文件名，所以有路径的要先去路径
@@ -278,7 +279,6 @@ public class NationalPlanAction  {
 		public void deleteDocBatch(HttpServletResponse resp,HttpServletRequest request, ModelMap model) throws IOException {		
 		 String Ids = request.getParameter("Ids");
 		 String idTemp;
-		 System.out.println(Ids);
 		 while(Ids.length()>1)
 		 {
 			 idTemp = Ids.substring(0,Ids.indexOf(","));
@@ -296,13 +296,11 @@ public class NationalPlanAction  {
 		
 		@RequestMapping(value = "/plan/national/fuzzyQuery")
 		public String fuzzyQuery(HttpServletRequest request, ModelMap model,String condition) {
-			System.out.println(condition);
 			int pageNo = ServletRequestUtils.getIntParameter(request,
 					PageListUtil.PAGE_NO_NAME, PageListUtil.DEFAULT_PAGE_NO);
 			int pageSize = 6;
 			IPageList<NationalPlan> nationalPlans = nationalPlanService
 					.getNationalPlansByCondition(condition,pageNo, pageSize);
-			System.out.println(nationalPlans.getItemCount());
 			model.addAttribute("nationalPlans", nationalPlans);
 			model.addAttribute("condition",condition);
 			return "plan/national/list";
