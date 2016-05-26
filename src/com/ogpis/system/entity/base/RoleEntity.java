@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
@@ -35,7 +36,8 @@ public class RoleEntity extends BaseEntity {
 	/**
 	 * 该角色对应的用户
 	 */
-	@ManyToMany(targetEntity = User.class, mappedBy = "roles", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToMany(targetEntity = User.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinTable(name = "ogpis_user_role", joinColumns = @JoinColumn(name = "ROLE_ID"), inverseJoinColumns = @JoinColumn(name = "USER_ID"))
 	protected Set<User> users = new HashSet<User>();
 
 	/**

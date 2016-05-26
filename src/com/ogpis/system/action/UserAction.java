@@ -64,6 +64,14 @@ public class UserAction {
 		}
 		bean.setLoginId(user.getLoginId());
 		bean.setName(user.getName());
+		// 更新角色
+		bean.getRoles().clear();//先清空角色
+//		if (roleIds != null) {
+//			for (Integer rid : roleIds) {
+//				user.addToRoles(cmsRoleMng.findById(rid));
+//			}
+//		}
+		
 		if (isAdd) {
 			userService.add(bean);
 		} else {

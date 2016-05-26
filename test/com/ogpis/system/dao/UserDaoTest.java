@@ -3,23 +3,16 @@ package com.ogpis.system.dao;
 import java.sql.SQLException;
 import java.util.List;
 
-import javax.annotation.security.RunAs;
-
-import org.hibernate.SessionFactory;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.ogpis.system.entity.Organization;
 import com.ogpis.system.entity.User;
-import com.ogpis.system.entity.base.UserEntity;
 import com.ogpis.system.service.OrganizationService;
+import com.ogpis.system.service.RoleService;
 import com.ogpis.system.service.UserService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -31,6 +24,9 @@ public class UserDaoTest {
 
 	@Autowired
 	private OrganizationService organizationService;
+
+	@Autowired
+	private RoleService roleService;
 
 	// @BeforeClass
 	// public static void init() {
@@ -52,11 +48,19 @@ public class UserDaoTest {
 		Organization org = organizationService
 				.findById("5fa94114-1e6a-47bb-aa17-27a123ff58d0");
 
-		for (int i = 0; i < 50; i++) {
+		for (int i = 0; i < 1; i++) {
 			User user = new User();
-			user.setName("niexiao" + i);
+			user.setName("camille" + i);
 			user.setPassword("password");
 			user.setOraganzation(org);
+			// 更新角色
+			String[] roleIds = new String[] { "9a070819-1821-4d35-99ee-0ef2dc91917e" };
+			user.getRoles().clear();// 先清空角色
+			if (roleIds != null) {
+				for (String id : roleIds) {
+					user.addToRoles(roleService.findById(id));
+				}
+			}
 			user = userService.add(user);
 			System.out.println("userId :" + user.getId());
 		}
