@@ -16,9 +16,9 @@ public class MyAuthenticationFilter extends FormAuthenticationFilter {
 		Subject subject = getSubject(request, response);
 		System.out.println("isAllowed：" + isAllowed);
 		System.out.println("subject：" + (subject == null));
-		return true;
+		//return true;
 				
-		//return super.onPreHandle(request, response, mappedValue);
+		return super.onPreHandle(request, response, mappedValue);
 	}
 
 }

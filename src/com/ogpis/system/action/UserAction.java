@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -22,6 +25,7 @@ public class UserAction {
 	@Autowired
 	private UserService userService;
 
+	@RequiresPermissions("perm112")
 	@RequestMapping(value = "/user/list")
 	public String list(HttpServletRequest request, ModelMap model) {
 		int pageNo = ServletRequestUtils.getIntParameter(request,
@@ -73,7 +77,7 @@ public class UserAction {
 //		}
 		
 		if (isAdd) {
-			userService.add(bean);
+			userService.save(bean);
 		} else {
 			userService.update(bean);
 		}

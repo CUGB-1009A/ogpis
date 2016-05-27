@@ -43,7 +43,7 @@ public class RoleEntity extends BaseEntity {
 	/**
 	 * 该角色对应的权限url
 	 */
-	@ElementCollection
+	@ElementCollection(fetch=FetchType.EAGER)
 	@CollectionTable(name = "ogpis_role_permission", joinColumns = @JoinColumn(name = "role_id"))
 	@Column(name = "perm_url")
 	protected Set<String> perms;

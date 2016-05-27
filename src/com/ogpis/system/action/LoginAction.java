@@ -31,11 +31,12 @@ public class LoginAction {
 		UsernamePasswordToken token = new UsernamePasswordToken(
 				username, password);
 		try {
+			System.out.println("login");
 			Subject subject = SecurityUtils.getSubject();
-			subject.login(token);;
+			subject.login(token);
 			return "main";
 		} catch (AuthenticationException e) {
-			//e.printStackTrace();
+			e.printStackTrace();
 			return "index";
 		}
 	}

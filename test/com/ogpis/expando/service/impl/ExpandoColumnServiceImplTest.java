@@ -35,7 +35,7 @@ public class ExpandoColumnServiceImplTest {
 		expandoColumn.setType("15");
 		expandoColumn.setDefalutData("default");
 
-		expandoColumnService.add(expandoColumn);
+		expandoColumnService.save(expandoColumn);
 	}
 
 	@Test

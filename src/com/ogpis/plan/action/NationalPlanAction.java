@@ -98,7 +98,7 @@ public class NationalPlanAction  {
 		bean.setModifiedTime(new Timestamp(System.currentTimeMillis()));
 				
 		if (isAdd) {
-			nationalPlanService.add(bean);
+			nationalPlanService.save(bean);
 		} 
 		else {
 			nationalPlanService.update(bean);
@@ -240,7 +240,7 @@ public class NationalPlanAction  {
     			bean.setDocumentName(fileName);
     			bean.setFatherNational(nationalPlan);
     			planDocumentList.add(bean);	
-    			planDocumentService.add(bean);
+    			planDocumentService.save(bean);
           }  
     }  		
 	nationalPlan.setChildren(planDocumentList);

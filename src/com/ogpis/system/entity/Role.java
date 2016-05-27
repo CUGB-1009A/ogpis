@@ -1,9 +1,12 @@
 package com.ogpis.system.entity;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+
+import org.apache.commons.lang3.StringUtils;
 
 import com.ogpis.system.entity.base.RoleEntity;
 
@@ -25,5 +28,19 @@ public class Role extends RoleEntity {
 			return;
 		}
 		users.remove(user);
+	}
+	
+	public static Set<String> splitPerms(String[] perms) {
+		Set<String> set = new HashSet<String>();
+		if (perms != null) {
+			for (String perm : perms) {
+				for (String p : StringUtils.split(perm, ',')) {
+					if (!StringUtils.isBlank(p)) {
+						set.add(p);
+					}
+				}
+			}
+		}
+		return set;
 	}
 }

@@ -54,14 +54,14 @@ public class UserDaoTest {
 			user.setPassword("password");
 			user.setOraganzation(org);
 			// 更新角色
-			String[] roleIds = new String[] { "9a070819-1821-4d35-99ee-0ef2dc91917e" };
+			String[] roleIds = new String[] { "84ea9e67-2278-4317-89ed-923d2cfb0555" };
 			user.getRoles().clear();// 先清空角色
 			if (roleIds != null) {
 				for (String id : roleIds) {
 					user.addToRoles(roleService.findById(id));
 				}
 			}
-			user = userService.add(user);
+			user = userService.save(user);
 			System.out.println("userId :" + user.getId());
 		}
 	}
@@ -70,7 +70,7 @@ public class UserDaoTest {
 	public void testSaveOrg() throws SQLException {
 		Organization org = new Organization();
 		org.setName("new org");
-		org = organizationService.add(org);
+		org = organizationService.save(org);
 		System.out.println("organizationId :" + org.getId());
 	}
 
@@ -107,4 +107,18 @@ public class UserDaoTest {
 		System.out.println("users.get(0).getOraganzation().getName():"
 				+ users.get(0).getOraganzation().getName());
 	}
+
+	@Test
+	public void testFindByUserName() {
+		User user = userService.findByUserName("222");
+	}
+
+	@Test
+	public void clean() {
+		List<User> users = this.userService.getAllUsers();
+		for (User user : users) {
+			userService.delete(user.getId());
+		}
+	}
+
 }

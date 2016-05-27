@@ -17,7 +17,8 @@
 		<!--anon匿名 authc登录认证 user用户已登录 logout退出filter -->
 		<property name="filterChainDefinitions">
 			<value>
-				/login = authc
+				/login = anon
+				/user/**=user
 			</value>
 		</property>
 	</bean>
@@ -29,5 +30,18 @@
 	</bean>
 
 	<bean id="authorizingRealm" class="com.ogpis.security.MyRealm" />
+
+
+	<!-- 开启Shiro注解的Spring配置方式的beans。在lifecycleBeanPostProcessor之后运行 -->
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+	<bean
+		class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+		depends-on="lifecycleBeanPostProcessor">
+		<property name="proxyTargetClass" value="true" />
+	</bean>
+	<bean
+		class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+		<property name="securityManager" ref="securityManager" />
+	</bean>
 
 </beans>

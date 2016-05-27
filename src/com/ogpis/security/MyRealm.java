@@ -31,9 +31,7 @@ public class MyRealm extends AuthorizingRealm {
 			AuthenticationToken authcToken) throws AuthenticationException {
 		// TODO Auto-generated method stub
 		UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
-		System.out.println("authcToken :" + token.getUsername());
 		String username = token.getUsername();
-
 		if (username != null && !"".equals(username)) {
 			// 用户的验证逻辑
 			User user = userService.findByUserName(username);
@@ -51,19 +49,17 @@ public class MyRealm extends AuthorizingRealm {
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(
 			PrincipalCollection principals) {
-		//给用户授权
-//		String username = (String) principals.getPrimaryPrincipal();
-//		User user = userService.findByUserName(username);
-//		SimpleAuthorizationInfo auth = new SimpleAuthorizationInfo();
-//		if (user != null) {
-//			Set<String> viewPermissionSet = new HashSet<String>();
-//			Set<String> perms = user.getPerms(site.getId(), viewPermissionSet);
-//			if (!CollectionUtils.isEmpty(perms)) {
-//				// 权限加入AuthorizationInfo认证对象
-//				auth.setStringPermissions(perms);
-//			}
-//		}
-//		return auth;
-		return null;
+		// 给用户授权
+		String username = (String) principals.getPrimaryPrincipal();
+		User user = userService.findByUserName(username);
+		SimpleAuthorizationInfo auth = new SimpleAuthorizationInfo();
+		if (user != null) {
+			Set<String> perms = user.getPerms();
+			if (!CollectionUtils.isEmpty(perms)) {
+				// 权限加入AuthorizationInfo认证对象
+				auth.setStringPermissions(perms);
+			}
+		}
+		return auth;
 	}
 }

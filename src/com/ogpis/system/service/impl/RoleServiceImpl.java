@@ -1,6 +1,7 @@
 package com.ogpis.system.service.impl;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,13 @@ public class RoleServiceImpl extends BaseServiceImpl<Role, String> implements
 
 	protected RoleDao getRoleDao() {
 		return (RoleDao) this.baseDao;
+	}
+	
+	@Override
+	public Role save(Role role,Set<String> perms){
+		role.setPerms(perms);
+		this.getRoleDao().save(role);
+		return role;
 	}
 
 	@Override

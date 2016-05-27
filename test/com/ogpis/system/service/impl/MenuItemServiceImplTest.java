@@ -22,12 +22,12 @@ public class MenuItemServiceImplTest {
 	public void testAddFather() {
 		MenuItem menuItemFather = new MenuItem();
 		menuItemFather.setName("menuItemFather");
-		menuItemService.add(menuItemFather);
+		menuItemService.save(menuItemFather);
 		for (int i = 0; i < 100; i++) {
 			MenuItem menuItemChild = new MenuItem();
 			menuItemChild.setName("menuItemChild" + i);
 			menuItemChild.setFather(menuItemFather);
-			menuItemService.add(menuItemChild);
+			menuItemService.save(menuItemChild);
 		}
 	}
 	

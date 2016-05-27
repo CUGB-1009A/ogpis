@@ -1,6 +1,7 @@
 package com.ogpis.system.service.impl;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.annotation.Resource;
@@ -28,12 +29,16 @@ public class RoleServiceImplTest {
 		role.setName("testRole");
 		role.setPriority(1);
 		role.setSuper(false);
-		Set<String> perms = new HashSet<String>();
-		perms.add("perm1");
-		perms.add("perm2");
-		perms.add("perm3");
-		role.setPerms(perms);
-		roleService.add(role);
+		String[] perms = new String[] { "perm11", "perm22", "perm33" };
+		roleService.save(role, Role.splitPerms(perms));
+	}
+
+	@Test
+	public void testCleanRole() {
+		List<Role> roles = roleService.getList();
+		for (Role role : roles) {
+			roleService.delete(role.getId());
+		}
 	}
 
 	@Test

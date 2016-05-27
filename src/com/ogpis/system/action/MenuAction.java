@@ -97,7 +97,7 @@ public class MenuAction {
 				else
 					menuItem.setFather(MenuItemService.findById(pageId));	
 				
-				MenuItemService.add(menuItem);
+				MenuItemService.save(menuItem);
 		    }
 		else//修改一个菜单
 			{

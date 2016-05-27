@@ -25,7 +25,7 @@ public class ClassNameServiceImplTest {
 	public void test() {
 		ClassName className = new ClassName();
 		className.setClassName("className1");
-		classNameService.add(className);
+		classNameService.save(className);
 	}
 
 }

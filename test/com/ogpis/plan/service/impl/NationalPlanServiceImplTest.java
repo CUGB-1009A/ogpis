@@ -62,7 +62,7 @@ public class NationalPlanServiceImplTest {
 		planDocument.setFatherNational(nationalPlanServives.findById("1aed5cbd-7a80-43cb-9fdf-30924aac2a5f"));
 		planDocument.setDocumentDescription("测试处加入");
 		planDocument.setUploadUser(null);
-		planDocumentService.add(planDocument);
+		planDocumentService.save(planDocument);
 		System.out.println("add success");
 		
 	}
@@ -97,7 +97,7 @@ public class NationalPlanServiceImplTest {
 	public void test() {
 		NationalPlanData nationalPlan = new NationalPlanData();
 		nationalPlan.setExplore_SG(11d);
-		nationalPlanService.add(nationalPlan);
+		nationalPlanService.save(nationalPlan);
 	}
 
 	@Ignore

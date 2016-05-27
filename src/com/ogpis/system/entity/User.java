@@ -29,4 +29,32 @@ public class User extends UserEntity {
 		}
 		roles.add(role);
 	}
+
+	/**
+	 * 获得该用户的权限
+	 * @return
+	 */
+	public Set<String> getPerms() {
+		if (getDeleted()) {
+			return null;
+		}
+		Set<Role> roles = getRoles();
+		if (roles == null) {
+			return null;
+		}
+		boolean isSuper = false;
+		Set<String> allPerms = new HashSet<String>();
+		for (Role role : getRoles()) {
+			if (role.isSuper()) {
+				isSuper = true;
+				break;
+			}
+			allPerms.addAll(role.getPerms());
+		}
+		if (isSuper) {
+			allPerms.clear();
+			allPerms.add("*");
+		}
+		return allPerms;
+	}
 }
