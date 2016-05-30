@@ -15,8 +15,8 @@
 <div id="wrapper">
 <!-- 网站头及导航栏 -->
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-		<%@ include file="../main/main_header.jsp"%>
-		<%@ include file="../main/main_nav.jsp"%>
+		<%@ include file="../../main/main_header.jsp"%>
+		<%@ include file="../../main/main_nav.jsp"%>
 	</nav>
 	<!--网页主体 -->
 	
@@ -30,7 +30,7 @@
 				<li>
 					<a href="#">系统管理</a>
 				</li>
-				<li class="active">用户管理</li>
+				<li class="active">角色管理</li>
 			</ul>
 		</div>
 		<div class="row">
@@ -41,8 +41,8 @@
 					<div class="portlet-body">
 						<div class="table-toolbar" style="text-align: right;">
 							<div class="btn-group">
-								<a href="<c:url value='/user/add'/>" class="btn-sm btn-app btn-success no-radius">
-									<i class="icon-plus bigger-200">添加用户</i>
+								<a href="<c:url value='/system/role/add'/>" class="btn-sm btn-app btn-success no-radius">
+									<i class="icon-plus bigger-200">添加角色</i>
 								</a>
 							</div>
 						</div>
@@ -52,35 +52,28 @@
 									<thead>
 										<tr>
 											<th class="table-checkbox"><input type="checkbox" class="group-checkable"/></th>
-											<th>登录名</th>
-											<th>姓名</th>
-											<th>是否可用</th>
-											<th>用户名</th>
-											<th>注册时间</th>
+											<th>角色名</th>
+											<th>排序</th>
+											<th>超级管理员</th>
+											<th>操作</th>
 										</tr>
 									</thead>
 									<tbody>
-										<c:forEach items="${users.items}" var="item">
+										<c:forEach items="${roles}" var="item">
 											<tr class="odd gradeX">
 												<td class="check_cell">
 												 <input type="checkbox" class="checkboxes" name="Id" value="${ item.id }" />
 												</td>
-												<td>${item.loginId}</td>
 												<td>${item.name}</td>
-												<td>${item.id}</td>
-												<td>${item.password}</td>
-												<td>${item.createTime.toLocaleString() }</td> 
+												<td>${item.priority}</td>
+												<td>${item.isSuper}</td>
 												<td>
 													<p>
-														<a  class="btn-sm btn-app btn-success no-radius" data-toggle="modal" href="<c:url value='/user/view?id=${item.id }'/>" data-target="#myModal">
-															<i class="icon-info bigger-200"></i>
-															查看
-														</a>
-														<a  href="<c:url value='/user/edit?id=${item.id}'/>" class="btn-sm btn-app btn-primary no-radius">
+														<a  href="<c:url value='/system/role/edit?id=${item.id}'/>" class="btn-sm btn-app btn-primary no-radius">
 															<i class="icon-edit bigger-200"></i>
 															编辑
 														</a>
-														<a href="javascript:del('<c:url value='/user/delete?id=${item.id}'/>');" class="btn-sm btn-app btn-danger no-radius" >
+														<a href="javascript:del('<c:url value='/system/role/delete?id=${item.id}'/>');" class="btn-sm btn-app btn-danger no-radius" >
 															<i class="icon-trash bigger-200"></i>
 															删除
 														</a>
@@ -91,19 +84,6 @@
 									</tbody>
 								</table>
 							</div>
-							<c:import url ="../common/paging.jsp">
-		        				<c:param name="pageModelName" value="users"/>
-		        				<c:param name="urlAddress" value="/user/list"/>
-	       				 	</c:import>
-	       				 	
-	       				 	<!-- 模态框（Modal） -->
-							<div class="modal fade" id="myModal" tabindex="-1" role="dialog" 
-							   aria-labelledby="myModalLabel" aria-hidden="true"  >
-								<div class="modal-dialog">
-									<div class="modal-content">
-									</div><!-- /.modal-content -->
-								</div><!-- /.modal -->
-	       				 	</div>
 						</div>
 					</div>
             	</div>
@@ -114,42 +94,11 @@
 </body>
 <script type="text/javascript">
 function del(url){
-	var isDel =  confirm('确定删除该用户吗？', '确认对话框');
+	var isDel =  confirm('确定删除该角色吗？', '确认对话框');
 	if(isDel){
 		window.location.href=url;
 	}
 }
-
-$('#myModal').on('show.bs.modal', function () {
-	  $("#myModalContent").val('sdf');
-	});
-
-function test(url,title,msg) {
-	alert(url);
-	if(title==null){title="确认"};
-	if(msg==null){msg="确认删除?"};
-	 $("BODY").append("<div id='dialog-message' title='"+title+"'><p>"+msg+"</p></div>");
-	 $("#dialog-message").dialog({
-				modal: true,
-				resizable:false,
-				position:'center',
-				buttons: {
-					确认: function() {
-						$(this).dialog( "close" );
-						$("#dialog-message").remove();
-						window.location.href=url;
-					},
-					取消:function(){
-						$(this).dialog( "close" );
-						$("#dialog-message").remove();
-					}
-				}
-			});
-	$("#dialog-message").dialog('open');
-}
-
-
-
 </script>
 </html>
 	

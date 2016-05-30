@@ -28,7 +28,7 @@ public class RoleServiceImplTest {
 		Role role = new Role();
 		role.setName("testRole");
 		role.setPriority(1);
-		role.setSuper(false);
+		role.setIsSuper(false);
 		String[] perms = new String[] { "perm11", "perm22", "perm33" };
 		roleService.save(role, Role.splitPerms(perms));
 	}

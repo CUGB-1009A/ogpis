@@ -32,6 +32,7 @@ public class User extends UserEntity {
 
 	/**
 	 * 获得该用户的权限
+	 * 
 	 * @return
 	 */
 	public Set<String> getPerms() {
@@ -45,7 +46,7 @@ public class User extends UserEntity {
 		boolean isSuper = false;
 		Set<String> allPerms = new HashSet<String>();
 		for (Role role : getRoles()) {
-			if (role.isSuper()) {
+			if (role.getIsSuper()) {
 				isSuper = true;
 				break;
 			}

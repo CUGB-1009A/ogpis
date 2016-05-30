@@ -32,6 +32,13 @@ public class RoleServiceImpl extends BaseServiceImpl<Role, String> implements
 		this.getRoleDao().save(role);
 		return role;
 	}
+	
+	@Override
+	public Role update(Role role,Set<String> perms){
+		role.setPerms(perms);
+		this.getRoleDao().update(role);
+		return role;
+	}
 
 	@Override
 	public List<Role> getList() {

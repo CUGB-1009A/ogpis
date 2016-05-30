@@ -81,7 +81,7 @@ public class RoleEntity extends BaseEntity {
 	/**
 	 * @return the isSuper
 	 */
-	public boolean isSuper() {
+	public boolean getIsSuper() {
 		return isSuper;
 	}
 
@@ -89,7 +89,7 @@ public class RoleEntity extends BaseEntity {
 	 * @param isSuper
 	 *            the isSuper to set
 	 */
-	public void setSuper(boolean isSuper) {
+	public void setIsSuper(boolean isSuper) {
 		this.isSuper = isSuper;
 	}
 

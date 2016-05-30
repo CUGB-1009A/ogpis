@@ -36,4 +36,15 @@ public interface RoleService extends BaseService<Role, String> {
 	 */
 	public Role save(Role role, Set<String> perms);
 
+	/**
+	 * 编辑角色
+	 * 
+	 * @param role
+	 *            角色实体
+	 * @param perms
+	 *            角色对应的权限集合
+	 * @return
+	 */
+	public Role update(Role role, Set<String> perms);
+
 }

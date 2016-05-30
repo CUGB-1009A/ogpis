@@ -25,8 +25,7 @@ public class UserAction {
 	@Autowired
 	private UserService userService;
 
-	@RequiresPermissions("perm112")
-	@RequestMapping(value = "/user/list")
+	@RequestMapping(value = "/system/user/list")
 	public String list(HttpServletRequest request, ModelMap model) {
 		int pageNo = ServletRequestUtils.getIntParameter(request,
 				PageListUtil.PAGE_NO_NAME, PageListUtil.DEFAULT_PAGE_NO);
@@ -34,29 +33,29 @@ public class UserAction {
 				PageListUtil.PAGE_SIZE_NAME, PageListUtil.DEFAULT_PAGE_SIZE);
 		IPageList<User> users = userService.getAllUsers(pageNo, pageSize);
 		model.addAttribute("users", users);
-		return "user/list";
+		return "system/user/list";
 	}
 
-	@RequestMapping(value = "/user/view", method = RequestMethod.GET)
+	@RequestMapping(value = "/system/user/view", method = RequestMethod.GET)
 	public String view(HttpServletRequest request, ModelMap model, String id) {
 		User user = this.userService.findById(id);
 		model.addAttribute("user", user);
-		return "user/view";
+		return "system/user/view";
 	}
 
-	@RequestMapping(value = "/user/add", method = RequestMethod.GET)
+	@RequestMapping(value = "/system/user/add", method = RequestMethod.GET)
 	public String add() {
-		return "user/edit";
+		return "system/user/edit";
 	}
 
-	@RequestMapping(value = "/user/edit", method = RequestMethod.GET)
+	@RequestMapping(value = "/system/user/edit", method = RequestMethod.GET)
 	public String edit(HttpServletRequest request, ModelMap model, String id) {
 		User user = this.userService.findById(id);
 		model.addAttribute("user", user);
-		return "user/edit";
+		return "system/user/edit";
 	}
 
-	@RequestMapping(value = "/user/save", method = RequestMethod.GET)
+	@RequestMapping(value = "/system/user/save", method = RequestMethod.GET)
 	public String save(HttpServletRequest request, ModelMap model, User user,
 			String id, boolean isAdd) {
 		User bean = null;
@@ -84,7 +83,7 @@ public class UserAction {
 		return "redirect:list";
 	}
 
-	@RequestMapping(value = "/user/delete")
+	@RequestMapping(value = "/system/user/delete")
 	public String delete(HttpServletRequest request, ModelMap model, String id) {
 		System.out.println("delete");
 		System.out.println("id: " + id);

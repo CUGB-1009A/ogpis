@@ -14,7 +14,7 @@ public class RoleDaoImpl extends BaseDaoImpl<Role, String> implements RoleDao {
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<Role> getList() {
-		return (List<Role>) this.queryByHql("from Role where deleted=false",
+		return (List<Role>) this.queryByHql("from Role where deleted=false order by priority",
 				null);
 	}
 
