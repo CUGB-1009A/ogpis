@@ -12,9 +12,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.OneToMany;
 
 import com.ogpis.base.entity.BaseEntity;
+import com.ogpis.system.entity.Role;
 import com.ogpis.system.entity.User;
 
 @MappedSuperclass
@@ -121,6 +121,35 @@ public class RoleEntity extends BaseEntity {
 	 */
 	public void setPerms(Set<String> perms) {
 		this.perms = perms;
+	}
+	
+	public boolean equals(Object obj) {
+		if (null == obj)
+			return false;
+		if (!(obj instanceof Role))
+			return false;
+		else {
+			Role role = (Role) obj;
+			if (null == this.getId() || null == role.getId())
+				return false;
+			else
+				return (this.getId().equals(role.getId()));
+		}
+	}
+	
+	private int hashCode = Integer.MIN_VALUE;
+
+	public int hashCode() {
+		if (Integer.MIN_VALUE == this.hashCode) {
+			if (null == this.getId())
+				return super.hashCode();
+			else {
+				String hashStr = this.getClass().getName() + ":"
+						+ this.getId().hashCode();
+				this.hashCode = hashStr.hashCode();
+			}
+		}
+		return this.hashCode;
 	}
 
 }

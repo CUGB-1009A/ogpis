@@ -1,12 +1,10 @@
 package com.ogpis.system.action;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -16,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.ogpis.base.common.paging.IPageList;
 import com.ogpis.base.common.paging.PageListUtil;
+import com.ogpis.system.entity.Role;
 import com.ogpis.system.entity.User;
+import com.ogpis.system.service.RoleService;
 import com.ogpis.system.service.UserService;
 
 @Controller
@@ -24,6 +24,8 @@ public class UserAction {
 
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private RoleService roleService;
 
 	@RequestMapping(value = "/system/user/list")
 	public String list(HttpServletRequest request, ModelMap model) {
@@ -51,13 +53,17 @@ public class UserAction {
 	@RequestMapping(value = "/system/user/edit", method = RequestMethod.GET)
 	public String edit(HttpServletRequest request, ModelMap model, String id) {
 		User user = this.userService.findById(id);
+		List<Role> roleList = roleService.getList();
+		Set<Role> userRoleList = user.getRoles();
 		model.addAttribute("user", user);
+		model.addAttribute("roleList", roleList);
+		model.addAttribute("userRoleList", userRoleList);
 		return "system/user/edit";
 	}
 
 	@RequestMapping(value = "/system/user/save", method = RequestMethod.GET)
 	public String save(HttpServletRequest request, ModelMap model, User user,
-			String id, boolean isAdd) {
+			String id, String[] roleIds, boolean isAdd) {
 		User bean = null;
 		if (isAdd) {
 			bean = new User();
@@ -68,13 +74,14 @@ public class UserAction {
 		bean.setLoginId(user.getLoginId());
 		bean.setName(user.getName());
 		// 更新角色
-		bean.getRoles().clear();//先清空角色
-//		if (roleIds != null) {
-//			for (Integer rid : roleIds) {
-//				user.addToRoles(cmsRoleMng.findById(rid));
-//			}
-//		}
-		
+		bean.getRoles().clear();// 先清空角色
+		if (roleIds != null) {
+			for (String rid : roleIds) {
+				System.out.println("rid: "+rid);
+				bean.addToRoles(roleService.findById(rid));
+			}
+		}
+
 		if (isAdd) {
 			userService.save(bean);
 		} else {

@@ -48,7 +48,7 @@
 		</div>
 		<div class="row">
 			<div class="col-xs-12">
-				<form class="form-horizontal" role="form" action="<%=path%>/system/role/save">
+				<form class="form-horizontal" role="form" action="<%=path%>/system/role/save" method="post">
 					<input type="hidden" value="<%=isAdd%>" name="isAdd"/>
 					<input type="hidden" value="${role.id }" name="id"/>
 				
@@ -66,7 +66,7 @@
 						<label class="col-sm-3 control-label no-padding-right" for="form-field-1">排列顺序</label>
 
 						<div class="col-sm-9">
-							<input type="text"  placeholder="排列顺序" class="col-xs-10 col-sm-5" name="priority" value="${role.priority }">
+							<input type="number"  placeholder="排列顺序" class="col-xs-10 col-sm-5" name="priority" value="${role.priority }">
 						</div>
 					</div>
 					<div class="form-group">

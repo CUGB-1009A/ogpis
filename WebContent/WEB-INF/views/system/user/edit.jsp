@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %> 
 <%@include file="/WEB-INF/views/init.jsp" %>
 <head>
     <meta charset="utf-8">
@@ -92,9 +93,25 @@
 							</div>
 						</div>
 					</c:if>
+					<div class="form-group">
+                    	<label class="col-sm-3 control-label no-padding-right" for="form-field-1">角色</label>
+                    	
+                    	<div class="col-sm-9 control-label" style="text-align:left;">
+                    		<c:forEach items="${roleList}" var="role">
+	                    		<label class="checkbox-inline">
+		                            <input type="checkbox" name="roleIds" value="${role.id }" 
+		                            <c:if test='${userRoleList.contains(role) }'>
+		                            	checked="checked" 
+		                            </c:if>
+		                            >${role.name }
+		                        </label>
+                    		</c:forEach>
+                    	</div>
+                    </div>
+                    <shiro:hasPermission name="father13">father13</shiro:hasPermission>s
 					<div class="clearfix form-actions">
 						<div class="col-md-12">
-							<button class="btn-sm btn-success no-radius" type="submit" >
+							<button class="btn-sm btn-success no-radius" type="submit" onclick="test()" >
 								<i class="icon-ok bigger-200"></i>
 								确认
 							</button>
@@ -117,6 +134,10 @@ $(function(){
 		window.location.href="<%=path%>/system/user/add";
 	});
 });
+
+function test(){
+	
+}
 </script>
 </html>
 	

@@ -30,19 +30,19 @@ public class RoleAction {
 		return "system/role/list";
 	}
 
-	@RequestMapping(value = "/system/role/add", method = RequestMethod.GET)
+	@RequestMapping(value = "/system/role/add")
 	public String add() {
 		return "system/role/edit";
 	}
 
-	@RequestMapping(value = "/system/role/edit", method = RequestMethod.GET)
+	@RequestMapping(value = "/system/role/edit")
 	public String edit(HttpServletRequest request, ModelMap model, String id) {
 		Role role = this.roleService.findById(id);
 		model.addAttribute("role", role);
 		return "system/role/edit";
 	}
 
-	@RequestMapping(value = "/system/role/save", method = RequestMethod.GET)
+	@RequestMapping(value = "/system/role/save")
 	public String save(Role role, String[] perms, String id, boolean isAdd,
 			HttpServletRequest request, ModelMap model) {
 		Role bean = null;
