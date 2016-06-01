@@ -1,14 +1,16 @@
 package com.ogpis.document.action;
 
-
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import javax.servlet.ServletException;
@@ -19,7 +21,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import com.ogpis.base.common.paging.IPageList;
 import com.ogpis.base.common.paging.PageListUtil;
 import com.ogpis.document.entity.PlanDocument;
@@ -41,7 +42,9 @@ public class PlanDocumentAction {
 	
 	String pictureType="bmp,jpg,jpeg,png,gif";
 	String soundType="mp3,mp4";
-	String officeType="pdf,doc,docx,xls,xlsx,txt,ppt,pptx";
+	String pdfType="pdf";
+	String txtType = "txt,bat";
+	String officeType = "doc,docx,xls,xlsx,ppt,pptx";
 	
 	@RequestMapping(value = "/document/list")
 	public String list(HttpServletRequest request, ModelMap model) {
@@ -314,26 +317,42 @@ public class PlanDocumentAction {
 		String filePath = planDocument.getDocumentAddress();
 		filePath = filePath.replace("\\", "/");
 		String fileType = filePath.substring(filePath.lastIndexOf(".")+1, filePath.length());
-		if(pictureType.contains(fileType.toLowerCase()))
+		System.out.println(filePath);
+		if(pictureType.contains(fileType.toLowerCase()))//图片文件
 		{
 			model.addAttribute("filePath", filePath);
 			model.addAttribute("documentName",planDocument.getDocumentName());
 			model.addAttribute("flag", "1");
 		}
-		else if(soundType.contains(fileType.toLowerCase()))
+		else if(soundType.contains(fileType.toLowerCase()))//音频和视频
 		{
 			model.addAttribute("filePath", filePath);
 			model.addAttribute("documentName",planDocument.getDocumentName());
 			model.addAttribute("flag", "2");
 		}
-		else if(officeType.contains(fileType.toLowerCase()))
+		else if(pdfType.contains(fileType.toLowerCase()))//PDF
 		{
 			model.addAttribute("filePath", filePath);
 			model.addAttribute("documentName",planDocument.getDocumentName());
 			model.addAttribute("flag", "4");
 			return "document/pdfViewer";
 		}
-		else	
+		else if(txtType.contains(fileType.toLowerCase())) //txt
+		{
+			 Scanner in = new Scanner(new File(request.getServletContext().getRealPath("/")+filePath));
+		     StringBuffer sb = new StringBuffer();
+			 while(in.hasNextLine())
+			 {
+		    	 String str = in.nextLine();
+		    	 sb.append(str);
+		    	 sb.append("<br>");
+		     }
+			 response.setCharacterEncoding("GBK");
+			 response.getWriter().write(sb.toString());
+			 return null;
+
+		}
+		else
 			model.addAttribute("flag", "3");
 		return "document/previewDocument";
 		
