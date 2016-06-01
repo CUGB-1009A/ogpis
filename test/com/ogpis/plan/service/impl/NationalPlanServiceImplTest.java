@@ -25,10 +25,10 @@ import com.ogpis.expando.service.ExpandoTableService;
 import com.ogpis.expando.service.ExpandoValueService;
 import com.ogpis.plan.entity.NationalPlan;
 import com.ogpis.plan.entity.NationalPlanData;
-import com.ogpis.plan.entity.PlanDocument;
+import com.ogpis.document.entity.PlanDocument;
 import com.ogpis.plan.service.NationalPlanDataService;
 import com.ogpis.plan.service.NationalPlanService;
-import com.ogpis.plan.service.PlanDocumentService;
+import com.ogpis.document.service.PlanDocumentService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 // 用于配置spring中测试的环境

@@ -1,22 +1,19 @@
 package com.ogpis.document.action;
 
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -41,6 +38,10 @@ public class PlanDocumentAction {
 	
 	@SuppressWarnings("rawtypes")
 	private ArrayList idList=new ArrayList();
+	
+	String pictureType="bmp,jpg,jpeg,png,gif";
+	String soundType="mp3,mp4";
+	String officeType="pdf,doc,docx,xls,xlsx,txt,ppt,pptx";
 	
 	@RequestMapping(value = "/document/list")
 	public String list(HttpServletRequest request, ModelMap model) {
@@ -303,25 +304,90 @@ public class PlanDocumentAction {
 		model.addAttribute("condition", condition);	
 		return "document/trash";
 	}
+	
+	/*
+	 * 在线预览文件，PDF直接浏览，其余转为PDF浏览
+	 */
+	@RequestMapping(value = "/document/previewDocument")
+	public String previewDocument(HttpServletRequest request , HttpServletResponse response,ModelMap model,String id) throws IOException{
+		PlanDocument planDocument = planDocumentService.findById(id);
+		String filePath = planDocument.getDocumentAddress();
+		filePath = filePath.replace("\\", "/");
+		String fileType = filePath.substring(filePath.lastIndexOf(".")+1, filePath.length());
+		if(pictureType.contains(fileType.toLowerCase()))
+		{
+			model.addAttribute("filePath", filePath);
+			model.addAttribute("documentName",planDocument.getDocumentName());
+			model.addAttribute("flag", "1");
+		}
+		else if(soundType.contains(fileType.toLowerCase()))
+		{
+			model.addAttribute("filePath", filePath);
+			model.addAttribute("documentName",planDocument.getDocumentName());
+			model.addAttribute("flag", "2");
+		}
+		else if(officeType.contains(fileType.toLowerCase()))
+		{
+			model.addAttribute("filePath", filePath);
+			model.addAttribute("documentName",planDocument.getDocumentName());
+			model.addAttribute("flag", "4");
+			return "document/pdfViewer";
+		}
+		else	
+			model.addAttribute("flag", "3");
+		return "document/previewDocument";
+		
+		/* try { 
+			     int flg = 0;
+			     FileInputStream fis = new FileInputStream(new File(filePath)); 
+			     HWPFDocument doc = new HWPFDocument(fis);
+			     StringBuffer sb = new StringBuffer();
+			     sb.append("<center>");
+			     int length = doc.characterLength(); 
+			     for(int m =0;m<length-1;m++)
+			     {
+			    	 System.out.println(sb.toString());
+			         Range range = new Range(m,m+1,doc); 
+			         for(int j=0;j<range.numCharacterRuns();j++){ 
+			           CharacterRun cr=range.getCharacterRun(j);
+			           System.out.println(cr.getPicOffset()+" "+cr.getColor()+" "+cr.getFontName()+" "+cr.getFontSize()+" ");  
+				           if(range.text().hashCode() != 13){
+				              sb.append("<font color='");
+				              sb.append(cr.getColor());
+				              sb.append("' style='font-size:");
+				              sb.append(cr.getFontSize());
+				              sb.append("pt;font-family:");
+				              sb.append(cr.getFontName());
+				              sb.append("'>");
+				              sb.append(range.text());
+				              sb.append("</font>");
+				           }
+				           else
+				           {
+					             if(flg == 0){
+					             sb.append("</center><br>&nbsp;&nbsp;&nbsp;&nbsp;");//第一个回车字符 结束---- 标题
+					             ++flg;
+					            }
+					            else
+					            {
+					             sb.append("<br>&nbsp;&nbsp;&nbsp;&nbsp;");
+					            }			               
+				            } 
+			          }
+			         response.setCharacterEncoding("GBK");
+					 response.getWriter().write(sb.toString());
+					 sb.setLength(0);
+			        }
+			     
+		       }
+			      catch (FileNotFoundException e) 
+			      { 
+			         e.printStackTrace(); 
+			        } 
+			      catch (IOException e) 
+			      { 
+			        e.printStackTrace(); 
+			     }*/
 }
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
-
+}

@@ -77,7 +77,7 @@
 												<td class="check_cell">
 												 <input type="checkbox" class="checkboxes" name="checkbox" value="${item.id}" />
 												</td>
-												<td><a href="<c:url value='/plan/national/showDetail?id=${item.id}'/>">${item.documentName}</a></td>
+												<td><a target="_blank" href="<c:url value='/document/previewDocument?id=${item.id}'/>">${item.documentName}</a></td>
 												<td>${item.documentDescription}</td>
 												<td>${item.modifiedTime}</td>
 												<td>
