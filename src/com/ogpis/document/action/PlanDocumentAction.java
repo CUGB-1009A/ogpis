@@ -45,6 +45,9 @@ public class PlanDocumentAction {
 	String pdfType="pdf";
 	String txtType = "txt,bat";
 	String officeType = "doc,docx,xls,xlsx,ppt,pptx";
+	String wordType = "doc,docx,wps";
+	String excelType="xls,xlsx";
+	String pptType = "ppt,pptx";
 	
 	@RequestMapping(value = "/document/list")
 	public String list(HttpServletRequest request, ModelMap model) {
@@ -317,7 +320,6 @@ public class PlanDocumentAction {
 		String filePath = planDocument.getDocumentAddress();
 		filePath = filePath.replace("\\", "/");
 		String fileType = filePath.substring(filePath.lastIndexOf(".")+1, filePath.length());
-		System.out.println(filePath);
 		if(pictureType.contains(fileType.toLowerCase()))//图片文件
 		{
 			model.addAttribute("filePath", filePath);
@@ -337,8 +339,25 @@ public class PlanDocumentAction {
 			model.addAttribute("flag", "4");
 			return "document/pdfViewer";
 		}
+		else if(officeType.contains(fileType.toLowerCase()))
+		{
+			if(wordType.contains(fileType.toLowerCase()))//word（doc,docx）转pdf再预览
+			{
+				
+			}
+			if(excelType.contains(fileType.toLowerCase()))//excel（xls,xlsx）用硕正报表控件预览
+			{
+				model.addAttribute("filePath", filePath);
+				model.addAttribute("documentName",planDocument.getDocumentName());
+				model.addAttribute("flag", "4");
+				return "document/excelViewer";
+			}
+			
+			
+		}
 		else if(txtType.contains(fileType.toLowerCase())) //txt
 		{
+			 @SuppressWarnings("resource")
 			 Scanner in = new Scanner(new File(request.getServletContext().getRealPath("/")+filePath));
 		     StringBuffer sb = new StringBuffer();
 			 while(in.hasNextLine())
@@ -355,58 +374,6 @@ public class PlanDocumentAction {
 		else
 			model.addAttribute("flag", "3");
 		return "document/previewDocument";
-		
-		/* try { 
-			     int flg = 0;
-			     FileInputStream fis = new FileInputStream(new File(filePath)); 
-			     HWPFDocument doc = new HWPFDocument(fis);
-			     StringBuffer sb = new StringBuffer();
-			     sb.append("<center>");
-			     int length = doc.characterLength(); 
-			     for(int m =0;m<length-1;m++)
-			     {
-			    	 System.out.println(sb.toString());
-			         Range range = new Range(m,m+1,doc); 
-			         for(int j=0;j<range.numCharacterRuns();j++){ 
-			           CharacterRun cr=range.getCharacterRun(j);
-			           System.out.println(cr.getPicOffset()+" "+cr.getColor()+" "+cr.getFontName()+" "+cr.getFontSize()+" ");  
-				           if(range.text().hashCode() != 13){
-				              sb.append("<font color='");
-				              sb.append(cr.getColor());
-				              sb.append("' style='font-size:");
-				              sb.append(cr.getFontSize());
-				              sb.append("pt;font-family:");
-				              sb.append(cr.getFontName());
-				              sb.append("'>");
-				              sb.append(range.text());
-				              sb.append("</font>");
-				           }
-				           else
-				           {
-					             if(flg == 0){
-					             sb.append("</center><br>&nbsp;&nbsp;&nbsp;&nbsp;");//第一个回车字符 结束---- 标题
-					             ++flg;
-					            }
-					            else
-					            {
-					             sb.append("<br>&nbsp;&nbsp;&nbsp;&nbsp;");
-					            }			               
-				            } 
-			          }
-			         response.setCharacterEncoding("GBK");
-					 response.getWriter().write(sb.toString());
-					 sb.setLength(0);
-			        }
-			     
-		       }
-			      catch (FileNotFoundException e) 
-			      { 
-			         e.printStackTrace(); 
-			        } 
-			      catch (IOException e) 
-			      { 
-			        e.printStackTrace(); 
-			     }*/
 }
 	
 }
