@@ -1,8 +1,14 @@
 package com.ogpis.document.action;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
@@ -16,6 +22,10 @@ import java.util.zip.ZipOutputStream;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.poi.hslf.model.TextRun;
+import org.apache.poi.hslf.usermodel.RichTextRun;
+import org.apache.poi.hslf.usermodel.SlideShow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -317,25 +327,26 @@ public class PlanDocumentAction {
 	@RequestMapping(value = "/document/previewDocument")
 	public String previewDocument(HttpServletRequest request , HttpServletResponse response,ModelMap model,String id) throws IOException{
 		PlanDocument planDocument = planDocumentService.findById(id);
+		String documentName = planDocument.getDocumentName();
 		String filePath = planDocument.getDocumentAddress();
 		filePath = filePath.replace("\\", "/");
 		String fileType = filePath.substring(filePath.lastIndexOf(".")+1, filePath.length());
 		if(pictureType.contains(fileType.toLowerCase()))//图片文件
 		{
 			model.addAttribute("filePath", filePath);
-			model.addAttribute("documentName",planDocument.getDocumentName());
+			model.addAttribute("documentName",documentName);
 			model.addAttribute("flag", "1");
 		}
 		else if(soundType.contains(fileType.toLowerCase()))//音频和视频
 		{
 			model.addAttribute("filePath", filePath);
-			model.addAttribute("documentName",planDocument.getDocumentName());
+			model.addAttribute("documentName",documentName);
 			model.addAttribute("flag", "2");
 		}
 		else if(pdfType.contains(fileType.toLowerCase()))//PDF
 		{
 			model.addAttribute("filePath", filePath);
-			model.addAttribute("documentName",planDocument.getDocumentName());
+			model.addAttribute("documentName",documentName);
 			model.addAttribute("flag", "4");
 			return "document/pdfViewer";
 		}
@@ -348,12 +359,60 @@ public class PlanDocumentAction {
 			if(excelType.contains(fileType.toLowerCase()))//excel（xls,xlsx）用硕正报表控件预览
 			{
 				model.addAttribute("filePath", filePath);
-				model.addAttribute("documentName",planDocument.getDocumentName());
+				model.addAttribute("documentName",documentName);
 				model.addAttribute("flag", "4");
 				return "document/excelViewer";
 			}
-			
-			
+			if(pptType.contains(fileType.toLowerCase()))//ppt转为图片进行轮播转换
+			{
+				File file = new File(request.getServletContext().getRealPath("/")+filePath);
+				try
+				{
+					FileInputStream is = new FileInputStream(file);
+					SlideShow ppt = new SlideShow(is);
+					is.close();
+					Dimension pgsize = ppt.getPageSize();
+					org.apache.poi.hslf.model.Slide[] slide = ppt.getSlides();
+					for (int i = 0; i < slide.length; i++) 
+					{
+						TextRun[] truns = slide[i].getTextRuns();
+						for (int k = 0; k < truns.length; k++) 
+						{
+							RichTextRun[] rtruns = truns[k].getRichTextRuns();
+							for (int l = 0; l < rtruns.length; l++) 
+							{
+								rtruns[l].setFontIndex(1);
+								rtruns[l].setFontName("宋体");
+							}
+						}
+						BufferedImage img = new BufferedImage(pgsize.width,
+								pgsize.height, BufferedImage.TYPE_INT_RGB);
+						Graphics2D graphics = img.createGraphics();
+						graphics.setPaint(Color.white);
+						graphics.fill(new Rectangle2D.Float(0, 0, pgsize.width,
+								pgsize.height));
+						slide[i].draw(graphics);
+						// 这里设置图片的存放路径和图片的格式(jpeg,png,bmp等等),注意生成文件路径
+						FileOutputStream out = new FileOutputStream(request.getServletContext().getRealPath("/")+"temp"+"/"+filePath.substring(filePath.lastIndexOf("/")+1,filePath.lastIndexOf("."))+(i + 1) + ".jpeg");
+						javax.imageio.ImageIO.write(img, "jpeg", out);
+						out.close();
+					}
+					String imageNum = slide.length+"";
+					model.addAttribute("tempFileName", filePath.substring(filePath.lastIndexOf("/")+1,filePath.lastIndexOf(".")));
+					model.addAttribute("imageNum", imageNum);
+					model.addAttribute("filePath", filePath);
+					model.addAttribute("documentName",documentName);
+				} 
+				catch (FileNotFoundException e) 
+				{
+					System.out.println(e);
+				} 
+				catch (IOException e) 
+				{
+					e.printStackTrace();
+				}
+				return "document/pptViewer";
+			}
 		}
 		else if(txtType.contains(fileType.toLowerCase())) //txt
 		{
