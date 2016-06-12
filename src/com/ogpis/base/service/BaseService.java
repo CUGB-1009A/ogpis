@@ -20,7 +20,7 @@ public interface BaseService<T, ID extends Serializable> {
 	 *            实体
 	 * @return
 	 */
-	public T add(T entity);
+	public T save(T entity);
 
 	/**
 	 * 删除实体

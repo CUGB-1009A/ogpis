@@ -1,24 +1,36 @@
 package com.ogpis.system.entity.base;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 
 import com.ogpis.base.entity.BaseEntity;
 import com.ogpis.system.entity.Organization;
-
+import com.ogpis.system.entity.Role;
+import com.ogpis.system.entity.User;
 
 @MappedSuperclass
 public abstract class UserEntity extends BaseEntity {
-	
+
 	protected String loginId;
 	protected String name;
 	protected String password;
-	
+
 	@ManyToOne
-	@JoinColumn(name="organization_id")
+	@JoinColumn(name = "organization_id")
 	protected Organization organization;
-	
+
+	@ManyToMany(targetEntity = Role.class, fetch = FetchType.EAGER)
+	@JoinTable(name = "ogpis_user_role", joinColumns = @JoinColumn(name = "USER_ID"), inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))
+	protected Set<Role> roles = new HashSet<Role>();
+
 	public String getLoginId() {
 		return loginId;
 	}
@@ -50,5 +62,49 @@ public abstract class UserEntity extends BaseEntity {
 	public void setOraganzation(Organization oraganzation) {
 		this.organization = oraganzation;
 	}
-	
+
+	/**
+	 * @return the roles
+	 */
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	/**
+	 * @param roles
+	 *            the roles to set
+	 */
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
+
+	public boolean equals(Object obj) {
+		if (null == obj)
+			return false;
+		if (!(obj instanceof User))
+			return false;
+		else {
+			User user = (User) obj;
+			if (null == this.getId() || null == user.getId())
+				return false;
+			else
+				return (this.getId().equals(user.getId()));
+		}
+	}
+
+	private int hashCode = Integer.MIN_VALUE;
+
+	public int hashCode() {
+		if (Integer.MIN_VALUE == this.hashCode) {
+			if (null == this.getId())
+				return super.hashCode();
+			else {
+				String hashStr = this.getClass().getName() + ":"
+						+ this.getId().hashCode();
+				this.hashCode = hashStr.hashCode();
+			}
+		}
+		return this.hashCode;
+	}
+
 }

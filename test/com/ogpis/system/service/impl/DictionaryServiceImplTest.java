@@ -26,7 +26,7 @@ public class DictionaryServiceImplTest {
 		dic.setValue("dic_value");
 		dic.setPriority(0);
 		dic.setType("dic_type");
-		dictionaryService.add(dic);
+		dictionaryService.save(dic);
 	}
 
 	@Test

@@ -2,6 +2,7 @@ package com.ogpis.system.service.impl;
 
 import java.util.List;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,5 +33,10 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements
 	@Override
 	public IPageList<User> getAllUsers(int pageNo, int pageSize) {
 		return (IPageList<User> ) getUserDao().getAllUsers(pageNo,pageSize);
+	}
+	
+	@Override
+	public User findByUserName(String userName){
+		return getUserDao().findByUserName(userName);
 	}
 }

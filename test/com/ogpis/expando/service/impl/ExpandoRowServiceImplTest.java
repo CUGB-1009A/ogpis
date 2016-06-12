@@ -36,7 +36,7 @@ public class ExpandoRowServiceImplTest {
 		ExpandoRow expandoRow = new ExpandoRow();
 		expandoRow.setTable(table);
 		expandoRow.setClassPK("classpk");
-		expandoRowService.add(expandoRow);
+		expandoRowService.save(expandoRow);
 	}
 
 }

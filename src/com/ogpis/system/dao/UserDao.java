@@ -12,6 +12,8 @@ public interface UserDao extends BaseDao<User, String> {
 
 	public IPageList<User> getAllUsers(int pageNo, int pageSize);
 
+	public User findByUserName(String userName);
+
 //	public String saveUser(User user);
 //	
 //	public User getUserById(String id);

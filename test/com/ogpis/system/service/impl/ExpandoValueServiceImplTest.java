@@ -18,12 +18,10 @@ import com.ogpis.expando.service.ExpandoRowService;
 import com.ogpis.expando.service.ExpandoTableService;
 import com.ogpis.expando.service.ExpandoValueService;
 
-;;;
-
+//用于配置spring中测试的环境
 @RunWith(SpringJUnit4ClassRunner.class)
-// 用于配置spring中测试的环境
+//用于指定配置文件所在的位置
 @ContextConfiguration(locations = { "classpath:config/application-context.xml" })
-// 用于指定配置文件所在的位置
 public class ExpandoValueServiceImplTest {
 
 	@Resource

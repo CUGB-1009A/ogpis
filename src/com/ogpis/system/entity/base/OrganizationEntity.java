@@ -8,7 +8,11 @@ import javax.persistence.OneToMany;
 
 import com.ogpis.base.entity.BaseEntity;
 import com.ogpis.system.entity.User;
-
+/**
+ * 组织机构，暂时没有用
+ * @author Danny
+ *
+ */
 @MappedSuperclass
 public abstract class OrganizationEntity extends BaseEntity {
 

@@ -21,7 +21,7 @@ public class SinopecPlanServiceImplTest {
 
 	@Test
 	public void test() {
-		sinopecPlanSevice.add(new SinopecPlanData());
+		sinopecPlanSevice.save(new SinopecPlanData());
 	}
 
 }

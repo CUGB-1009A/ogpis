@@ -15,8 +15,8 @@
 <div id="wrapper">
 <!-- 网站头及导航栏 -->
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-		<%@ include file="../main/main_header.jsp"%>
-		<%@ include file="../main/main_nav.jsp"%>
+		<%@ include file="../../main/main_header.jsp"%>
+		<%@ include file="../../main/main_nav.jsp"%>
 	</nav>
 	<!--网页主体 -->
 	

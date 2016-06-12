@@ -29,7 +29,7 @@ public class ExpandoTableServiceImplTest {
 		ExpandoTable expandoTable = new ExpandoTable();
 		expandoTable.setClassName(className);
 		expandoTable.setName("testET1");
-		expandoTableService.add(expandoTable);
+		expandoTableService.save(expandoTable);
 	}
 
 }

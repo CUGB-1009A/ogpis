@@ -51,9 +51,11 @@
             <a href="#sys" data-toggle="collapse" class="nav-header collapsed">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-cog"></i> 系统管理 <i class="fa fa-fw fa-caret-down"></i></a>
             <ul id="sys" class="nav nav-list collapse secondmenu" style="height:0px;">
                 <li>
-                    <a href="<c:url value='/user/list'/>"><i class="glyphicon glyphicon-user"></i> 用户管理 </a>
+                    <a href="<c:url value='/system/user/list'/>"><i class="glyphicon glyphicon-user"></i> 用户管理 </a>
                 </li>
-                
+                 <li>
+                    <a href="<c:url value='/system/role/list'/>"><i class="glyphicon glyphicon-role"></i> 角色管理 </a>
+                </li>
                 <li>
            			 <a href="<c:url value='/menu/list?pageId=&&id=&&pageNo=1'/>"><i class="glyphicon glyphicon-list"></i> 菜单管理<i></i></a>
         		</li> 

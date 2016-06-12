@@ -85,7 +85,7 @@ public class NationalPlanDataAction {
 		bean.setPlanPeriod(nationalPlan.getPlanPeriod());
 		bean.setPlanCode(nationalPlan.getPlanCode());
 		if (isAdd) {
-			nationalPlanService.add(bean);
+			nationalPlanService.save(bean);
 		} else {
 			nationalPlanService.update(bean);
 		}

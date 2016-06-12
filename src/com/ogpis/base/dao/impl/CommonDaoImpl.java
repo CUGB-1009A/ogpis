@@ -67,7 +67,7 @@ public abstract class CommonDaoImpl extends HibernateDaoSupport implements
 			throw new DAOException("查询数据失败," + e.getMessage());
 		}
 		if (list != null && list.size() == 1) {
-			
+
 			return list.get(0);
 		}
 		return null;
@@ -93,8 +93,14 @@ public abstract class CommonDaoImpl extends HibernateDaoSupport implements
 						return result;
 					}
 				});
-		if (result != null && result.size() == 1) {
-			return result.get(0);
+		if (result != null) {
+			if (result.size() == 1) {
+				return result.get(0);
+			}else
+			{
+				System.out.println("findUnique，找到不止一条数据");
+			}
+			
 		}
 		return null;
 	}
