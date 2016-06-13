@@ -108,7 +108,7 @@
                     		</c:forEach>
                     	</div>
                     </div>
-                    <shiro:hasPermission name="father13">father13</shiro:hasPermission>s
+                    <shiro:hasPermission name="father13">father13</shiro:hasPermission>
 					<div class="clearfix form-actions">
 						<div class="col-md-12">
 							<button class="btn-sm btn-success no-radius" type="submit" onclick="test()" >

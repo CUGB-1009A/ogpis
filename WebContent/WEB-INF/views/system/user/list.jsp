@@ -54,8 +54,7 @@
 											<th class="table-checkbox"><input type="checkbox" class="group-checkable"/></th>
 											<th>登录名</th>
 											<th>姓名</th>
-											<th>是否可用</th>
-											<th>用户名</th>
+											<th>密码</th>
 											<th>注册时间</th>
 											<th>操作</th>
 										</tr>
@@ -68,7 +67,6 @@
 												</td>
 												<td>${item.loginId}</td>
 												<td>${item.name}</td>
-												<td>${item.id}</td>
 												<td>${item.password}</td>
 												<td>${item.createTime.toLocaleString() }</td> 
 												<td>
