@@ -32,7 +32,7 @@
                     <h1><strong>油气资源规划管理系统</strong></h1>
                     <div class="description">
                     	<p>
-                     	描述文字
+                     	管理油气资源规划
                     	</p>
                     </div>
                 </div>
@@ -71,4 +71,11 @@
     <script src="assets/js/placeholder.js"></script>
 <![endif]-->
 </body>
+	<script type="text/javascript">
+	$(function(){
+		var isSuccess = ${isSuccess};
+		if(isSuccess=='0')
+			alert("用户名或密码错误！");
+	});
+	</script>
 </html>
