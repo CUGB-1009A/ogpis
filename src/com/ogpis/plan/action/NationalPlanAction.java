@@ -81,7 +81,7 @@ public class NationalPlanAction  {
 	/*
 	 * 添加、修改规划函数
 	 */
-	@RequestMapping(value = "/plan/national/save", method = RequestMethod.GET)
+	@RequestMapping(value = "/plan/national/save", method = RequestMethod.POST)
 	public String save(HttpServletRequest request, boolean isAdd,ModelMap model,String id,NationalPlan nationalPlan) {		
 
 		NationalPlan bean = null;

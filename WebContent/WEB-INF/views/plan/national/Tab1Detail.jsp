@@ -6,7 +6,7 @@
 		<div class="row">
 			<div class="col-xs-12">
 			&nbsp;
-				<form class="form-horizontal" role="form" action="<%=request.getContextPath()%>/plan/national/save">
+				<form class="form-horizontal" role="form" action="<%=request.getContextPath()%>/plan/national/save" method="post">
 				<input type="hidden" value="${nationalPlan.id}" name="id"/>	
 				<input type="hidden" value="false" name="isAdd"/>			
 					<div class="form-group">

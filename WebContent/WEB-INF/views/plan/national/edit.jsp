@@ -38,7 +38,7 @@
 		</div>
 		<div class="row">
 			<div class="col-xs-12">
-				<form class="form-horizontal" role="form" action="<%=path%>/plan/national/save">
+				<form class="form-horizontal" role="form" action="<%=path%>/plan/national/save" method="post">
 					<input type="hidden" value="true" name="isAdd"/>
 					<input type="hidden" value="${nationalPlan.id}" name="id"/>
 				

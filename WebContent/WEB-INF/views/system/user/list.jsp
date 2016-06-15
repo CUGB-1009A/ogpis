@@ -43,9 +43,11 @@
 						
 						<div class="table-toolbar" style="text-align: right;">
 							<div class="btn-group">
-								<a href="<c:url value='/system/user/add'/>" class="btn-sm btn-app btn-success no-radius">
-									<i class="icon-plus bigger-200">添加用户</i>
-								</a>
+								<shiro:hasPermission name="user:add">
+									<a href="<c:url value='/system/user/add'/>" class="btn-sm btn-app btn-success no-radius">
+										<i class="icon-plus bigger-200">添加用户</i>
+									</a>
+								</shiro:hasPermission>
 							</div>
 						</div>
 						
@@ -76,18 +78,24 @@
 												<td>${item.createTime.toLocaleString() }</td> 
 												<td>
 													<p>
+													<shiro:hasPermission name="user:view">
 														<a  class="btn-sm btn-app btn-success no-radius" data-toggle="modal" href="<c:url value='/user/view?id=${item.id }'/>" data-target="#myModal">
 															<i class="icon-info bigger-200"></i>
 															查看
-														</a>
+														</a>&nbsp;&nbsp;
+													</shiro:hasPermission>
+													<shiro:hasPermission name="user:edit">
 														<a  href="<c:url value='/system/user/edit?id=${item.id}'/>" class="btn-sm btn-app btn-primary no-radius">
 															<i class="icon-edit bigger-200"></i>
 															编辑
-														</a>
+														</a>&nbsp;&nbsp;
+													</shiro:hasPermission>
+													<shiro:hasPermission name="user:delete">
 														<a href="javascript:del('<c:url value='/system/user/delete?id=${item.id}'/>');" class="btn-sm btn-app btn-danger no-radius" >
 															<i class="icon-trash bigger-200"></i>
 															删除
 														</a>
+													</shiro:hasPermission>
 													</p>
 												</td>
 											</tr>

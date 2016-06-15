@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %> 
 <%@include file="/WEB-INF/views/init.jsp" %>
  <script type="text/javascript" src="<c:url value='/assets/js/plugins/data-tables/jquery.dataTables.js'/>"></script>
 <head>
@@ -41,9 +42,11 @@
 					<div class="portlet-body">
 						<div class="table-toolbar" style="text-align: right;">
 							<div class="btn-group">
+							<shiro:hasPermission name="role:add">
 								<a href="<c:url value='/system/role/add'/>" class="btn-sm btn-app btn-success no-radius">
 									<i class="icon-plus bigger-200">添加角色</i>
 								</a>
+							</shiro:hasPermission>
 							</div>
 						</div>
 						<div class="dataTables_wrapper form-inline" role="grid">
@@ -69,14 +72,18 @@
 												<td>${item.isSuper}</td>
 												<td>
 													<p>
+													<shiro:hasPermission name="role:edit">
 														<a  href="<c:url value='/system/role/edit?id=${item.id}'/>" class="btn-sm btn-app btn-primary no-radius">
 															<i class="icon-edit bigger-200"></i>
 															编辑
-														</a>
+														</a>&nbsp;&nbsp;
+													</shiro:hasPermission>
+													<shiro:hasPermission name="role:delete">
 														<a href="javascript:del('<c:url value='/system/role/delete?id=${item.id}'/>');" class="btn-sm btn-app btn-danger no-radius" >
 															<i class="icon-trash bigger-200"></i>
 															删除
 														</a>
+													</shiro:hasPermission>
 													</p>
 												</td>
 											</tr>
