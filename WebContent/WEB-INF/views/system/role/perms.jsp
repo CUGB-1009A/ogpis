@@ -26,9 +26,9 @@ var setting = {
 		};
 		 
 		var zNodes = [
-		  { id: 1, pId: 0, name: "首页", perm:"mainPage",open: true },
+		  { id: 1, pId: 0, name: "首页", perm:"mainPage:link", open:true},
 		  
-		  { id: 2, pId: 0, name: "全国规划" , perm:"nationalPlan"},
+		  { id: 2, pId: 0, name: "全国规划" , perm:"nationalPlan:list"},
 		  { id: 21, pId: 2, name: "规划查询", perm:"national:fuzzyQuery"},
 		  { id: 22, pId: 2, name: "添加规划" , perm:"national:add"},
 		  { id: 23, pId: 2, name: "批量删除规划" , perm:"national:deleteBatch"},
@@ -36,11 +36,11 @@ var setting = {
 		  { id: 25, pId: 2, name: "删除规划" , perm:"national:delete"},
 		  
 		  { id: 3, pId: 0, name: "公司规划", perm:"companyPlan",isParent: true },
-		  { id: 31, pId: 3, name: "中石化规划", perm:"zshPlan"},
-		  { id: 32, pId: 3, name: "中石油规划", perm:"zsyPlan"},
-		  { id: 33, pId: 3, name: "中联煤规划", perm:"zlmPlan"},
-		  { id: 34, pId: 3, name: "中海油规划", perm:"zhyPlan"},
-		  { id: 35, pId: 3, name: "延长规划", perm:"ycPlan"},
+		  { id: 31, pId: 3, name: "中石化规划", perm:"zshPlan:list"},
+		  { id: 32, pId: 3, name: "中石油规划", perm:"zsyPlan:list"},
+		  { id: 33, pId: 3, name: "中联煤规划", perm:"zlmPlan:list"},
+		  { id: 34, pId: 3, name: "中海油规划", perm:"zhyPlan:list"},
+		  { id: 35, pId: 3, name: "延长规划", perm:"ycPlan:list"},
 		  
 		  { id: 4, pId: 0, name: "文档管理", perm:"documentManagement",isParent: true },
 		  { id: 41, pId: 4, name: "规划文档管理", perm:"document:list"},

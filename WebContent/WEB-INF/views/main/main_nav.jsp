@@ -7,13 +7,13 @@
 <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
 <div class="collapse navbar-collapse navbar-ex1-collapse">
     <ul class="nav navbar-nav side-nav pull-left" id="menuList" align="left">
-        <shiro:hasPermission name="mainPage">
+        <shiro:hasPermission name="mainPage:link">
         <li>           
             <a href="<c:url value='/main'/>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-home"></i> 首页</a>
         </li>
         </shiro:hasPermission>
        
-       <shiro:hasPermission name="nationalPlan">
+       <shiro:hasPermission name="nationalPlan:list">
          <li>
             <a href="<c:url value='/plan/national/list'/>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-star"></i> 全国规划<i></i></a>
          </li> 
@@ -23,27 +23,27 @@
          <li>
             <a href="#companyPlan" data-toggle="collapse" class="nav-header collapsed">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-list"></i> 公司规划 <i class="fa fa-fw fa-caret-down"></i></a>
             <ul id="companyPlan" class="nav nav-list collapse secondmenu" style="height:0px;">
-                <shiro:hasPermission name="zshPlan"> 
+                <shiro:hasPermission name="zshPlan:list"> 
 	                <li>
 	                    <a href="<c:url value='/user/list'/>"><i class="glyphicon glyphicon-file"></i> 中石化规划 </a>
 	                </li>
                 </shiro:hasPermission>
-                <shiro:hasPermission name="zsyPlan"> 
+                <shiro:hasPermission name="zsyPlan:list"> 
 	                <li>
 	                    <a href="<c:url value='/user/list'/>"><i class="glyphicon glyphicon-file"></i> 中石油规划 </a>
 	                </li>
                  </shiro:hasPermission>
-                <shiro:hasPermission name="zlmPlan"> 
+                <shiro:hasPermission name="zlmPlan:list"> 
 	                <li>
 	                    <a href="<c:url value='/user/list'/>"><i class="glyphicon glyphicon-file"></i> 中联煤规划 </a>
 	                </li>
                 </shiro:hasPermission>
-                <shiro:hasPermission name="zhyPlan"> 
+                <shiro:hasPermission name="zhyPlan:list"> 
 	                <li>
 	                    <a href="<c:url value='/user/list'/>"><i class="glyphicon glyphicon-file"></i> 中海油规划 </a>
 	                </li>
                 </shiro:hasPermission>
-                 <shiro:hasPermission name="ycPlan"> 
+                 <shiro:hasPermission name="ycPlan:list"> 
                 <li>
                     <a href="<c:url value='/user/list'/>"><i class="glyphicon glyphicon-file"></i> 延长规划 </a>
                 </li>
@@ -81,7 +81,7 @@
                 </shiro:hasPermission>
                 <shiro:hasPermission name="role:list">
                  <li>
-                    <a href="<c:url value='/system/role/list'/>"><i class="glyphicon glyphicon-role"></i> 角色管理 </a>
+                    <a href="<c:url value='/system/role/list'/>"><i class="glyphicon glyphicon-lock"></i> 角色管理 </a>
                 </li>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="menu:list">

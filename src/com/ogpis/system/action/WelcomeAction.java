@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,7 +40,7 @@ public class WelcomeAction {
 
 		return "main/main_nav";
 	}
-	
+	@RequiresPermissions(value={"mainPage:link"})
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
 	public String main() {
 		System.out.println("main_nav");

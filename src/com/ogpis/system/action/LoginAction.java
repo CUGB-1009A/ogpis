@@ -35,6 +35,7 @@ public class LoginAction {
 			System.out.println("login");
 			Subject subject = SecurityUtils.getSubject();
 			subject.login(token);
+			request.getSession().setAttribute("username", token.getUsername());
 			return "main";
 		} catch (AuthenticationException e) {
 			e.printStackTrace();
@@ -42,4 +43,12 @@ public class LoginAction {
 			return "index";
 		}
 	}
+	
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public String logout(String username, String password,ModelMap model,
+			HttpServletRequest request) {
+		System.out.println("logout");
+		SecurityUtils.getSecurityManager().logout(SecurityUtils.getSubject());
+			return "index";
+		}
 }

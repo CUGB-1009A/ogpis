@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,6 +29,7 @@ public class UserAction {
 	@Autowired
 	private RoleService roleService;
 
+	@RequiresPermissions(value={"user:list"})
 	@RequestMapping(value = "/system/user/list")
 	public String list(HttpServletRequest request, ModelMap model) {
 		int pageNo = ServletRequestUtils.getIntParameter(request,
@@ -39,6 +41,7 @@ public class UserAction {
 		return "system/user/list";
 	}
 
+	@RequiresPermissions(value={"user:view"})
 	@RequestMapping(value = "/system/user/view", method = RequestMethod.GET)
 	public String view(HttpServletRequest request, ModelMap model, String id) {
 		User user = this.userService.findById(id);
@@ -46,11 +49,13 @@ public class UserAction {
 		return "system/user/view";
 	}
 
+	@RequiresPermissions(value={"user:add"})
 	@RequestMapping(value = "/system/user/add", method = RequestMethod.GET)
 	public String add() {
 		return "system/user/edit";
 	}
 
+	@RequiresPermissions(value={"user:edit"})
 	@RequestMapping(value = "/system/user/edit", method = RequestMethod.GET)
 	public String edit(HttpServletRequest request, ModelMap model, String id) {
 		User user = this.userService.findById(id);
@@ -62,6 +67,7 @@ public class UserAction {
 		return "system/user/edit";
 	}
 
+	@RequiresPermissions(value={"user:add","user:edit"},logical=Logical.OR)
 	@RequestMapping(value = "/system/user/save", method = RequestMethod.GET)
 	public String save(HttpServletRequest request, ModelMap model, User user,
 			String id, String[] roleIds, boolean isAdd) {
@@ -91,6 +97,7 @@ public class UserAction {
 		return "redirect:list";
 	}
 
+	@RequiresPermissions(value={"user:delete"})
 	@RequestMapping(value = "/system/user/delete")
 	public String delete(HttpServletRequest request, ModelMap model, String id) {
 		System.out.println("delete");

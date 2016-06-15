@@ -18,6 +18,7 @@ import org.apache.commons.fileupload.ProgressListener;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.log4j.Logger;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -47,6 +48,7 @@ public class NationalPlanAction  {
 	/*
 	 * 读取全国规划列表函数
 	 */
+	@RequiresPermissions(value={"nationalPlan:list"})
 	@RequestMapping(value = "/plan/national/list")
 	public String list(HttpServletRequest request, ModelMap model) {
 		int pageNo = ServletRequestUtils.getIntParameter(request,
@@ -73,6 +75,7 @@ public class NationalPlanAction  {
 	/*
 	 * 到添加规划页面
 	 */
+	@RequiresPermissions(value={"national:add"})
 	@RequestMapping(value = "/plan/national/toEditPage")
 	public String toEditPage(HttpServletRequest request, ModelMap model,String id) {	
 		return "/plan/national/edit";	
@@ -113,6 +116,7 @@ public class NationalPlanAction  {
 	/*
 	 * 单个删除规划函数,同时软删除对应规划文档
 	 */
+	@RequiresPermissions(value={"national:delete"})
 	@RequestMapping(value = "/plan/national/delete")
 	public String delete(HttpServletRequest request, ModelMap model,String id) {		
 		NationalPlan nationalPlan = this.nationalPlanService.findById(id);
@@ -130,6 +134,7 @@ public class NationalPlanAction  {
 	}
 	
 	/*显示tab页1-5函数*/
+	@RequiresPermissions(value={"national:toEditPage"})
 	@RequestMapping(value = "/plan/national/show")
 	public String show(HttpServletRequest request, ModelMap model,String id,String flag) {	
 		NationalPlan nationalPlan =  this.nationalPlanService.findById(id);
@@ -145,6 +150,7 @@ public class NationalPlanAction  {
 	 * 批量删除规划函数
 	 */
 	@SuppressWarnings("unchecked")
+	@RequiresPermissions(value={"national:deleteBatch"})
 	@RequestMapping(value = "/plan/national/deleteBatch" ,method = RequestMethod.POST)
 	public void deleteBatch(HttpServletResponse resp,HttpServletRequest request, ModelMap model) throws IOException {		
 	 String Ids = request.getParameter("Ids");
@@ -293,7 +299,7 @@ public class NationalPlanAction  {
 	     resp.setCharacterEncoding("utf-8");
 		 resp.getWriter().write(success);		
 		}
-		
+		@RequiresPermissions(value={"national:fuzzyQuery"})
 		@RequestMapping(value = "/plan/national/fuzzyQuery")
 		public String fuzzyQuery(HttpServletRequest request, ModelMap model,String condition) {
 			int pageNo = ServletRequestUtils.getIntParameter(request,

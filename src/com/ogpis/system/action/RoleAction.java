@@ -33,11 +33,13 @@ public class RoleAction {
 		return "system/role/list";
 	}
 
+	@RequiresPermissions(value={"role:add"})
 	@RequestMapping(value = "/system/role/add")
 	public String add() {
 		return "system/role/edit";
 	}
 
+	@RequiresPermissions(value={"role:edit"})
 	@RequestMapping(value = "/system/role/edit")
 	public String edit(HttpServletRequest request, ModelMap model, String id) {
 		Role role = this.roleService.findById(id);
@@ -45,6 +47,7 @@ public class RoleAction {
 		return "system/role/edit";
 	}
 
+	@RequiresPermissions(value={"role:add","role:edit"},logical=Logical.OR)
 	@RequestMapping(value = "/system/role/save")
 	public String save(Role role, String[] perms, String id, boolean isAdd,
 			HttpServletRequest request, ModelMap model) {
@@ -66,6 +69,7 @@ public class RoleAction {
 		return "redirect:list";
 	}
 
+	@RequiresPermissions(value={"role:delete"})
 	@RequestMapping(value = "/system/role/delete")
 	public String delete(HttpServletRequest request, ModelMap model, String id) {
 		this.roleService.batchMarkDelete(new String[] { id });
