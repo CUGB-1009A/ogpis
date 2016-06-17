@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %> 
 <div class="navbar-header">
 	 <button type="button" class="navbar-toggle" data-toggle="collapse"
 		data-target=".navbar-ex1-collapse">
@@ -11,7 +12,7 @@
 <!-- Top Menu Items -->
 <ul class="nav navbar-right top-nav">
 	<li class="dropdown"><a href="#" class="dropdown-toggle"
-		data-toggle="dropdown"><i class="fa fa-user"></i> 欢迎,${sessionScope.username}<b
+		data-toggle="dropdown"><i class="fa fa-user"></i> 欢迎,<shiro:principal/><b
 			class="caret"></b></a>
 		<ul class="dropdown-menu">
 			<li><a href="#"><i class="fa fa-fw fa-user"></i> Profile</a></li>

@@ -47,16 +47,18 @@ var setting = {
 		  { id: 411, pId: 41, name: "文档查询", perm:"document:query"},
 		  { id: 412, pId: 41, name: "文档打包下载", perm:"document:zipDocuments"},
 		  { id: 413, pId: 41, name: "文档批量删除", perm:"document:deleteDocuments"},
-		  { id: 414, pId: 41, name: "单个文档下载", perm:"document:downloadDocument"},
-		  { id: 415, pId: 41, name: "单个文档删除", perm:"document:deleteDocument"},
+		  { id: 414, pId: 41, name: "文档在线预览", perm:"document:previewOnline"},
+		  { id: 415, pId: 41, name: "单个文档下载", perm:"document:downloadDocument"},
+		  { id: 416, pId: 41, name: "单个文档删除", perm:"document:deleteDocument"},
 		  
 		  
 		  { id: 42, pId: 4, name: "文档回收站", perm:"document:trash"},
 		  { id: 421, pId: 42, name: "文档查询", perm:"document:trashQuery"},
 		  { id: 422, pId: 42, name: "文档打包下载", perm:"document:zipTrashDocuments"},
 		  { id: 423, pId: 42, name: "清空回收站", perm:"document:removeDocuments"},
-		  { id: 424, pId: 42, name: "单个文档下载", perm:"document:downloadTrashDocument"},
-		  { id: 425, pId: 42, name: "彻底删除", perm:"document:removeDocument"},
+		  { id: 424, pId: 42, name: "文档在线预览", perm:"document:previewTrashOnline"},
+		  { id: 425, pId: 42, name: "单个文档下载", perm:"document:downloadTrashDocument"},
+		  { id: 426, pId: 42, name: "彻底删除", perm:"document:removeDocument"},
 		  
 		  { id: 5, pId: 0, name: "系统管理", perm:"systemManagement",isParent: true },
 		  { id: 51, pId: 5, name: "用户管理", perm:"user:list"},

@@ -24,7 +24,7 @@
 	<div id="page-wrapper" style="height:98%;width:100%">
 		<div class="breadcrumbs" id="breadcrumbs" style="text-align: left;">
 			<ul class="breadcrumb">
-			<shiro:hasPermission name="mainPage">
+			<shiro:hasPermission name="mainPage:link">
 				<li>
 					<i class="icon-home home-icon"></i>
 					<a href="<c:url value='/main'/>">首页</a>

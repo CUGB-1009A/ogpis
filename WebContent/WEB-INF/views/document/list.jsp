@@ -95,7 +95,12 @@
 												<td class="check_cell">
 												 <input type="checkbox" class="checkboxes" name="checkbox" value="${item.id}" />
 												</td>
+												<shiro:hasPermission name="document:previewOnline">
 												<td><a target="_blank" href="<c:url value='/document/previewDocument?id=${item.id}'/>">${item.documentName}</a></td>
+												</shiro:hasPermission>
+												<shiro:lacksPermission name="document:previewOnline">
+												<td>${item.documentName}</td>
+												</shiro:lacksPermission>
 												<td>${item.documentDescription}</td>
 												<td>${item.uploadDate}</td>
 												<td>${item.fatherNational.planName}</td>

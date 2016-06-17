@@ -336,6 +336,7 @@ public class PlanDocumentAction {
 	/*
 	 * 在线预览文件，PDF直接浏览，其余转为PDF浏览
 	 */
+	@RequiresPermissions(value={"document:previewOnline","document:previewTrashOnline"},logical=Logical.OR)
 	@RequestMapping(value = "/document/previewDocument")
 	public String previewDocument(HttpServletRequest request , HttpServletResponse response,ModelMap model,String id) throws IOException{
 		PlanDocument planDocument = planDocumentService.findById(id);
