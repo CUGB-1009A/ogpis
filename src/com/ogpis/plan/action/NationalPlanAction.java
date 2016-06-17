@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,6 +18,7 @@ import org.apache.commons.fileupload.ProgressListener;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.log4j.Logger;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -48,6 +48,7 @@ public class NationalPlanAction  {
 	/*
 	 * 读取全国规划列表函数
 	 */
+	@RequiresPermissions(value={"nationalPlan:list"})
 	@RequestMapping(value = "/plan/national/list")
 	public String list(HttpServletRequest request, ModelMap model) {
 		int pageNo = ServletRequestUtils.getIntParameter(request,
@@ -64,12 +65,17 @@ public class NationalPlanAction  {
 	 */
 	@RequestMapping(value = "/plan/national/showDetail")
 	public String showDetail(HttpServletRequest request, ModelMap model,String id) {	
+		NationalPlan nationalPlan = nationalPlanService.findById(id);
+		model.addAttribute("nationalPlan", nationalPlan);
+		Set<PlanDocument> planDocuments = nationalPlan.getChildren();
+		model.addAttribute("planDocuments", planDocuments);
 		return "/plan/national/showDetail";	
 	}
 	
 	/*
 	 * 到添加规划页面
 	 */
+	@RequiresPermissions(value={"national:add"})
 	@RequestMapping(value = "/plan/national/toEditPage")
 	public String toEditPage(HttpServletRequest request, ModelMap model,String id) {	
 		return "/plan/national/edit";	
@@ -78,7 +84,7 @@ public class NationalPlanAction  {
 	/*
 	 * 添加、修改规划函数
 	 */
-	@RequestMapping(value = "/plan/national/save", method = RequestMethod.GET)
+	@RequestMapping(value = "/plan/national/save", method = RequestMethod.POST)
 	public String save(HttpServletRequest request, boolean isAdd,ModelMap model,String id,NationalPlan nationalPlan) {		
 
 		NationalPlan bean = null;
@@ -110,6 +116,7 @@ public class NationalPlanAction  {
 	/*
 	 * 单个删除规划函数,同时软删除对应规划文档
 	 */
+	@RequiresPermissions(value={"national:delete"})
 	@RequestMapping(value = "/plan/national/delete")
 	public String delete(HttpServletRequest request, ModelMap model,String id) {		
 		NationalPlan nationalPlan = this.nationalPlanService.findById(id);
@@ -127,6 +134,7 @@ public class NationalPlanAction  {
 	}
 	
 	/*显示tab页1-5函数*/
+	@RequiresPermissions(value={"national:toEditPage"})
 	@RequestMapping(value = "/plan/national/show")
 	public String show(HttpServletRequest request, ModelMap model,String id,String flag) {	
 		NationalPlan nationalPlan =  this.nationalPlanService.findById(id);
@@ -134,7 +142,6 @@ public class NationalPlanAction  {
 		Set<PlanDocument> planDocumentSet = nationalPlan.getChildren();
 		model.addAttribute("planDocumentSet", planDocumentSet);
 		model.addAttribute("flag",flag);
-		System.out.println("点击的是第"+flag);
 		return  "/plan/national/detail";
 	
 	}
@@ -143,6 +150,7 @@ public class NationalPlanAction  {
 	 * 批量删除规划函数
 	 */
 	@SuppressWarnings("unchecked")
+	@RequiresPermissions(value={"national:deleteBatch"})
 	@RequestMapping(value = "/plan/national/deleteBatch" ,method = RequestMethod.POST)
 	public void deleteBatch(HttpServletResponse resp,HttpServletRequest request, ModelMap model) throws IOException {		
 	 String Ids = request.getParameter("Ids");
@@ -222,8 +230,7 @@ public class NationalPlanAction  {
         	  
           } 
           else 
-          {  	bean = new PlanDocument();
-        	    System.out.println("上传文件时间"+new Date());            
+          {  	bean = new PlanDocument();          
                 String fileName = item.getName();
                 /*
                  * 这里发现ie获取的是路径加文件名，chrome获取的是文件名，这里我们只需要文件名，所以有路径的要先去路径
@@ -278,7 +285,6 @@ public class NationalPlanAction  {
 		public void deleteDocBatch(HttpServletResponse resp,HttpServletRequest request, ModelMap model) throws IOException {		
 		 String Ids = request.getParameter("Ids");
 		 String idTemp;
-		 System.out.println(Ids);
 		 while(Ids.length()>1)
 		 {
 			 idTemp = Ids.substring(0,Ids.indexOf(","));
@@ -292,5 +298,17 @@ public class NationalPlanAction  {
 		 String success = "{\"flag1\":\"success\"}";     
 	     resp.setCharacterEncoding("utf-8");
 		 resp.getWriter().write(success);		
-		}	
+		}
+		@RequiresPermissions(value={"national:fuzzyQuery"})
+		@RequestMapping(value = "/plan/national/fuzzyQuery")
+		public String fuzzyQuery(HttpServletRequest request, ModelMap model,String condition) {
+			int pageNo = ServletRequestUtils.getIntParameter(request,
+					PageListUtil.PAGE_NO_NAME, PageListUtil.DEFAULT_PAGE_NO);
+			int pageSize = 6;
+			IPageList<NationalPlan> nationalPlans = nationalPlanService
+					.getNationalPlansByCondition(condition,pageNo, pageSize);
+			model.addAttribute("nationalPlans", nationalPlans);
+			model.addAttribute("condition",condition);
+			return "plan/national/list";
+		}
 }

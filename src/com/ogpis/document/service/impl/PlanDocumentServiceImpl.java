@@ -47,4 +47,17 @@ implements PlanDocumentService{
 		
 	}
 
+	@Override
+	public IPageList<PlanDocument> getDocumentsByPlan(String selectCondition, String inputValue, String selectValue,
+			int pageNo, int pageSize) {
+		// TODO Auto-generated method stub
+		return getPlanDocumentDao().getDocumentsByPlan(selectCondition, inputValue,selectValue,pageNo,pageSize);
+	}
+
+	@Override
+	public IPageList<PlanDocument> getTrashDocumentsCondition(String condition, int pageNo, int pageSize) {
+		// TODO Auto-generated method stub
+		return getPlanDocumentDao().getDocumentsByPlan(condition,pageNo,pageSize);
+	}
+
 }

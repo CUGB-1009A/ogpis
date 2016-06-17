@@ -1,31 +1,44 @@
 package com.ogpis.document.action;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.List;
+import java.util.Scanner;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.poi.hslf.model.TextRun;
+import org.apache.poi.hslf.usermodel.RichTextRun;
+import org.apache.poi.hslf.usermodel.SlideShow;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import com.ogpis.base.common.paging.IPageList;
 import com.ogpis.base.common.paging.PageListUtil;
 import com.ogpis.document.entity.PlanDocument;
 import com.ogpis.document.service.PlanDocumentService;
+import com.ogpis.plan.entity.NationalPlan;
+import com.ogpis.plan.service.NationalPlanService;
 
 @Controller
 public class PlanDocumentAction {
@@ -33,9 +46,22 @@ public class PlanDocumentAction {
 	@Autowired
 	PlanDocumentService planDocumentService;
 	
+	@Autowired
+	NationalPlanService nationalPlanService;
+	
 	@SuppressWarnings("rawtypes")
 	private ArrayList idList=new ArrayList();
 	
+	String pictureType="bmp,jpg,jpeg,png,gif";
+	String soundType="mp3,mp4";
+	String pdfType="pdf";
+	String txtType = "txt,bat";
+	String officeType = "doc,docx,xls,xlsx,ppt,pptx";
+	String wordType = "doc,docx,wps";
+	String excelType="xls,xlsx";
+	String pptType = "ppt,pptx";
+	
+	@RequiresPermissions(value={"document:list"})
 	@RequestMapping(value = "/document/list")
 	public String list(HttpServletRequest request, ModelMap model) {
 		int pageNo = ServletRequestUtils.getIntParameter(request,
@@ -47,17 +73,19 @@ public class PlanDocumentAction {
 		return "document/list";
 	}
 	
+	@RequiresPermissions(value={"document:trash"})
 	@RequestMapping(value = "/document/trash")
 	public String trash(HttpServletRequest request, ModelMap model) {
 		int pageNo = ServletRequestUtils.getIntParameter(request,
 				PageListUtil.PAGE_NO_NAME, PageListUtil.DEFAULT_PAGE_NO);
 		int pageSize = 6;
-		IPageList<PlanDocument> documents =planDocumentService
+		IPageList<PlanDocument> planDocuments =planDocumentService
 				.getDeletedDocuments(pageNo, pageSize);
-		model.addAttribute("documents", documents);	
+		model.addAttribute("planDocuments", planDocuments);	
 		return "document/trash";
 	}
 	
+	@RequiresPermissions(value={"document:downloadDocument","document:downloadTrashDocument"},logical=Logical.OR)
 	@RequestMapping(value = "/document/downloadDocument")
 	public void downloadDocument(HttpServletResponse response, HttpServletRequest request, ModelMap model,String id) throws IOException {
 	         PlanDocument planDocument = planDocumentService.findById(id);
@@ -86,6 +114,7 @@ public class PlanDocumentAction {
 	         out.close();  
 	}
 	
+	@RequiresPermissions(value={"document:deleteDocument"})
 	@RequestMapping(value = "/document/deleteDocument")
 	public String deleteDocument(HttpServletRequest request, ModelMap model,String id) {
 		  PlanDocument planDocument = planDocumentService.findById(id);
@@ -98,6 +127,7 @@ public class PlanDocumentAction {
 	/*
 	 * 这个是真正意义上的删除，删除记录并删除文件
 	 */
+	@RequiresPermissions(value={"document:removeDocument"})
 	@RequestMapping(value = "/document/removeDocument")
 	public String removeDocument(HttpServletRequest request, ModelMap model,String id) {
 		  PlanDocument planDocument = planDocumentService.findById(id);
@@ -109,6 +139,7 @@ public class PlanDocumentAction {
 	}
 	
 	@SuppressWarnings("unchecked")
+	@RequiresPermissions(value={"document:deleteDocuments"})
 	@RequestMapping(value = "/document/deleteDocuments")
 	public void deleteDocuments(HttpServletResponse resp,HttpServletRequest request, ModelMap model,String id) throws IOException {
 		 String Ids = request.getParameter("Ids");
@@ -130,6 +161,7 @@ public class PlanDocumentAction {
 	 * 清空回收站响应函数
 	 */
 	@SuppressWarnings("unchecked")
+	@RequiresPermissions(value={"document:removeDocuments"})
 	@RequestMapping(value = "/document/removeDocuments")
 	public void removeDocuments(HttpServletResponse resp,HttpServletRequest request, ModelMap model) throws IOException {
 		 String Ids = request.getParameter("Ids");
@@ -165,6 +197,7 @@ public class PlanDocumentAction {
 	 * 文件打包
 	 */
 	@SuppressWarnings("unchecked")
+	@RequiresPermissions(value={"document:zipDocuments","document:zipTrashDocuments"},logical=Logical.OR)
 	@RequestMapping(value = "/document/zipDocuments")
 	public void zipDocuments(HttpServletResponse response,HttpServletRequest request, ModelMap model) throws IOException, ServletException
 		{
@@ -218,7 +251,7 @@ public class PlanDocumentAction {
 		 response.getWriter().write(success);
 	}
 	
-
+	@RequiresPermissions(value={"document:zipDocuments","document:zipTrashDocuments"},logical=Logical.OR)
 	@RequestMapping(value = "/document/downloadZip")
 	public void downloadZip(HttpServletResponse response,HttpServletRequest request, ModelMap model,String zipFileName) throws IOException, ServletException
 		{
@@ -254,25 +287,165 @@ public class PlanDocumentAction {
          if(fileTemp.exists())
         	 fileTemp.delete();
 		}
+	
+	@RequestMapping(value = "/document/findAllPlans")
+	public void findAllPlans(HttpServletRequest request , HttpServletResponse response) throws IOException {
+		List<NationalPlan> nationalPlans = nationalPlanService.getAllPlans();
+		String result = "[";  
+		for(NationalPlan temp:nationalPlans)
+		{
+			result+="{\"planName\":\""+temp.getPlanName()+"\",\"planId\":\""+temp.getId()+"\"},";
+		}
+		result = result.substring(0, result.length()-1);
+		result+="]";
+		response.setCharacterEncoding("utf-8");
+		response.getWriter().write(result);
+	}
+	
+	@RequiresPermissions(value={"document:query"})
+	@RequestMapping(value = "/document/queryDocument")
+	public String queryDocument(HttpServletRequest request , HttpServletResponse response,ModelMap model,String inputValue,String selectValue,String selectCondition){
+		
+		int pageNo = ServletRequestUtils.getIntParameter(request,
+				PageListUtil.PAGE_NO_NAME, PageListUtil.DEFAULT_PAGE_NO);
+		int pageSize = 6;
+		IPageList<PlanDocument> planDocuments =planDocumentService
+				.getDocumentsByPlan(selectCondition,inputValue,selectValue,pageNo, pageSize);
+		model.addAttribute("planDocuments", planDocuments);	
+		model.addAttribute("inputValue", inputValue);	
+		model.addAttribute("selectCondition", selectCondition);	
+		model.addAttribute("selectValue", selectValue);	
+		
+		return "document/list";
+	}
+	
+	@RequiresPermissions(value={"document:trashQuery"})
+	@RequestMapping(value = "/document/queryTrashDocument")
+	public String queryTrashDocument(HttpServletRequest request , HttpServletResponse response,ModelMap model,String condition){
+		
+		int pageNo = ServletRequestUtils.getIntParameter(request,
+				PageListUtil.PAGE_NO_NAME, PageListUtil.DEFAULT_PAGE_NO);
+		int pageSize = 6;
+		IPageList<PlanDocument> planDocuments =planDocumentService
+				.getTrashDocumentsCondition(condition,pageNo, pageSize);
+		model.addAttribute("planDocuments", planDocuments);
+		model.addAttribute("condition", condition);	
+		return "document/trash";
+	}
+	
+	/*
+	 * 在线预览文件，PDF直接浏览，其余转为PDF浏览
+	 */
+	@RequiresPermissions(value={"document:previewOnline","document:previewTrashOnline"},logical=Logical.OR)
+	@RequestMapping(value = "/document/previewDocument")
+	public String previewDocument(HttpServletRequest request , HttpServletResponse response,ModelMap model,String id) throws IOException{
+		PlanDocument planDocument = planDocumentService.findById(id);
+		String documentName = planDocument.getDocumentName();
+		String filePath = planDocument.getDocumentAddress();
+		filePath = filePath.replace("\\", "/");
+		String fileType = filePath.substring(filePath.lastIndexOf(".")+1, filePath.length());
+		if(pictureType.contains(fileType.toLowerCase()))//图片文件
+		{
+			model.addAttribute("filePath", filePath);
+			model.addAttribute("documentName",documentName);
+			model.addAttribute("flag", "1");
+		}
+		else if(soundType.contains(fileType.toLowerCase()))//音频和视频
+		{
+			model.addAttribute("filePath", filePath);
+			model.addAttribute("documentName",documentName);
+			model.addAttribute("flag", "2");
+		}
+		else if(pdfType.contains(fileType.toLowerCase()))//PDF
+		{
+			model.addAttribute("filePath", filePath);
+			model.addAttribute("documentName",documentName);
+			model.addAttribute("flag", "4");
+			return "document/pdfViewer";
+		}
+		else if(officeType.contains(fileType.toLowerCase()))
+		{
+			if(wordType.contains(fileType.toLowerCase()))//word（doc,docx）转pdf再预览
+			{
+				
+			}
+			if(excelType.contains(fileType.toLowerCase()))//excel（xls,xlsx）用硕正报表控件预览
+			{
+				model.addAttribute("filePath", filePath);
+				model.addAttribute("documentName",documentName);
+				model.addAttribute("flag", "4");
+				return "document/excelViewer";
+			}
+			if(pptType.contains(fileType.toLowerCase()))//ppt转为图片进行轮播转换
+			{
+				File file = new File(request.getServletContext().getRealPath("/")+filePath);
+				try
+				{
+					FileInputStream is = new FileInputStream(file);
+					SlideShow ppt = new SlideShow(is);
+					is.close();
+					Dimension pgsize = ppt.getPageSize();
+					org.apache.poi.hslf.model.Slide[] slide = ppt.getSlides();
+					for (int i = 0; i < slide.length; i++) 
+					{
+						TextRun[] truns = slide[i].getTextRuns();
+						for (int k = 0; k < truns.length; k++) 
+						{
+							RichTextRun[] rtruns = truns[k].getRichTextRuns();
+							for (int l = 0; l < rtruns.length; l++) 
+							{
+								rtruns[l].setFontIndex(1);
+								rtruns[l].setFontName("宋体");
+							}
+						}
+						BufferedImage img = new BufferedImage(pgsize.width,
+								pgsize.height, BufferedImage.TYPE_INT_RGB);
+						Graphics2D graphics = img.createGraphics();
+						graphics.setPaint(Color.white);
+						graphics.fill(new Rectangle2D.Float(0, 0, pgsize.width,
+								pgsize.height));
+						slide[i].draw(graphics);
+						// 这里设置图片的存放路径和图片的格式(jpeg,png,bmp等等),注意生成文件路径
+						FileOutputStream out = new FileOutputStream(request.getServletContext().getRealPath("/")+"temp"+"/"+filePath.substring(filePath.lastIndexOf("/")+1,filePath.lastIndexOf("."))+(i + 1) + ".jpeg");
+						javax.imageio.ImageIO.write(img, "jpeg", out);
+						out.close();
+					}
+					String imageNum = slide.length+"";
+					model.addAttribute("tempFileName", filePath.substring(filePath.lastIndexOf("/")+1,filePath.lastIndexOf(".")));
+					model.addAttribute("imageNum", imageNum);
+					model.addAttribute("filePath", filePath);
+					model.addAttribute("documentName",documentName);
+				} 
+				catch (FileNotFoundException e) 
+				{
+					System.out.println(e);
+				} 
+				catch (IOException e) 
+				{
+					e.printStackTrace();
+				}
+				return "document/pptViewer";
+			}
+		}
+		else if(txtType.contains(fileType.toLowerCase())) //txt
+		{
+			 @SuppressWarnings("resource")
+			 Scanner in = new Scanner(new File(request.getServletContext().getRealPath("/")+filePath));
+		     StringBuffer sb = new StringBuffer();
+			 while(in.hasNextLine())
+			 {
+		    	 String str = in.nextLine();
+		    	 sb.append(str);
+		    	 sb.append("<br>");
+		     }
+			 response.setCharacterEncoding("GBK");
+			 response.getWriter().write(sb.toString());
+			 return null;
+
+		}
+		else
+			model.addAttribute("flag", "3");
+		return "document/previewDocument";
 }
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
-
+}

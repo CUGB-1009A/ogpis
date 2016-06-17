@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %> 
 <%@include file="/WEB-INF/views/init.jsp" %>
 <head>
     <meta charset="utf-8">
@@ -19,7 +20,6 @@
 	</nav>
 	<!--网页主体 -->
 
-	
 	<div id="page-wrapper" style="height:98%;width:100%">
 		<div class="breadcrumbs" id="breadcrumbs" style="text-align: left;">
 			<ul class="breadcrumb">
@@ -38,13 +38,42 @@
 					<div class="portlet-body">
 						<div class="table-toolbar" style="text-align: right;">
 							<div class="btn-group">
+						<form id="queryDocument" action="<%=path%>/document/queryDocument">
+							<shiro:hasPermission name="document:query">
+								<span title="根据规划或文档名进行文档的查询">查询条件：</span>	
+								&nbsp;
+								<select id="selectCondition" name="selectCondition">
+									<option value='0'>输入选择查询条件</option>
+									<option value='1'>按规划查询</option>
+									<option value='2'>按文档名称查询</option>
+								</select> 
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<span title="输入查询值">查询值：</span>	
+								&nbsp;
+								<input type="text" id="inputValue" placeholder="查询值..."  name="inputValue" value="${condition}" >
+								<select class="selected" id="selectValue" name="selectValue" style="display:none;height:50px;width:246px">
+									
+								</select> 
+
+								&nbsp;&nbsp;
+								<a href="javascript:queryDocument();" class="btn-sm btn-app btn-success no-radius">
+									<i class="icon-search bigger-200">&nbsp;查询</i>
+								</a>
+								&nbsp;&nbsp;&nbsp;&nbsp;
+							</shiro:hasPermission>
+							<shiro:hasPermission name="document:zipDocuments">
 								<a href="javascript:downloadZip()" class="btn-sm btn-app btn-success no-radius">
 									<i class="icon-arrow-down bigger-200">&nbsp;打包下载</i>
 								</a>
 								&nbsp;
+							</shiro:hasPermission>
+							<shiro:hasPermission name="document:deleteDocuments">
 								<a href="javascript:delAll();" class="btn-sm btn-app btn-danger no-radius">
 									<i class="icon-trash bigger-200">&nbsp;批量删除</i>
 								</a>
+								&nbsp;&nbsp;
+							</shiro:hasPermission>	
+							</form>
 							</div>
 						</div>
 						<div class="dataTables_wrapper form-inline" role="grid">
@@ -66,21 +95,30 @@
 												<td class="check_cell">
 												 <input type="checkbox" class="checkboxes" name="checkbox" value="${item.id}" />
 												</td>
-												<td><a href="<c:url value='/plan/national/showDetail?id=${item.id}'/>">${item.documentName}</a></td>
+												<shiro:hasPermission name="document:previewOnline">
+												<td><a target="_blank" href="<c:url value='/document/previewDocument?id=${item.id}'/>">${item.documentName}</a></td>
+												</shiro:hasPermission>
+												<shiro:lacksPermission name="document:previewOnline">
+												<td>${item.documentName}</td>
+												</shiro:lacksPermission>
 												<td>${item.documentDescription}</td>
 												<td>${item.uploadDate}</td>
 												<td>${item.fatherNational.planName}</td>
 												<td>
 													<p>
+													<shiro:hasPermission name="document:downloadDocument">
 														<a  href="<c:url value='/document/downloadDocument?id=${item.id}'/>" class="btn-sm btn-app btn-primary no-radius">
 															<i class="icon-arrow-down bigger-200"></i>
 															下载
 														</a>
 														&nbsp;
+													</shiro:hasPermission>
+													<shiro:hasPermission name="document:deleteDocument">
 														<a href="javascript:del('<c:url value='/document/deleteDocument?id=${item.id}'/>');" class="btn-sm btn-app btn-danger no-radius" >
 															<i class="icon-trash bigger-200"></i>
 															删除
 														</a>
+													</shiro:hasPermission>
 													</p>
 												</td>
 											</tr>
@@ -124,8 +162,63 @@
 		</div>
 	</div>	
 </div>
+
 </body>
 <script type="text/javascript">
+$("#selectCondition").change(function(){
+	var selectCondition = $("#selectCondition").val();
+	if(selectCondition=='0'||selectCondition=='2')
+		{
+		document.getElementById("inputValue").style.display = "";
+		document.getElementById("selectValue").style.display = "none"; 
+		}
+	if(selectCondition=='1')
+		{
+		document.getElementById("inputValue").style.display = "none";
+		document.getElementById("selectValue").style.display = "";
+		//ajax查询出所有规划并添加到列表中
+		$.ajax({
+			url:"<%=path%>/document/findAllPlans",
+			type:"POST",
+			async:true,
+			dataType: "json", 
+		    contentType: "application/json",
+			success:function(data)
+			{
+				document.getElementById("selectValue").options.length=0;
+			    for(var i=0;i<data.length;i++)
+			    	{
+			    	document.getElementById("selectValue").options.add(new Option(data[i].planName,data[i].planId));
+			    	}
+			},
+			error:function()
+			{
+				alert("批量删除错误");
+			}			
+		});
+		}
+});
+
+function queryDocument()
+{
+	var selectCondition = $("#selectCondition").val();
+	var inputValue = $("#inputValue").val();
+	if(selectCondition=='0')
+		{
+		alert("请选择查询条件！");
+		return;
+		}
+	if(selectCondition=='2')
+		{
+		if(inputValue=="")
+			{
+			alert("请输入查询值！")
+			return ;
+			}
+		}
+	$("#queryDocument").submit();
+		
+}
 
 function del(url){
 	var isDel =  confirm('确定删除该文档？', '确认对话框');

@@ -41,7 +41,7 @@
 										<tr class="odd gradeX">
 											<td class="check_cell"><input type="checkbox"
 												class="checkboxes" name="checkbox" value="${item.id}" /></td>
-											<td>${item.documentName}</td>
+											<td><a target="_blank" href="<c:url value='/document/previewDocument?id=${item.id}'/>">${item.documentName}</a></td>
 											<td>${item.documentDescription}</td>
 											<td>${item.uploadDate}</td>
 											<td>

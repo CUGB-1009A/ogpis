@@ -108,7 +108,10 @@
                     		</c:forEach>
                     	</div>
                     </div>
+<<<<<<< HEAD
                     <shiro:hasPermission name="father13">father13</shiro:hasPermission>
+=======
+>>>>>>> refs/remotes/origin/规划（本身的）管理-涂健
 					<div class="clearfix form-actions">
 						<div class="col-md-12">
 							<button class="btn-sm btn-success no-radius" type="submit" onclick="test()" >
@@ -122,7 +125,7 @@
 							</button>
 						</div>
 					</div>
-				</from>
+				</form>
 			</div><!-- /span -->
 		</div><!-- /row -->
 	</div>

@@ -8,6 +8,7 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -21,7 +22,7 @@ public class LoginAction {
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String login(String username, String password,
+	public String login(String username, String password,ModelMap model,
 			HttpServletRequest request) {
 		System.out.println("login");
 		System.out.println("username:" + username);
@@ -34,10 +35,20 @@ public class LoginAction {
 			System.out.println("login");
 			Subject subject = SecurityUtils.getSubject();
 			subject.login(token);
+			request.getSession().setAttribute("username", token.getUsername());
 			return "main";
 		} catch (AuthenticationException e) {
 			e.printStackTrace();
+			model.addAttribute("isSuccess", "0");
 			return "index";
 		}
 	}
+	
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public String logout(String username, String password,ModelMap model,
+			HttpServletRequest request) {
+		System.out.println("logout");
+		SecurityUtils.getSecurityManager().logout(SecurityUtils.getSubject());
+			return "index";
+		}
 }

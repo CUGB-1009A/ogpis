@@ -66,7 +66,7 @@
 						<label class="col-sm-3 control-label no-padding-right" for="form-field-1">排列顺序</label>
 
 						<div class="col-sm-9">
-							<input type="number"  placeholder="排列顺序" class="col-xs-10 col-sm-5" name="priority" value="${role.priority }">
+							<input type="text"  placeholder="排列顺序" class="col-xs-10 col-sm-5" name="priority" value="${role.priority }">
 						</div>
 					</div>
 					<div class="form-group">
@@ -102,7 +102,7 @@
 							</button>
 						</div>
 					</div>
-				</from>
+				</form>
 			</div><!-- /span -->
 		</div><!-- /row -->
 	</div>

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %> 
 <%@include file="/WEB-INF/views/init.jsp" %>
 <head>
     <meta charset="utf-8">
@@ -38,13 +39,29 @@
 					<div class="portlet-body">
 						<div class="table-toolbar" style="text-align: right;">
 							<div class="btn-group">
+							<form id="queryTrashDocument" action="<%=path%>/document/queryTrashDocument">
+							<shiro:hasPermission name="document:trashQuery">
+								<span title="输入查询值">查询条件：</span>	
+								&nbsp;
+								<input type="text" id="inputValue" placeholder="查询值..."  name="condition" value="${condition}" >
+								&nbsp;&nbsp;
+								<a href="javascript:queryTrashDocument();" class="btn-sm btn-app btn-success no-radius">
+									<i class="icon-search bigger-200">&nbsp;查询</i>
+								</a>
+								&nbsp;&nbsp;&nbsp;&nbsp;
+							</shiro:hasPermission>
+							<shiro:hasPermission name="document:zipTrashDocuments">
 								<a href="javascript:downloadZip()" class="btn-sm btn-app btn-success no-radius">
 									<i class="icon-arrow-down bigger-200">&nbsp;打包下载</i>
 								</a>
 								&nbsp;
+							</shiro:hasPermission>
+							<shiro:hasPermission name="document:removeDocuments">
 								<a href="javascript:delAll();" class="btn-sm btn-app btn-danger no-radius">
 									<i class="icon-trash bigger-200">&nbsp;清空回收站</i>
 								</a>
+							</shiro:hasPermission>
+								</form>
 							</div>
 						</div>
 						<div class="dataTables_wrapper form-inline" role="grid">
@@ -60,25 +77,28 @@
 										</tr>
 									</thead>
 									<tbody>
-										<c:forEach items="${documents.items}" var="item">
+										<c:forEach items="${planDocuments.items}" var="item">
 											<tr class="odd gradeX">
 												<td class="check_cell">
 												 <input type="checkbox" class="checkboxes" name="checkbox" value="${item.id}" />
 												</td>
-												<td><a href="<c:url value='/plan/national/showDetail?id=${item.id}'/>">${item.documentName}</a></td>
+												<td><a target="_blank" href="<c:url value='/document/previewDocument?id=${item.id}'/>">${item.documentName}</a></td>
 												<td>${item.documentDescription}</td>
 												<td>${item.modifiedTime}</td>
 												<td>
 													<p>
+													<shiro:hasPermission name="document:downloadTrashDocument">
 														<a  href="<c:url value='/document/downloadDocument?id=${item.id}'/>" class="btn-sm btn-app btn-primary no-radius">
 															<i class="icon-arrow-down bigger-200"></i>
 															下载
-														</a> &nbsp;
-														&nbsp;
+														</a> &nbsp;&nbsp;
+													</shiro:hasPermission>
+													<shiro:hasPermission name="document:removeDocument">
 														<a href="javascript:del('<c:url value='/document/removeDocument?id=${item.id}'/>');" class="btn-sm btn-app btn-danger no-radius" >
 															<i class="icon-trash bigger-200"></i>
 															彻底删除
 														</a>
+													</shiro:hasPermission>
 													</p>
 												</td>
 											</tr>
@@ -87,7 +107,7 @@
 								</table>
 							</div>
 							<c:import url ="../common/paging.jsp">
-		        				<c:param name="pageModelName" value="documents"/>
+		        				<c:param name="pageModelName" value="planDocuments"/>
 		        				<c:param name="urlAddress" value="/document/trash"/>
 	       				 	</c:import>
 						</div>
@@ -123,6 +143,16 @@
 </div>
 </body>
 <script type="text/javascript">
+function queryTrashDocument()
+{
+	var inputValue = $("#inputValue").val();
+	if(inputValue=="")
+		{
+		alert("请输入查询值！");
+		return ;
+		}
+	$("#queryTrashDocument").submit();
+}
 
 function del(url){
 	var isDel =  confirm('确定删除该文档？', '确认对话框');

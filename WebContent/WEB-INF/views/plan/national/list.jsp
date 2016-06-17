@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %> 
 <%@include file="/WEB-INF/views/init.jsp" %>
 <head>
     <meta charset="utf-8">
@@ -23,10 +24,12 @@
 	<div id="page-wrapper" style="height:98%;width:100%">
 		<div class="breadcrumbs" id="breadcrumbs" style="text-align: left;">
 			<ul class="breadcrumb">
+			<shiro:hasPermission name="mainPage:link">
 				<li>
 					<i class="icon-home home-icon"></i>
 					<a href="<c:url value='/main'/>">首页</a>
 				</li>
+				</shiro:hasPermission>
 				<li class="active">全国规划管理</li>
 			</ul>
 		</div>
@@ -38,15 +41,38 @@
 					<div class="portlet-body">
 						<div class="table-toolbar" style="text-align: right;">
 							<div class="btn-group">
+					
+						<form id="queryNationalPlan" action="<%=path%>/plan/national/fuzzyQuery">
+							<shiro:hasPermission name="national:fuzzyQuery">
+								<span title="根据规划名，规划代号，规划单位等条件进行模糊匹配查询">模糊查询：</span>	
+									&nbsp;&nbsp;
+									<input type="text" id="inputFuzzyQuery" placeholder="模糊查询条件..."  name="condition" value="${condition}" >
+									&nbsp;&nbsp;
+									<a href="javascript:fuzzyQuery();" class="btn-sm btn-app btn-success no-radius">
+										<i class="icon-search bigger-200">&nbsp;查询</i>
+									</a>
+									&nbsp;&nbsp;&nbsp;&nbsp;
+							</shiro:hasPermission>
+							
+							<shiro:hasPermission name="national:add">
 								<a href="<c:url value='/plan/national/toEditPage'/>" class="btn-sm btn-app btn-success no-radius">
 									<i class="icon-plus bigger-200">&nbsp;添加规划</i>
 								</a>
 								&nbsp;
+							</shiro:hasPermission>
+							
+							<shiro:hasPermission name="national:deleteBatch">
 								<a href="javascript:delAll();" class="btn-sm btn-app btn-danger no-radius">
 									<i class="icon-trash bigger-200">&nbsp;批量删除</i>
 								</a>
+								&nbsp;&nbsp;
+							</shiro:hasPermission>
+							</form>
+					
+					
 							</div>
 						</div>
+						
 						<div class="dataTables_wrapper form-inline" role="grid">
 							<div class="table-scrollable">
 								<table class="table table-striped table-bordered table-hover" id="data-table">
@@ -74,15 +100,19 @@
 												</td>
 												<td>
 													<p>
+													<shiro:hasPermission name="national:toEditPage">
 														<a  href="<c:url value='/plan/national/show?id=${item.id}&&flag=1'/>" class="btn-sm btn-app btn-primary no-radius">
 															<i class="icon-edit bigger-200"></i>
 															编辑
 														</a>
 														&nbsp;
+													</shiro:hasPermission>
+													<shiro:hasPermission name="national:delete">
 														<a href="javascript:del('<c:url value='/plan/national/delete?id=${item.id}'/>');" class="btn-sm btn-app btn-danger no-radius" >
 															<i class="icon-trash bigger-200"></i>
 															删除
 														</a>
+													</shiro:hasPermission>
 													</p>
 												</td>
 											</tr>
@@ -103,12 +133,23 @@
 </div>
 </body>
 <script type="text/javascript">
-
 function del(url){
 	var isDel =  confirm('确定删除该规划？', '确认对话框');
 	if(isDel){
 		window.location.href=url;
 	}
+}
+
+function fuzzyQuery()
+{
+	var temp = $("#inputFuzzyQuery").val();
+	if(temp=="")
+		{
+		alert("请输入查询条件！")
+		return ;
+		}
+	else
+		$("#queryNationalPlan").submit();
 }
 
 /* 批量删除规划响应函数 */
@@ -118,7 +159,7 @@ function delAll()
 	if(checkedObject.length==0)
 		{
 		alert("至少选择一个规划再删除！");
-		return false;
+		return;
 		}	
 	var isDelAll =  confirm('确定删除选定规划？', '确认对话框');
 	var idTemp="";

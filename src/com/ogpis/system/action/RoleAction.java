@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -23,6 +25,7 @@ public class RoleAction {
 	@Autowired
 	private RoleService roleService;
 
+	@RequiresPermissions(value={"role:list"})
 	@RequestMapping(value = "/system/role/list")
 	public String list(HttpServletRequest request, ModelMap model) {
 		List<Role> roles = roleService.getList();
@@ -30,11 +33,13 @@ public class RoleAction {
 		return "system/role/list";
 	}
 
+	@RequiresPermissions(value={"role:add"})
 	@RequestMapping(value = "/system/role/add")
 	public String add() {
 		return "system/role/edit";
 	}
 
+	@RequiresPermissions(value={"role:edit"})
 	@RequestMapping(value = "/system/role/edit")
 	public String edit(HttpServletRequest request, ModelMap model, String id) {
 		Role role = this.roleService.findById(id);
@@ -42,6 +47,7 @@ public class RoleAction {
 		return "system/role/edit";
 	}
 
+	@RequiresPermissions(value={"role:add","role:edit"},logical=Logical.OR)
 	@RequestMapping(value = "/system/role/save")
 	public String save(Role role, String[] perms, String id, boolean isAdd,
 			HttpServletRequest request, ModelMap model) {
@@ -63,6 +69,7 @@ public class RoleAction {
 		return "redirect:list";
 	}
 
+	@RequiresPermissions(value={"role:delete"})
 	@RequestMapping(value = "/system/role/delete")
 	public String delete(HttpServletRequest request, ModelMap model, String id) {
 		this.roleService.batchMarkDelete(new String[] { id });
