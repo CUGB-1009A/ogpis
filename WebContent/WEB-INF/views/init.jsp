@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
 <link rel="stylesheet" href="<%=path %>/assets/bootstrap/css/bootstrap.min.css" type="text/css">
 <link rel="stylesheet" href="<%=path %>/assets/bootstrap/css/bootstrap-theme.css" type="text/css">
+<link rel="stylesheet" href="<%=path %>/assets/bootstrap/css/bootstrap-select.min.css" type="text/css">
 <link rel="stylesheet" href="<%=path %>/assets/font-awesome/css/font-awesome.min.css" type="text/css">
 <link rel="stylesheet" href="<%=path %>/assets/font-awesome/css/font-awesome1.min.css" type="text/css">
 <link rel="stylesheet" href="<%=path %>/assets/css/form-elements.css" type="text/css">
@@ -22,6 +23,7 @@
 <!-- Javascript -->
 <script src="<%=path %>/assets/js/jquery-1.11.1.min.js"></script>
 <script src="<%=path %>/assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="<%=path %>/assets/bootstrap/js/bootstrap-select.min.js"></script>
 <script src="<%=path %>/assets/js/jquery.backstretch.min.js"></script>
 <script src="<%=path %>/assets/js/scripts.js"></script>
 <script src="<%=path %>/js/main.js"></script>

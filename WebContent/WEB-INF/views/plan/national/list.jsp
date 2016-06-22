@@ -96,7 +96,7 @@
 												<td>
 													 <a href="<c:url value='/plan/national/show?id=${item.id}&&flag=2'/>"><i class="glyphicon glyphicon-file"></i> ${item.children.size()}</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 													 <a href="<c:url value='/plan/national/show?id=${item.id}&&flag=3'/>"><i class="glyphicon glyphicon-chart"></i>指标个数 0</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-													 <i class="icon-time"> ${item.modifiedTime}</i>
+													 <i class="icon-time"> ${item.modifiedTime.toLocaleString()}</i>
 												</td>
 												<td>
 													<p>

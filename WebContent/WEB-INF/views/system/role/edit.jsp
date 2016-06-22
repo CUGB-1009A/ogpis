@@ -85,7 +85,7 @@
 						<label class="col-sm-3 control-label no-padding-right" for="form-field-1">分配权限</label>
 						<div class="col-sm-9">
 							<%@ include file="perms.jsp"%>
-							<input type="input" id="perms" placeholder="" class="col-xs-10 col-sm-5" name="perms" value="${role.perms }">
+							<input type="hidden" id="perms" placeholder="" class="col-xs-10 col-sm-5" name="perms" value="${role.perms }">
 						</div>
   					</div>
 					

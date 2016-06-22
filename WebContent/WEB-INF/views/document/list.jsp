@@ -42,11 +42,18 @@
 							<shiro:hasPermission name="document:query">
 								<span title="根据规划或文档名进行文档的查询">查询条件：</span>	
 								&nbsp;
-								<select id="selectCondition" name="selectCondition">
+								<!-- <select id="selectCondition" name="selectCondition">
 									<option value='0'>输入选择查询条件</option>
 									<option value='1'>按规划查询</option>
 									<option value='2'>按文档名称查询</option>
-								</select> 
+								</select>  -->
+								
+								<select id="selectCondition" name="selectCondition" class="selectpicker" data-style="btn-danger">
+							    	<option value='0'>输入选择查询条件</option>
+									<option value='1'>按规划查询</option>
+									<option value='2'>按文档名称查询</option>
+							    </select>
+								
 								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 								<span title="输入查询值">查询值：</span>	
 								&nbsp;

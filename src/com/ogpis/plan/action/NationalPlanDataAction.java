@@ -28,6 +28,13 @@ import com.ogpis.plan.service.NationalPlanDataService;
 
 @Controller
 public class NationalPlanDataAction {
+	
+	@RequestMapping(value = "/plan/national/index/edit")
+	public String indexEdit(HttpServletRequest request, ModelMap model) {
+		
+		return "/plan/national/indexEdit";
+	}
+
 
 	@RequestMapping(value = "/plan/national/data/list")
 	public String list(HttpServletRequest request, ModelMap model) {
