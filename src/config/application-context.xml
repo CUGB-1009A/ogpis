@@ -50,6 +50,7 @@
 		<!-- </property> -->
 		<property name="packagesToScan">
 			<list>
+				<value>com.ogpis.index.entity</value>
 				<value>com.ogpis.system.entity</value>
 				<value>com.ogpis.plan.entity</value>
 				<value>com.ogpis.document.entity</value>

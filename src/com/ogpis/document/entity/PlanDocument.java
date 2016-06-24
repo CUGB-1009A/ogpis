@@ -2,7 +2,6 @@ package com.ogpis.document.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
-
 import com.ogpis.document.entity.base.PlanDocumentEntity;
 
 

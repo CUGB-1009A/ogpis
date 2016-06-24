@@ -10,6 +10,7 @@ import javax.persistence.OneToMany;
 import org.springframework.format.annotation.DateTimeFormat;
 import com.ogpis.base.entity.BaseEntity;
 import com.ogpis.document.entity.PlanDocument;
+import com.ogpis.index.entity.IndexManagement;
 
 /**
  * 规划信息的基类，定义了规划信息的公有字段
@@ -55,6 +56,9 @@ public class PlanEntity extends BaseEntity {
 	
 	@OneToMany(fetch=FetchType.EAGER,cascade = { CascadeType.ALL }, mappedBy = "plan")
 	private Set<PlanDocument> planDocument;
+	
+	@OneToMany(fetch=FetchType.EAGER,cascade = { CascadeType.ALL }, mappedBy = "plan")
+	private Set<IndexManagement> index;
 
 	public Set<PlanDocument> getPlanDocument() {
 		return planDocument;
