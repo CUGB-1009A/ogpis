@@ -73,35 +73,35 @@
 					   <li class="active"><a href="#overview" data-toggle="tab">规划概述</a></li> 
 					</c:if> 
 					<c:if test='<%=!flag.equals("1") %>'> 
-					   <li><a href="#overview" data-toggle="tab">规划概述</a></li> 
+					   <li><a href="#overview" data-toggle="tab" onclick="Tab1()">规划概述</a></li> 
 		 			</c:if> 
 		 			
 		 			<c:if test='<%=flag.equals("2") %>'> 
 					   <li class="active"><a href="#document" data-toggle="tab" >文档资料</a>	</li>
 					</c:if> 
 					<c:if test='<%=!flag.equals("2") %>'> 
-					     <li><a href="#document" data-toggle="tab" >文档资料</a></li>
+					     <li><a href="#document" data-toggle="tab" onclick="Tab2()">文档资料</a></li>
 		 			</c:if> 
 		 			
 		 			<c:if test='<%=flag.equals("3") %>'> 
 					   <li class="active"><a href="#indexEntry" data-toggle="tab">规划指标录入</a></li>
 					</c:if> 
 					<c:if test='<%=!flag.equals("3") %>'> 
-					   <li><a href="#indexEntry" data-toggle="tab">规划指标录入</a></li>
+					   <li><a href="#indexEntry" data-toggle="tab" onclick="Tab3()">规划指标录入</a></li>
 		 			</c:if> 
 		 			
 		 			<c:if test='<%=flag.equals("4") %>'> 
 					   <li class="active"><a href="#completeEntry" data-toggle="tab">完成情况录入</a></li>
 					</c:if> 
 					<c:if test='<%=!flag.equals("4") %>'> 
-					   <li><a href="#completeEntry" data-toggle="tab">完成情况录入</a></li>
+					   <li><a href="#completeEntry" data-toggle="tab" onclick="Tab4()">完成情况录入</a></li>
 					</c:if> 
 		 			
 		 			<c:if test='<%=flag.equals("5") %>'> 
 					   <li class="active"><a href="#track" data-toggle="tab">规划跟踪</a></li>
 					</c:if> 
 					<c:if test='<%=!flag.equals("5") %>'> 
-					   <li><a href="#track" data-toggle="tab">规划跟踪</a></li>
+					   <li><a href="#track" data-toggle="tab" onclick="Tab5()">规划跟踪</a></li>
 		 			</c:if> 		  
 				</ul>
 				
@@ -118,6 +118,33 @@
 </div>
 </body>
 <script type="text/javascript">
+var flag = ${flag} ;
+var id = "${plan.id}";
+var type = "${type}";
+function Tab1()
+{
+	window.location.href="<%=path%>/plan/show?type="+type+"&&id="+id+"&&flag=1";
+}
+
+function Tab2()
+{
+	window.location.href="<%=path%>/plan/show?type="+type+"&&id="+id+"&&flag=2";
+}
+
+function Tab3()
+{
+	window.location.href="<%=path%>/plan/show?type="+type+"&&id="+id+"&&flag=3";
+}
+
+function Tab4()
+{
+	window.location.href="<%=path%>/plan/show?type="+type+"&&id="+id+"&&flag=4";
+}
+
+function Tab5()
+{
+	window.location.href="<%=path%>/plan/show?type="+type+"&&id="+id+"&&flag=5";
+}
 /* 回显时间和规划描述字段，去掉时分秒（虽然在库中没有，但获取的时候自动添0了) */
 var description = '${plan.planDescription}';
 var endtime = '${plan.endTime}';
@@ -134,7 +161,7 @@ $(function(){
 });
 
 
-$(function(){
+ $(function(){
 	var flag=${flag};
 	if(flag==1)
 		$("#overview").toggleClass("in active"); 
@@ -146,7 +173,7 @@ $(function(){
 		$("#completeEntry").toggleClass("in active");
 	if(flag==5)
 		$("#track").toggleClass("in active");
-});
+}); 
 
 /* 初始化模态框，清空模态框一切信息，设置上传按钮可用，警示信息隐藏 */
 function showModal()

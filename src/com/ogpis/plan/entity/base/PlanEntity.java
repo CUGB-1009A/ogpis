@@ -60,6 +60,14 @@ public class PlanEntity extends BaseEntity {
 	@OneToMany(fetch=FetchType.EAGER,cascade = { CascadeType.ALL }, mappedBy = "plan")
 	private Set<IndexManagement> index;
 
+	public Set<IndexManagement> getIndex() {
+		return index;
+	}
+
+	public void setIndex(Set<IndexManagement> index) {
+		this.index = index;
+	}
+
 	public Set<PlanDocument> getPlanDocument() {
 		return planDocument;
 	}

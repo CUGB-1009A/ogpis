@@ -127,7 +127,7 @@
 												<td>${item.planCode}</td>
 												<td>
 													<i class="glyphicon glyphicon-file"></i> ${item.planDocument.size()}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-													<i class="glyphicon glyphicon-chart"></i>指标个数 0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+													指标个数 ${item.index.size()}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 													 <i class="icon-time"> ${item.modifiedTime.toLocaleString()}</i>
 												</td>
 												<td>

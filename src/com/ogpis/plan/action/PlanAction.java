@@ -29,6 +29,8 @@ import com.ogpis.base.common.paging.IPageList;
 import com.ogpis.base.common.paging.PageListUtil;
 import com.ogpis.document.entity.PlanDocument;
 import com.ogpis.document.service.PlanDocumentService;
+import com.ogpis.index.entity.IndexManagement;
+import com.ogpis.index.service.IndexManagementService;
 import com.ogpis.plan.entity.Plan;
 import com.ogpis.plan.service.PlanService;
 
@@ -41,6 +43,8 @@ public class PlanAction  {
 	private PlanService planService;
 	@Autowired
 	private PlanDocumentService planDocumentService;
+	@Autowired
+	private IndexManagementService indexManagementService;
 	
 	@SuppressWarnings("rawtypes")
 	private ArrayList idList=new ArrayList();
@@ -149,20 +153,37 @@ public class PlanAction  {
 	@RequestMapping(value = "/plan/show")
 	public String show(HttpServletRequest request, ModelMap model,String id,String type,String flag) {	
 		Plan plan =  this.planService.findById(id);
-		String hasPage = request.getParameter("pageNo");
 		model.addAttribute("plan", plan);
+		int pageSize = 6;
 		int pageNo = ServletRequestUtils.getIntParameter(request,
 				PageListUtil.PAGE_NO_NAME, PageListUtil.DEFAULT_PAGE_NO);
-		int pageSize = 6;
-		IPageList<PlanDocument> planDocumentSet = planDocumentService
-				.getOnePlanDocument(pageNo, pageSize, plan.getId());
-		model.addAttribute("planDocumentSet", planDocumentSet);
-		model.addAttribute("type",type);
-		/*这个判断条件是为了分页的时候，将flag强制赋予2，停留在文档页上*/
-		if(hasPage==null)
-			model.addAttribute("flag",flag);
-		else
+		if(flag.equals("1"))
+		{
+			model.addAttribute("flag",1);
+		}
+		if(flag.equals("2"))
+		{
+			IPageList<PlanDocument> planDocumentSet = planDocumentService
+					.getOnePlanDocument(pageNo, pageSize, plan.getId());
+			model.addAttribute("planDocumentSet", planDocumentSet);
 			model.addAttribute("flag",2);
+		}		
+		if(flag.equals("3"))
+		{
+			IPageList<IndexManagement> indexs = indexManagementService
+					.getOnePlanIndexs(pageNo, pageSize, plan.getId());
+			model.addAttribute("indexs",indexs);
+			model.addAttribute("flag",3);
+		}
+		if(flag.equals("4"))
+		{
+			model.addAttribute("flag",4);
+		}
+		if(flag.equals("5"))
+		{
+			model.addAttribute("flag",5);
+		}
+		model.addAttribute("type",type);			
 		return  "/plan/detail";
 	}
 
