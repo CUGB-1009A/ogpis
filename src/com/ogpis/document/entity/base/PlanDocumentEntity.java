@@ -7,7 +7,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import com.ogpis.base.entity.BaseEntity;
 import com.ogpis.system.entity.User;
-import com.ogpis.plan.entity.NationalPlan;
+import com.ogpis.plan.entity.Plan;
 
 /**
  * 规划文档，定义了规划文档实体的字段信息
@@ -20,6 +20,25 @@ public class PlanDocumentEntity extends BaseEntity {
 
 	@Column(name = "文档名称")
 	private String documentName;
+	
+	@Column(name = "文档概述")
+	private String documentDescription;
+
+	@Column(name = "文档容量")
+	private String documentSize;
+
+	@Column(name = "文档地址")
+	private String documentAddress;
+
+	@Column(columnDefinition="DATE",name = "上传时间")
+	private Date uploadDate;
+
+	@Column(name = "上传用户")
+	private User uploadUser;
+	
+	@ManyToOne
+	@JoinColumn(name = "对应规划id")
+	private Plan plan;
 
 	public String getDocumentName() {
 		return documentName;
@@ -69,50 +88,12 @@ public class PlanDocumentEntity extends BaseEntity {
 		this.uploadUser = uploadUser;
 	}
 
-	@Column(name = "文档概述")
-	private String documentDescription;
-
-	@Column(name = "文档容量")
-	private String documentSize;
-
-	@Column(name = "文档地址")
-	private String documentAddress;
-
-	@Column(columnDefinition="DATE",name = "上传时间")
-	private Date uploadDate;
-
-	@Column(name = "上传用户")
-	private User uploadUser;
-	
-	@ManyToOne
-	@JoinColumn(name = "对应全国规划id")
-	private NationalPlan fatherNational;
-
-	public NationalPlan getFatherNational() {
-		return fatherNational;
+	public Plan getPlan() {
+		return plan;
 	}
 
-	public void setFatherNational(NationalPlan fatherNational) {
-		this.fatherNational = fatherNational;
+	public void setPlan(Plan plan) {
+		this.plan = plan;
 	}
-	
-/*	@ManyToOne
-	@JoinColumn(name = "对应中石化规划id")
-	private NationalPlan fatherSinopec;
-
-	public NationalPlan getFatherSinopec() {
-		return fatherSinopec;
-	}
-
-	public void setFatherSinopec(NationalPlan fatherSinopec) {
-		this.fatherSinopec = fatherSinopec;
-	}*/
-
-
-
-
-
-
-	
 
 }

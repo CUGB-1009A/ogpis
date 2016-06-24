@@ -51,7 +51,6 @@
 		<property name="packagesToScan">
 			<list>
 				<value>com.ogpis.system.entity</value>
-				<value>com.ogpis.expando.entity</value>
 				<value>com.ogpis.plan.entity</value>
 				<value>com.ogpis.document.entity</value>
 			</list>

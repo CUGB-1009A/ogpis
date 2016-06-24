@@ -5,12 +5,10 @@ import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -22,7 +20,6 @@ import java.util.zip.ZipOutputStream;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.poi.hslf.model.TextRun;
 import org.apache.poi.hslf.usermodel.RichTextRun;
 import org.apache.poi.hslf.usermodel.SlideShow;
@@ -37,8 +34,8 @@ import com.ogpis.base.common.paging.IPageList;
 import com.ogpis.base.common.paging.PageListUtil;
 import com.ogpis.document.entity.PlanDocument;
 import com.ogpis.document.service.PlanDocumentService;
-import com.ogpis.plan.entity.NationalPlan;
-import com.ogpis.plan.service.NationalPlanService;
+import com.ogpis.plan.entity.Plan;
+import com.ogpis.plan.service.PlanService;
 
 @Controller
 public class PlanDocumentAction {
@@ -47,7 +44,7 @@ public class PlanDocumentAction {
 	PlanDocumentService planDocumentService;
 	
 	@Autowired
-	NationalPlanService nationalPlanService;
+	PlanService planService;
 	
 	@SuppressWarnings("rawtypes")
 	private ArrayList idList=new ArrayList();
@@ -64,12 +61,22 @@ public class PlanDocumentAction {
 	@RequiresPermissions(value={"document:list"})
 	@RequestMapping(value = "/document/list")
 	public String list(HttpServletRequest request, ModelMap model) {
+		String selectCondition = request.getParameter("selectCondition");
+		String inputValue = request.getParameter("inputValue");
+		String selectValue = request.getParameter("selectValue");
 		int pageNo = ServletRequestUtils.getIntParameter(request,
 				PageListUtil.PAGE_NO_NAME, PageListUtil.DEFAULT_PAGE_NO);
 		int pageSize = 6;
-		IPageList<PlanDocument> planDocuments =planDocumentService
-				.getPlanDocuments(pageNo, pageSize);
-		model.addAttribute("planDocuments", planDocuments);	
+		IPageList<PlanDocument> planDocuments = null;
+		if(selectCondition.equals("0"))
+			 planDocuments = planDocumentService.getPlanDocuments(pageNo, pageSize);
+		else
+			planDocuments = planDocumentService.getDocumentsByPlan(selectCondition,inputValue,selectValue,pageNo, pageSize);			
+			
+			model.addAttribute("planDocuments", planDocuments);	
+			model.addAttribute("inputValue", inputValue);	
+			model.addAttribute("selectCondition", selectCondition);	
+			model.addAttribute("selectValue", selectValue);	
 		return "document/list";
 	}
 	
@@ -118,7 +125,7 @@ public class PlanDocumentAction {
 	@RequestMapping(value = "/document/deleteDocument")
 	public String deleteDocument(HttpServletRequest request, ModelMap model,String id) {
 		  PlanDocument planDocument = planDocumentService.findById(id);
-		  planDocument.setFatherNational(null);
+		  planDocument.setPlan(null);
 		  planDocument.setDeleted(true);
 		  planDocumentService.update(planDocument);
 		  return "redirect:list";
@@ -289,34 +296,18 @@ public class PlanDocumentAction {
 		}
 	
 	@RequestMapping(value = "/document/findAllPlans")
-	public void findAllPlans(HttpServletRequest request , HttpServletResponse response) throws IOException {
-		List<NationalPlan> nationalPlans = nationalPlanService.getAllPlans();
+	public void findAllPlans(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		List<Plan> plans = planService.getAllPlans();
 		String result = "[";  
-		for(NationalPlan temp:nationalPlans)
+		for(Plan temp:plans)
 		{
 			result+="{\"planName\":\""+temp.getPlanName()+"\",\"planId\":\""+temp.getId()+"\"},";
 		}
 		result = result.substring(0, result.length()-1);
 		result+="]";
+		response.setContentType("application/json");
 		response.setCharacterEncoding("utf-8");
 		response.getWriter().write(result);
-	}
-	
-	@RequiresPermissions(value={"document:query"})
-	@RequestMapping(value = "/document/queryDocument")
-	public String queryDocument(HttpServletRequest request , HttpServletResponse response,ModelMap model,String inputValue,String selectValue,String selectCondition){
-		
-		int pageNo = ServletRequestUtils.getIntParameter(request,
-				PageListUtil.PAGE_NO_NAME, PageListUtil.DEFAULT_PAGE_NO);
-		int pageSize = 6;
-		IPageList<PlanDocument> planDocuments =planDocumentService
-				.getDocumentsByPlan(selectCondition,inputValue,selectValue,pageNo, pageSize);
-		model.addAttribute("planDocuments", planDocuments);	
-		model.addAttribute("inputValue", inputValue);	
-		model.addAttribute("selectCondition", selectCondition);	
-		model.addAttribute("selectValue", selectValue);	
-		
-		return "document/list";
 	}
 	
 	@RequiresPermissions(value={"document:trashQuery"})

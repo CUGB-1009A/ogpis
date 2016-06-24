@@ -2,15 +2,12 @@ package com.ogpis.document.dao.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.stereotype.Repository;
-
 import com.ogpis.base.common.paging.IPageList;
 import com.ogpis.base.common.paging.PageListUtil;
 import com.ogpis.base.dao.impl.BaseDaoImpl;
 import com.ogpis.document.dao.PlanDocumentDao;
 import com.ogpis.document.entity.PlanDocument;
-import com.ogpis.plan.entity.NationalPlan;
 
 
 @Repository
@@ -30,7 +27,7 @@ public class PlanDocumentDaoImpl extends BaseDaoImpl<PlanDocument,String>impleme
 			temp+=idList.get(i)+",";
 		}
 		temp=temp.substring(0, temp.length()-1);
-		String hql = "update PlanDocument as m set m.deleted=true , m.fatherNational=null where m.id in ("+temp+")";
+		String hql = "update PlanDocument as m set m.deleted=true , m.plan=null where m.id in ("+temp+")";
 		this.getHibernateTemplate().bulkUpdate(hql,null);
 		
 	}
@@ -85,8 +82,8 @@ public class PlanDocumentDaoImpl extends BaseDaoImpl<PlanDocument,String>impleme
 		if(selectCondition.equals("1"))
 		{
 			System.out.println("按规划查询的");
-			hql = "from PlanDocument where deleted=false and fatherNational='"+selectValue+"' order by createTime desc";
-			hqlCount = "select count(*) from PlanDocument where deleted=false and fatherNational='"+selectValue+"'";
+			hql = "from PlanDocument where deleted=false and plan='"+selectValue+"' order by createTime desc";
+			hqlCount = "select count(*) from PlanDocument where deleted=false and plan='"+selectValue+"'";
 		}
 		if(selectCondition.equals("2"))
 		{
@@ -105,7 +102,7 @@ public class PlanDocumentDaoImpl extends BaseDaoImpl<PlanDocument,String>impleme
 
 	@Override
 	public IPageList<PlanDocument> getDocumentsByPlan(String condition, int pageNo, int pageSize) {
-		// TODO Auto-generated method stub
+		
 		int first = (pageNo - 1) * pageSize;
 		String hql="";
 		String hqlCount="";
@@ -117,6 +114,19 @@ public class PlanDocumentDaoImpl extends BaseDaoImpl<PlanDocument,String>impleme
 				.queryByHql(hql,null, first, pageSize);
 		int count = Integer.parseInt(this.findUnique(
 				hqlCount, null)
+				.toString());
+		return PageListUtil.getPageList(count, pageNo, items, pageSize);
+	}
+
+	@Override
+	public IPageList<PlanDocument> getOnePlanDocument(int pageNo, int pageSize, String id) {
+		int first = (pageNo - 1) * pageSize;
+		List<PlanDocument> items = this
+				.queryByHql(
+						"from PlanDocument m where m.plan.id='"+id+"' order by createTime desc",
+						null, first, pageSize);
+		int count = Integer.parseInt(this.findUnique(
+				"select count(*) from PlanDocument m where m.plan.id='"+id+"'", null)
 				.toString());
 		return PageListUtil.getPageList(count, pageNo, items, pageSize);
 	}

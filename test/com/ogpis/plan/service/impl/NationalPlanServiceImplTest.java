@@ -13,19 +13,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.ogpis.document.entity.PlanDocument;
 import com.ogpis.document.service.PlanDocumentService;
-import com.ogpis.expando.entity.ClassName;
-import com.ogpis.expando.entity.ExpandoColumn;
-import com.ogpis.expando.entity.ExpandoTable;
-import com.ogpis.expando.entity.ExpandoValue;
-import com.ogpis.expando.service.ClassNameService;
-import com.ogpis.expando.service.ExpandoColumnService;
-import com.ogpis.expando.service.ExpandoRowService;
-import com.ogpis.expando.service.ExpandoTableService;
-import com.ogpis.expando.service.ExpandoValueService;
-import com.ogpis.plan.entity.NationalPlan;
-import com.ogpis.plan.entity.NationalPlanData;
-import com.ogpis.plan.service.NationalPlanDataService;
-import com.ogpis.plan.service.NationalPlanService;
+
+import com.ogpis.plan.entity.Plan;
+import com.ogpis.plan.service.PlanService;
+
 
 @RunWith(SpringJUnit4ClassRunner.class)
 // 用于配置spring中测试的环境
@@ -35,23 +26,10 @@ public class NationalPlanServiceImplTest {
 
 	
 	@Resource 
-	private NationalPlanService nationalPlanServives;
+	private PlanService planServives;
 	
 	@Resource 
 	private PlanDocumentService planDocumentService;
-	
-	@Resource
-	private NationalPlanDataService nationalPlanService;
-	@Resource
-	private ClassNameService classNameService;
-	@Resource
-	private ExpandoTableService expandoTableService;
-	@Resource
-	private ExpandoColumnService expandoColumnService;
-	@Resource
-	private ExpandoRowService expandoRowService;
-	@Resource
-	private ExpandoValueService expandoValueService;
 	
 	@Test
 	public void testAddPlanDocument()
@@ -59,7 +37,7 @@ public class NationalPlanServiceImplTest {
 		System.out.println(12);
 		PlanDocument planDocument = new PlanDocument();
 		planDocument.setDeleted(false);
-		planDocument.setFatherNational(nationalPlanServives.findById("1aed5cbd-7a80-43cb-9fdf-30924aac2a5f"));
+		planDocument.setPlan(planServives.findById("1aed5cbd-7a80-43cb-9fdf-30924aac2a5f"));
 		planDocument.setDocumentDescription("测试处加入");
 		planDocument.setUploadUser(null);
 		planDocumentService.save(planDocument);
@@ -76,8 +54,8 @@ public class NationalPlanServiceImplTest {
 	{
 		System.out.println(123);
 		PlanDocument planDocument = planDocumentService.findById("75732b82-9519-4e77-b532-1b426e2bd1a6");
-		NationalPlan nationalPlan = planDocument.getFatherNational();
-		System.out.println(nationalPlan.getPlanDescription());
+		Plan plan = planDocument.getPlan();
+		System.out.println(plan.getPlanDescription());
 		System.out.println("find document success");
 		
 	}
@@ -86,13 +64,13 @@ public class NationalPlanServiceImplTest {
 	public void testFromDocumentToPlan()
 	{
 		System.out.println(123);
-		NationalPlan nationalPlan = nationalPlanServives.findById("1aed5cbd-7a80-43cb-9fdf-30924aac2a5f");
-		System.out.println(nationalPlan.getChildren().size());
+		Plan nationalPlan = planServives.findById("1aed5cbd-7a80-43cb-9fdf-30924aac2a5f");
+		System.out.println(nationalPlan.getPlanDocument().size());
 		System.out.println("find document success");
 		
 	}
 	
-	@Ignore
+	/*@Ignore
 	@Test
 	public void test() {
 		NationalPlanData nationalPlan = new NationalPlanData();
@@ -189,7 +167,6 @@ public class NationalPlanServiceImplTest {
 		for (ExpandoValue value : values) {
 			System.out.println("value :" + value.getData());
 		}
-
+*/
 	}
 
-}

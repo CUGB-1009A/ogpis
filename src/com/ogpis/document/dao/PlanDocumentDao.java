@@ -21,4 +21,6 @@ public interface PlanDocumentDao extends BaseDao<PlanDocument,String> {
 
 	IPageList<PlanDocument> getDocumentsByPlan(String condition, int pageNo, int pageSize);
 
+	IPageList<PlanDocument> getOnePlanDocument(int pageNo, int pageSize, String id);
+
 }

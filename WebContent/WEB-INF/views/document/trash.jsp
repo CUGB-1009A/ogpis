@@ -60,6 +60,7 @@
 								<a href="javascript:delAll();" class="btn-sm btn-app btn-danger no-radius">
 									<i class="icon-trash bigger-200">&nbsp;清空回收站</i>
 								</a>
+								&nbsp;
 							</shiro:hasPermission>
 								</form>
 							</div>

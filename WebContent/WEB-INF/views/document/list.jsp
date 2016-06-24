@@ -38,7 +38,7 @@
 					<div class="portlet-body">
 						<div class="table-toolbar" style="text-align: right;">
 							<div class="btn-group">
-						<form id="queryDocument" action="<%=path%>/document/queryDocument">
+						<form id="queryDocument" action="<%=path%>/document/list">
 							<shiro:hasPermission name="document:query">
 								<span title="根据规划或文档名进行文档的查询">查询条件：</span>	
 								&nbsp;
@@ -57,7 +57,7 @@
 								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 								<span title="输入查询值">查询值：</span>	
 								&nbsp;
-								<input type="text" id="inputValue" placeholder="查询值..."  name="inputValue" value="${condition}" >
+								<input type="text" id="inputValue" placeholder="查询值..."  name="inputValue" value="${inputValue}" >
 								<select class="selected" id="selectValue" name="selectValue" style="display:none;height:50px;width:246px">
 									
 								</select> 
@@ -110,7 +110,7 @@
 												</shiro:lacksPermission>
 												<td>${item.documentDescription}</td>
 												<td>${item.uploadDate}</td>
-												<td>${item.fatherNational.planName}</td>
+												<td>${item.plan.planName}</td>
 												<td>
 													<p>
 													<shiro:hasPermission name="document:downloadDocument">
@@ -172,6 +172,46 @@
 
 </body>
 <script type="text/javascript">
+$(function(){
+	var selectCondition = "${selectCondition}";
+	var selectValue = "${selectValue}";
+	var planChosed;
+	if(selectCondition=='1')
+		{	
+		document.getElementById("inputValue").style.display = "none";
+		document.getElementById("selectValue").style.display = "";
+		$('#selectCondition option:eq(1)').attr('selected','selected');
+		$.ajax({
+			url:"<%=path%>/document/findAllPlans",
+			type:"POST",
+			async:true,
+			dataType: "json", 
+		    contentType: "application/json",
+			success:function(data)
+			{
+				document.getElementById("selectValue").options.length=0;
+			    for(var i=0;i<data.length;i++)
+				    {
+				    	if(selectValue==data[i].planId)
+				    		{
+				    		document.getElementById("selectValue").options.add(new Option(data[i].planName,data[i].planId));
+				    		planChosed = i;
+				    		}
+				    	else
+				    		document.getElementById("selectValue").options.add(new Option(data[i].planName,data[i].planId));
+			    	}
+			  $('#selectValue option:eq('+planChosed+')').attr('selected','selected');
+			},
+			error:function()
+			{
+				alert("找不到对应规划");
+			}			
+		});	
+		}
+	if(selectCondition=='2')
+		$('#selectCondition option:eq(2)').attr('selected','selected');		
+});
+
 $("#selectCondition").change(function(){
 	var selectCondition = $("#selectCondition").val();
 	if(selectCondition=='0'||selectCondition=='2')
@@ -200,7 +240,7 @@ $("#selectCondition").change(function(){
 			},
 			error:function()
 			{
-				alert("批量删除错误");
+				alert("找不到对应规划");
 			}			
 		});
 		}
