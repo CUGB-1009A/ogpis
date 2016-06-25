@@ -51,8 +51,8 @@
 									<td>${item.planName}</td>
 									<td>${item.index.size()}</td>
 									<td>
-										<a  href="<c:url value='/plan/show?id=${item.id}&&type=${type}&&flag=1'/>" class="btn-sm btn-app btn-primary no-radius">
-												<i class="icon-edit bigger-200"></i>
+										<a href="javascript:showPlanIndex('<c:url value='${item.id}'/>');"class="btn-sm btn-app btn-primary no-radius">
+												<i class=" icon-eye-open bigger-200"></i>
 												查看
 										</a>
 									</td>
@@ -74,8 +74,77 @@
 
 	</div>
 </div>
+
+<!-- 模态框保存文件 -->
+	<div class="modal fade" id="myIndexModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true"
+		style="width: 1600px">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">×</button>
+					<h3 class="modal-title">指标预览</h3>
+				</div>
+				<div class="modal-body">
+
+					<div class="row">
+						<div class="col-md-12">
+							<table class="table table-striped table-bordered table-hover" >
+						<thead>
+							<tr>
+								<th>指标名称</th>
+								<th>指标类型</th>											
+								<th>指标单位</th>
+								<th>目标值</th>
+							</tr>
+						</thead>
+						<tbody id="indexDetail">
+						
+						</tbody>
+					</table>
+							
+							
+						</div>
+					</div>
+
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
 </body>
 <script type="text/javascript">
+/* 在导入规划时预览规划的指标体系，以便选择哪个规划指标体系和当前正在编辑的规划指标体系相似 */
+function showPlanIndex(url)
+{
+	$.ajax({
+		url:"<%=path%>/index/detail",
+		dataType:"json",
+		async:true,
+		data:{"planId":url},
+		type:"GET",
+		success:function(result){
+			if(result.flag=="failed")
+				alert("该规划0个指标");
+			else
+			{
+			$("#indexDetail").empty();
+			for(var i=0;i<result.planIndex.length;i++)
+				{
+				$("#indexDetail").append("<tr class=\"odd gradeX\"><td>"+result.planIndex[i].indexName+"</td><td>"+result.planIndex[i].indexType+"</td><td>"+result.planIndex[i].indexUnit+"</td><td>"+result.planIndex[i].indexValue+"</td></tr>");
+				}
+			$("#myIndexModal").modal("show");
+			}
+		},
+		error:function(){
+			alert("出错了");
+		}
+		
+	})
+}
+
 /* 由于列出来的规划中有本身，所以使本身规划的单选按钮不可用 */
 $(function(){
 	var planId = "${planId}"

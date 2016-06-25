@@ -1,7 +1,12 @@
 package com.ogpis.index.action;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Set;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -39,6 +44,35 @@ public class IndexManagementAction {
 		model.addAttribute("flag", 3);
 		model.addAttribute("type",plan.getPlanType());
 		return "redirect:/plan/show";	
+	}
+	
+	@RequestMapping(value = "/index/detail")
+	public void detail  (HttpServletRequest request,HttpServletResponse resp, ModelMap model) throws IOException {
+		String planId = request.getParameter("planId");
+		Plan plan = planService.findById(planId);
+		Set<IndexManagement> indexs =  plan.getIndex();
+		String result = "";
+		System.out.println(indexs.size());
+		if(indexs.size()== 0)
+		{
+	
+			result = "{\"flag\":\"failed\"}";
+		}
+		else
+		{
+			result += "{\"planIndex\":[";
+			for(IndexManagement tempIndex:indexs)
+			{
+				result += "{\"indexName\":\""+tempIndex.getIndexName()+"\",\"indexType\":\""+tempIndex.getIndexType()+"\",\"indexUnit\":\""+tempIndex.getIndexUnit()+"\",\"indexValue\":\""+tempIndex.getIndexValue()+"\"},";
+			}
+			result = result.substring(0, result.length()-1);
+			result += "]}";
+		}
+		
+		System.out.println(result);
+		resp.setContentType("application/json");
+	    resp.setCharacterEncoding("utf-8");
+		resp.getWriter().write(result);			
 	}
 	
 	@RequestMapping(value = "/index/save" , method = RequestMethod.POST)
