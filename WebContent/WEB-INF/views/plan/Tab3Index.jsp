@@ -12,11 +12,11 @@
 					<div class="portlet-body">
 						<div class="table-toolbar" style="text-align: right;">
 							<div class="btn-group">
-								<a href="<%=request.getContextPath()%>/index/add" class="btn-sm btn-app btn-success no-radius">
+								<a href="<%=request.getContextPath()%>/index/add?planId=${plan.id}" class="btn-sm btn-app btn-success no-radius">
 								    <i class="icon-plus bigger-200">&nbsp;添加指标项</i>
 								</a>
 								&nbsp;
-								<a href="<%=request.getContextPath()%>/index/import" class="btn-sm btn-app btn-success no-radius">
+								<a href="<%=request.getContextPath()%>/index/import?planId=${plan.id}" class="btn-sm btn-app btn-success no-radius">
 								    <i class="icon-plus bigger-200">&nbsp;导入指标项</i>
 								</a>
 							</div>
@@ -47,12 +47,12 @@
 												<td>${item.indexValue}</td>
 												<td>
 													<p>
-														<a  href="<c:url value='/index/edit?id=${item.id}'/>" class="btn-sm btn-app btn-primary no-radius">
+														<a  href="<c:url value='/index/edit?id=${item.id}&&planId=${plan.id}'/>"class="btn-sm btn-app btn-primary no-radius">
 															<i class="icon-edit bigger-200"></i>
 															编辑
 														</a>
 														&nbsp;
-														<a href="javascript:del('<c:url value='/index/delete?id=${item.id}'/>');" class="btn-sm btn-app btn-danger no-radius" >
+														<a href="javascript:delIndex('<c:url value='/index/delete?id=${item.id}&&planId=${plan.id}'/>');" class="btn-sm btn-app btn-danger no-radius" >
 															<i class="icon-trash bigger-200"></i>
 															删除
 														</a>
@@ -74,6 +74,13 @@
 		</div>
 </div>
 <script type="text/javascript">
+/* 删除指标提醒框 */
+ function delIndex(url){
+			var isDel =  confirm('确定删除该指标项？', '确认对话框');
+			if(isDel){
+				window.location.href=url;
+			}	
+}
 /* 全选响应函数 */
 $(function(){
 			$("[name='checkboxIndexFirst']").click(function(){		
