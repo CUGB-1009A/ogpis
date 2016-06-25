@@ -40,7 +40,13 @@ public class PlanServiceImpl extends BaseServiceImpl<Plan, String>
 
 	@Override
 	public List<Plan> getAllPlans() {
-		// TODO Auto-generated method stub
+		
 		return getPlanDao().getAllPlans();
+	}
+
+	@Override
+	public List<Plan> getPlansByType(String type) {
+		
+		return getPlanDao().getPlansByType(type);
 	}
 }

@@ -16,7 +16,7 @@
 								    <i class="icon-plus bigger-200">&nbsp;添加指标项</i>
 								</a>
 								&nbsp;
-								<a href="<%=request.getContextPath()%>/index/import?planId=${plan.id}" class="btn-sm btn-app btn-success no-radius">
+								<a href="<%=request.getContextPath()%>/index/toImportPage?planId=${plan.id}" class="btn-sm btn-app btn-success no-radius">
 								    <i class="icon-plus bigger-200">&nbsp;导入指标项</i>
 								</a>
 							</div>

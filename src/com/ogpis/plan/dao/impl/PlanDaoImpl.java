@@ -69,4 +69,15 @@ public class PlanDaoImpl extends BaseDaoImpl<Plan, String>
 
 	}
 
+	@Override
+	public List<Plan> getPlansByType(String type) {
+		
+		@SuppressWarnings("unchecked") 
+		List<Plan> items = this 
+ 				.queryByHql( 
+ 						"from Plan where deleted=false and planType='"+type+"' order by createTime desc", 
+ 						null); 
+		return items; 
+	}
+
 }

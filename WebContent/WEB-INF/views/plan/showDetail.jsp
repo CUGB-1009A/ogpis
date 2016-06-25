@@ -28,6 +28,7 @@
 			发布的规划，规划代号为<b>${plan.planCode}</b>，规划时间段是从<b>${plan.startTime}</b>到<b>${plan.endTime}</b>。“规划的简短描述”：
 			<b>${plan.planDescription}</b>
 			</div>
+			
 		<h3 style="text-align:left"><I>规划相关文档:</I></h3>
 		<div>			
 			<c:forEach items="${planDocuments}" var="item">
@@ -37,6 +38,30 @@
             <i class="icon-arrow-down bigger-100"></i> 下载</a>
 			<br>
 			</c:forEach>
+		</div>
+		
+		<h3 style="text-align:left"><I>相关指标项:</I></h3>
+		<div>
+		<table class="table table-striped table-bordered table-hover">
+			<thead>
+			<tr>
+				<th>指标名称</th>
+				<th>指标类型</th>
+				<th>指标单位</th>											
+				<th>目标值</th>
+			</tr>
+			</thead>
+			<tbody>				
+			<c:forEach items="${indexs}" var="item">
+			<tr>
+			   <td>${item.indexName}</td>
+			   <td>${item.indexType}</td>
+			   <td>${item.indexUnit}</td>
+			   <td>${item.indexValue}</td>
+			</tr>
+			</c:forEach>
+			</tbody>
+		</table>
 		</div>
 <div style="text-align:right">			
 <a  href="#top" class="btn-sm btn-app btn-primary no-radius">				

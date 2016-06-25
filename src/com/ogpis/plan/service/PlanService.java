@@ -2,6 +2,7 @@ package com.ogpis.plan.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import com.ogpis.base.common.paging.IPageList;
 import com.ogpis.base.service.BaseService;
@@ -15,5 +16,7 @@ public interface PlanService extends BaseService<Plan, String>{
 	void updateAll(ArrayList<String> idList);
 
 	List<Plan> getAllPlans();
+
+	List<Plan> getPlansByType(String type);
 
 }

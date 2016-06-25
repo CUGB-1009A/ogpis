@@ -1,13 +1,12 @@
 package com.ogpis.index.action;
 
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
 import com.ogpis.index.entity.IndexManagement;
 import com.ogpis.index.service.IndexManagementService;
 import com.ogpis.plan.entity.Plan;
@@ -82,6 +81,37 @@ public class IndexManagementAction {
 		model.addAttribute("type",plan.getPlanType());
 		model.addAttribute("id", planId);
 		return "redirect:/plan/show";
+	}
+	
+	@RequestMapping(value = "/index/toImportPage")
+	public String toImportPage(HttpServletRequest request, ModelMap model,String planId) {		
+		Plan plan = planService.findById(planId);
+		String type = plan.getPlanType();
+		List<Plan> plans = planService.getPlansByType(type);
+		model.addAttribute("plans", plans);
+		model.addAttribute("planId", planId);
+		return "index/importIndex";	
+	}
+	
+	@RequestMapping(value = "/index/importIndex")
+	public String importIndex(HttpServletRequest request, ModelMap model,String planId,String theChosedPlanId) {		
+		Plan plan = planService.findById(planId);
+		Plan theChosedPlan = planService.findById(theChosedPlanId);
+		IndexManagement index ;
+		for(IndexManagement temp:theChosedPlan.getIndex())
+		{
+			index = new IndexManagement();
+			index.setIndexName(temp.getIndexName());
+			index.setIndexType(temp.getIndexType());
+			index.setIndexUnit(temp.getIndexUnit());
+			index.setIndexValue(temp.getIndexValue());
+			index.setPlan(plan);
+			indexManagementService.save(index);
+		}
+		model.addAttribute("id", planId);
+		model.addAttribute("flag", 3);
+		model.addAttribute("type",plan.getPlanType());
+		return "redirect:/plan/show";	
 	}
 	
 	

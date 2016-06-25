@@ -16,4 +16,6 @@ public interface PlanDao extends BaseDao<Plan, String>   {
 
 	List<Plan> getAllPlans();
 
+	List<Plan> getPlansByType(String type);
+
 }

@@ -75,7 +75,9 @@ public class PlanAction  {
 		Plan plan = planService.findById(id);
 		model.addAttribute("plan", plan);
 		Set<PlanDocument> planDocuments = plan.getPlanDocument();
+		Set<IndexManagement> indexs = plan.getIndex();
 		model.addAttribute("planDocuments", planDocuments);
+		model.addAttribute("indexs", indexs);
 		return "/plan/showDetail";	
 	}
 	
