@@ -1,10 +1,15 @@
 package com.ogpis.index.entity.base;
 
+import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.OneToMany;
 import com.ogpis.base.entity.BaseEntity;
+import com.ogpis.index.entity.IndexDataManagement;
 import com.ogpis.plan.entity.Plan;
 
 @MappedSuperclass
@@ -26,6 +31,18 @@ public class IndexManagementEntity extends BaseEntity {
 	@ManyToOne
 	@JoinColumn(name = "对应规划id")
 	private Plan plan;
+	
+	@OneToMany(fetch=FetchType.EAGER,cascade = { CascadeType.ALL }, mappedBy = "index")
+	private Set<IndexDataManagement> indexData;
+
+
+	public Set<IndexDataManagement> getIndexData() {
+		return indexData;
+	}
+
+	public void setIndexData(Set<IndexDataManagement> indexData) {
+		this.indexData = indexData;
+	}
 
 	public String getIndexName() {
 		return indexName;
