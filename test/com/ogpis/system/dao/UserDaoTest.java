@@ -44,6 +44,14 @@ public class UserDaoTest {
 	// }
 
 	@Test
+	public void test1()
+	{
+		String temp = "12345;43256;87656788;";
+		System.out.println(temp.substring(0, temp.indexOf(";")));
+		temp = temp.substring(temp.indexOf(";")+1,temp.length());
+		System.out.println(temp);
+	}
+	@Test
 	public void testSaveUser() throws SQLException {
 		Organization org = organizationService
 				.findById("5fa94114-1e6a-47bb-aa17-27a123ff58d0");

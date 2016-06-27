@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -29,7 +30,9 @@ import com.ogpis.base.common.paging.IPageList;
 import com.ogpis.base.common.paging.PageListUtil;
 import com.ogpis.document.entity.PlanDocument;
 import com.ogpis.document.service.PlanDocumentService;
+import com.ogpis.index.entity.IndexDataManagement;
 import com.ogpis.index.entity.IndexManagement;
+import com.ogpis.index.service.IndexDataManagementService;
 import com.ogpis.index.service.IndexManagementService;
 import com.ogpis.plan.entity.Plan;
 import com.ogpis.plan.service.PlanService;
@@ -45,6 +48,8 @@ public class PlanAction  {
 	private PlanDocumentService planDocumentService;
 	@Autowired
 	private IndexManagementService indexManagementService;
+	@Autowired
+	private IndexDataManagementService indexDataManagementService;
 	
 	@SuppressWarnings("rawtypes")
 	private ArrayList idList=new ArrayList();
@@ -154,6 +159,8 @@ public class PlanAction  {
 	@RequiresPermissions(value={"national:toEditPage"})
 	@RequestMapping(value = "/plan/show")
 	public String show(HttpServletRequest request, ModelMap model,String id,String type,String flag) {	
+		HashMap hasMap = new HashMap();
+		List<IndexDataManagement> indexDataManagement;
 		Plan plan =  this.planService.findById(id);
 		model.addAttribute("plan", plan);
 		int pageSize = 6;
@@ -179,6 +186,15 @@ public class PlanAction  {
 		}
 		if(flag.equals("4"))
 		{
+			List<IndexManagement> indexs = indexManagementService
+					.getOnePlanIndexs(plan.getId());
+			for(IndexManagement temp:indexs)
+			{
+				indexDataManagement = indexDataManagementService.findByIndexId(temp.getId());
+				hasMap.put(temp,indexDataManagement);
+			}
+			request.setAttribute("map", hasMap);
+			model.addAttribute("tab4Indexs",indexs);
 			model.addAttribute("flag",4);
 		}
 		if(flag.equals("5"))

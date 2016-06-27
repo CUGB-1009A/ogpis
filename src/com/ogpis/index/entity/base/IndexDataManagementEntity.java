@@ -1,5 +1,7 @@
 package com.ogpis.index.entity.base;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -13,7 +15,7 @@ import com.ogpis.index.entity.IndexManagement;
 
 @MappedSuperclass
 public class IndexDataManagementEntity extends BaseEntity{
-
+	private SimpleDateFormat format=new SimpleDateFormat("YYYY-MM-DD");
 	@ManyToOne
 	@JoinColumn(name = "对应指标id")
 	private IndexManagement index;
@@ -33,11 +35,13 @@ public class IndexDataManagementEntity extends BaseEntity{
 		this.index = index;
 	}
 
-	public Date getCollectedTime() {
+	public Date getCollectedTime() throws ParseException {
+		
 		return collectedTime;
 	}
 
 	public void setCollectedTime(Date collectedTime) {
+		
 		this.collectedTime = collectedTime;
 	}
 

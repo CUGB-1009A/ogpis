@@ -84,17 +84,17 @@
 		 			</c:if> 
 		 			
 		 			<c:if test='<%=flag.equals("3") %>'> 
-					   <li class="active"><a href="#indexEntry" data-toggle="tab">规划指标录入</a></li>
+					   <li class="active"><a href="#indexEntry" data-toggle="tab">规划指标</a></li>
 					</c:if> 
 					<c:if test='<%=!flag.equals("3") %>'> 
-					   <li><a href="#indexEntry" data-toggle="tab" onclick="Tab3()">规划指标录入</a></li>
+					   <li><a href="#indexEntry" data-toggle="tab" onclick="Tab3()">规划指标</a></li>
 		 			</c:if> 
 		 			
 		 			<c:if test='<%=flag.equals("4") %>'> 
-					   <li class="active"><a href="#completeEntry" data-toggle="tab">完成情况录入</a></li>
+					   <li class="active"><a href="#completeEntry" data-toggle="tab">完成情况</a></li>
 					</c:if> 
 					<c:if test='<%=!flag.equals("4") %>'> 
-					   <li><a href="#completeEntry" data-toggle="tab" onclick="Tab4()">完成情况录入</a></li>
+					   <li><a href="#completeEntry" data-toggle="tab" onclick="Tab4()">完成情况</a></li>
 					</c:if> 
 		 			
 		 			<c:if test='<%=flag.equals("5") %>'> 
