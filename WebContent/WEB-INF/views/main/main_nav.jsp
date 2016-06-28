@@ -9,7 +9,7 @@
     <ul class="nav navbar-nav side-nav pull-left" id="menuList" align="left">
         <shiro:hasPermission name="mainPage:link">
         <li>           
-            <a href="<c:url value='/main'/>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-home"></i> 首页</a>
+            <a href="<c:url value='/main'/>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-home"></i> 我的首页</a>
         </li>
         </shiro:hasPermission>
        

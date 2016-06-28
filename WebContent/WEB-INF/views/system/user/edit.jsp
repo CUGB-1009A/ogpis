@@ -53,19 +53,10 @@
 						<label class="col-sm-3 control-label no-padding-right" for="form-field-1">登录账号</label>
 
 						<div class="col-sm-9">
-							<input type="text" id="form-field-1" placeholder="登录账号" class="col-xs-10 col-sm-5" name="loginId" value="${user.loginId }">
+							<input type="text" id="form-field-1" placeholder="登录账号" class="col-xs-10 col-sm-5" name="name" value="${user.name}">
 						</div>
-					</div>
+					</div>					
 
-					<div class="space-4"></div>
-					
-					<div class="form-group">
-						<label class="col-sm-3 control-label no-padding-right" for="form-field-1">显示名称</label>
-
-						<div class="col-sm-9">
-							<input type="text" id="form-field-1" placeholder="显示名称" class="col-xs-10 col-sm-5" name="name" value="${user.name }">
-						</div>
-					</div>
 					<c:if test='<%=isAdd %>'>
 						<div class="space-4"></div>
 						
@@ -128,6 +119,13 @@
 </div>
 </body>
 <script type="text/javascript">
+
+$(function(){
+	var same = ${same};
+	if(same==0)
+		alert("该用户名已经存在");	
+});
+
 $(function(){
 	$("#btnAdd").click(function(){
 		window.location.href="<%=path%>/system/user/add";

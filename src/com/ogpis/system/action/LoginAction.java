@@ -7,13 +7,18 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.ogpis.system.entity.User;
+import com.ogpis.system.service.UserService;
+
 @Controller
 public class LoginAction {
+	@Autowired UserService userService ;
 
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String test() {
@@ -36,7 +41,7 @@ public class LoginAction {
 			Subject subject = SecurityUtils.getSubject();
 			subject.login(token);
 			request.getSession().setAttribute("username", token.getUsername());
-			return "main";
+			return "redirect:/main";
 		} catch (AuthenticationException e) {
 			e.printStackTrace();
 			model.addAttribute("isSuccess", "0");

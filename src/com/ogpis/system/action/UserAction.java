@@ -51,19 +51,24 @@ public class UserAction {
 
 	@RequiresPermissions(value={"user:add"})
 	@RequestMapping(value = "/system/user/add", method = RequestMethod.GET)
-	public String add() {
+	public String add(HttpServletRequest request,ModelMap model) {
+		String same = request.getParameter("same");
+		model.addAttribute("same", same);
 		return "system/user/edit";
 	}
 
 	@RequiresPermissions(value={"user:edit"})
 	@RequestMapping(value = "/system/user/edit", method = RequestMethod.GET)
 	public String edit(HttpServletRequest request, ModelMap model, String id) {
+		String same = request.getParameter("same");
 		User user = this.userService.findById(id);
 		List<Role> roleList = roleService.getList();
 		Set<Role> userRoleList = user.getRoles();
 		model.addAttribute("user", user);
 		model.addAttribute("roleList", roleList);
 		model.addAttribute("userRoleList", userRoleList);
+		System.out.println(same);
+		model.addAttribute("same", same);
 		return "system/user/edit";
 	}
 
@@ -71,12 +76,23 @@ public class UserAction {
 	@RequestMapping(value = "/system/user/save", method = RequestMethod.GET)
 	public String save(HttpServletRequest request, ModelMap model, User user,
 			String id, String[] roleIds, boolean isAdd) {
+		List<User> temp ;
+		temp = userService.findUserByName(user.getName());
 		User bean = null;
 		if (isAdd) {
 			bean = new User();
 			bean.setPassword(user.getPassword());
+			
+			if(temp.size()>0)//该用户名存在
+			{
+				return "redirect:add?same=0";
+			}
 		} else {
 			bean = this.userService.findById(id);
+			if(!bean.getName().equals(user.getName())&&temp.size()>0)
+			{
+				return "redirect:edit?id="+id+"&&same=0";
+			}
 		}
 		bean.setLoginId(user.getLoginId());
 		bean.setName(user.getName());

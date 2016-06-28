@@ -19,7 +19,10 @@ import org.apache.commons.fileupload.ProgressListener;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.log4j.Logger;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -36,6 +39,8 @@ import com.ogpis.index.service.IndexDataManagementService;
 import com.ogpis.index.service.IndexManagementService;
 import com.ogpis.plan.entity.Plan;
 import com.ogpis.plan.service.PlanService;
+import com.ogpis.system.entity.User;
+import com.ogpis.system.service.UserService;
 
 
 @Controller
@@ -50,6 +55,8 @@ public class PlanAction  {
 	private IndexManagementService indexManagementService;
 	@Autowired
 	private IndexDataManagementService indexDataManagementService;
+	@Autowired
+	private UserService userService;
 	
 	@SuppressWarnings("rawtypes")
 	private ArrayList idList=new ArrayList();
@@ -371,4 +378,70 @@ public class PlanAction  {
      resp.setCharacterEncoding("utf-8");
 	 resp.getWriter().write(success);		
    }
+	
+	 /*
+	   * 关注规划
+	   */
+	  @RequestMapping(value = "/plan/concern")
+	  public void concern(HttpServletRequest request,HttpServletResponse response, ModelMap model) throws IOException
+	  {
+		 boolean flag = false;
+	  	 String result = "";
+	  	 String currentUserName = request.getSession().getAttribute("username").toString();
+	  	 User user = userService.findByUserName(currentUserName);	  	 
+	  	 String planId = request.getParameter("planId");
+	  	 Set<Plan> plans = user.getPlans();
+	  	 Set<Plan> planConcern = new HashSet<Plan>() ;
+	  	 Plan plan = planService.findById(planId);
+	  	 for(Plan temp:plans)
+	  	 {
+	  		 planConcern.add(temp);
+	  		 if(temp.getId().equals(planId))
+	  		 {
+	  			 System.out.println("该规划已经被您关注了");
+	  			 flag = true;
+	  		 }
+	  	 }
+	  	 if(flag){
+	  		 result = "{\"result\":\"failed\"}";
+	  	 }
+	  	 else{
+	  		 planConcern.add(plan);
+	  		 user.getPlans().clear();
+	  		 user.setPlans(planConcern);
+	  		 userService.update(user);
+	  		 System.out.println(planConcern.size());
+	  		 result = "{\"result\":\"success\"}";
+	  	 }
+	  	 response.setContentType("application/json");
+	  	 response.setCharacterEncoding("utf-8");
+	  	 response.getWriter().write(result);	 
+	  }
+	  
+	  /*
+	   * 取消关注
+	   */
+	  @RequestMapping(value = "/plan/disconcern")
+	  public void disconcern(HttpServletRequest request,HttpServletResponse response, ModelMap model) throws IOException
+	  {
+	  	 String currentUserName = request.getSession().getAttribute("username").toString();
+	  	 User user = userService.findByUserName(currentUserName);	  	 
+	  	 String planId = request.getParameter("planId");
+	  	 Set<Plan> plans = user.getPlans();
+	  	 Set<Plan> planConcern = new HashSet<Plan>() ;
+	  	 for(Plan temp:plans)
+	  	 {	  		 
+	  		 if(!temp.getId().equals(planId))
+	  		 {
+	  			planConcern.add(temp);
+	  		 }
+	  	 }
+	  		 user.getPlans().clear();
+	  		 user.setPlans(planConcern);
+	  		 userService.update(user);
+	  	 String result = "{\"result\":\"success\"}";
+	  	 response.setContentType("application/json");
+	  	 response.setCharacterEncoding("utf-8");
+	  	 response.getWriter().write(result);	 
+	  }
 }

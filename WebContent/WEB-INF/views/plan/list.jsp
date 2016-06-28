@@ -132,6 +132,10 @@
 												</td>
 												<td>
 													<p>
+														<a  href="javascript:concernPlan('<c:url value='${item.id}'/>');" class="btn-sm btn-app btn-primary no-radius">
+															<i class=" icon-thumbs-up bigger-200"></i>
+															关注
+														</a>&nbsp;
 													<shiro:hasPermission name="national:toEditPage">
 														<a  href="<c:url value='/plan/show?id=${item.id}&&type=${type}&&flag=1'/>" class="btn-sm btn-app btn-primary no-radius">
 															<i class="icon-edit bigger-200"></i>
@@ -166,6 +170,29 @@
 </body>
 <script type="text/javascript">
 var tempType = "${type}";
+
+/* 用ajax提交关注规划响应 */
+function concernPlan(url)
+{
+	$.ajax({
+		url:"<%=request.getContextPath()%>/plan/concern",
+		dataType:"json",
+		async:true,
+		data:{"planId":url},
+		type:"GET",
+		success:function(result){
+		if(result.result=='success')
+			alert('关注成功');
+		if(result.result=='failed')
+			alert('您已经关注了该规划');		
+		},
+		error:function(){
+			alert("出意外错误了");
+		}
+	});
+	
+}
+
 function del(url){
 	var isDel =  confirm('确定删除该规划？', '确认对话框');
 	if(isDel){

@@ -1,16 +1,21 @@
 package com.ogpis.plan.entity.base;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
 import org.springframework.format.annotation.DateTimeFormat;
 import com.ogpis.base.entity.BaseEntity;
 import com.ogpis.document.entity.PlanDocument;
 import com.ogpis.index.entity.IndexManagement;
+import com.ogpis.system.entity.User;
 
 /**
  * 规划信息的基类，定义了规划信息的公有字段
@@ -59,6 +64,21 @@ public class PlanEntity extends BaseEntity {
 	
 	@OneToMany(fetch=FetchType.EAGER,cascade = { CascadeType.ALL }, mappedBy = "plan")
 	private Set<IndexManagement> index;
+	
+	/*
+	 * 规划对应被哪些用户收藏 many-to-many
+	 */
+	@ManyToMany(targetEntity = User.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinTable(name = "ogpis_user_plan", joinColumns = @JoinColumn(name = "PLAN_ID"), inverseJoinColumns = @JoinColumn(name = "USER_ID"))
+	protected Set<User> users = new HashSet<User>();
+
+	public Set<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(Set<User> users) {
+		this.users = users;
+	}
 
 	public Set<IndexManagement> getIndex() {
 		return index;

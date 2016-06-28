@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+		<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@include file="/WEB-INF/views/init.jsp" %>
 <head>
     <meta charset="utf-8">
@@ -34,12 +35,46 @@
 						欢迎使用 <small>油气资源规划系统</small>
 					</h1>
 					<ol class="breadcrumb">
-						<li class="active"><i class="fa fa-dashboard"></i> Dashboard嘟嘟</li>
+						<li class="active"><i class="fa fa-dashboard"></i> 我关注的规划</li>	
 					</ol>
+					
+					<c:forEach items="${planConcern}" var="item">
+					<ol class="breadcrumb">
+						<li class="active"><i class="icon-search"></i>&nbsp;&nbsp; <a href="<c:url value='/plan/showDetail?id=${item.id}'/>">${item.planName}</a>
+						&nbsp;&nbsp;&nbsp;&nbsp;发布时间 &nbsp;&nbsp;<i class="icon-time">&nbsp;&nbsp;&nbsp;&nbsp;<fmt:formatDate value="${item.releaseDate}" pattern="YYYY-MM-dd"/>&nbsp;&nbsp;&nbsp;&nbsp;</i>
+						<a  href="javascript:disconcernPlan('<c:url value='${item.id}'/>');" class="btn-sm btn-app btn-danger no-radius">
+							<i class=" icon-thumbs-down bigger-200"></i> 取消关注
+							</a>&nbsp;
+						</li>	
+					</ol>
+					</c:forEach>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
 </body>
+<script type="text/javascript">
+function disconcernPlan(url)
+{
+	var yes =  confirm('确定取消关注？', '确认对话框');
+	if(yes)
+		{
+			$.ajax({
+				url:"<%=request.getContextPath()%>/plan/disconcern",
+				dataType:"json",
+				async:true,
+				data:{"planId":url},
+				type:"GET",
+				success:function(result){
+					
+					window.location.href="<%=path%>/main";
+				},
+				error:function(){
+					alert("出意外错误了");
+				}
+			});
+		}
+}
+</script>
 </html>

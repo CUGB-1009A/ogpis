@@ -50,4 +50,13 @@ public class UserDaoImpl extends BaseDaoImpl<User, String> implements UserDao {
 	protected Class<User> getEntityClass() {
 		return User.class;
 	}
+
+	@Override
+	public List<User> findUserByName(String name) {
+		// TODO Auto-generated method stub
+		 List<User> users = this.queryByHql(
+				"from User where deleted=false and name='"+name+"' order by createTime desc", null
+				);
+		 return users;
+	}
 }

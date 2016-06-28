@@ -39,4 +39,10 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements
 	public User findByUserName(String userName){
 		return getUserDao().findByUserName(userName);
 	}
+
+	@Override
+	public List<User> findUserByName(String name) {
+		// TODO Auto-generated method stub
+		return getUserDao().findUserByName(name);
+	}
 }

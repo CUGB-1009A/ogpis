@@ -19,4 +19,6 @@ public interface UserService extends BaseService<User, String> {
 	public IPageList<User> getAllUsers(int pageNo, int pageSize);
 
 	public User findByUserName(String userName);
+
+	public List<User> findUserByName(String name);
 }
