@@ -15,7 +15,6 @@ import com.ogpis.index.entity.IndexManagement;
 
 @MappedSuperclass
 public class IndexDataManagementEntity extends BaseEntity{
-	private SimpleDateFormat format=new SimpleDateFormat("YYYY-MM-DD");
 	@ManyToOne
 	@JoinColumn(name = "对应指标id")
 	private IndexManagement index;
@@ -35,7 +34,7 @@ public class IndexDataManagementEntity extends BaseEntity{
 		this.index = index;
 	}
 
-	public Date getCollectedTime() throws ParseException {
+	public Date getCollectedTime(){
 		
 		return collectedTime;
 	}

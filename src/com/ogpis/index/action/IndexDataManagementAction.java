@@ -32,13 +32,15 @@ public class IndexDataManagementAction {
 		String type = request.getParameter("type");
 		String indexIds = request.getParameter("indexIds");
 		String indexValues = request.getParameter("indexValues");
-		String collectTime = request.getParameter("collectTime").replaceAll("-", "");
+		String collectTime = request.getParameter("collectTime");
+		System.out.println(collectTime);
 		IndexManagement indexManagement ;
 		IndexDataManagement indexDataManagement = null;
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		String[] tempId = indexIds.split(";");
 		String[] tempValue = indexValues.split(";");
-		for(int i=0;i<tempId.length;++i)
+		System.out.println("总共改了多少个指标记录"+tempId.length);
+		for(int i=0;i<tempId.length;i++)
 		{
 			indexDataManagement = new IndexDataManagement();
 			System.out.println(tempId[i]);
@@ -49,6 +51,29 @@ public class IndexDataManagementAction {
 			indexDataManagement.setFinishedWorkload(Float.parseFloat(tempValue[i]));
 			indexDataManagement.setCollectedTime(sdf.parse(collectTime));
 			indexDataManagementService.save(indexDataManagement);
+		}
+		String success = "{\"planId\":\""+planId+"\",\"flag\":\"4\","+"\"type\":\""+type+"\"}";
+		resp.setContentType("application/json");
+	    resp.setCharacterEncoding("utf-8");
+		resp.getWriter().write(success);	
+	}
+	
+	@RequestMapping(value = "/indexData/edit")
+	public void edit(HttpServletRequest request,HttpServletResponse resp, ModelMap model) throws ParseException, IOException {	
+		String planId = request.getParameter("planId");
+		String type = request.getParameter("type");
+		String indexIds = request.getParameter("indexIds");
+		String indexValues = request.getParameter("indexValues");
+		IndexDataManagement indexDataManagement = null;
+		String[] tempId = indexIds.split(";");
+		String[] tempValue = indexValues.split(";");
+		System.out.println("============="+tempValue.length);
+		for(int i=0;i<tempId.length;++i)
+		{
+			indexDataManagement = indexDataManagementService.findById(tempId[i]);
+			indexIds = indexIds.substring(indexIds.indexOf(";")+1,indexIds.length());
+			indexDataManagement.setFinishedWorkload(Float.parseFloat(tempValue[i]));
+			indexDataManagementService.update(indexDataManagement);
 		}
 
 		String success = "{\"planId\":\""+planId+"\",\"flag\":\"4\","+"\"type\":\""+type+"\"}";
