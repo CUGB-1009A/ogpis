@@ -72,6 +72,62 @@
 		</div>
 </div>
 
+<!-- 模态框修改已录入指标项的完成情况 -->
+	<div class="modal fade" id="IndexDataEditModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true"
+		style="width: 1600px">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">×</button>
+					<h3 class="modal-title">完成情况录入</h3>
+				</div>
+				<div class="modal-body">
+
+					<div class="row">
+						<div class="col-md-12">
+							
+ 			<form class="form-horizontal" role="form"> 
+				  <div class="form-group">
+					<label class="col-sm-3 control-label no-padding-right" for="collectedTime">录入时间</label>
+					   	
+					   	<div class="col-sm-9">
+						   	<div class="input-append date date_picker" data-date-format="dd MM yyyy" data-link-field="collectedTime" data-link-format="yyyy-mm-dd">
+						   		<input type="text" id="collectedTime" placeholder="发布时间..." class="col-xs-10 col-sm-5 indexData" name="collectedTime" value="" readonly>
+						   		<span class="add-on"><i class="col-sm-2 icon-th"></i></span>	
+						   	</div>		   
+						</div>
+				 </div> 
+				
+				<c:forEach items="${tab4Indexs}" var="itemFinish">
+					<div class="form-group">
+						<label class="col-sm-3 control-label no-padding-right" for="form-field-1">${itemFinish.indexName}</label>
+
+						<div class="col-sm-9">
+							<input type="text" id="form-field-1" placeholder="规划名称..." class="col-xs-10 col-sm-5 indexData" name="${itemFinish.id}" value="0">
+						</div>
+					</div>
+					<div class="space-4"></div> 
+					</c:forEach>
+						<div class="col-md-12">
+							<button class="btn-sm btn-success no-radius" type="button" onclick="addRecord()">
+								<i class="icon-ok bigger-200"></i>
+								确认
+							</button>
+						</div>
+				</form> 
+							
+						</div>
+					</div>
+
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+
 <!-- 模态框录入指标项的完成情况 -->
 	<div class="modal fade" id="myIndexDataModal" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel" aria-hidden="true"

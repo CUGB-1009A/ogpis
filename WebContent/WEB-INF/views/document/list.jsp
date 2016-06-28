@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %> 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@include file="/WEB-INF/views/init.jsp" %>
 <head>
     <meta charset="utf-8">
@@ -109,7 +110,7 @@
 												<td>${item.documentName}</td>
 												</shiro:lacksPermission>
 												<td>${item.documentDescription}</td>
-												<td>${item.uploadDate}</td>
+												<td><fmt:formatDate value="${item.uploadDate}" pattern="YYYY-MM-dd"/></td>
 												<td>${item.plan.planName}</td>
 												<td>
 													<p>
@@ -298,7 +299,7 @@ function delAll()
 			async:true,
 			success:function()
 			{
-			window.location.href="<%=path%>/document/list";
+			window.location.href="<%=path%>/document/list?selectCondition=0";
 			},
 			error:function()
 			{

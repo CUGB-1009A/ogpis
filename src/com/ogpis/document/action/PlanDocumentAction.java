@@ -128,6 +128,7 @@ public class PlanDocumentAction {
 		  planDocument.setPlan(null);
 		  planDocument.setDeleted(true);
 		  planDocumentService.update(planDocument);
+		  model.addAttribute("selectCondition", 0);
 		  return "redirect:list";
 	}
 	

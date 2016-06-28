@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@include file="/WEB-INF/views/init.jsp" %>
 <head>
     <meta charset="utf-8">
@@ -24,8 +25,8 @@
 		<h3 style="text-align:left"><I>关于规划:</I></h3>
 			<div style="text-align:justify;text-justify:inter-ideograph">
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<b>${plan.planName}</b>是<b>${plan.releaseUnit}</b>于<b>${plan.releaseDate}</b>
-			发布的规划，规划代号为<b>${plan.planCode}</b>，规划时间段是从<b>${plan.startTime}</b>到<b>${plan.endTime}</b>。“规划的简短描述”：
+			<b>${plan.planName}</b>是<b>${plan.releaseUnit}</b>于<b><fmt:formatDate value="${plan.releaseDate}" pattern="YYYY-MM-dd"/></b>
+			发布的规划，规划代号为<b>${plan.planCode}</b>，规划时间段是从<b><fmt:formatDate value="${plan.startTime}" pattern="YYYY-MM-dd"/></b>到<b><fmt:formatDate value="${plan.endTime}" pattern="YYYY-MM-dd"/></b>。“规划的简短描述”：
 			<b>${plan.planDescription}</b>
 			</div>
 			

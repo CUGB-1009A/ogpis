@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!--  tab页第二项 -->
 <div class="tab-pane fade" id="document">
 	&nbsp;
@@ -43,7 +44,8 @@
 												class="checkboxes" name="checkbox" value="${item.id}" /></td>
 											<td><a target="_blank" href="<c:url value='/document/previewDocument?id=${item.id}'/>">${item.documentName}</a></td>
 											<td>${item.documentDescription}</td>
-											<td>${item.uploadDate}</td>
+											<td><fmt:formatDate value="${item.uploadDate}" pattern="YYYY-MM-dd"/></td>
+											
 											<td>
 												<p>
 													<a  href="<c:url value='/document/downloadDocument?id=${item.id}'/>" class="btn-sm btn-app btn-primary no-radius">

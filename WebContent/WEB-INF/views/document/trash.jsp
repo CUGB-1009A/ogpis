@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %> 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@include file="/WEB-INF/views/init.jsp" %>
 <head>
     <meta charset="utf-8">
@@ -85,7 +86,7 @@
 												</td>
 												<td><a target="_blank" href="<c:url value='/document/previewDocument?id=${item.id}'/>">${item.documentName}</a></td>
 												<td>${item.documentDescription}</td>
-												<td>${item.modifiedTime}</td>
+												<td><fmt:formatDate value="${item.modifiedTime}" pattern="YYYY-MM-dd"/></td>
 												<td>
 													<p>
 													<shiro:hasPermission name="document:downloadTrashDocument">
