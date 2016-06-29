@@ -64,6 +64,44 @@
 			</tbody>
 		</table>
 		</div>
+		
+		<h3 style="text-align:left"><I>各指标完成情况:</I></h3>
+			<div>
+				<div class="dataTables_wrapper form-inline" role="grid">
+						<div class="table-scrollable">
+								<table class="table table-striped table-bordered table-hover">
+									<thead>
+										<tr>
+											<th>指标</th>
+											<th>目标值</th>
+											
+											 <c:forEach items="${map}" var="temp" begin="0" end="0" step="1">
+												 <c:forEach items="${temp.value}" var="indexValue">
+											 		<th>
+											 		<fmt:formatDate value="${indexValue.collectedTime}" pattern="YYYY-MM-dd"/>
+											 		</th>
+												 </c:forEach>
+											
+											</c:forEach>											
+										</tr>
+									</thead>
+									<tbody>
+										 <c:forEach items="${map}" var="item">
+											<tr class="odd gradeX">										
+												<td>${item.key.indexName}</td>
+												<td>${item.key.indexValue}</td>
+												 <c:forEach items="${item.value}" var="indexValue">
+											 		<td>
+											 		${indexValue.finishedWorkload}
+											 		</td>
+												 </c:forEach>
+											</tr>
+										</c:forEach>
+									</tbody>
+								</table>
+							</div>
+						</div>
+		</div>
 <div style="text-align:right">			
 <a  href="#top" class="btn-sm btn-app btn-primary no-radius">				
             <i class="icon-arrow-up bigger-100"></i> Top</a>

@@ -22,7 +22,7 @@
 							&nbsp;
 						</div>
 						
-						<div class="dataTables_wrapper form-inline" role="grid">
+						<div class="dataTables_wrapper form-inline">
 							<div class="table-scrollable">
 								<table class="table table-striped table-bordered table-hover" id="data-table">
 									<thead>
@@ -56,10 +56,6 @@
 									</tbody>
 								</table>
 							</div>
-							<!-- <c:import url ="../common/paging.jsp">
-		        				<c:param name="pageModelName" value="indexs"/>
-		        				<c:param name="urlAddress" value="/plan/show"/>
-	        				</c:import> -->
 						</div>
 					</div>
             	</div>

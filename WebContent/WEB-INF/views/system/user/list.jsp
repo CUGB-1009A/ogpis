@@ -43,11 +43,9 @@
 						
 						<div class="table-toolbar" style="text-align: right;">
 							<div class="btn-group">
-								<shiro:hasPermission name="user:add">
 									<a href="<c:url value='/system/user/add'/>" class="btn-sm btn-app btn-success no-radius">
 										<i class="icon-plus bigger-200">添加用户</i>
 									</a>
-								</shiro:hasPermission>
 							</div>
 						</div>
 						
@@ -56,7 +54,6 @@
 								<table class="table table-striped table-bordered table-hover" id="data-table">
 									<thead>
 										<tr>
-											<th class="table-checkbox"><input type="checkbox" class="group-checkable"/></th>
 											<th>登录名</th>
 											<th>是否可用</th>
 											<th>注册时间</th>
@@ -66,32 +63,23 @@
 									<tbody>
 										<c:forEach items="${users.items}" var="item">
 											<tr class="odd gradeX">
-												<td class="check_cell">
-												 <input type="checkbox" class="checkboxes" name="Id" value="${ item.id }" />
-												</td>
 												<td>${item.name}</td>
 												<td>${item.id}</td>
 												<td>${item.createTime.toLocaleString() }</td> 
 												<td>
 													<p>
-													<shiro:hasPermission name="user:view">
 														<a  class="btn-sm btn-app btn-success no-radius" data-toggle="modal" href="<c:url value='/user/view?id=${item.id }'/>" data-target="#myModal">
 															<i class="icon-info bigger-200"></i>
 															查看
 														</a>&nbsp;&nbsp;
-													</shiro:hasPermission>
-													<shiro:hasPermission name="user:edit">
 														<a  href="<c:url value='/system/user/edit?id=${item.id}'/>" class="btn-sm btn-app btn-primary no-radius">
 															<i class="icon-edit bigger-200"></i>
 															编辑
 														</a>&nbsp;&nbsp;
-													</shiro:hasPermission>
-													<shiro:hasPermission name="user:delete">
 														<a href="javascript:del('<c:url value='/system/user/delete?id=${item.id}'/>');" class="btn-sm btn-app btn-danger no-radius" >
 															<i class="icon-trash bigger-200"></i>
 															删除
 														</a>
-													</shiro:hasPermission>
 													</p>
 												</td>
 											</tr>

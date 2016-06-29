@@ -22,17 +22,15 @@
 		<%@ include file="../main/main_nav.jsp"%>
 	</nav>
 	<!--网页主体 -->
-
 	
 	<div id="page-wrapper" style="height:98%;width:100%">
 		<div class="breadcrumbs" id="breadcrumbs" style="text-align: left;">
 			<ul class="breadcrumb">
-			<shiro:hasPermission name="mainPage:link">
+
 				<li>
 					<i class="icon-home home-icon"></i>
 					<a href="<c:url value='/main'/>">首页</a>
 				</li>
-				</shiro:hasPermission>
 				
 				<c:if test='<%=type.equals("QG")%>'>
 					<li class="active">全国规划</li>
@@ -75,7 +73,6 @@
 					
 						<form id="queryPlan" action="<%=path%>/plan/list">
 							<input type="hidden" value="${type}" name="type">
-							<shiro:hasPermission name="national:fuzzyQuery">
 								<span title="根据规划名，规划代号，规划单位等条件进行模糊匹配查询">模糊查询：</span>	
 									&nbsp;&nbsp;
 									<input type="text" id="inputFuzzyQuery" placeholder="模糊查询条件..."  name="condition" value="${condition}" >
@@ -84,16 +81,15 @@
 										<i class="icon-search bigger-200">&nbsp;查询</i>
 									</a>
 									&nbsp;&nbsp;&nbsp;&nbsp;
-							</shiro:hasPermission>
 							
-							<shiro:hasPermission name="national:add">
+							<shiro:hasPermission name="plan:add">
 								<a href="<%=path%>/plan/toEditPage?type=${type}" class="btn-sm btn-app btn-success no-radius">
 									<i class="icon-plus bigger-200">&nbsp;添加规划</i>
 								</a>
 								&nbsp;
 							</shiro:hasPermission>
 							
-							<shiro:hasPermission name="national:deleteBatch">
+							<shiro:hasPermission name="plan:delete">
 								<a href="javascript:delAll();" class="btn-sm btn-app btn-danger no-radius">
 									<i class="icon-trash bigger-200">&nbsp;批量删除</i>
 								</a>
@@ -110,7 +106,9 @@
 								<table class="table table-striped table-bordered table-hover" id="data-table">
 									<thead>
 										<tr>
+										<shiro:hasPermission name="plan:delete">
 											<th class="table-checkbox"><input type="checkbox" class="group-checkable" name="checkboxFirst"/>全选</th>
+										</shiro:hasPermission>
 											<th>规划名称</th>
 											<th>规划代号</th>
 											<th>信息</th>											
@@ -120,11 +118,13 @@
 									<tbody>
 										<c:forEach items="${plans.items}" var="item">
 											<tr class="odd gradeX">
+											<shiro:hasPermission name="plan:delete">
 												<td class="check_cell">
 													<c:if test="${!item.released}">
 														 <input type="checkbox" class="checkboxes" name="checkbox" value="${item.id}" /> <!-- 未发布的规划才能批量删除 -->
 													</c:if>
 												</td>
+											</shiro:hasPermission>
 												<td><a href="<c:url value='/plan/showDetail?id=${item.id}'/>">${item.planName}</a></td>
 												<td>${item.planCode}</td>
 												<td>
@@ -134,6 +134,7 @@
 												</td>
 												<td>
 													<p>
+													 <shiro:hasPermission name="plan:release">
 														<c:if test="${item.released}">
 															<a  href="<c:url value='/plan/disrelease?id=${item.id}&&type=${type}'/>" class="btn-sm btn-app btn-primary no-radius">
 																<i class="icon-lock  bigger-200"></i>
@@ -147,6 +148,7 @@
 																发布规划
 															</a>&nbsp;
 														</c:if>
+													</shiro:hasPermission>
 		                                                
 		                                                <c:if test="${item.released}">		<!-- 发布的规划才能关注-->	
 															<a  href="javascript:concernPlan('<c:url value='${item.id}'/>');" class="btn-sm btn-app btn-primary no-radius">
@@ -154,7 +156,7 @@
 																关注
 															</a>&nbsp;
 														</c:if>
-													<shiro:hasPermission name="national:toEditPage">
+													<shiro:hasPermission name="plan:edit">
 													<c:if test="${!item.released}"> <!-- 已经发布的规划不能编辑和删除 -->
 														<a  href="<c:url value='/plan/show?id=${item.id}&&type=${type}&&flag=1'/>" class="btn-sm btn-app btn-primary no-radius">
 															<i class="icon-edit bigger-200"></i>
@@ -163,13 +165,13 @@
 													</c:if>
 														&nbsp;
 													</shiro:hasPermission>
-													<shiro:hasPermission name="national:delete">
-													<c:if test="${!item.released}">
-														<a href="javascript:del('<c:url value='/plan/delete?id=${item.id}&&type=${type}'/>');" class="btn-sm btn-app btn-danger no-radius" >
-															<i class="icon-trash bigger-200"></i>
-															删除
-														</a>
-													</c:if>
+													<shiro:hasPermission name="plan:delete">
+														<c:if test="${!item.released}">
+															<a href="javascript:del('<c:url value='/plan/delete?id=${item.id}&&type=${type}'/>');" class="btn-sm btn-app btn-danger no-radius" >
+																<i class="icon-trash bigger-200"></i>
+																删除
+															</a>
+														</c:if>
 													</shiro:hasPermission>
 													</p>
 												</td>

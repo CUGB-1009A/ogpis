@@ -58,7 +58,7 @@ public class PlanDocumentAction {
 	String excelType="xls,xlsx";
 	String pptType = "ppt,pptx";
 	
-	@RequiresPermissions(value={"document:list"})
+	@RequiresPermissions(value={"document:management"})
 	@RequestMapping(value = "/document/list")
 	public String list(HttpServletRequest request, ModelMap model) {
 		String selectCondition = request.getParameter("selectCondition");
@@ -80,7 +80,7 @@ public class PlanDocumentAction {
 		return "document/list";
 	}
 	
-	@RequiresPermissions(value={"document:trash"})
+	@RequiresPermissions(value={"document:management"})
 	@RequestMapping(value = "/document/trash")
 	public String trash(HttpServletRequest request, ModelMap model) {
 		int pageNo = ServletRequestUtils.getIntParameter(request,
@@ -92,7 +92,6 @@ public class PlanDocumentAction {
 		return "document/trash";
 	}
 	
-	@RequiresPermissions(value={"document:downloadDocument","document:downloadTrashDocument"},logical=Logical.OR)
 	@RequestMapping(value = "/document/downloadDocument")
 	public void downloadDocument(HttpServletResponse response, HttpServletRequest request, ModelMap model,String id) throws IOException {
 	         PlanDocument planDocument = planDocumentService.findById(id);
@@ -121,7 +120,7 @@ public class PlanDocumentAction {
 	         out.close();  
 	}
 	
-	@RequiresPermissions(value={"document:deleteDocument"})
+	@RequiresPermissions(value={"document:management"})
 	@RequestMapping(value = "/document/deleteDocument")
 	public String deleteDocument(HttpServletRequest request, ModelMap model,String id) {
 		  PlanDocument planDocument = planDocumentService.findById(id);
@@ -135,7 +134,7 @@ public class PlanDocumentAction {
 	/*
 	 * 这个是真正意义上的删除，删除记录并删除文件
 	 */
-	@RequiresPermissions(value={"document:removeDocument"})
+	@RequiresPermissions(value={"document:management"})
 	@RequestMapping(value = "/document/removeDocument")
 	public String removeDocument(HttpServletRequest request, ModelMap model,String id) {
 		  PlanDocument planDocument = planDocumentService.findById(id);
@@ -147,7 +146,7 @@ public class PlanDocumentAction {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@RequiresPermissions(value={"document:deleteDocuments"})
+	@RequiresPermissions(value={"document:management"})
 	@RequestMapping(value = "/document/deleteDocuments")
 	public void deleteDocuments(HttpServletResponse resp,HttpServletRequest request, ModelMap model,String id) throws IOException {
 		 String Ids = request.getParameter("Ids");
@@ -169,7 +168,7 @@ public class PlanDocumentAction {
 	 * 清空回收站响应函数
 	 */
 	@SuppressWarnings("unchecked")
-	@RequiresPermissions(value={"document:removeDocuments"})
+	@RequiresPermissions(value={"document:management"})
 	@RequestMapping(value = "/document/removeDocuments")
 	public void removeDocuments(HttpServletResponse resp,HttpServletRequest request, ModelMap model) throws IOException {
 		 String Ids = request.getParameter("Ids");
@@ -205,7 +204,7 @@ public class PlanDocumentAction {
 	 * 文件打包
 	 */
 	@SuppressWarnings("unchecked")
-	@RequiresPermissions(value={"document:zipDocuments","document:zipTrashDocuments"},logical=Logical.OR)
+	@RequiresPermissions(value={"document:management"})
 	@RequestMapping(value = "/document/zipDocuments")
 	public void zipDocuments(HttpServletResponse response,HttpServletRequest request, ModelMap model) throws IOException, ServletException
 		{
@@ -259,7 +258,7 @@ public class PlanDocumentAction {
 		 response.getWriter().write(success);
 	}
 	
-	@RequiresPermissions(value={"document:zipDocuments","document:zipTrashDocuments"},logical=Logical.OR)
+	@RequiresPermissions(value={"document:management"})
 	@RequestMapping(value = "/document/downloadZip")
 	public void downloadZip(HttpServletResponse response,HttpServletRequest request, ModelMap model,String zipFileName) throws IOException, ServletException
 		{
@@ -311,7 +310,6 @@ public class PlanDocumentAction {
 		response.getWriter().write(result);
 	}
 	
-	@RequiresPermissions(value={"document:trashQuery"})
 	@RequestMapping(value = "/document/queryTrashDocument")
 	public String queryTrashDocument(HttpServletRequest request , HttpServletResponse response,ModelMap model,String condition){
 		
@@ -328,7 +326,6 @@ public class PlanDocumentAction {
 	/*
 	 * 在线预览文件，PDF直接浏览，其余转为PDF浏览
 	 */
-	@RequiresPermissions(value={"document:previewOnline","document:previewTrashOnline"},logical=Logical.OR)
 	@RequestMapping(value = "/document/previewDocument")
 	public String previewDocument(HttpServletRequest request , HttpServletResponse response,ModelMap model,String id) throws IOException{
 		PlanDocument planDocument = planDocumentService.findById(id);

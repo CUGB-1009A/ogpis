@@ -45,7 +45,6 @@ public class WelcomeAction {
 
 		return "main/main_nav";
 	}
-	@RequiresPermissions(value={"mainPage:link"})
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
 	public String main(HttpServletResponse resppose,HttpServletRequest request,ModelMap model) {
 		System.out.println("main_nav");

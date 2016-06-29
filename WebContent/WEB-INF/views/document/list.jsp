@@ -40,7 +40,6 @@
 						<div class="table-toolbar" style="text-align: right;">
 							<div class="btn-group">
 						<form id="queryDocument" action="<%=path%>/document/list">
-							<shiro:hasPermission name="document:query">
 								<span title="根据规划或文档名进行文档的查询">查询条件：</span>	
 								&nbsp;
 								<!-- <select id="selectCondition" name="selectCondition">
@@ -68,19 +67,14 @@
 									<i class="icon-search bigger-200">&nbsp;查询</i>
 								</a>
 								&nbsp;&nbsp;&nbsp;&nbsp;
-							</shiro:hasPermission>
-							<shiro:hasPermission name="document:zipDocuments">
 								<a href="javascript:downloadZip()" class="btn-sm btn-app btn-success no-radius">
 									<i class="icon-arrow-down bigger-200">&nbsp;打包下载</i>
 								</a>
 								&nbsp;
-							</shiro:hasPermission>
-							<shiro:hasPermission name="document:deleteDocuments">
 								<a href="javascript:delAll();" class="btn-sm btn-app btn-danger no-radius">
 									<i class="icon-trash bigger-200">&nbsp;批量删除</i>
 								</a>
 								&nbsp;&nbsp;
-							</shiro:hasPermission>	
 							</form>
 							</div>
 						</div>
@@ -103,30 +97,22 @@
 												<td class="check_cell">
 												 <input type="checkbox" class="checkboxes" name="checkbox" value="${item.id}" />
 												</td>
-												<shiro:hasPermission name="document:previewOnline">
 												<td><a target="_blank" href="<c:url value='/document/previewDocument?id=${item.id}'/>">${item.documentName}</a></td>
-												</shiro:hasPermission>
-												<shiro:lacksPermission name="document:previewOnline">
 												<td>${item.documentName}</td>
-												</shiro:lacksPermission>
 												<td>${item.documentDescription}</td>
 												<td><fmt:formatDate value="${item.uploadDate}" pattern="YYYY-MM-dd"/></td>
 												<td>${item.plan.planName}</td>
 												<td>
 													<p>
-													<shiro:hasPermission name="document:downloadDocument">
 														<a  href="<c:url value='/document/downloadDocument?id=${item.id}'/>" class="btn-sm btn-app btn-primary no-radius">
 															<i class="icon-arrow-down bigger-200"></i>
 															下载
 														</a>
 														&nbsp;
-													</shiro:hasPermission>
-													<shiro:hasPermission name="document:deleteDocument">
 														<a href="javascript:del('<c:url value='/document/deleteDocument?id=${item.id}'/>');" class="btn-sm btn-app btn-danger no-radius" >
 															<i class="icon-trash bigger-200"></i>
 															删除
 														</a>
-													</shiro:hasPermission>
 													</p>
 												</td>
 											</tr>

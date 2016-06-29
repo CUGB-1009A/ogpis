@@ -41,7 +41,6 @@
 						<div class="table-toolbar" style="text-align: right;">
 							<div class="btn-group">
 							<form id="queryTrashDocument" action="<%=path%>/document/queryTrashDocument">
-							<shiro:hasPermission name="document:trashQuery">
 								<span title="输入查询值">查询条件：</span>	
 								&nbsp;
 								<input type="text" id="inputValue" placeholder="查询值..."  name="condition" value="${condition}" >
@@ -50,19 +49,14 @@
 									<i class="icon-search bigger-200">&nbsp;查询</i>
 								</a>
 								&nbsp;&nbsp;&nbsp;&nbsp;
-							</shiro:hasPermission>
-							<shiro:hasPermission name="document:zipTrashDocuments">
 								<a href="javascript:downloadZip()" class="btn-sm btn-app btn-success no-radius">
 									<i class="icon-arrow-down bigger-200">&nbsp;打包下载</i>
 								</a>
 								&nbsp;
-							</shiro:hasPermission>
-							<shiro:hasPermission name="document:removeDocuments">
 								<a href="javascript:delAll();" class="btn-sm btn-app btn-danger no-radius">
 									<i class="icon-trash bigger-200">&nbsp;清空回收站</i>
 								</a>
 								&nbsp;
-							</shiro:hasPermission>
 								</form>
 							</div>
 						</div>
@@ -89,18 +83,14 @@
 												<td><fmt:formatDate value="${item.modifiedTime}" pattern="YYYY-MM-dd"/></td>
 												<td>
 													<p>
-													<shiro:hasPermission name="document:downloadTrashDocument">
 														<a  href="<c:url value='/document/downloadDocument?id=${item.id}'/>" class="btn-sm btn-app btn-primary no-radius">
 															<i class="icon-arrow-down bigger-200"></i>
 															下载
 														</a> &nbsp;&nbsp;
-													</shiro:hasPermission>
-													<shiro:hasPermission name="document:removeDocument">
 														<a href="javascript:del('<c:url value='/document/removeDocument?id=${item.id}'/>');" class="btn-sm btn-app btn-danger no-radius" >
 															<i class="icon-trash bigger-200"></i>
 															彻底删除
 														</a>
-													</shiro:hasPermission>
 													</p>
 												</td>
 											</tr>

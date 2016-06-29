@@ -24,10 +24,18 @@ var setting = {
 		    enable: false
 		  }
 		};
-		 
+		
 		var zNodes = [
-		  { id: 1, pId: 0, name: "我的首页", perm:"mainPage:link"},
-		  
+						{ id: 1, pId: 0, name: "文档管理", perm:"document:management"},
+						{ id: 2, pId: 0, name: "系统管理", perm:"system:management"},
+						{ id: 3, pId: 0, name: "添加规划", perm:"plan:add"},
+						{ id: 4, pId: 0, name: "删除规划", perm:"plan:delete"},
+						{ id: 5, pId: 0, name: "发布规划", perm:"plan:release"},
+						{ id: 6, pId: 0, name: "编辑规划", perm:"plan:edit"},
+		              ];
+		 
+		/* var zNodes = [
+		  { id: 1, pId: 0, name: "我的首页", perm:"mainPage:link"},		  
 		  { id: 2, pId: 0, name: "全国规划" , perm:"national:list"},
 		  { id: 21, pId: 2, name: "规划查询", perm:"national:fuzzyQuery"},
 		  { id: 22, pId: 2, name: "添加规划" , perm:"national:add"},
@@ -74,7 +82,7 @@ var setting = {
 		  { id: 1022, pId: 102, name: "编辑角色", perm:"role:edit"},
 		  { id: 1023, pId: 102, name: "删除角色", perm:"role:delete"},
 		  
-		];
+		]; */
 	function addHoverDom(treeId, treeNode) {
 		  var sObj = $("#" + treeNode.tId + "_span");
 		  if (treeNode.editNameFlag || $("#addBtn_" + treeNode.tId).length > 0) return;
