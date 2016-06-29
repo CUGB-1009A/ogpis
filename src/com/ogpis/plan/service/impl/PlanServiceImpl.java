@@ -26,9 +26,9 @@ public class PlanServiceImpl extends BaseServiceImpl<Plan, String>
 	}
 
 	@Override
-	public IPageList<Plan> getPlans(int pageNo, int pageSize, String type, String condition) {
+	public IPageList<Plan> getPlans(boolean isManager,int pageNo, int pageSize, String type, String condition) {
 		
-		return getPlanDao().getPlans(pageNo,pageSize,type,condition);
+		return getPlanDao().getPlans(isManager,pageNo,pageSize,type,condition);
 	}
 
 	@Override

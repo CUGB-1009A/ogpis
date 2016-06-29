@@ -21,20 +21,24 @@ public class PlanDaoImpl extends BaseDaoImpl<Plan, String>
 	}
 
 	@Override
-	public IPageList<Plan> getPlans(int pageNo, int pageSize, String type, String condition) {
+	public IPageList<Plan> getPlans(boolean isManager,int pageNo, int pageSize, String type, String condition) {
 		// TODO Auto-generated method stub
 		int first = (pageNo - 1) * pageSize;
         String hql="";
-        if(condition=="")//查询对应type的所有规划
+        if(isManager)//管理员查看所有规划
         {
-        	hql = "from Plan where deleted=false and planType='"+type+"' order by createTime desc";
-        	System.out.println("1234567890-");
+	        if(condition=="")//查询对应type的所有规划
+	        	hql = "from Plan where deleted=false and planType='"+type+"' order by createTime desc";	
+	        else
+	        	hql = "from Plan where deleted=false and planType='"+type+"' and (planName like '%"+condition+"%' or planCode like '%"+condition+"%' or releaseUnit like '%"+condition+"%') order by createTime desc";
         }
-        	
-        else
+        else//普通用户查看已发布规划
         {
-        	hql = "from Plan where deleted=false and planType='"+type+"' and (planName like '%"+condition+"%' or planCode like '%"+condition+"%' or releaseUnit like '%"+condition+"%') order by createTime desc";
-        	System.out.println("098765432");
+        	 if(condition=="")//查询对应type已经发布的所有规划
+ 	        	hql = "from Plan where deleted=false and released=true planType='"+type+"' order by createTime desc";	
+ 	         else
+ 	        	hql = "from Plan where deleted=false and released=true planType='"+type+"' and (planName like '%"+condition+"%' or planCode like '%"+condition+"%' or releaseUnit like '%"+condition+"%') order by createTime desc";
+         
         }
         	List<Plan> items = this.queryByHql(hql,null, first, pageSize);
 		int count = Integer.parseInt(this.findUnique(

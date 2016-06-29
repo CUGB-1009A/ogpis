@@ -40,6 +40,9 @@ public class PlanEntity extends BaseEntity {
 	
 	@Column(name = "规划关键词")
 	private String keyWords;
+	
+	@Column(name = "是否已发布")
+	private boolean released;
 
 	@Column(columnDefinition="DATE",name = "开始时间")
 	@DateTimeFormat( pattern = "yyyy-MM-dd" )
@@ -174,6 +177,14 @@ public class PlanEntity extends BaseEntity {
 
 	public void setKeyWords(String keyWords) {
 		this.keyWords = keyWords;
+	}
+	
+	public boolean getReleased() {
+		return released;
+	}
+
+	public void setReleased(boolean released) {
+		this.released = released;
 	}
 
 }

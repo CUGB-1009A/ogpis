@@ -121,7 +121,9 @@
 										<c:forEach items="${plans.items}" var="item">
 											<tr class="odd gradeX">
 												<td class="check_cell">
-												 <input type="checkbox" class="checkboxes" name="checkbox" value="${item.id}" />
+													<c:if test="${!item.released}">
+														 <input type="checkbox" class="checkboxes" name="checkbox" value="${item.id}" /> <!-- 未发布的规划才能批量删除 -->
+													</c:if>
 												</td>
 												<td><a href="<c:url value='/plan/showDetail?id=${item.id}'/>">${item.planName}</a></td>
 												<td>${item.planCode}</td>
@@ -132,22 +134,42 @@
 												</td>
 												<td>
 													<p>
-														<a  href="javascript:concernPlan('<c:url value='${item.id}'/>');" class="btn-sm btn-app btn-primary no-radius">
-															<i class=" icon-thumbs-up bigger-200"></i>
-															关注
-														</a>&nbsp;
+														<c:if test="${item.released}">
+															<a  href="<c:url value='/plan/disrelease?id=${item.id}&&type=${type}'/>" class="btn-sm btn-app btn-primary no-radius">
+																<i class="icon-lock  bigger-200"></i>
+																取消发布
+															</a>&nbsp;
+														</c:if>
+														
+														<c:if test="${!item.released}">
+															<a  href="<c:url value='/plan/release?id=${item.id}&&type=${type}'/>" class="btn-sm btn-app btn-primary no-radius">
+																<i class="icon-unlock  bigger-200"></i>
+																发布规划
+															</a>&nbsp;
+														</c:if>
+		                                                
+		                                                <c:if test="${item.released}">		<!-- 发布的规划才能关注-->	
+															<a  href="javascript:concernPlan('<c:url value='${item.id}'/>');" class="btn-sm btn-app btn-primary no-radius">
+																<i class=" icon-thumbs-up bigger-200"></i>
+																关注
+															</a>&nbsp;
+														</c:if>
 													<shiro:hasPermission name="national:toEditPage">
+													<c:if test="${!item.released}"> <!-- 已经发布的规划不能编辑和删除 -->
 														<a  href="<c:url value='/plan/show?id=${item.id}&&type=${type}&&flag=1'/>" class="btn-sm btn-app btn-primary no-radius">
 															<i class="icon-edit bigger-200"></i>
 															编辑
 														</a>
+													</c:if>
 														&nbsp;
 													</shiro:hasPermission>
 													<shiro:hasPermission name="national:delete">
+													<c:if test="${!item.released}">
 														<a href="javascript:del('<c:url value='/plan/delete?id=${item.id}&&type=${type}'/>');" class="btn-sm btn-app btn-danger no-radius" >
 															<i class="icon-trash bigger-200"></i>
 															删除
 														</a>
+													</c:if>
 													</shiro:hasPermission>
 													</p>
 												</td>

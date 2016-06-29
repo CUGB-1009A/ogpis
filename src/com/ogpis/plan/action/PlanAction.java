@@ -39,6 +39,7 @@ import com.ogpis.index.service.IndexDataManagementService;
 import com.ogpis.index.service.IndexManagementService;
 import com.ogpis.plan.entity.Plan;
 import com.ogpis.plan.service.PlanService;
+import com.ogpis.system.entity.Role;
 import com.ogpis.system.entity.User;
 import com.ogpis.system.service.UserService;
 
@@ -67,16 +68,50 @@ public class PlanAction  {
 	@RequiresPermissions(value={"nationalPlan:list"})
 	@RequestMapping(value = "/plan/list")
 	public String list(HttpServletRequest request, ModelMap model, String type, String condition) {
+		 String currentUserName = request.getSession().getAttribute("username").toString();
+	  	 User user = userService.findByUserName(currentUserName);
+	  	 Set<Role> roles = user.getRoles();
+	  	 boolean isManager = false ;
+	  	 for(Role role:roles)
+	  	 {
+	  		 if(role.getIsSuper())
+	  			 isManager = true;
+	  	 }
 		int pageNo = ServletRequestUtils.getIntParameter(request,
 				PageListUtil.PAGE_NO_NAME, PageListUtil.DEFAULT_PAGE_NO);
 		int pageSize = 6;
 		IPageList<Plan> plans = planService
-				.getPlans(pageNo, pageSize, type, condition);
+				.getPlans(isManager,pageNo, pageSize, type, condition);
 		model.addAttribute("plans", plans);
 		model.addAttribute("type", type);
 		model.addAttribute("condition", condition);
-		System.out.println(type+condition);
 		return "plan/list";
+	}
+	
+	/*
+	 * 发布规划
+	 */
+	@RequestMapping(value = "/plan/release")
+	public String release(HttpServletRequest request, ModelMap model, String type, String id) {
+		Plan plan = planService.findById(id);
+		plan.setReleased(true);
+		planService.update(plan);
+		model.addAttribute("type", type);
+		model.addAttribute("condition", "");
+		return "redirect:list";
+	}
+	
+	/*
+	 * 取消发布规划
+	 */
+	@RequestMapping(value = "/plan/disrelease")
+	public String disrelease(HttpServletRequest request, ModelMap model, String type, String id) {
+		Plan plan = planService.findById(id);
+		plan.setReleased(false);
+		planService.update(plan);
+		model.addAttribute("type", type);
+		model.addAttribute("condition", "");
+		return "redirect:list";
 	}
 	
 	/*
@@ -114,6 +149,7 @@ public class PlanAction  {
 		if(isAdd){
 			bean = new Plan();
 			bean.setPlanType(type);
+			bean.setReleased(false);
 		}
 		else{
 			bean = planService.findById(id);

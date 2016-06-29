@@ -11,7 +11,7 @@ import com.ogpis.plan.entity.Plan;
 
 public interface PlanService extends BaseService<Plan, String>{
 
-	IPageList<Plan> getPlans(int pageNo, int pageSize, String type, String condition);
+	IPageList<Plan> getPlans(boolean isManager,int pageNo, int pageSize, String type, String condition);
 
 	void updateAll(ArrayList<String> idList);
 

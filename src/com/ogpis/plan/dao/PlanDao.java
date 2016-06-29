@@ -10,7 +10,7 @@ import com.ogpis.plan.entity.Plan;
 
 public interface PlanDao extends BaseDao<Plan, String>   {
 
-	IPageList<Plan> getPlans(int pageNo, int pageSize, String type, String condition);
+	IPageList<Plan> getPlans(boolean isManager,int pageNo, int pageSize, String type, String condition);
 
 	void updateAll(ArrayList<String> idList);
 
