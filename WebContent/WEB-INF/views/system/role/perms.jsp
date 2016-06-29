@@ -26,9 +26,9 @@ var setting = {
 		};
 		 
 		var zNodes = [
-		  { id: 1, pId: 0, name: "首页", perm:"mainPage:link", open:true},
+		  { id: 1, pId: 0, name: "我的首页", perm:"mainPage:link"},
 		  
-		  { id: 2, pId: 0, name: "全国规划" , perm:"nationalPlan:list"},
+		  { id: 2, pId: 0, name: "全国规划" , perm:"national:list"},
 		  { id: 21, pId: 2, name: "规划查询", perm:"national:fuzzyQuery"},
 		  { id: 22, pId: 2, name: "添加规划" , perm:"national:add"},
 		  { id: 23, pId: 2, name: "批量删除规划" , perm:"national:deleteBatch"},

@@ -35,9 +35,9 @@ public class PlanDaoImpl extends BaseDaoImpl<Plan, String>
         else//普通用户查看已发布规划
         {
         	 if(condition=="")//查询对应type已经发布的所有规划
- 	        	hql = "from Plan where deleted=false and released=true planType='"+type+"' order by createTime desc";	
+ 	        	hql = "from Plan where deleted=false and released=true and planType='"+type+"' order by createTime desc";	
  	         else
- 	        	hql = "from Plan where deleted=false and released=true planType='"+type+"' and (planName like '%"+condition+"%' or planCode like '%"+condition+"%' or releaseUnit like '%"+condition+"%') order by createTime desc";
+ 	        	hql = "from Plan where deleted=false and released=true and planType='"+type+"' and (planName like '%"+condition+"%' or planCode like '%"+condition+"%' or releaseUnit like '%"+condition+"%') order by createTime desc";
          
         }
         	List<Plan> items = this.queryByHql(hql,null, first, pageSize);
