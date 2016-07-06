@@ -327,7 +327,7 @@ public class PlanDocumentAction {
 	 * 在线预览文件，PDF直接浏览，其余转为PDF浏览
 	 */
 	@RequestMapping(value = "/document/previewDocument")
-	public String previewDocument(HttpServletRequest request , HttpServletResponse response,ModelMap model,String id) throws IOException{
+	public String previewDocument(HttpServletRequest request , HttpServletResponse response,ModelMap model,String id,String editType) throws IOException{
 		PlanDocument planDocument = planDocumentService.findById(id);
 		String documentName = planDocument.getDocumentName();
 		String filePath = planDocument.getDocumentAddress();
@@ -354,9 +354,13 @@ public class PlanDocumentAction {
 		}
 		else if(officeType.contains(fileType.toLowerCase()))
 		{
-			if(wordType.contains(fileType.toLowerCase()))//word（doc,docx）转pdf再预览
+			if(wordType.contains(fileType.toLowerCase()))//word（doc,docx）
 			{
-				
+				model.addAttribute("filePath", filePath);
+				model.addAttribute("documentName",documentName);
+				model.addAttribute("editType",editType);
+				model.addAttribute("flag", "4");
+				return "document/DocumentEdit";
 			}
 			if(excelType.contains(fileType.toLowerCase()))//excel（xls,xlsx）用硕正报表控件预览
 			{

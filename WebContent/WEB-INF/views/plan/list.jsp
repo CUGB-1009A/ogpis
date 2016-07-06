@@ -198,8 +198,9 @@ var tempType = "${type}";
 /* 用ajax提交关注规划响应 */
 function concernPlan(url)
 {
+	var getTimestamp = new Date().getTime()
 	$.ajax({
-		url:"<%=request.getContextPath()%>/plan/concern",
+		url:"<%=request.getContextPath()%>/plan/concern?temp="+getTimestamp,
 		dataType:"json",
 		async:true,
 		data:{"planId":url},

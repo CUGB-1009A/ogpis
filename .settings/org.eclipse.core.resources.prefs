@@ -1,4 +1,5 @@
 eclipse.preferences.version=1
+encoding//WebContent/WEB-INF/views/document/DocumentEdit.jsp=UTF-8
 encoding//WebContent/WEB-INF/views/document/pdfViewer.jsp=UTF-8
 encoding//WebContent/WEB-INF/views/document/pptViewer.jsp=UTF-8
 encoding//WebContent/WEB-INF/views/document/previewDocument.jsp=UTF-8

@@ -97,8 +97,7 @@
 												<td class="check_cell">
 												 <input type="checkbox" class="checkboxes" name="checkbox" value="${item.id}" />
 												</td>
-												<td><a target="_blank" href="<c:url value='/document/previewDocument?id=${item.id}'/>">${item.documentName}</a></td>
-												<td>${item.documentName}</td>
+												<td><a target="_blank" href="<c:url value='/document/previewDocument?id=${item.id}&&editType=0'/>">${item.documentName}</a></td>
 												<td>${item.documentDescription}</td>
 												<td><fmt:formatDate value="${item.uploadDate}" pattern="YYYY-MM-dd"/></td>
 												<td>${item.plan.planName}</td>
