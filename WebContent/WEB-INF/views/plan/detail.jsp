@@ -20,7 +20,7 @@
 <script type="text/javascript" src="<%=path%>/assets/bootstrap/js/bootstrap-datetimepicker.fr.js"></script>
 <div id="wrapper">
 <!-- 网站头及导航栏 -->
-	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="z-index:1080">
 		<%@ include file="../main/main_header.jsp"%>
 		<%@ include file="../main/main_nav.jsp"%>
 	</nav>

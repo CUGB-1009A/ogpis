@@ -48,8 +48,8 @@ public class WelcomeAction {
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
 	public String main(HttpServletResponse resppose,HttpServletRequest request,ModelMap model) {
 		System.out.println("main_nav");
-		 String currentUserName = request.getSession().getAttribute("username").toString();
-	  	 User user = userService.findByUserName(currentUserName);	
+		String currentUserName = request.getUserPrincipal().getName();
+	  	User user = userService.findByUserName(currentUserName);	
 	  	Set<Plan> planConcern = user.getPlans();
 	  	model.addAttribute("planConcern",planConcern);
 		return "main";

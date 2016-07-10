@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/init.jsp" %>
 <head>
     <meta charset="utf-8">
@@ -19,12 +18,11 @@
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="<%=path %>/assets/ico/apple-touch-icon-144-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="<%=path %>/assets/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72"	 href="<%=path %>/assets/ico/apple-touch-icon-72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" 				 href="<%=path %>/assets/ico/apple-touch-icon-57-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="57x57"	 href="<%=path %>/assets/ico/apple-touch-icon-57-precomposed.png">
 </head>
 <body>
     <!-- Top content -->
-<div class="top-content">
-	
+<div class="top-content">	
     <div class="inner-bg">
         <div class="container">
             <div class="row">
@@ -49,23 +47,22 @@
                 		</div>
                     </div>
                     <div class="form-bottom">
-               <form role="form" action="<%=path %>/login" method="post" class="login-form">
-               	<div class="form-group">
-               		<label class="sr-only" for="form-username">用户名</label>
-                   	<input type="text" name="username" placeholder="用户名..." class="form-username form-control" id="form-username">
-                   </div>
-                   <div class="form-group">
-                   	<label class="sr-only" for="form-password">密码</label>
-                   	<input type="password" name="password" placeholder="密码..." class="form-password form-control" id="form-password">
-                   </div>
-                   <button type="submit" class="btn">登录</button>
-               </form>
-              </div>
+		               <form role="form" action="<%=path%>/login" method="post" class="login-form">
+		               		<div class="form-group">
+			               		<label class="sr-only" for="form-username">用户名</label>
+			                   	<input type="text" name="username" placeholder="用户名..." class="form-username form-control" id="form-username">
+		                   </div>
+		                   <div class="form-group">
+			                   	<label class="sr-only" for="form-password">密码</label>
+			                   	<input type="password" name="password" placeholder="密码..." class="form-password form-control" id="form-password">
+		                   </div>
+		                   <button type="submit" class="btn">登录</button>
+		               </form>
+              		</div>
                 </div>
             </div>
         </div>
-    </div>
-    
+    </div>    
 </div>
 <!--[if lt IE 10]>
     <script src="assets/js/placeholder.js"></script>

@@ -1,9 +1,11 @@
 package com.ogpis.system.action;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -119,6 +121,19 @@ public class UserAction {
 		System.out.println("id: " + id);
 		this.userService.batchMarkDelete(new String[] { id });
 		return list(request, model);
+	}
+	
+	@RequestMapping(value = "/system/user/changePassword")
+	public void changePassword(HttpServletRequest request, HttpServletResponse response , ModelMap model) throws IOException {
+		 String password = request.getParameter("password");
+		 String currentUserName = request.getUserPrincipal().getName();
+		 User user = userService.findByUserName(currentUserName);
+		 user.setPassword(password);
+		 userService.update(user);
+	 	 String result = "{\"result\":\"success\"}";
+	 	 response.setContentType("application/json");
+	 	 response.setCharacterEncoding("utf-8");
+	 	 response.getWriter().write(result);
 	}
 
 }

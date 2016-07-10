@@ -68,7 +68,7 @@ public class PlanAction  {
 	 */
 	@RequestMapping(value = "/plan/list")
 	public String list(HttpServletRequest request, ModelMap model, String type, String condition) {
-		 String currentUserName = request.getSession().getAttribute("username").toString();
+		 String currentUserName = request.getUserPrincipal().getName();
 	  	 User user = userService.findByUserName(currentUserName);
 	  	 Set<Role> roles = user.getRoles();
 	  	 boolean isManager = false ;
@@ -432,7 +432,7 @@ public class PlanAction  {
 	  {
 		 boolean flag = false;
 	  	 String result = "";
-	  	 String currentUserName = request.getSession().getAttribute("username").toString();
+	  	 String currentUserName = request.getUserPrincipal().getName();
 	  	 User user = userService.findByUserName(currentUserName);	  	 
 	  	 String planId = request.getParameter("planId");
 	  	 Set<Plan> plans = user.getPlans();
@@ -468,7 +468,7 @@ public class PlanAction  {
 	  @RequestMapping(value = "/plan/disconcern")
 	  public void disconcern(HttpServletRequest request,HttpServletResponse response, ModelMap model) throws IOException
 	  {
-	  	 String currentUserName = request.getSession().getAttribute("username").toString();
+		 String currentUserName = request.getUserPrincipal().getName();
 	  	 User user = userService.findByUserName(currentUserName);	  	 
 	  	 String planId = request.getParameter("planId");
 	  	 Set<Plan> plans = user.getPlans();

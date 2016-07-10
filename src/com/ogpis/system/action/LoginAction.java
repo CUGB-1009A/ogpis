@@ -1,5 +1,7 @@
 package com.ogpis.system.action;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -40,7 +42,6 @@ public class LoginAction {
 			System.out.println("login");
 			Subject subject = SecurityUtils.getSubject();
 			subject.login(token);
-			request.getSession().setAttribute("username", token.getUsername());
 			return "redirect:/main";
 		} catch (AuthenticationException e) {
 			e.printStackTrace();
@@ -52,8 +53,21 @@ public class LoginAction {
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logout(String username, String password,ModelMap model,
 			HttpServletRequest request) {
-		System.out.println("logout");
+		System.out.println("logout");	
 		SecurityUtils.getSecurityManager().logout(SecurityUtils.getSubject());
+
 			return "index";
+		}
+	
+	@RequestMapping(value = "/getUserInfo", method = RequestMethod.GET)
+	public void getUserInfo(ModelMap model,HttpServletResponse resp,HttpServletRequest request) throws IOException {
+		 String currentUserName = request.getUserPrincipal().getName();
+	  	 User user = userService.findByUserName(currentUserName);
+	  	 String password = user.getPassword();
+	  	 String result = "{\"username\":\""+currentUserName+"\",\"password\":\""+password+"\"}";
+		 resp.setContentType("application/json");
+	     resp.setCharacterEncoding("utf-8");
+		 resp.getWriter().write(result);	
+
 		}
 }

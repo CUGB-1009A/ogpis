@@ -1,6 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-		<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@include file="/WEB-INF/views/init.jsp" %>
 <head>
     <meta charset="utf-8">
@@ -22,7 +21,7 @@
 <!-- wrapper -->
 <div id="wrapper">
 	<!-- 网站头及导航栏 -->
-	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="z-index:1080">
 		<%@ include file="main/main_header.jsp"%>
 		<%@ include file="main/main_nav.jsp"%>
 	</nav>
@@ -66,8 +65,7 @@ function disconcernPlan(url)
 				async:true,
 				data:{"planId":url},
 				type:"GET",
-				success:function(result){
-					
+				success:function(result){		
 					window.location.href="<%=path%>/main";
 				},
 				error:function(){
