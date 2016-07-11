@@ -31,11 +31,12 @@
 			<div class="row">
 				<div class="col-lg-12">
 					<h1 class="page-header">
-						欢迎使用 <small>油气资源规划系统</small>
+						<small><i class="fa fa-flag"></i> 最 新 的 规 划</small>
 					</h1>
-					<ol class="breadcrumb">
-						<li class="active"><i class="fa fa-dashboard"></i> 我关注的规划</li>	
-					</ol>
+					
+					<h1 class="page-header">
+						<small><i class="fa fa-eye"></i> 我 关 注 的 规 划 </small>
+					</h1>
 					
 					<c:forEach items="${planConcern}" var="item">
 					<ol class="breadcrumb">

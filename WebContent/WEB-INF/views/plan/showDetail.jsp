@@ -34,7 +34,7 @@
 		<div>			
 			<c:forEach items="${planDocuments}" var="item">
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<a target="_blank" href="<c:url value='/document/previewDocument?id=${item.id}'/>">${item.documentName}</a>&nbsp;&nbsp;&nbsp;
+			<a target="_blank" href="<c:url value='/document/previewDocument?id=${item.id}&&editType=0'/>">${item.documentName}</a>&nbsp;&nbsp;&nbsp;
 			<a  href="<c:url value='/document/downloadDocument?id=${item.id}'/>" class="btn-sm btn-app btn-primary no-radius">				
             <i class="icon-arrow-down bigger-100"></i> 下载</a>
 			<br>
