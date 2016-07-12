@@ -50,11 +50,11 @@
 		               <form role="form" action="<%=path%>/login" method="post" class="login-form">
 		               		<div class="form-group">
 			               		<label class="sr-only" for="form-username">用户名</label>
-			                   	<input type="text" name="username" placeholder="用户名..." class="form-username form-control" id="form-username">
+			                   	<input type="text" name="username" placeholder="用户名..." class="form-control" id="form-username">
 		                   </div>
 		                   <div class="form-group">
 			                   	<label class="sr-only" for="form-password">密码</label>
-			                   	<input type="password" name="password" placeholder="密码..." class="form-password form-control" id="form-password">
+			                   	<input type="password" name="password" placeholder="密码..." class="form-control" id="form-password">
 		                   </div>
 		                   <button type="submit" class="btn">登录</button>
 		               </form>

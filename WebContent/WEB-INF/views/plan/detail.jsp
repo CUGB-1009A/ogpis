@@ -235,11 +235,16 @@ $(function(){
 /* 文件选择完成后执行函数（判断是否有文件超过范围） */
 function showFileList()
 {
+	alert("enter the function")
 	var firstOver="";//记录哪些文件超过规定Size
 	var fileMax = false ;//是否有文件超过规定Size
 	var fileNames ="";//记录文件清单 内容
+	alert(1);
 	var imageEle = document.getElementById("file");
-	var fileList = imageEle.files;
+	alert(2)
+	alert(90)
+	var fileList = document.getElementById("file").files[0];
+	alert(3)	
 	for(var i = 0 ; i < fileList.length ; i ++)
 	{
 		
@@ -251,7 +256,9 @@ function showFileList()
 			fileMax = true ;		
 			}
 	}
+	alert(fileNames)
 	document.getElementById("fileList").value = fileNames;
+	alert(fileNames)
 	if(fileMax)
 		{
 		 firstOver = firstOver.substring(0,firstOver.length-1);
