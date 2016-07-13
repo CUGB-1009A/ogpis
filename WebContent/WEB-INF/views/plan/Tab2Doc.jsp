@@ -82,7 +82,15 @@
 
 										<div class="row">
 											<div class="col-md-12">
-												<form id="docForm" class="form-horizontal" role="form"
+											<div id="uploader" class="wu-example">
+    												<!--用来存放文件信息-->
+											    <div id="thelist" class="uploader-list"></div>
+												    <div class="btns">
+												        <div id="picker">选择文件</div>
+												        <button id="ctlBtn" class="btn btn-default">开始上传</button>
+												    </div>
+												</div>
+												<%-- <form id="docForm" class="form-horizontal" role="form"
 													action="<%=request.getContextPath()%>/plan/uploadFiles?id=${plan.id}&&type=${type}"
 													method="post" encType="multipart/form-data">
 													<div class="form-group col-md-8 col-md-offset-2 ">
@@ -112,7 +120,7 @@
 																rows="4" cols="20" style="height: 120px; width: 400px"></textarea>
 														</div>
 													</div>
-												</form>
+												</form> --%>
 											</div>
 										</div>
 

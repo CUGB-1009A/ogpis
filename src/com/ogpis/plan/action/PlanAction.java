@@ -30,6 +30,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.ogpis.base.common.paging.IPageList;
 import com.ogpis.base.common.paging.PageListUtil;
 import com.ogpis.document.entity.PlanDocument;
@@ -295,11 +298,11 @@ public class PlanAction  {
 
 	/*
 	 * 提交上传文件表单函数
-	 */
+	 */	
 	@SuppressWarnings("rawtypes")
 	@RequiresPermissions(value={"plan:edit"})
 	@RequestMapping(value = "/plan/uploadFiles",method = RequestMethod.POST)
-	public String uploadFiles(String id,HttpServletResponse resp,HttpServletRequest request,ModelMap model) throws Exception {	
+	public void uploadFiles(String id,HttpServletResponse resp,HttpServletRequest request,ModelMap model) throws Exception {	
 		final HttpSession hs = request.getSession();
 		Plan plan = planService.findById(id);
 		String type = request.getParameter("type");
@@ -347,9 +350,9 @@ public class PlanAction  {
           else 
           {  	bean = new PlanDocument();          
                 String fileName = item.getName();
-                /*
-                 * 这里发现ie获取的是路径加文件名，chrome获取的是文件名，这里我们只需要文件名，所以有路径的要先去路径
-                 */
+                
+                //这里发现ie获取的是路径加文件名，chrome获取的是文件名，这里我们只需要文件名，所以有路径的要先去路径
+                 
                 if(fileName.contains("\\"));
                 	fileName = fileName.substring(fileName.lastIndexOf("\\")+1, fileName.length());
                 String prefix= System.currentTimeMillis()+"";
@@ -370,7 +373,10 @@ public class PlanAction  {
 	model.addAttribute("id", id);
 	model.addAttribute("type",type);
 	model.addAttribute("flag",2);
-	return "redirect:show";
+	resp.setContentType("application/json");
+    resp.setCharacterEncoding("utf-8");
+    resp.getWriter().write("{\"rate\":"+request.getSession().getAttribute("proInfo")+"}");
+
 }
 	
 	/*
