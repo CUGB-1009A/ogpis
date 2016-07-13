@@ -121,6 +121,8 @@
 </body>
 <script type="text/javascript">
 
+var uploader ;
+
 var flag = ${flag} ;
 var id = "${plan.id}";
 var type = "${type}";
@@ -181,16 +183,10 @@ $(function(){
 /* 初始化模态框，清空模态框一切信息，设置上传按钮可用，警示信息隐藏 */
 function showModal()
 {	
-	var total = 0;
-    var success = 0;
-	$("#myModal").modal("show");
-	/* document.getElementById("fileDescription").value = "" ;
-	document.getElementById("fileList").value = "" ;
-	var fileInput = $("#file");  
-	fileInput.replaceWith(fileInput.clone());  
-	document.getElementById("upload").disabled = false ;
-	$("#sizeWarning").hide(); */
-	var uploader = WebUploader.create({
+	/* $("#myModal").modal("show"); */
+	$('#myModal').modal({backdrop: 'static', keyboard: false});
+	$('#thelist').empty();
+	uploader = WebUploader.create({
 
 	    // swf文件路径
 	    swf: '<%=path%>/assets/js/Uploader.swf',
@@ -202,11 +198,20 @@ function showModal()
 	    // 内部根据当前运行是创建，可能是input元素，也可能是flash.
 	    pick: '#picker'
 	});
+	var total = 0;
+	var success = 0;
 	var f = 1 ;//为了重新选择文件所用
 	var hasFile = 0 ;
+	var fileId = "";
+         /* 创建webuploader实例 */
+
+         
+         //webuploader注册监听事件 添加文件前先重置uploader
 	uploader.on( 'beforeFileQueued', function( file ){
 	     if(f==1)
 	    	 {
+	    	 total = 0;
+	    	 uploader.reset();
 	    	 $('#thelist').empty();
 	    	 f=0;
 	    	 }
@@ -215,8 +220,8 @@ function showModal()
 
 	//文件加入队列之后触发
 	uploader.on( 'fileQueued', function( file ) {
+		fileId = fileId + file.id ;
 		total = total +1 ;
-		hasFile = 1 ;
 	    $('#thelist').append( '<div class="item">' +
 	        '<h4 class="info">' + file.name + '</h4><div class="progress" style="width: 100%"><div id="'+file.id+'1"class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" style="width: 0%">'+
 				'<span id="'+file.id+'"></span></div></div></div>' );
@@ -224,7 +229,8 @@ function showModal()
 
 	//当一批文件添加进队列以后触发
 	uploader.on( 'filesQueued', function( files ) {
-	    f=1;
+	    hasFile = 1;
+		f=1;
 	});
 
 	$('#ctlBtn').click(function(){
@@ -236,17 +242,11 @@ function showModal()
 			}		
 	});
 
-/* 	uploader.on( 'uploadError', function( file ) {
-		 $('#'+file.id).empty();
-		 $('#'+file.id).append('<h4 class="info">' + file.name + '</h4>' +
-			        '<p class="state" style="color:red">上传失败</p>')
-	});
-*/
 	uploader.on( 'uploadSuccess', function( file ) {
 		 success = success + 1 ;
 		 
 	}); 
-	
+
 	uploader.on( 'uploadComplete', function( file ) {
 
 		if(total == success)
@@ -256,21 +256,23 @@ function showModal()
 			}
 			
 	});
-	
+
 	uploader.on( 'uploadProgress', function( file , percentage) {
-	
+
 		$('#'+file.id+'1').css('width',percentage*100+''+'%');  
 	    $('#'+file.id)[0].innerHTML = percentage*100;  	
 
 	});
-
+         
+	
 }
 
 $(function(){
 	$("#cancel").click(function(){
 		$("#myModal").modal("hide");
+		uploader.destroy();
 	});
-	$("#upload").click(function(){
+<%-- 	$("#upload").click(function(){
 		
 		var temp = document.getElementById("fileList").value;
 		if(temp=="")
@@ -307,7 +309,7 @@ $(function(){
 		document.getElementById("fileList").value = "" ;
 		var fileInput = $("#file");  
 		fileInput.replaceWith(fileInput.clone());  
-	});
+	}); --%>
 	
 });
 
