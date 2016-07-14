@@ -74,8 +74,6 @@
 							<div class="modal-dialog">
 								<div class="modal-content">
 									<div class="modal-header">
-										<button type="button" class="close" data-dismiss="modal"
-											aria-hidden="true">×</button>
 										<h3 class="modal-title">文件上传</h3>
 									</div>
 									<div class="modal-body">
@@ -176,7 +174,7 @@
 		</div>
 	</div>
 </div>
-<script>
+<script type="text/javascript">
 	/* 全选响应函数 */
 	$(function() {
 		$("[name='checkboxFirst']").click(function() {

@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link href="<%=path%>/assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+    <link href="<%=path%>/assets/bootstrap/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
     <link href="<%=path%>/assets/css/webuploader.css" rel="stylesheet">
     <script type="text/javascript" src="<%=path%>/assets/js/webuploader.js"></script>
     <title>油气资源规划管理系统</title>
@@ -233,14 +233,7 @@ function showModal()
 		f=1;
 	});
 
-	$('#ctlBtn').click(function(){
-		if(hasFile == 0)
-			alert("请选择文件再上传");
-		else
-			{
-			uploader.upload();
-			}		
-	});
+	
 
 	uploader.on( 'uploadSuccess', function( file ) {
 		 success = success + 1 ;
@@ -263,6 +256,15 @@ function showModal()
 	    $('#'+file.id)[0].innerHTML = percentage*100;  	
 
 	});
+	
+	$('#ctlBtn').on("click",function(){
+		if(hasFile == 0)
+			alert("请选择文件再上传");
+		else
+			{
+			uploader.upload();
+			}		
+	});
          
 	
 }
@@ -270,6 +272,7 @@ function showModal()
 $(function(){
 	$("#cancel").click(function(){
 		$("#myModal").modal("hide");
+		$("#ctlBtn").off("click");
 		uploader.destroy();
 	});
 <%-- 	$("#upload").click(function(){
@@ -303,7 +306,7 @@ $(function(){
 				}
 			});
 		}
-		var intId = window.setInterval(eventFun,1000);  
+		var intId = window.setInterval(eventFun,1000);   
 		var tempId =  document.getElementById("hiddenId").value;
 		document.getElementById("fileDescription").value = "" ;
 		document.getElementById("fileList").value = "" ;

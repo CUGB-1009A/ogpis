@@ -27,6 +27,7 @@
 
 'use strict';
 var DEFAULT_URL = basePath+'/'+filePath;
+    DEFAULT_URL = encodeURI(DEFAULT_URL);
 var DEFAULT_SCALE_DELTA = 1.1;
 var MIN_SCALE = 0.25;
 var MAX_SCALE = 10.0;
