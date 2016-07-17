@@ -24,13 +24,13 @@
 	<!--网页主体 -->
 	
 	<div id="page-wrapper" style="height:98%;width:100%">
-		<div class="breadcrumbs" id="breadcrumbs" style="text-align: left;">
+		<div class="breadcrumbs" id="breadcrumbs">
 			<ul class="breadcrumb">
 
-				<li>
+<%-- 				<li>
 					<i class="icon-home home-icon"></i>
 					<a href="<c:url value='/main'/>">首页</a>
-				</li>
+				</li> --%>
 				
 				<c:if test='<%=type.equals("QG")%>'>
 					<li class="active">全国规划</li>
@@ -61,7 +61,19 @@
 				</c:if>
 				
 			</ul>
+			
+		<!-- 	<div class="nav-search" id="nav-search" style="align:right">
+				<form class="form-search">
+					<span class="input-icon">
+						<input class="nav-search-input" id="nav-search-input" type="text" autocomplete="off" placeholder="Search..."/>
+						<i class="icon-search nav-search-icon">
+						</i>
+					</span>
+				</form>
+			</div> -->
 		</div>
+		
+
 		<div class="row">
             <div class="col-md-12">
             	<div class="portlet box light-grey">
@@ -73,7 +85,7 @@
 					
 						<form id="queryPlan" action="<%=path%>/plan/list">
 							<input type="hidden" value="${type}" name="type">
-								<span title="根据规划名，规划代号，规划单位等条件进行模糊匹配查询">模糊查询：</span>	
+							<span title="根据规划名，规划代号，规划单位等条件进行模糊匹配查询">模糊查询：</span>	
 									&nbsp;&nbsp;
 									<input type="text" id="inputFuzzyQuery" placeholder="模糊查询条件..."  name="condition" value="${condition}" >
 									&nbsp;&nbsp;
@@ -180,10 +192,6 @@
 									</tbody>
 								</table>
 							</div>
-							<c:import url ="../common/paging.jsp">
-		        				<c:param name="pageModelName" value="plans"/>
-		        				<c:param name="urlAddress" value="/plan/list"/>
-	       				 	</c:import>
 						</div>
 					</div>
             	</div>

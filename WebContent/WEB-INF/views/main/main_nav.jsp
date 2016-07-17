@@ -6,9 +6,6 @@
 <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
 <div class="collapse navbar-collapse navbar-ex1-collapse" align="left">
     <ul class="nav navbar-nav side-nav pull-left" id="menuList">
-        <li>           
-            <a href="<c:url value='/main'/>"><i class="glyphicon glyphicon-home"></i> 我的首页</a>
-        </li>
         
          <li>
             <a href="<%=basePath%>/plan/list?type=QG&&condition="><i class="glyphicon glyphicon-star"></i> 全国规划<i></i></a>
@@ -37,6 +34,10 @@
          <li>
             <a href="<%=basePath%>/plan/list?type=QT&&condition="><i class="glyphicon glyphicon-star"></i> 其它公司规划<i></i></a>
          </li> 
+         
+         <li>           
+            <a href="<c:url value='/main'/>"><i class="glyphicon glyphicon-home"></i> 我的收藏</a>
+         </li>
        
         <shiro:hasPermission name="document:management">
           <li>

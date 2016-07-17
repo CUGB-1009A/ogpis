@@ -42,7 +42,9 @@ public class LoginAction {
 			System.out.println("login");
 			Subject subject = SecurityUtils.getSubject();
 			subject.login(token);
-			return "redirect:/main";
+			model.addAttribute("type", "QG");
+			model.addAttribute("condition","");
+			return "redirect:/plan/list";
 		} catch (AuthenticationException e) {
 			e.printStackTrace();
 			model.addAttribute("isSuccess", "0");
