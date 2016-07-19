@@ -84,4 +84,26 @@ public class PlanDaoImpl extends BaseDaoImpl<Plan, String>
 		return items; 
 	}
 
+	public List<Plan> findAll(boolean isManager, String type, String condition) {
+		// TODO Auto-generated method stub
+        String hql="";
+        if(isManager)//管理员查看所有规划
+        {
+	        if(condition=="")//查询对应type的所有规划
+	        	hql = "from Plan where deleted=false and planType='"+type+"' order by releaseDate desc";	
+	        else
+	        	hql = "from Plan where deleted=false and planType='"+type+"' and (planName like '%"+condition+"%' or planCode like '%"+condition+"%' or releaseUnit like '%"+condition+"%') order by releaseDate desc";
+        }
+        else//普通用户查看已发布规划
+        {
+        	 if(condition=="")//查询对应type已经发布的所有规划
+ 	        	hql = "from Plan where deleted=false and released=true and planType='"+type+"' order by releaseDate desc";	
+ 	         else
+ 	        	hql = "from Plan where deleted=false and released=true and planType='"+type+"' and (planName like '%"+condition+"%' or planCode like '%"+condition+"%' or releaseUnit like '%"+condition+"%') order by releaseDate desc";
+         
+        }
+        	List<Plan> items = this.queryByHql(hql,null);
+		return items;
+	}
+
 }

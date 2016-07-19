@@ -1,6 +1,9 @@
 package com.ogpis.system.action;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,6 +14,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.ogpis.document.entity.PlanDocument;
 import com.ogpis.plan.entity.Plan;
 import com.ogpis.system.entity.User;
 import com.ogpis.system.service.MenuItemService;
@@ -45,13 +50,24 @@ public class WelcomeAction {
 
 		return "main/main_nav";
 	}
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
 	public String main(HttpServletResponse resppose,HttpServletRequest request,ModelMap model) {
-		System.out.println("main_nav");
+		HashMap map ;
+		List<HashMap> mapList = new ArrayList<HashMap>();
 		String currentUserName = request.getUserPrincipal().getName();
 	  	User user = userService.findByUserName(currentUserName);	
 	  	Set<Plan> planConcern = user.getPlans();
-	  	model.addAttribute("planConcern",planConcern);
+	  	model.addAttribute("plansNumber",planConcern.size());
+	  	for(Plan temp:planConcern)
+		{
+			map = new HashMap();
+			map.put(temp, true);
+			Set<PlanDocument> document = temp.getPlanDocument();
+			map.put("12", document);
+			mapList.add(map);
+		}
+		model.addAttribute("mapList", mapList);//返回规划
 		return "main";
 	}
 

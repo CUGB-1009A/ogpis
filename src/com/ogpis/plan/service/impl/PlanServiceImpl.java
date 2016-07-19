@@ -49,4 +49,10 @@ public class PlanServiceImpl extends BaseServiceImpl<Plan, String>
 		
 		return getPlanDao().getPlansByType(type);
 	}
+
+	@Override
+	public List<Plan> findAll(boolean isManager, String type, String condition) {
+		// TODO Auto-generated method stub
+		return getPlanDao().findAll(isManager,type,condition);
+	}
 }

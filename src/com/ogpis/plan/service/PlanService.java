@@ -19,4 +19,6 @@ public interface PlanService extends BaseService<Plan, String>{
 
 	List<Plan> getPlansByType(String type);
 
+	List<Plan> findAll(boolean isManager, String type, String condition);
+
 }

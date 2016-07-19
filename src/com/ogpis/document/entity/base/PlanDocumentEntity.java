@@ -29,6 +29,9 @@ public class PlanDocumentEntity extends BaseEntity {
 
 	@Column(name = "文档地址")
 	private String documentAddress;
+	
+	@Column(name = "文档类型")
+	private String documentType;
 
 	@Column(columnDefinition="DATE",name = "上传时间")
 	private Date uploadDate;
@@ -94,6 +97,14 @@ public class PlanDocumentEntity extends BaseEntity {
 
 	public void setPlan(Plan plan) {
 		this.plan = plan;
+	}
+	
+	public String getDocumentType() {
+		return documentType;
+	}
+
+	public void setDocumentType(String documentType) {
+		this.documentType = documentType;
 	}
 
 }

@@ -36,7 +36,7 @@
          </li> 
          
          <li>           
-            <a href="<c:url value='/main'/>"><i class="glyphicon glyphicon-home"></i> 我的收藏</a>
+            <a href="<c:url value='/main'/>"><i class="glyphicon glyphicon-heart"></i> 我的收藏</a>
          </li>
        
         <shiro:hasPermission name="document:management">

@@ -18,4 +18,6 @@ public interface PlanDao extends BaseDao<Plan, String>   {
 
 	List<Plan> getPlansByType(String type);
 
+	List<Plan> findAll(boolean isManager, String type, String condition);
+
 }

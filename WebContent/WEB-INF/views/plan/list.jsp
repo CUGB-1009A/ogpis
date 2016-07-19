@@ -1,6 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %> 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@include file="/WEB-INF/views/init.jsp" %>
 <head>
     <meta charset="utf-8">
@@ -11,290 +11,212 @@
     <title>油气资源规划管理系统</title>
      <%
     	String type = request.getAttribute("type").toString();
+        String plansNumber = request.getAttribute("plansNumber").toString();
+        /* System.out.println( request.getAttribute("plans").length()); */
     %>
+    	<link type="text/css" rel="stylesheet" href="<%=path%>/assets/bootstrap/css/AdminLTE.css">
+		<link type="text/css" rel="stylesheet" href="<%=path%>/assets/bootstrap/css/_all-skins.min.css">	
+		<link type="text/css" rel="stylesheet" href="<%=path%>/assets/bootstrap/css/blue.css">
 </head>
 <html>
-<body>
-<div id="wrapper">
+	<body>
+	<div id="wrapper">
 <!-- 网站头及导航栏 -->
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="z-index:1080">
 		<%@ include file="../main/main_header.jsp"%>
 		<%@ include file="../main/main_nav.jsp"%>
 	</nav>
-	<!--网页主体 -->
-	
-	<div id="page-wrapper" style="height:98%;width:100%">
-		<div class="breadcrumbs" id="breadcrumbs">
-			<ul class="breadcrumb">
 
-<%-- 				<li>
-					<i class="icon-home home-icon"></i>
-					<a href="<c:url value='/main'/>">首页</a>
-				</li> --%>
-				
-				<c:if test='<%=type.equals("QG")%>'>
-					<li class="active">全国规划</li>
-				</c:if>
-				
-				<c:if test='<%=type.equals("ZSY")%>'>
-					<li class="active">中石油规划</li>
-				</c:if>
-				
-				<c:if test='<%=type.equals("ZSH")%>'>
-					<li class="active">中石化规划</li>
-				</c:if>
-				
-				<c:if test='<%=type.equals("ZHY")%>'>
-					<li class="active">中海油规划</li>
-				</c:if>
-				
-				<c:if test='<%=type.equals("YC")%>'>
-					<li class="active">延长石油规划</li>
-				</c:if>
-				
-				<c:if test='<%=type.equals("ZLM")%>'>
-					<li class="active">中联煤规划</li>
-				</c:if>
-				
-				<c:if test='<%=type.equals("QT")%>'>
-					<li class="active">其它公司规划</li>
-				</c:if>
-				
-			</ul>
-			
-		<!-- 	<div class="nav-search" id="nav-search" style="align:right">
-				<form class="form-search">
-					<span class="input-icon">
-						<input class="nav-search-input" id="nav-search-input" type="text" autocomplete="off" placeholder="Search..."/>
-						<i class="icon-search nav-search-icon">
-						</i>
-					</span>
-				</form>
-			</div> -->
-		</div>
-		
+		<div class="panel-group" id="accordion">
+		  <c:if test='<%=!plansNumber.equals("0")%>'> 
+		    <c:forEach items="${mapList}" var="item1" varStatus="status">
+			<div class="panel panel-default">
+			<c:forEach items="${item1}" var="item_plan"  begin="0" end="0">
+				<div class="panel-heading">
+					<h4 class="panel-title" align="left">
+						<input type="checkbox"/>
+				        <a data-toggle="collapse" data-parent="#accordion" 
+				          href="#collapseOne${status.index}">
+				                             ${item_plan.key.planName}
+				        </a>
+				        <i class="icon-time">&nbsp;&nbsp;&nbsp;&nbsp;<fmt:formatDate value="${item_plan.key.releaseDate}" pattern="YYYY-MM-dd"/>&nbsp;&nbsp;&nbsp;&nbsp;</i>
+	                </h4>
+				</div>
+				</c:forEach>
 
-		<div class="row">
-            <div class="col-md-12">
-            	<div class="portlet box light-grey">
-					<div class="portlet-title">
-					</div>
-					<div class="portlet-body">
-						<div class="table-toolbar" style="text-align: right;">
-							<div class="btn-group">
-					
-						<form id="queryPlan" action="<%=path%>/plan/list">
-							<input type="hidden" value="${type}" name="type">
-							<span title="根据规划名，规划代号，规划单位等条件进行模糊匹配查询">模糊查询：</span>	
-									&nbsp;&nbsp;
-									<input type="text" id="inputFuzzyQuery" placeholder="模糊查询条件..."  name="condition" value="${condition}" >
-									&nbsp;&nbsp;
-									<a href="javascript:fuzzyQuery();" class="btn-sm btn-app btn-success no-radius">
-										<i class="icon-search bigger-200">&nbsp;查询</i>
-									</a>
-									&nbsp;&nbsp;&nbsp;&nbsp;
-							
-							<shiro:hasPermission name="plan:add">
-								<a href="<%=path%>/plan/toEditPage?type=${type}" class="btn-sm btn-app btn-success no-radius">
-									<i class="icon-plus bigger-200">&nbsp;添加规划</i>
-								</a>
-								&nbsp;
-							</shiro:hasPermission>
-							
-							<shiro:hasPermission name="plan:delete">
-								<a href="javascript:delAll();" class="btn-sm btn-app btn-danger no-radius">
-									<i class="icon-trash bigger-200">&nbsp;批量删除</i>
-								</a>
-								&nbsp;&nbsp;
-							</shiro:hasPermission>
-							</form>
-					
-					
-							</div>
-						</div>
-						
-						<div class="dataTables_wrapper form-inline" role="grid">
-							<div class="table-scrollable">
-								<table class="table table-striped table-bordered table-hover" id="data-table">
-									<thead>
-										<tr>
-										<shiro:hasPermission name="plan:delete">
-											<th class="table-checkbox"><input type="checkbox" class="group-checkable" name="checkboxFirst"/>全选</th>
-										</shiro:hasPermission>
-											<th>规划名称</th>
-											<th>规划代号</th>
-											<th>信息</th>											
-											<th>操作</th>
-										</tr>
-									</thead>
-									<tbody>
-										<c:forEach items="${plans.items}" var="item">
-											<tr class="odd gradeX">
-											<shiro:hasPermission name="plan:delete">
-												<td class="check_cell">
-													<c:if test="${!item.released}">
-														 <input type="checkbox" class="checkboxes" name="checkbox" value="${item.id}" /> <!-- 未发布的规划才能批量删除 -->
-													</c:if>
-												</td>
-											</shiro:hasPermission>
-												<td><a href="<c:url value='/plan/showDetail?id=${item.id}'/>">${item.planName}</a></td>
-												<td>${item.planCode}</td>
-												<td>
-													<i class="glyphicon glyphicon-file"></i> ${item.planDocument.size()}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-													指标个数 ${item.index.size()}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-													 <i class="icon-time"> ${item.modifiedTime.toLocaleString()}</i>
-												</td>
-												<td>
-													<p>
-													 <shiro:hasPermission name="plan:release">
-														<c:if test="${item.released}">
-															<a  href="<c:url value='/plan/disrelease?id=${item.id}&&type=${type}'/>" class="btn-sm btn-app btn-primary no-radius">
-																<i class="icon-lock  bigger-200"></i>
-																取消发布
-															</a>&nbsp;
-														</c:if>
-														
-														<c:if test="${!item.released}">
-															<a  href="<c:url value='/plan/release?id=${item.id}&&type=${type}'/>" class="btn-sm btn-app btn-primary no-radius">
-																<i class="icon-unlock  bigger-200"></i>
-																发布规划
-															</a>&nbsp;
-														</c:if>
-													</shiro:hasPermission>
-		                                                
-		                                                <c:if test="${item.released}">		<!-- 发布的规划才能关注-->	
-															<a  href="javascript:concernPlan('<c:url value='${item.id}'/>');" class="btn-sm btn-app btn-primary no-radius">
-																<i class=" icon-thumbs-up bigger-200"></i>
-																关注
-															</a>&nbsp;
-														</c:if>
-													<shiro:hasPermission name="plan:edit">
-													<c:if test="${!item.released}"> <!-- 已经发布的规划不能编辑和删除 -->
-														<a  href="<c:url value='/plan/show?id=${item.id}&&type=${type}&&flag=1'/>" class="btn-sm btn-app btn-primary no-radius">
-															<i class="icon-edit bigger-200"></i>
-															编辑
-														</a>
-													</c:if>
-														&nbsp;
-													</shiro:hasPermission>
-													<shiro:hasPermission name="plan:delete">
-														<c:if test="${!item.released}">
-															<a href="javascript:del('<c:url value='/plan/delete?id=${item.id}&&type=${type}'/>');" class="btn-sm btn-app btn-danger no-radius" >
-																<i class="icon-trash bigger-200"></i>
-																删除
-															</a>
-														</c:if>
-													</shiro:hasPermission>
+				<div id="collapseOne${status.index}" class="panel-collapse collapse">
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-xs-12">
+								<div class="box" style="margin-bottom: 0px;margin-top: 0px;">
+									<!--上-->
+									<div class="box-header" style="background-color: #f7f7f8;">
+										<div class="row">
+											<div class="col-xs-12">
+												<!--规划背景-->
+												<div class="col-xs-3">
+													<div id="myCarousel${status.index}" class="carousel slide" style="height: 150px;">
+														<!-- 轮播（Carousel）项目 -->
+														<div class="carousel-inner">
+															<div class="item active">
+																<img src="<%=path%>/assets/companyPic/quanguo.jpg" alt="First slide" style="width: 100%;max-height:100px;">
+															</div>
+															<div class="item">
+																<img src="<%=path%>/assets/companyPic/zhongshiyou.jpg" alt="Second slide" style="width:100%;max-height:100px;">
+															</div>
+															<div class="item">
+																<img src="<%=path%>/assets/companyPic/yanchangshiyou.jpg" alt="Third slide" style="width: 100%;max-height:100px;">
+															</div>
+														</div>
+														<!-- 轮播（Carousel）导航 -->
+														<a class="carousel-control left" href="#myCarousel${status.index}" data-slide="prev" style="padding-top:15%;">&lsaquo;</a>
+														<a class="carousel-control right" href="#myCarousel${status.index}" data-slide="next" style="padding-top:15%;">&rsaquo;</a>
+													</div>
+
+												</div>
+												<!--规划依据-->
+												<div class="col-xs-9">
+													<p style="font-family:楷体;text-indent: 30px;font-size: 15px;height: 85px;overflow:auto; width:100%">
+														Nihil anim keffiyeh helvetica, craft beer labore wes anderson 
+	        cred nesciunt sapiente ea proident. Ad vegan excepteur butcher 
 													</p>
-												</td>
-											</tr>
-										</c:forEach>
-									</tbody>
-								</table>
+												</div>
+											</div>
+										</div>
+									</div>
+									<hr>
+									<!--中-->
+									<div class="box-body" style="background-color: #f7f7f8;">
+										<div class="row">
+											<div class="col-xs-12">
+												<!--截图-->
+												<div class="col-xs-3">
+													<div id="myCarousel1" class="carousel slide" style="height: 150px;">
+														<!-- 轮播（Carousel）项目 -->
+														<div class="carousel-inner">
+															<div class="item active">
+																<img src="<%=path%>/assets/companyPic/zhonghaiyou.jpg" alt="First slide" style="width: 100%;max-height:100px">
+															</div>
+															<div class="item">
+																<img src="<%=path%>/assets/companyPic/zhongshihua.jpg" alt="Second slide" style="width:100%;max-height:100px">
+															</div>
+															<div class="item">
+																<img src="<%=path%>/assets/companyPic/qita.jpg" alt="Third slide" style="width: 100%;max-height:100px;">
+															</div>
+														</div>
+														<!-- 轮播（Carousel）导航 -->
+														<a class="carousel-control left" href="#myCarousel1${status.index}" data-slide="prev" style="padding-top:15%;">&lsaquo;</a>
+														<a class="carousel-control right" href="#myCarousel1${status.index}" data-slide="next" style="padding-top:15%;">&rsaquo;</a>
+													</div>
+
+												</div>
+												<div class="col-xs-9">
+												<!--详情-->
+												<div class="col-xs-6" style="margin: 0;padding: 0;">
+													<span><b>详情</b></span>
+													<c:forEach items="${item1}" var="item_detail" begin="0" end="0">
+													<p style="font-family:楷体;text-indent: 30px;font-size: 15px;height: 85px;overflow:auto; width:100%">
+														<b>${item_detail.key.planName}</b>是<b>${item_detail.key.releaseUnit}</b>于<b><fmt:formatDate value="${item_detail.key.releaseDate}" pattern="YYYY-MM-dd"/></b>
+														发布的规划，规划代号为<b>${item_detail.key.planCode}</b>，规划时间段是从<b><fmt:formatDate value="${item_detail.key.startTime}" pattern="YYYY-MM-dd"/></b>到<b><fmt:formatDate value="${item_detail.key.endTime}" pattern="YYYY-MM-dd"/></b>。“规划的简短描述”：
+														<b>${item_detail.key.planDescription}</b>
+													</p>
+													</c:forEach>
+												</div>
+												<!--文档-->
+												<div class="col-xs-6" style="margin: 0;padding: 0;">
+													<span><b>文档</b></span>
+													<div style="height: 85px;overflow:auto; width:100%">
+													<c:forEach items="${item1}" var="item_detail1" begin="1" end="1">
+														<c:forEach items="${item_detail1.value}" var="item_documents">
+														<a target="_blank" title="点击在线预览" href="<c:url value='/document/previewDocument?id=${item_documents.id}&&editType=0'/>">${item_documents.documentName}</a>&nbsp;&nbsp;&nbsp;
+														<a  title="点击下载" href="<c:url value='/document/downloadDocument?id=${item_documents.id}'/>" class="btn btn-default">				
+											           下载</a>
+														<br>
+														</c:forEach>
+													</c:forEach>
+													</div>
+												</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<hr>
+									<div class="box-body" style="background-color: #f7f7f8;">
+										<div class="row">
+											<div class="col-xs-12">
+													<!--指标-->
+												<div class="col-xs-11">
+													<div class="col-xs-12">
+															<div class="col-xs-6" style="border:solid 1px">
+														        <span><b>指标1</b></span>
+														        <div style="height: 180px;"></div>
+													        </div>
+													        <div class="col-xs-6" style="border:solid 1px">
+														        <span><b>指标2</b></span>
+														        <div style="height: 180px;"></div>
+													        </div>
+														</div>
+												</div>
+												<div class="col-xs-1" style="position: relative">
+													<button type="button" class="btn btn-default btn-xs"style="position:absolute;top:180px">More&rsaquo;&rsaquo;</button>
+												</div>
+											</div>
+										</div>
+									</div>
+									<!--下-->
+									<hr>
+									<div class="box-body" style="background-color: #f7f7f8;">
+										<h5><b>规划评价</b></h5>
+										<span style="font-family:楷体;text-indent: 30px;font-size: 15px;height: 100px;">
+									        Nihil anim keffiyeh helvetica, craft beer labore wes anderson 
+	        cred nesciunt sapiente ea proident. Ad vegan excepteur butcher 
+	        vice lomo.				        Nihil anim keffiyeh helvetica, craft beer labore wes anderson 
+	        cred nesciunt sapiente ea proident. Ad vegan excepteur butcher 
+	        vice lomo.
+							            </span>
+									</div>
+									<hr>
+									<div class="box-footer" style="text-align: right;background-color: #f7f7f8;">
+									<c:forEach items="${item1}" var="item_button" begin="0" end="0">
+										<shiro:hasPermission name="plan:edit">
+											<c:if test="${!item_button.key.released}">
+												<button type="button" class="btn btn-default btn-xs">编辑</button>
+												<button type="button" class="btn btn-default btn-xs">发布</button>
+												<button type="button" class="btn btn-default btn-xs">删除</button>
+											</c:if>
+											<c:if test="${item_button.key.released}">
+												<button type="button" class="btn btn-default btn-xs">取消发布</button>
+											</c:if>
+										</shiro:hasPermission>
+										
+										<c:if test="${item_button.value}">	
+												<button type="button" class="btn btn-default btn-xs">取消关注</button>
+												</c:if>
+												<c:if test="${!item_button.value}">
+													<button type="button" class="btn btn-default btn-xs">关注</button>
+												</c:if>
+										
+									</c:forEach>
+									
+									
+									</div>
+								</div>														            
 							</div>
 						</div>
 					</div>
-            	</div>
-            </div>
+				</div>
+			</div>
+			</c:forEach>
+			</c:if>
 		</div>
-	</div>	
-</div>
-</body>
-<script type="text/javascript">
-var tempType = "${type}";
+		</div>
+		<script>
+			$(".carousel").carousel({
+				interval: 2500
+			});
+			
+			$("#collapseOne0").addClass("in");
+		</script>
+	</body>
 
-/* 用ajax提交关注规划响应 */
-function concernPlan(url)
-{
-	var getTimestamp = new Date().getTime()
-	$.ajax({
-		url:"<%=request.getContextPath()%>/plan/concern?temp="+getTimestamp,
-		dataType:"json",
-		async:true,
-		data:{"planId":url},
-		type:"GET",
-		success:function(result){
-		if(result.result=='success')
-			alert('关注成功');
-		if(result.result=='failed')
-			alert('您已经关注了该规划');		
-		},
-		error:function(){
-			alert("出意外错误了");
-		}
-	});
-	
-}
-
-function del(url){
-	var isDel =  confirm('确定删除该规划？', '确认对话框');
-	if(isDel){
-		window.location.href=url;
-	}
-}
-
-function fuzzyQuery()
-{
-	var temp = $("#inputFuzzyQuery").val();
-	if(temp=="")
-		{
-		alert("请输入查询条件！")
-		return ;
-		}
-	else
-		$("#queryPlan").submit();
-}
-
-/* 批量删除规划响应函数 */
-function delAll()
-{
-	var checkedObject =  $("input[name='checkbox']:checked");
-	if(checkedObject.length==0)
-		{
-		alert("至少选择一个规划再删除！");
-		return;
-		}	
-	var isDelAll =  confirm('确定删除选定规划？', '确认对话框');
-	var idTemp="";
-	if(isDelAll)
-	{
-		for(var i=0;i<checkedObject.length;i++)
-		{
-			idTemp+=checkedObject[i].value+",";
-		}
-		$.ajax({
-			url:"<%=path%>/plan/deleteBatch",
-			data:{"Ids":idTemp,"type":tempType},
-			type:"POST",
-			async:true,
-			success:function(result)
-			{
-			window.location.href="<%=path%>/plan/list?condition=&&type="+result.type;
-			},
-			error:function()
-			{
-				alert("批量删除错误");
-			}			
-		});
-	}
-}
-
-/* 全选响应函数 */
-$(function(){
-			$("[name='checkboxFirst']").click(function(){		
-			if($("[name='checkboxFirst']")[0].checked)
-				{
-				 for(var i=0;i<$("[name='checkbox']").length;++i)
-					$("[name='checkbox']")[i].checked=true; 
-				}
-			else
-				{
-				 for(var i=0;i<$("[name='checkbox']").length;++i)
-					$("[name='checkbox']")[i].checked=false; 
-				}			
-	});
-});
-
-</script>
 </html>
-	

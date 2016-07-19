@@ -69,8 +69,12 @@ public class PlanAction  {
 	/*
 	 * 读取规划列表函数,根据type查询不同类型的规划
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value = "/plan/list")
-	public String list(HttpServletRequest request, ModelMap model, String type, String condition) {
+	public String list(HttpServletRequest request, ModelMap model, String type, String condition) {		
+		 HashMap map ;
+		 List<HashMap> mapList = new ArrayList<HashMap>();
+		 //先判断当前用户是不是管理员 
 		 String currentUserName = request.getUserPrincipal().getName();
 	  	 User user = userService.findByUserName(currentUserName);
 	  	 Set<Role> roles = user.getRoles();
@@ -80,43 +84,61 @@ public class PlanAction  {
 	  		 if(role.getIsSuper())
 	  			 isManager = true;
 	  	 }
-		int pageNo = ServletRequestUtils.getIntParameter(request,
-				PageListUtil.PAGE_NO_NAME, PageListUtil.DEFAULT_PAGE_NO);
-		int pageSize = 6;
-		IPageList<Plan> plans = planService
-				.getPlans(isManager,pageNo, pageSize, type, condition);
-		model.addAttribute("plans", plans);
-		model.addAttribute("type", type);
-		model.addAttribute("condition", condition);
+		List<Plan> plans = planService.findAll(isManager,type, condition);//查询用户（或管理员）所有能看到的规划
+		String conceredPlanId = ""; //将用户关注的规划用字符串连接起来
+		for(Plan concern : user.getPlans())
+		{
+			conceredPlanId += concern.getId();
+		}
+		model.addAttribute("plansNumber", plans.size());//规划数量
+		for(Plan temp:plans)
+		{
+			map = new HashMap();
+			if(conceredPlanId.contains(temp.getId()))
+				map.put(temp, true);//value = true 说明用户已经关注该规划
+			else
+				map.put(temp, false);//value = false 说明用户还没有关注该规划
+			Set<PlanDocument> document = temp.getPlanDocument();
+			map.put("12", document);
+			mapList.add(map);
+		}
+		//model.addAttribute("planMap", map);//返回规划
+		model.addAttribute("mapList", mapList);//返回规划
+		model.addAttribute("type", type);//返回公司名称
+		model.addAttribute("condition", condition);//查询条件回显到前台
 		return "plan/list";
 	}
 	
 	/*
-	 * 发布规划
+	 * 发布规划Ajax
+	 * id 发布规划的id
 	 */
 	@RequiresPermissions(value={"plan:release"})
 	@RequestMapping(value = "/plan/release")
-	public String release(HttpServletRequest request, ModelMap model, String type, String id) {
+	public void release(HttpServletRequest request, ModelMap model,HttpServletResponse resp,String id) throws IOException {
 		Plan plan = planService.findById(id);
 		plan.setReleased(true);
 		planService.update(plan);
-		model.addAttribute("type", type);
-		model.addAttribute("condition", "");
-		return "redirect:list";
+	    String success = "{\"status\":\"success\"}";
+	    resp.setContentType("application/json");
+        resp.setCharacterEncoding("utf-8");
+	    resp.getWriter().write(success);	
 	}
 	
 	/*
-	 * 取消发布规划
+	 * 取消发布规划Ajax
+	 *  id 取消发布规划的id
 	 */
 	@RequiresPermissions(value={"plan:release"})
 	@RequestMapping(value = "/plan/disrelease")
-	public String disrelease(HttpServletRequest request, ModelMap model, String type, String id) {
+	public void disrelease(HttpServletRequest request, ModelMap model,HttpServletResponse resp, String id) throws IOException {
 		Plan plan = planService.findById(id);
 		plan.setReleased(false);
 		planService.update(plan);
-		model.addAttribute("type", type);
-		model.addAttribute("condition", "");
-		return "redirect:list";
+		String success = "{\"status\":\"success\"}";
+	    resp.setContentType("application/json");
+        resp.setCharacterEncoding("utf-8");
+	    resp.getWriter().write(success);	
 	}
 	
 	/*
@@ -364,7 +386,8 @@ public class PlanAction  {
     			bean.setDocumentSize(item.getSize()+"");
     			bean.setDocumentName(fileName);
     			bean.setPlan(plan);
-    			planDocumentList.add(bean);	
+    			bean.setDocumentType("规划相关文档");
+    			planDocumentList.add(bean);
     			planDocumentService.save(bean);
           }  
     }  		
