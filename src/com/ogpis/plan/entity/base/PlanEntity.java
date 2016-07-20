@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 import org.springframework.format.annotation.DateTimeFormat;
 import com.ogpis.base.entity.BaseEntity;
 import com.ogpis.document.entity.PlanDocument;
+import com.ogpis.document.entity.PlanPicture;
 import com.ogpis.index.entity.IndexManagement;
 import com.ogpis.system.entity.User;
 
@@ -32,6 +33,12 @@ public class PlanEntity extends BaseEntity {
 	@Column(name = "规划代号")
 	private String planCode;
 
+	@Column(name = "规划背景")
+	private String planBackground;
+
+	@Column(name = "规划依据")
+	private String planDependent;
+	
 	@Column(name = "规划描述")
 	private String planDescription;
 	
@@ -66,6 +73,9 @@ public class PlanEntity extends BaseEntity {
 	private Set<PlanDocument> planDocument;
 	
 	@OneToMany(fetch=FetchType.EAGER,cascade = { CascadeType.ALL }, mappedBy = "plan")
+	private Set<PlanPicture> planPicture;
+
+	@OneToMany(fetch=FetchType.EAGER,cascade = { CascadeType.ALL }, mappedBy = "plan")
 	private Set<IndexManagement> index;
 	
 	/*
@@ -97,6 +107,14 @@ public class PlanEntity extends BaseEntity {
 
 	public void setPlanDocument(Set<PlanDocument> planDocument) {
 		this.planDocument = planDocument;
+	}
+	
+	public Set<PlanPicture> getPlanPicture() {
+		return planPicture;
+	}
+
+	public void setPlanPicture(Set<PlanPicture> planPicture) {
+		this.planPicture = planPicture;
 	}
 
 	public String getPlanType() {
@@ -185,6 +203,22 @@ public class PlanEntity extends BaseEntity {
 
 	public void setReleased(boolean released) {
 		this.released = released;
+	}
+	
+	public String getPlanBackground() {
+		return planBackground;
+	}
+
+	public void setPlanBackground(String planBackground) {
+		this.planBackground = planBackground;
+	}
+
+	public String getPlanDependent() {
+		return planDependent;
+	}
+
+	public void setPlanDependent(String planDependent) {
+		this.planDependent = planDependent;
 	}
 
 }

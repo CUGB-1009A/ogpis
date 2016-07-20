@@ -12,7 +12,7 @@
      <%
     	String type = request.getAttribute("type").toString();
         String plansNumber = request.getAttribute("plansNumber").toString();
-        /* System.out.println( request.getAttribute("plans").length()); */
+        String basePath1 = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
     %>
     	<link type="text/css" rel="stylesheet" href="<%=path%>/assets/bootstrap/css/AdminLTE.css">
 		<link type="text/css" rel="stylesheet" href="<%=path%>/assets/bootstrap/css/_all-skins.min.css">	
@@ -57,16 +57,17 @@
 												<div class="col-xs-3">
 													<div id="myCarousel${status.index}" class="carousel slide" style="height: 150px;">
 														<!-- 轮播（Carousel）项目 -->
-														<div class="carousel-inner">
-															<div class="item active">
-																<img src="<%=path%>/assets/companyPic/quanguo.jpg" alt="First slide" style="width: 100%;max-height:100px;">
-															</div>
-															<div class="item">
-																<img src="<%=path%>/assets/companyPic/zhongshiyou.jpg" alt="Second slide" style="width:100%;max-height:100px;">
-															</div>
-															<div class="item">
-																<img src="<%=path%>/assets/companyPic/yanchangshiyou.jpg" alt="Third slide" style="width: 100%;max-height:100px;">
-															</div>
+														<div class="carousel-inner activePicture">
+															<c:forEach items="${item1}" var="item_picture" begin="2" end="2">
+																<c:forEach items="${item_picture.value}" var="pictures">
+																	<c:if test="${pictures.picturePurpose.equals('1')}">
+																		<div class="item">
+																			<img src="<%=basePath1%>${pictures.pictureAddress}" alt="${pictures.pictureName}" style="width: 100%;max-height:150px;">
+																		</div>
+																	</c:if>
+																</c:forEach>
+															</c:forEach>
+																
 														</div>
 														<!-- 轮播（Carousel）导航 -->
 														<a class="carousel-control left" href="#myCarousel${status.index}" data-slide="prev" style="padding-top:15%;">&lsaquo;</a>
@@ -76,9 +77,21 @@
 												</div>
 												<!--规划依据-->
 												<div class="col-xs-9">
-													<p style="font-family:楷体;text-indent: 30px;font-size: 15px;height: 85px;overflow:auto; width:100%">
+												<h5><b>规划背景和依据</b></h5>
+													<p style="font-family:楷体;text-indent: 30px;font-size: 15px;height: 135px;overflow:auto; width:100%">
 														Nihil anim keffiyeh helvetica, craft beer labore wes anderson 
-	        cred nesciunt sapiente ea proident. Ad vegan excepteur butcher 
+	        											cred nesciunt sapiente ea proident. Ad vegan excepteur butcher 
+													    Nihil anim keffiyeh helvetica, craft beer labore wes anderson 
+	        											cred nesciunt sapiente ea proident. Ad vegan excepteur butcher 
+														Nihil anim keffiyeh helvetica, craft beer labore wes anderson 
+	        											cred nesciunt sapiente ea proident. Ad vegan excepteur butcher
+	        											Nihil anim keffiyeh helvetica, craft beer labore wes anderson 
+	        											cred nesciunt sapiente ea proident. Ad vegan excepteur butcher 
+													    Nihil anim keffiyeh helvetica, craft beer labore wes anderson 
+	        											cred nesciunt sapiente ea proident. Ad vegan excepteur butcher 
+														Nihil anim keffiyeh helvetica, craft beer labore wes anderson 
+	        											cred nesciunt sapiente ea proident. Ad vegan excepteur butcher  
+													
 													</p>
 												</div>
 											</div>
@@ -91,18 +104,18 @@
 											<div class="col-xs-12">
 												<!--截图-->
 												<div class="col-xs-3">
-													<div id="myCarousel1" class="carousel slide" style="height: 150px;">
+													<div id="myCarousel1${status.index}" class="carousel slide" style="height: 150px;">
 														<!-- 轮播（Carousel）项目 -->
-														<div class="carousel-inner">
-															<div class="item active">
-																<img src="<%=path%>/assets/companyPic/zhonghaiyou.jpg" alt="First slide" style="width: 100%;max-height:100px">
-															</div>
-															<div class="item">
-																<img src="<%=path%>/assets/companyPic/zhongshihua.jpg" alt="Second slide" style="width:100%;max-height:100px">
-															</div>
-															<div class="item">
-																<img src="<%=path%>/assets/companyPic/qita.jpg" alt="Third slide" style="width: 100%;max-height:100px;">
-															</div>
+														<div class="carousel-inner activePicture">
+															<c:forEach items="${item1}" var="item_picture" begin="2" end="2">
+																<c:forEach items="${item_picture.value}" var="pictures">
+																	<c:if test="${pictures.picturePurpose.equals('2')}">
+																		<div class="item">
+																			<img src="<%=basePath1%>${pictures.pictureAddress}" alt="${pictures.pictureName}" style="width: 100%;max-height:150px;">
+																		</div>
+																	</c:if>
+																</c:forEach>
+															</c:forEach>
 														</div>
 														<!-- 轮播（Carousel）导航 -->
 														<a class="carousel-control left" href="#myCarousel1${status.index}" data-slide="prev" style="padding-top:15%;">&lsaquo;</a>
@@ -115,7 +128,7 @@
 												<div class="col-xs-6" style="margin: 0;padding: 0;">
 													<span><b>详情</b></span>
 													<c:forEach items="${item1}" var="item_detail" begin="0" end="0">
-													<p style="font-family:楷体;text-indent: 30px;font-size: 15px;height: 85px;overflow:auto; width:100%">
+													<p style="font-family:楷体;text-indent: 30px;font-size: 15px;height: 135px;overflow:auto; width:100%">
 														<b>${item_detail.key.planName}</b>是<b>${item_detail.key.releaseUnit}</b>于<b><fmt:formatDate value="${item_detail.key.releaseDate}" pattern="YYYY-MM-dd"/></b>
 														发布的规划，规划代号为<b>${item_detail.key.planCode}</b>，规划时间段是从<b><fmt:formatDate value="${item_detail.key.startTime}" pattern="YYYY-MM-dd"/></b>到<b><fmt:formatDate value="${item_detail.key.endTime}" pattern="YYYY-MM-dd"/></b>。“规划的简短描述”：
 														<b>${item_detail.key.planDescription}</b>
@@ -125,7 +138,7 @@
 												<!--文档-->
 												<div class="col-xs-6" style="margin: 0;padding: 0;">
 													<span><b>文档</b></span>
-													<div style="height: 85px;overflow:auto; width:100%">
+													<div style="height: 135px;overflow:auto; width:100%">
 													<c:forEach items="${item1}" var="item_detail1" begin="1" end="1">
 														<c:forEach items="${item_detail1.value}" var="item_documents">
 														<a target="_blank" title="点击在线预览" href="<c:url value='/document/previewDocument?id=${item_documents.id}&&editType=0'/>">${item_documents.documentName}</a>&nbsp;&nbsp;&nbsp;
@@ -168,11 +181,18 @@
 									<div class="box-body" style="background-color: #f7f7f8;">
 										<h5><b>规划评价</b></h5>
 										<span style="font-family:楷体;text-indent: 30px;font-size: 15px;height: 100px;">
-									        Nihil anim keffiyeh helvetica, craft beer labore wes anderson 
-	        cred nesciunt sapiente ea proident. Ad vegan excepteur butcher 
-	        vice lomo.				        Nihil anim keffiyeh helvetica, craft beer labore wes anderson 
-	        cred nesciunt sapiente ea proident. Ad vegan excepteur butcher 
-	        vice lomo.
+									       Nihil anim keffiyeh helvetica, craft beer labore wes anderson 
+       											cred nesciunt sapiente ea proident. Ad vegan excepteur butcher 
+											    Nihil anim keffiyeh helvetica, craft beer labore wes anderson 
+       											cred nesciunt sapiente ea proident. Ad vegan excepteur butcher 
+												Nihil anim keffiyeh helvetica, craft beer labore wes anderson 
+       											cred nesciunt sapiente ea proident. Ad vegan excepteur butcher
+       											Nihil anim keffiyeh helvetica, craft beer labore wes anderson 
+       											cred nesciunt sapiente ea proident. Ad vegan excepteur butcher 
+											    Nihil anim keffiyeh helvetica, craft beer labore wes anderson 
+       											cred nesciunt sapiente ea proident. Ad vegan excepteur butcher 
+												Nihil anim keffiyeh helvetica, craft beer labore wes anderson 
+       											cred
 							            </span>
 									</div>
 									<hr>
@@ -216,6 +236,8 @@
 			});
 			
 			$("#collapseOne0").addClass("in");
+			
+			$("div.activePicture :first-child").addClass("active");
 		</script>
 	</body>
 

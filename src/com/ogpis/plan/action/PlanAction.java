@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
@@ -36,6 +37,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ogpis.base.common.paging.IPageList;
 import com.ogpis.base.common.paging.PageListUtil;
 import com.ogpis.document.entity.PlanDocument;
+import com.ogpis.document.entity.PlanPicture;
 import com.ogpis.document.service.PlanDocumentService;
 import com.ogpis.index.entity.IndexDataManagement;
 import com.ogpis.index.entity.IndexManagement;
@@ -72,8 +74,8 @@ public class PlanAction  {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value = "/plan/list")
 	public String list(HttpServletRequest request, ModelMap model, String type, String condition) {		
-		 HashMap map ;
-		 List<HashMap> mapList = new ArrayList<HashMap>();
+		 LinkedHashMap map ;
+		 List<LinkedHashMap> mapList = new ArrayList<LinkedHashMap>();
 		 //先判断当前用户是不是管理员 
 		 String currentUserName = request.getUserPrincipal().getName();
 	  	 User user = userService.findByUserName(currentUserName);
@@ -93,16 +95,17 @@ public class PlanAction  {
 		model.addAttribute("plansNumber", plans.size());//规划数量
 		for(Plan temp:plans)
 		{
-			map = new HashMap();
+			map = new LinkedHashMap();
 			if(conceredPlanId.contains(temp.getId()))
 				map.put(temp, true);//value = true 说明用户已经关注该规划
 			else
 				map.put(temp, false);//value = false 说明用户还没有关注该规划
 			Set<PlanDocument> document = temp.getPlanDocument();
-			map.put("12", document);
+			map.put("planDocument", document);
+			Set<PlanPicture> picture = temp.getPlanPicture();
+			map.put("规划图片", picture);
 			mapList.add(map);
 		}
-		//model.addAttribute("planMap", map);//返回规划
 		model.addAttribute("mapList", mapList);//返回规划
 		model.addAttribute("type", type);//返回公司名称
 		model.addAttribute("condition", condition);//查询条件回显到前台

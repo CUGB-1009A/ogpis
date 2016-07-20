@@ -2,13 +2,14 @@
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %> 
 <%
 	String basePath = request.getContextPath();
+    String timeStamp = System.currentTimeMillis()+"";
 %>
 <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
 <div class="collapse navbar-collapse navbar-ex1-collapse" align="left">
     <ul class="nav navbar-nav side-nav pull-left" id="menuList">
         
          <li>
-            <a href="<%=basePath%>/plan/list?type=QG&&condition="><i class="glyphicon glyphicon-star"></i> 全国规划<i></i></a>
+            <a href="<%=basePath%>/plan/list?timeStamp=<%=timeStamp%>&&type=QG&&condition="><i class="glyphicon glyphicon-star"></i> 全国规划<i></i></a>
          </li> 
              
          <li>

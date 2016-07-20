@@ -49,7 +49,7 @@
 	                	</c:if>
 	                	<c:if test="${!item_plan.key.released}">
 	                	${item_plan.key.planName}<span  style="color:red">——该规划已经撤销了发布,不能浏览</span>
-	                	<a  title="点击下载" href=" " class="btn btn-default">				
+	                	<a  title="取消关注" href=" " class="btn btn-default">				
 											           取消关注</a>
 	                	
 	                	</c:if> 

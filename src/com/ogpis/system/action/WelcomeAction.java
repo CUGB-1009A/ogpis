@@ -3,6 +3,7 @@ package com.ogpis.system.action;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
@@ -53,15 +54,15 @@ public class WelcomeAction {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
 	public String main(HttpServletResponse resppose,HttpServletRequest request,ModelMap model) {
-		HashMap map ;
-		List<HashMap> mapList = new ArrayList<HashMap>();
+		LinkedHashMap map ;
+		List<LinkedHashMap> mapList = new ArrayList<LinkedHashMap>();
 		String currentUserName = request.getUserPrincipal().getName();
 	  	User user = userService.findByUserName(currentUserName);	
 	  	Set<Plan> planConcern = user.getPlans();
 	  	model.addAttribute("plansNumber",planConcern.size());
 	  	for(Plan temp:planConcern)
 		{
-			map = new HashMap();
+			map = new LinkedHashMap();
 			map.put(temp, true);
 			Set<PlanDocument> document = temp.getPlanDocument();
 			map.put("12", document);
