@@ -200,20 +200,26 @@
 									<c:forEach items="${item1}" var="item_button" begin="0" end="0">
 										<shiro:hasPermission name="plan:edit">
 											<c:if test="${!item_button.key.released}">
-												<button type="button" class="btn btn-default btn-xs">编辑</button>
-												<button type="button" class="btn btn-default btn-xs">发布</button>
-												<button type="button" class="btn btn-default btn-xs">删除</button>
+												<button class="editPlan" value="${item_button.key.id}">编辑</button>
+												<button class="deletePlan" value="${item_button.key.id}">删除</button>
+												<button class="release" value="${item_button.key.id}">发布</button>
+												<button class="disrelease" value="${item_button.key.id}" style="display:none">取消发布</button>
 											</c:if>
 											<c:if test="${item_button.key.released}">
-												<button type="button" class="btn btn-default btn-xs">取消发布</button>
+											    <button class="editPlan" value="${item_button.key.id}" style="display:none">编辑</button>
+												<button class="deletePlan" value="${item_button.key.id}" style="display:none">删除</button>
+												<button class="release" value="${item_button.key.id}" style="display:none">发布</button>
+												<button class="disrelease" value="${item_button.key.id}">取消发布</button>
 											</c:if>
 										</shiro:hasPermission>
 										
 										<c:if test="${item_button.value}">	
-												<button type="button" class="btn btn-default btn-xs">取消关注</button>
+												<button class="disconcern" value="${item_button.key.id}" >取消关注</button>
+												<button class="concern" value="${item_button.key.id}" style="display:none">关注</button>
 												</c:if>
 												<c:if test="${!item_button.value}">
-													<button type="button" class="btn btn-default btn-xs">关注</button>
+													<button class="disconcern" value="${item_button.key.id}" style="display:none">取消关注</button>
+													<button class="concern" value="${item_button.key.id}">关注</button>
 												</c:if>
 										
 									</c:forEach>
@@ -230,15 +236,111 @@
 			</c:if>
 		</div>
 		</div>
-		<script>
-			$(".carousel").carousel({
-				interval: 2500
-			});
-			
-			$("#collapseOne0").addClass("in");
-			
-			$("div.activePicture :first-child").addClass("active");
-		</script>
+<script>
+	$(".carousel").carousel({
+		interval: 2500
+	});	
+	$("#collapseOne0").addClass("in");
+	$("div.activePicture :first-child").addClass("active");
+	
+	$(".deletePlan").click(function(){
+		var planId = $(this).attr("value");
+		var isDel =  confirm('确定删除该规划吗？', '确认对话框');
+		if(isDel){
+			window.location.href=url;
+		}
+	});
+
+	$(".concern").click(function(){
+		var planId = $(this).attr("value");
+		var getTimestamp = new Date().getTime();
+		//关注处理，处理成功后do
+		$.ajax({
+		url:"<%=request.getContextPath()%>/plan/concern?time="+getTimestamp,
+		dataType:"json",
+		async:true,
+		data:{"planId":planId},
+		type:"GET",
+		success:function(result){
+			$(".concern[value="+planId+"]").get(0).style.display="none";
+			$(".disconcern[value="+planId+"]").get(0).style.display="";
+			alert('关注成功');
+		},
+		error:function(){
+			alert("出意外错误了");
+		}
+	});
+	})
+		
+		$(".disconcern").click(function(){
+			var planId = $(this).attr("value");
+			var getTimestamp = new Date().getTime();
+			//发布处理，处理成功后do
+			$.ajax({
+			url:"<%=request.getContextPath()%>/plan/disconcern?time="+getTimestamp,
+			dataType:"json",
+			async:true,
+			data:{"planId":planId},
+			type:"GET",
+			success:function(result){
+				$(".concern[value="+planId+"]").get(0).style.display="";
+				$(".disconcern[value="+planId+"]").get(0).style.display="none";
+				alert('取消关注成功');
+			},
+			error:function(){
+				alert("出意外错误了");
+			}
+		});
+		})
+	
+	$(".release").click(function(){
+		var planId = $(this).attr("value");
+		var getTimestamp = new Date().getTime();
+		//发布处理，处理成功后do
+		$.ajax({
+		url:"<%=request.getContextPath()%>/plan/release?time="+getTimestamp,
+		dataType:"json",
+		async:true,
+		data:{"planId":planId},
+		type:"GET",
+		success:function(result){
+			$(".release[value="+planId+"]").get(0).style.display="none";
+			$(".disrelease[value="+planId+"]").get(0).style.display="";
+			$(".editPlan[value="+planId+"]").get(0).style.display="none";
+			$(".deletePlan[value="+planId+"]").get(0).style.display="none";
+			alert('发布成功');		
+		},
+		error:function(){
+			alert("出意外错误了");
+		}
+	});				
+	})
+	
+	$(".disrelease").click(function(){
+	var planId = $(this).attr("value");
+	var getTimestamp = new Date().getTime();
+	//撤销发布处理，处理成功后do
+	$.ajax({
+		url:"<%=request.getContextPath()%>/plan/disrelease?time="+getTimestamp,
+		dataType:"json",
+		async:true,
+		data:{"planId":planId},
+		type:"GET",
+		success:function(result){
+			$(".disrelease[value="+planId+"]").get(0).style.display="none";
+			$(".release[value="+planId+"]").get(0).style.display="";
+			$(".editPlan[value="+planId+"]").get(0).style.display="";
+			$(".deletePlan[value="+planId+"]").get(0).style.display="";
+			alert('撤销发布成功');		
+		},
+		error:function(){
+			alert("出意外错误了");
+		}
+	});	
+})
+	
+
+</script>
 	</body>
 
 </html>

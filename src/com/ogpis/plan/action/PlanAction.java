@@ -118,14 +118,15 @@ public class PlanAction  {
 	 */
 	@RequiresPermissions(value={"plan:release"})
 	@RequestMapping(value = "/plan/release")
-	public void release(HttpServletRequest request, ModelMap model,HttpServletResponse resp,String id) throws IOException {
+	public void release(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		String id = request.getParameter("planId");
 		Plan plan = planService.findById(id);
 		plan.setReleased(true);
 		planService.update(plan);
-	    String success = "{\"status\":\"success\"}";
-	    resp.setContentType("application/json");
-        resp.setCharacterEncoding("utf-8");
-	    resp.getWriter().write(success);	
+		String result = "{\"result\":\"success\"}";
+	 	response.setContentType("application/json");
+	 	response.setCharacterEncoding("utf-8");
+	 	response.getWriter().write(result);		
 	}
 	
 	/*
@@ -134,14 +135,15 @@ public class PlanAction  {
 	 */
 	@RequiresPermissions(value={"plan:release"})
 	@RequestMapping(value = "/plan/disrelease")
-	public void disrelease(HttpServletRequest request, ModelMap model,HttpServletResponse resp, String id) throws IOException {
+	public void disrelease(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		String id = request.getParameter("planId");
 		Plan plan = planService.findById(id);
 		plan.setReleased(false);
 		planService.update(plan);
-		String success = "{\"status\":\"success\"}";
-	    resp.setContentType("application/json");
-        resp.setCharacterEncoding("utf-8");
-	    resp.getWriter().write(success);	
+		String result = "{\"result\":\"success\"}";
+	 	response.setContentType("application/json");
+	 	response.setCharacterEncoding("utf-8");
+	 	response.getWriter().write(result);
 	}
 	
 	/*
@@ -462,7 +464,6 @@ public class PlanAction  {
 	  @RequestMapping(value = "/plan/concern")
 	  public void concern(HttpServletRequest request,HttpServletResponse response, ModelMap model) throws IOException
 	  {
-		 boolean flag = false;
 	  	 String result = "";
 	  	 String currentUserName = request.getUserPrincipal().getName();
 	  	 User user = userService.findByUserName(currentUserName);	  	 
@@ -473,22 +474,12 @@ public class PlanAction  {
 	  	 for(Plan temp:plans)
 	  	 {
 	  		 planConcern.add(temp);
-	  		 if(temp.getId().equals(planId))
-	  		 {
-	  			 System.out.println("该规划已经被您关注了");
-	  			 flag = true;
-	  		 }
 	  	 }
-	  	 if(flag){
-	  		 result = "{\"result\":\"failed\"}";
-	  	 }
-	  	 else{
 	  		 planConcern.add(plan);
 	  		 user.getPlans().clear();
 	  		 user.setPlans(planConcern);
 	  		 userService.update(user);
 	  		 result = "{\"result\":\"success\"}";
-	  	 }
 	  	 response.setContentType("application/json");
 	  	 response.setCharacterEncoding("utf-8");
 	  	 response.getWriter().write(result);	 
