@@ -173,7 +173,7 @@ public class PlanAction  {
 	 */
 	@RequiresPermissions(value={"plan:add"})
 	@RequestMapping(value = "/plan/toEditPage")
-	public String toEditPage(HttpServletRequest request, ModelMap model,String id,String type) {
+	public String toEditPage(HttpServletRequest request, ModelMap model,String type) {
 		model.addAttribute("type", type);
 		return "/plan/edit";	
 	}

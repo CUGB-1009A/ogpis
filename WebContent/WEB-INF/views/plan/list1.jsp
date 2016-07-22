@@ -83,17 +83,19 @@
 				
 				<div class="col-lg-5" style="height:100%">
 					<div class="input-group" style="margin:20px">
+					<form action="<%=path%>" method="post">
 					 <c:if test='<%=!plansNumber.equals("0")%>'>
-						<input class="form-control" id="nav-search-input" type="text" placeholder="规划模糊搜索...">
+						<input class="form-control" name="condition" type="text" value="${condition}">
 					</c:if>
 						 <span class="input-group-btn">
 					<c:if test='<%=!plansNumber.equals("0")%>'>
-					        <button class="btn btn-default" type="button"><i class="icon-search "></i>搜索</button>
+					        <button class="btn btn-default" type="submit"><i class="icon-search "></i>搜索</button>
 					 </c:if>
 					        <shiro:hasPermission name="plan:add">
 					         <button class="btn btn-default" type="button"><i class="icon-plus"></i> 新建</button>
 					         </shiro:hasPermission>
 					     </span>	
+					     </form>
 					</div>
 			   </div> 
 		</div>

@@ -26,7 +26,66 @@
 		<%@ include file="../main/main_header.jsp"%>
 		<%@ include file="../main/main_nav.jsp"%>
 	</nav>
-
+       
+      <!--  搜索div -->
+       <div class="col-lg-12" style="height:60px">
+				<div class="col-lg-2" style="float:left" style="height:100%">				
+					<c:if test='<%=type.equals("QG")%>'>
+						 <img src="<%=path%>/assets/companyPic/quanguo.jpg" alt="全国" style="border:solid 2px blue;max-height:60px">
+					</c:if>
+					
+					<c:if test='<%=type.equals("ZSY")%>'>
+						<a target="_blank"  href="<%=path%>/assets/companyIntro/zhongshiyou.html" title="中石油公司相关介绍">
+						 	<img src="<%=path%>/assets/companyPic/zhongshiyou.jpg" alt="中石油"  style="border:solid 2px blue;max-height:60px">
+						 </a>
+					</c:if>
+					
+					<c:if test='<%=type.equals("ZSH")%>'>
+						 <img src="<%=path%>/assets/companyPic/zhongshihua.jpg" alt="中石化"  style="border:solid 2px blue;max-height:60px">
+					</c:if>
+					
+					<c:if test='<%=type.equals("ZHY")%>'>
+						 <img src="<%=path%>/assets/companyPic/zhonghaiyou.jpg" alt="中海油"  style="border:solid 2px blue;max-height:60px">
+					</c:if>
+					
+					<c:if test='<%=type.equals("YC")%>'>
+						 <img src="<%=path%>/assets/companyPic/yanchangshiyou.jpg" alt="延长"  style="border:solid 2px blue;max-height:60px">
+					</c:if>
+					
+					<c:if test='<%=type.equals("ZLM")%>'>
+						 <img src="<%=path%>/assets/companyPic/zhonglianmei.jpg" alt="中联煤"  style="border:solid 2px blue;max-height:60px">
+					</c:if>
+					
+					<c:if test='<%=type.equals("QT")%>'>
+						<img src="<%=path%>/assets/companyPic/qita.jpg" alt="其他公司"  style="border:solid 2px blue;max-height:60px">				
+					</c:if>	
+				</div>
+				<div class="col-lg-3" style="height:100%"></div>
+				<div class="col-lg-7" style="height:100%">
+				<form action="<%=path%>/plan/list" method="post">
+					<div class="input-group" style="margin:5px">						
+							 <input type="hidden" name="type" value="${type}">
+					 <%-- <c:if test='<%=!plansNumber.equals("0")%>'> --%>
+							 <input class="form-control" type="text" value="${condition}" name="condition">
+						<%-- </c:if> --%>
+							 <span class="input-group-btn">
+						<%-- <c:if test='<%=!plansNumber.equals("0")%>'> --%>
+						        <button class="btn btn-default" type="submit"><i class="icon-search "></i>搜索</button>
+						 <%-- </c:if> --%>
+						         <shiro:hasPermission name="plan:add">
+						         <button class="btn btn-default" type="button" onclick="newPlan('${type}')"><i class="icon-plus"></i> 新建</button>
+						         </shiro:hasPermission>
+						         
+						         <%-- <c:if test='<%=!plansNumber.equals("0")%>'> --%>
+						       		 <button class="btn btn-default" type="button"><i class="icon-plus"></i> 批量删除</button>
+								<%--  </c:if> --%>
+						     </span>
+						</div>
+					</form>	
+			   </div>
+		</div>
+		
+		<!-- 规划内容开始容器div -->
 		<div class="panel-group" id="accordion">
 		  <c:if test='<%=!plansNumber.equals("0")%>'> 
 		    <c:forEach items="${mapList}" var="item1" varStatus="status">
@@ -66,14 +125,12 @@
 																		</div>
 																	</c:if>
 																</c:forEach>
-															</c:forEach>
-																
+															</c:forEach>						
 														</div>
 														<!-- 轮播（Carousel）导航 -->
 														<a class="carousel-control left" href="#myCarousel${status.index}" data-slide="prev" style="padding-top:15%;">&lsaquo;</a>
 														<a class="carousel-control right" href="#myCarousel${status.index}" data-slide="next" style="padding-top:15%;">&rsaquo;</a>
 													</div>
-
 												</div>
 												<!--规划依据-->
 												<div class="col-xs-9">
@@ -237,6 +294,10 @@
 		</div>
 		</div>
 <script>
+function newPlan(type)
+{
+	window.location.href = "<%=path%>/plan/toEditPage?type="+type
+}
 	$(".carousel").carousel({
 		interval: 2500
 	});	
@@ -353,7 +414,12 @@
 		}
 	});	
 })
-	
+	/* 编辑规划 */
+	$(".editPlan").click(function(){
+		var planId = $(this).attr("value");
+		var type = '${type}';
+		window.location.href = "<%=path%>/plan/show?flag=1&&type="+type+"&&id="+planId;
+	});
 
 </script>
 	</body>
