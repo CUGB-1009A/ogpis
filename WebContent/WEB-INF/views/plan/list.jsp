@@ -30,9 +30,9 @@
 		<div class="panel-group" id="accordion">
 		  <c:if test='<%=!plansNumber.equals("0")%>'> 
 		    <c:forEach items="${mapList}" var="item1" varStatus="status">
-			<div class="panel panel-default">
+			<div class="panel panel-default ">
 			<c:forEach items="${item1}" var="item_plan"  begin="0" end="0">
-				<div class="panel-heading">
+				<div class="panel-heading plan${item_plan.key.id}">
 					<h4 class="panel-title" align="left">
 						<input type="checkbox"/>
 				        <a data-toggle="collapse" data-parent="#accordion" 
@@ -244,10 +244,25 @@
 	$("div.activePicture :first-child").addClass("active");
 	
 	$(".deletePlan").click(function(){
+		var getTimestamp = new Date().getTime();
 		var planId = $(this).attr("value");
 		var isDel =  confirm('确定删除该规划吗？', '确认对话框');
-		if(isDel){
-			window.location.href=url;
+		if(isDel)
+		{
+			$.ajax({
+				url:"<%=request.getContextPath()%>/plan/deletePlan?time="+getTimestamp,
+				dataType:"json",
+				async:true,
+				data:{"planId":planId},
+				type:"GET",
+				success:function(result){
+					$(".plan"+planId).parent().remove();
+					alert("删除规划成功");
+				},
+				error:function(){
+					alert("出意外错误了");
+				}
+			});			
 		}
 	});
 

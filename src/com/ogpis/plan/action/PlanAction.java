@@ -221,8 +221,10 @@ public class PlanAction  {
 	 * 单个删除规划函数,同时软删除对应规划文档
 	 */
 	@RequiresPermissions(value={"plan:delete"})
-	@RequestMapping(value = "/plan/delete")
-	public String delete(HttpServletRequest request, ModelMap model,String id,String type) {		
+	@RequestMapping(value = "/plan/deletePlan")
+	public void delete(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		String id = request.getParameter("planId");
+		System.out.println(id);
 		Plan plan = planService.findById(id);
 		plan.setDeleted(true);
 		Set<PlanDocument> planDocumentSet = plan.getPlanDocument();
@@ -233,10 +235,10 @@ public class PlanAction  {
 			planDocumentService.update(temp);
 		}
 		planService.update(plan);
-		model.addAttribute("type", type);
-		model.addAttribute("condition", "");
-		return "redirect:list";
-	
+		String result = "{\"result\":\"success\"}";
+	  	response.setContentType("application/json");
+	  	response.setCharacterEncoding("utf-8");
+	  	response.getWriter().write(result);	
 	}
 	
 	@RequiresPermissions(value={"plan:edit"})
