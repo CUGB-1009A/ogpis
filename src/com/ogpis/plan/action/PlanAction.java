@@ -298,7 +298,7 @@ public class PlanAction  {
 	@RequestMapping(value = "/plan/deleteBatch" ,method = RequestMethod.POST)
 	public void deleteBatch(HttpServletResponse resp,HttpServletRequest request, ModelMap model) throws IOException {		
 	 String Ids = request.getParameter("Ids");
-	 String type = request.getParameter("type");
+	 idList.clear();
 	 String idTemp;
 	 while(Ids.length()>1)
 	 {

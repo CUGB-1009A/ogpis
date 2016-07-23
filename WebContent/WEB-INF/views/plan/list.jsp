@@ -14,9 +14,11 @@
         String plansNumber = request.getAttribute("plansNumber").toString();
         String basePath1 = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
     %>
+    	<script type="text/javascript" src="<%=path%>/assets/js/webuploader.js"></script>
     	<link type="text/css" rel="stylesheet" href="<%=path%>/assets/bootstrap/css/AdminLTE.css">
 		<link type="text/css" rel="stylesheet" href="<%=path%>/assets/bootstrap/css/_all-skins.min.css">	
 		<link type="text/css" rel="stylesheet" href="<%=path%>/assets/bootstrap/css/blue.css">
+		<link href="<%=path%>/assets/css/webuploader.css" rel="stylesheet">
 </head>
 <html>
 	<body>
@@ -77,7 +79,7 @@
 						         </shiro:hasPermission>
 						         
 						         <%-- <c:if test='<%=!plansNumber.equals("0")%>'> --%>
-						       		 <button class="btn btn-default" type="button" onclick="deletePlans()"><i class="icon-plus"></i> 批量删除</button>
+						       		 <button class="btn btn-default" type="button" onclick="deletePlans()"><i class="icon-minus"></i> 批量删除</button>
 								<%--  </c:if> --%>
 						     </span>
 						</div>
@@ -120,8 +122,10 @@
 															<c:forEach items="${item1}" var="item_picture" begin="2" end="2">
 																<c:forEach items="${item_picture.value}" var="pictures">
 																	<c:if test="${pictures.picturePurpose.equals('1')}">
-																		<div class="item">
+																		<div class="item picture1">
+																		<a href="#" target="_blank">
 																			<img src="<%=basePath1%>${pictures.pictureAddress}" alt="${pictures.pictureName}" style="width: 100%;max-height:150px;">
+																		</a>
 																		</div>
 																	</c:if>
 																</c:forEach>
@@ -131,24 +135,24 @@
 														<a class="carousel-control left" href="#myCarousel${status.index}" data-slide="prev" style="padding-top:15%;">&lsaquo;</a>
 														<a class="carousel-control right" href="#myCarousel${status.index}" data-slide="next" style="padding-top:15%;">&rsaquo;</a>
 													</div>
+													<shiro:hasPermission name="backgroundPicture:edit">
+														<c:forEach items="${item1}" var="item_background"  begin="0" end="0">
+															<h5><button onclick="showModal('${item_background.key.id}_1')">上传</button></h5>
+														</c:forEach>
+													</shiro:hasPermission>
 												</div>
 												<!--规划依据-->
 												<div class="col-xs-9">
-												<h5><b>规划背景和依据</b></h5>
-													<p style="font-family:楷体;text-indent: 30px;font-size: 15px;height: 135px;overflow:auto; width:100%">
-														Nihil anim keffiyeh helvetica, craft beer labore wes anderson 
-	        											cred nesciunt sapiente ea proident. Ad vegan excepteur butcher 
-													    Nihil anim keffiyeh helvetica, craft beer labore wes anderson 
-	        											cred nesciunt sapiente ea proident. Ad vegan excepteur butcher 
-														Nihil anim keffiyeh helvetica, craft beer labore wes anderson 
-	        											cred nesciunt sapiente ea proident. Ad vegan excepteur butcher
-	        											Nihil anim keffiyeh helvetica, craft beer labore wes anderson 
-	        											cred nesciunt sapiente ea proident. Ad vegan excepteur butcher 
-													    Nihil anim keffiyeh helvetica, craft beer labore wes anderson 
-	        											cred nesciunt sapiente ea proident. Ad vegan excepteur butcher 
-														Nihil anim keffiyeh helvetica, craft beer labore wes anderson 
-	        											cred nesciunt sapiente ea proident. Ad vegan excepteur butcher  
-													
+												<h5><b>规划背景和依据</b>
+													<shiro:hasPermission name="background:edit">
+														<button>编辑</button>
+													</shiro:hasPermission>
+												</h5>
+													<p align="left" style="font-family:楷体;text-indent: 30px;font-size: 15px;height: 135px;overflow:auto; width:100%">
+														<c:forEach items="${item1}" var="item_backgroundtext"  begin="0" end="0">
+															<span><b>背景</b>：${item_backgroundtext.key.planBackground}</span>
+															<span><b>依据</b>： ${item_backgroundtext.key.planDependent}	</span>	
+														</c:forEach>					
 													</p>
 												</div>
 											</div>
@@ -167,7 +171,7 @@
 															<c:forEach items="${item1}" var="item_picture" begin="2" end="2">
 																<c:forEach items="${item_picture.value}" var="pictures">
 																	<c:if test="${pictures.picturePurpose.equals('2')}">
-																		<div class="item">
+																		<div class="item picture2">
 																			<img src="<%=basePath1%>${pictures.pictureAddress}" alt="${pictures.pictureName}" style="width: 100%;max-height:150px;">
 																		</div>
 																	</c:if>
@@ -178,12 +182,16 @@
 														<a class="carousel-control left" href="#myCarousel1${status.index}" data-slide="prev" style="padding-top:15%;">&lsaquo;</a>
 														<a class="carousel-control right" href="#myCarousel1${status.index}" data-slide="next" style="padding-top:15%;">&rsaquo;</a>
 													</div>
-
+													<shiro:hasPermission name="detailPicture:edit">
+														<c:forEach items="${item1}" var="item_detail"  begin="0" end="0">
+																<h5><button onclick="showModal('${item_detail.key.id}_2')">上传</button></h5>
+														</c:forEach>
+													</shiro:hasPermission>
 												</div>
 												<div class="col-xs-9">
 												<!--详情-->
 												<div class="col-xs-6" style="margin: 0;padding: 0;">
-													<span><b>详情</b></span>
+													<h5><b>详情</b></h5>
 													<c:forEach items="${item1}" var="item_detail" begin="0" end="0">
 													<p style="font-family:楷体;text-indent: 30px;font-size: 15px;height: 135px;overflow:auto; width:100%">
 														<b>${item_detail.key.planName}</b>是<b>${item_detail.key.releaseUnit}</b>于<b><fmt:formatDate value="${item_detail.key.releaseDate}" pattern="YYYY-MM-dd"/></b>
@@ -194,7 +202,7 @@
 												</div>
 												<!--文档-->
 												<div class="col-xs-6" style="margin: 0;padding: 0;">
-													<span><b>文档</b></span>
+													<h5><b>文档</b></h5>
 													<div style="height: 135px;overflow:auto; width:100%">
 													<c:forEach items="${item1}" var="item_detail1" begin="1" end="1">
 														<c:forEach items="${item_detail1.value}" var="item_documents">
@@ -236,7 +244,11 @@
 									<!--下-->
 									<hr>
 									<div class="box-body" style="background-color: #f7f7f8;">
-										<h5><b>规划评价</b></h5>
+										<h5><b>规划评价</b>
+											<shiro:hasPermission name="background:edit">
+												<button>编辑</button>
+											</shiro:hasPermission>
+										</h5>
 										<span style="font-family:楷体;text-indent: 30px;font-size: 15px;height: 100px;">
 									       Nihil anim keffiyeh helvetica, craft beer labore wes anderson 
        											cred nesciunt sapiente ea proident. Ad vegan excepteur butcher 
@@ -293,6 +305,37 @@
 			</c:if>
 		</div>
 		</div>
+			<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+							aria-labelledby="myModalLabel" aria-hidden="true"
+							style="width: 1600px">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h3 class="modal-title">文件上传</h3>
+									</div>
+									<div class="modal-body">
+										<div class="row">
+											<div class="col-md-12">
+											<div id="uploader" class="wu-example">
+    												<!--用来存放文件信息-->
+											    <div id="thelist" class="uploader-list"></div>
+												    <div class="btns">
+												        <div id="picker">选择文件</div>
+												        <button id="ctlBtn" class="btn btn-default">开始上传</button>
+												    </div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<span id="sizeWarning" style="color: red; display: none"></span>
+										<button type="button" class="btn btn-default" id="cancel">取消</button>
+									</div>
+								</div>
+								<!-- /.modal-content -->
+							</div>
+							<!-- /.modal-dialog -->
+						</div>
 <script>
 function newPlan(type)
 {
@@ -436,10 +479,11 @@ function newPlan(type)
 		var isDelAll =  confirm('确定删除选定规划？', '确认对话框');
 		if(isDelAll)
 			{
-			for(var i=0;i<$chosedPlan.length;i++)
-			{
-			ids = ids + $chosedPlan[i].value+","
-			}
+				for(var i=0;i<$chosedPlan.length;i++)
+				{
+				ids = ids + $chosedPlan[i].value+","
+				}
+			alert(ids);
 		$.ajax({
 			url:"<%=path%>/plan/deleteBatch?time="+getTimestamp,
 			dataType:"json",
@@ -461,6 +505,108 @@ function newPlan(type)
 		
 		
 	}
+	
+/* 初始化模态框，清空模态框一切信息，设置上传按钮可用，警示信息隐藏 */
+function showModal(param)
+{	
+	var pictureType = param.substring(param.length-1,param.length);
+	var planId = param.substring(0,param.length-2);
+
+	/* $("#myModal").modal("show"); */
+	$('#myModal').modal({backdrop: 'static', keyboard: false});
+	$('#thelist').empty();
+	uploader = WebUploader.create({
+
+	    // swf文件路径
+	    swf: '<%=path%>/assets/js/Uploader.swf',
+	    accept: {
+	        title: 'Images',
+	        extensions: 'gif,jpg,jpeg,bmp,png',
+	        mimeTypes: 'image/*'
+	    },
+	    // 文件接收服务端。
+	    server: '<%=path%>/plan/uploadPictures?type='+pictureType+'&&id='+planId,
+
+	    // 选择文件的按钮。可选。
+	    // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+	    pick: '#picker'
+	});
+	var total = 0;
+	var success = 0;
+	var f = 1 ;//为了重新选择文件所用
+	var hasFile = 0 ;
+	var fileId = "";
+         /* 创建webuploader实例 */
+
+         
+         //webuploader注册监听事件 添加文件前先重置uploader
+	uploader.on( 'beforeFileQueued', function( file ){
+	     if(f==1)
+	    	 {
+	    	 total = 0;
+	    	 uploader.reset();
+	    	 $('#thelist').empty();
+	    	 f=0;
+	    	 }
+		 
+	}); 
+
+	//文件加入队列之后触发
+	uploader.on( 'fileQueued', function( file ) {
+		fileId = fileId + file.id ;
+		total = total +1 ;
+	    $('#thelist').append( '<div class="item">' +
+	        '<h4 class="info">' + file.name + '</h4><div class="progress" style="width: 100%"><div id="'+file.id+'1"class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" style="width: 0%">'+
+				'<span id="'+file.id+'"></span></div></div></div>' );
+	});
+
+	//当一批文件添加进队列以后触发
+	uploader.on( 'filesQueued', function( files ) {
+	    hasFile = 1;
+		f=1;
+	});
+
+	
+
+	uploader.on( 'uploadSuccess', function( file ) {
+		 success = success + 1 ;
+		 
+	}); 
+
+	uploader.on( 'uploadComplete', function( file ) {
+
+		if(total == success)
+			{
+			$("#myModal").modal("hide");
+			window.location.href = "<%=path%>/plan/show?type="+type+"&&id="+id+"&&flag=2";
+			}
+			
+	});
+
+	uploader.on( 'uploadProgress', function( file , percentage) {
+
+		$('#'+file.id+'1').css('width',percentage*100+''+'%');  
+	    $('#'+file.id)[0].innerHTML = percentage*100;  	
+
+	});
+	
+	$('#ctlBtn').on("click",function(){
+		if(hasFile == 0)
+			alert("请选择文件再上传");
+		else
+			{
+			uploader.upload();
+			}		
+	});	
+}
+/* 取消按钮响应函数 */
+$(function(){
+	$("#cancel").click(function(){
+		$("#myModal").modal("hide");
+		$("#ctlBtn").off("click");
+		uploader.destroy();
+	});
+});
 	
 
 </script>

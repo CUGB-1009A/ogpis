@@ -79,6 +79,7 @@
 
 						<div class="col-sm-9">
 						    <textArea id="form-field-7"  style="height:100px" placeholder="规划描述..." class="col-xs-10 col-sm-5" name="planDescription" ></textArea>
+						    <script type="text/javascript">CKEDITOR.replace('planDescription');</script>
 						</div>
 					</div> 
 					

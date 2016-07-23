@@ -20,6 +20,7 @@
 <body>
 <script type="text/javascript" src="<%=path%>/assets/bootstrap/js/bootstrap-datetimepicker.min.js"></script>
 <script type="text/javascript" src="<%=path%>/assets/bootstrap/js/bootstrap-datetimepicker.fr.js"></script>
+<script type="text/javascript" src="<%=path%>/assets/ckeditor/ckeditor.js"></script>
 <div id="wrapper">
 <!-- 网站头及导航栏 -->
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="z-index:1080">

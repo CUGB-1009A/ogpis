@@ -58,6 +58,7 @@ public class PlanDaoImpl extends BaseDaoImpl<Plan, String>
 		}
 		temp=temp.substring(0, temp.length()-1);
 		String hql = "update Plan as m set m.deleted=true where m.id in ("+temp+")";
+		System.out.println(temp);
 		this.getHibernateTemplate().bulkUpdate(hql,null);
 		
 	}
