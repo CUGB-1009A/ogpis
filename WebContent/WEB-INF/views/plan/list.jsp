@@ -77,7 +77,7 @@
 						         </shiro:hasPermission>
 						         
 						         <%-- <c:if test='<%=!plansNumber.equals("0")%>'> --%>
-						       		 <button class="btn btn-default" type="button"><i class="icon-plus"></i> 批量删除</button>
+						       		 <button class="btn btn-default" type="button" onclick="deletePlans()"><i class="icon-plus"></i> 批量删除</button>
 								<%--  </c:if> --%>
 						     </span>
 						</div>
@@ -93,7 +93,7 @@
 			<c:forEach items="${item1}" var="item_plan"  begin="0" end="0">
 				<div class="panel-heading plan${item_plan.key.id}">
 					<h4 class="panel-title" align="left">
-						<input type="checkbox"/>
+						<input type="checkbox" value="${item_plan.key.id }" class="checkboxs"/>
 				        <a data-toggle="collapse" data-parent="#accordion" 
 				          href="#collapseOne${status.index}">
 				                             ${item_plan.key.planName}
@@ -420,6 +420,48 @@ function newPlan(type)
 		var type = '${type}';
 		window.location.href = "<%=path%>/plan/show?flag=1&&type="+type+"&&id="+planId;
 	});
+	
+	/* 批量删除规划 */
+	function deletePlans()
+	{
+		var getTimestamp = new Date().getTime();
+		var type = '${type}';
+		var ids ='';
+		var $chosedPlan = $('input:checked');
+		if($chosedPlan.length==0)
+		{
+		alert("至少选择一个规划再删除！");
+		return;
+		}
+		var isDelAll =  confirm('确定删除选定规划？', '确认对话框');
+		if(isDelAll)
+			{
+			for(var i=0;i<$chosedPlan.length;i++)
+			{
+			ids = ids + $chosedPlan[i].value+","
+			}
+		$.ajax({
+			url:"<%=path%>/plan/deleteBatch?time="+getTimestamp,
+			dataType:"json",
+			async:true,
+			type:"POST",
+			data:{"Ids":ids,"type":type},
+			success:function(result){
+				 for(var i=0;i<$chosedPlan.length;i++)
+				{
+					$(".plan"+$chosedPlan[i].value).parent().remove();
+				} 			
+				alert("批量删除规划成功");
+			},
+			error:function(){
+				alert("出意外错误了");
+			}
+		});	
+			}
+		
+		
+	}
+	
 
 </script>
 	</body>

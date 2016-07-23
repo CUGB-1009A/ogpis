@@ -307,7 +307,6 @@ public class PlanAction  {
 		 idList.add("\'"+idTemp+"\'");
 	 }
 	 planService.updateAll(idList);
-	 
 	 for(int i=0;i<idList.size();i++)
 	 {
 		 Plan plan = planService.findById(idList.get(i).toString().substring(1,idList.get(i).toString().length()-1));
@@ -319,7 +318,7 @@ public class PlanAction  {
 			 planDocumentService.update(temp);
 		 }
 	 }
-	 String success = "{\"type\":\""+type+"\"}";
+	 String success = "{\"result\":\"success\"}";
 	 resp.setContentType("application/json");
      resp.setCharacterEncoding("utf-8");
 	 resp.getWriter().write(success);		
