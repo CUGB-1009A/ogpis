@@ -55,7 +55,7 @@ public class NationalPlanServiceImplTest {
 		System.out.println(123);
 		PlanDocument planDocument = planDocumentService.findById("75732b82-9519-4e77-b532-1b426e2bd1a6");
 		Plan plan = planDocument.getPlan();
-		System.out.println(plan.getPlanDescription());
+/*		System.out.println(plan.getPlanDescription());*/
 		System.out.println("find document success");
 		
 	}

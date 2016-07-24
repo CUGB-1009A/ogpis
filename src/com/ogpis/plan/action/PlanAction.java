@@ -102,8 +102,6 @@ public class PlanAction  {
 				map.put(temp, false);//value = false 说明用户还没有关注该规划
 			Set<PlanDocument> document = temp.getPlanDocument();
 			map.put("planDocument", document);
-			Set<PlanPicture> picture = temp.getPlanPicture();
-			map.put("规划图片", picture);
 			mapList.add(map);
 		}
 		model.addAttribute("mapList", mapList);//返回规划

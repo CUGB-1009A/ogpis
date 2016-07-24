@@ -119,17 +119,17 @@
 													<div id="myCarousel${status.index}" class="carousel slide" style="height: 150px;">
 														<!-- 轮播（Carousel）项目 -->
 														<div class="carousel-inner activePicture">
-															<c:forEach items="${item1}" var="item_picture" begin="2" end="2">
+															<%-- <c:forEach items="${item1}" var="item_picture" begin="2" end="2">
 																<c:forEach items="${item_picture.value}" var="pictures">
-																	<c:if test="${pictures.picturePurpose.equals('1')}">
+																	<c:if test="${pictures.picturePurpose.equals('1')}"> --%>
 																		<div class="item picture1">
 																		<a href="#" target="_blank">
 																			<img src="<%=basePath1%>${pictures.pictureAddress}" alt="${pictures.pictureName}" style="width: 100%;max-height:150px;">
 																		</a>
 																		</div>
-																	</c:if>
+																	<%-- </c:if>
 																</c:forEach>
-															</c:forEach>						
+															</c:forEach>	 --%>					
 														</div>
 														<!-- 轮播（Carousel）导航 -->
 														<a class="carousel-control left" href="#myCarousel${status.index}" data-slide="prev" style="padding-top:15%;">&lsaquo;</a>
@@ -150,8 +150,7 @@
 												</h5>
 													<p align="left" style="font-family:楷体;text-indent: 30px;font-size: 15px;height: 135px;overflow:auto; width:100%">
 														<c:forEach items="${item1}" var="item_backgroundtext"  begin="0" end="0">
-															<span><b>背景</b>：${item_backgroundtext.key.planBackground}</span>
-															<span><b>依据</b>： ${item_backgroundtext.key.planDependent}	</span>	
+															
 														</c:forEach>					
 													</p>
 												</div>

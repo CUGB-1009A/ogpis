@@ -7,7 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-     <link href="<%=path%>/assets/bootstrap/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+    <link href="<%=path%>/assets/bootstrap/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+    <script type="text/javascript" src="<%=path%>/assets/ckeditor/ckeditor.js"></script>
     <title>油气资源规划管理系统</title>
      <%
     	String type = request.getAttribute("type").toString();
@@ -140,6 +141,7 @@
 
 						<div class="col-sm-9">
 						    <textArea id="form-field-7"  style="height:70px" placeholder="规划描述..." class="col-xs-10 col-sm-5" name="planDescription"></textArea>
+							<script type="text/javascript">CKEDITOR.replace('planDescription');</script>
 						</div>
 					</div>  
 					

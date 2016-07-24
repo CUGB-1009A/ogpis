@@ -13,9 +13,9 @@ public class PlanPictureEntity extends BaseEntity {
 	@Column(name = "图片名称")
 	private String pictureName;
 	
-	@ManyToOne
+/*	@ManyToOne
 	@JoinColumn(name = "对应规划id")
-	private Plan plan;
+	private Plan plan;*/
 	
 	@Column(name = "图片地址")
 	private String pictureAddress;
@@ -31,13 +31,13 @@ public class PlanPictureEntity extends BaseEntity {
 		this.pictureName = pictureName;
 	}
 
-	public Plan getPlan() {
+/*	public Plan getPlan() {
 		return plan;
 	}
 
 	public void setPlan(Plan plan) {
 		this.plan = plan;
-	}
+	}*/
 
 	public String getPictureAddress() {
 		return pictureAddress;

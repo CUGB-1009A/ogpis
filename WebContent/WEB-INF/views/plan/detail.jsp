@@ -152,7 +152,6 @@ function Tab5()
 	window.location.href="<%=path%>/plan/show?type="+type+"&&id="+id+"&&flag=5";
 }
 /* 回显时间和规划描述字段，去掉时分秒（虽然在库中没有，但获取的时候自动添0了) */
-var description = '${plan.planDescription}';
 var endtime = '${plan.endTime}';
 var starttime = '${plan.startTime}';
 var releasedate = '${plan.releaseDate}';
@@ -163,7 +162,6 @@ $(function(){
 	document.getElementById("form-field-4").value = releasedate ;
 	document.getElementById("form-field-5").value = starttime ;
 	document.getElementById("form-field-6").value = endtime ;	
-	document.getElementById("form-field-7").value = description ;
 });
 
 

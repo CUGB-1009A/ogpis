@@ -3,26 +3,26 @@ package com.ogpis.plan.entity.base;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
 import org.springframework.format.annotation.DateTimeFormat;
 import com.ogpis.base.entity.BaseEntity;
 import com.ogpis.document.entity.PlanDocument;
-import com.ogpis.document.entity.PlanPicture;
 import com.ogpis.index.entity.IndexManagement;
 import com.ogpis.system.entity.User;
 
 /**
  * 规划信息的基类，定义了规划信息的公有字段
- * 
  * @author Danny
- *
  */
 @MappedSuperclass
 public class PlanEntity extends BaseEntity {
@@ -32,98 +32,46 @@ public class PlanEntity extends BaseEntity {
 
 	@Column(name = "规划代号")
 	private String planCode;
-
-	@Column(name = "规划背景")
-	private String planBackground;
-
-	@Column(name = "规划依据")
-	private String planDependent;
 	
-	@Column(name = "规划描述")
-	private String planDescription;
-	
-	@Column(name = "规划维度")
-	private String planDimension;
-	
-	@Column(name = "规划关键词")
-	private String keyWords;
+	@Column(name = "发布单位")
+	private String releaseUnit;
 	
 	@Column(name = "是否已发布")
 	private boolean released;
-
-	@Column(columnDefinition="DATE",name = "开始时间")
-	@DateTimeFormat( pattern = "yyyy-MM-dd" )
-	private Date startTime;
 	
-	@Column(columnDefinition="DATE",name = "结束时间")
-	@DateTimeFormat( pattern = "yyyy-MM-dd" )
-	private Date endTime;
-
-	@Column(name = "发布单位")
-	private String releaseUnit;
-
+	//指规划实际发文的时间
 	@Column(columnDefinition="DATE",name = "发布时间")
 	@DateTimeFormat( pattern = "yyyy-MM-dd" )
 	private Date releaseDate;
+
+	@Column(columnDefinition="DATE",name = "规划开始时间")
+	@DateTimeFormat( pattern = "yyyy-MM-dd" )
+	private Date startTime;
 	
+	@Column(columnDefinition="DATE",name = "规划结束时间")
+	@DateTimeFormat( pattern = "yyyy-MM-dd" )
+	private Date endTime;
+	
+	//这个是指是全国、各大石油公司、其他规划；还是以后从其他维度的规划
 	@Column(name = "规划类型")
 	private String planType;
 	
-	@OneToMany(fetch=FetchType.EAGER,cascade = { CascadeType.ALL }, mappedBy = "plan")
-	private Set<PlanDocument> planDocument;
+	//指规划的依据和背景，clob类型
+	@Lob
+	@Basic(fetch = FetchType.EAGER)
+	@Column(columnDefinition="BLOB", name = "规划描述",nullable=true)
+	private String planDescription;
 	
 	@OneToMany(fetch=FetchType.EAGER,cascade = { CascadeType.ALL }, mappedBy = "plan")
-	private Set<PlanPicture> planPicture;
+	private Set<PlanDocument> planDocument;
 
 	@OneToMany(fetch=FetchType.EAGER,cascade = { CascadeType.ALL }, mappedBy = "plan")
 	private Set<IndexManagement> index;
 	
-	/*
-	 * 规划对应被哪些用户收藏 many-to-many
-	 */
+	//规划对应被哪些用户收藏 many-to-many
 	@ManyToMany(targetEntity = User.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name = "ogpis_user_plan", joinColumns = @JoinColumn(name = "PLAN_ID"), inverseJoinColumns = @JoinColumn(name = "USER_ID"))
 	protected Set<User> users = new HashSet<User>();
-
-	public Set<User> getUsers() {
-		return users;
-	}
-
-	public void setUsers(Set<User> users) {
-		this.users = users;
-	}
-
-	public Set<IndexManagement> getIndex() {
-		return index;
-	}
-
-	public void setIndex(Set<IndexManagement> index) {
-		this.index = index;
-	}
-
-	public Set<PlanDocument> getPlanDocument() {
-		return planDocument;
-	}
-
-	public void setPlanDocument(Set<PlanDocument> planDocument) {
-		this.planDocument = planDocument;
-	}
-	
-	public Set<PlanPicture> getPlanPicture() {
-		return planPicture;
-	}
-
-	public void setPlanPicture(Set<PlanPicture> planPicture) {
-		this.planPicture = planPicture;
-	}
-
-	public String getPlanType() {
-		return planType;
-	}
-
-	public void setPlanType(String planType) {
-		this.planType = planType;
-	}
 
 	public String getPlanName() {
 		return planName;
@@ -141,12 +89,28 @@ public class PlanEntity extends BaseEntity {
 		this.planCode = planCode;
 	}
 
-	public String getPlanDescription() {
-		return planDescription;
+	public String getReleaseUnit() {
+		return releaseUnit;
 	}
 
-	public void setPlanDescription(String planDescription) {
-		this.planDescription = planDescription;
+	public void setReleaseUnit(String releaseUnit) {
+		this.releaseUnit = releaseUnit;
+	}
+
+	public boolean isReleased() {
+		return released;
+	}
+
+	public void setReleased(boolean released) {
+		this.released = released;
+	}
+
+	public Date getReleaseDate() {
+		return releaseDate;
+	}
+
+	public void setReleaseDate(Date releaseDate) {
+		this.releaseDate = releaseDate;
 	}
 
 	public Date getStartTime() {
@@ -165,60 +129,45 @@ public class PlanEntity extends BaseEntity {
 		this.endTime = endTime;
 	}
 
-	public String getReleaseUnit() {
-		return releaseUnit;
+	public String getPlanType() {
+		return planType;
 	}
 
-	public void setReleaseUnit(String releaseUnit) {
-		this.releaseUnit = releaseUnit;
+	public void setPlanType(String planType) {
+		this.planType = planType;
 	}
 
-	public Date getReleaseDate() {
-		return releaseDate;
+	public String getPlanDescription() {
+		return planDescription;
 	}
 
-	public void setReleaseDate(Date releaseDate) {
-		this.releaseDate = releaseDate;
-	}
-	
-	public String getPlanDimension() {
-		return planDimension;
+	public void setPlanDescription(String planDescription) {
+		this.planDescription = planDescription;
 	}
 
-	public void setPlanDimension(String planDimension) {
-		this.planDimension = planDimension;
-	}
-	
-	public String getKeyWords() {
-		return keyWords;
+	public Set<PlanDocument> getPlanDocument() {
+		return planDocument;
 	}
 
-	public void setKeyWords(String keyWords) {
-		this.keyWords = keyWords;
-	}
-	
-	public boolean getReleased() {
-		return released;
+	public void setPlanDocument(Set<PlanDocument> planDocument) {
+		this.planDocument = planDocument;
 	}
 
-	public void setReleased(boolean released) {
-		this.released = released;
-	}
-	
-	public String getPlanBackground() {
-		return planBackground;
+	public Set<IndexManagement> getIndex() {
+		return index;
 	}
 
-	public void setPlanBackground(String planBackground) {
-		this.planBackground = planBackground;
+	public void setIndex(Set<IndexManagement> index) {
+		this.index = index;
 	}
 
-	public String getPlanDependent() {
-		return planDependent;
+	public Set<User> getUsers() {
+		return users;
 	}
 
-	public void setPlanDependent(String planDependent) {
-		this.planDependent = planDependent;
+	public void setUsers(Set<User> users) {
+		this.users = users;
 	}
+
 
 }

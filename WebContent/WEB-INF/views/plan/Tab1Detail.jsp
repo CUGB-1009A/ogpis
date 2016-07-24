@@ -78,7 +78,7 @@
 						<label class="col-sm-3 control-label no-padding-right" for="form-field-7">规划描述</label>
 
 						<div class="col-sm-9">
-						    <textArea id="form-field-7"  style="height:100px" placeholder="规划描述..." class="col-xs-10 col-sm-5" name="planDescription" ></textArea>
+						    <textArea id="form-field-7"  style="height:100px" placeholder="规划描述..." class="col-xs-10 col-sm-5" name="planDescription" >${plan.planDescription}</textArea>
 						    <script type="text/javascript">CKEDITOR.replace('planDescription');</script>
 						</div>
 					</div> 
