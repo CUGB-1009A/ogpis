@@ -59,7 +59,7 @@ public class PlanEntity extends BaseEntity {
 	//指规划的依据和背景，clob类型
 	@Lob
 	@Basic(fetch = FetchType.EAGER)
-	@Column(columnDefinition="BLOB", name = "规划描述",nullable=true)
+	@Column(columnDefinition="BLOB", name = "规划描述")
 	private String planDescription;
 	
 	@OneToMany(fetch=FetchType.EAGER,cascade = { CascadeType.ALL }, mappedBy = "plan")

@@ -107,7 +107,10 @@ public class PlanAction  {
 		model.addAttribute("mapList", mapList);//返回规划
 		model.addAttribute("type", type);//返回公司名称
 		model.addAttribute("condition", condition);//查询条件回显到前台
-		return "plan/list";
+		if(isManager)
+			return "plan/list_admin";
+		else
+			return "plan/list_user";
 	}
 	
 	/*
