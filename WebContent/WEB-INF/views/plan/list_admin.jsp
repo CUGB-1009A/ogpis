@@ -105,7 +105,8 @@
 													<td>
 														<i class="glyphicon glyphicon-file"></i> ${item_plan.key.planDocument.size()}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 														指标个数 ${item_plan.key.index.size()}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-														 <i class="icon-time"> ${item_plan.key.modifiedTime.toLocaleString()}</i>
+														<i class="glyphicon glyphicon-heart"></i> <span class="concernNum_${item_plan.key.id}">${item_plan.key.users.size()}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+														<i class="icon-time"> ${item_plan.key.modifiedTime.toLocaleString()}</i>
 													</td>
 													<td>
 														<p>
@@ -278,6 +279,9 @@ function concernPlan(id)
 		data:{"planId":id},
 		type:"GET",
 		success:function(result){
+			var temp = new Number($(".concernNum_"+id).text());
+			temp = temp + 1;
+			$(".concernNum_"+id).text(temp);
 			$(".concern_"+id).get(0).style.display="none";
 			$(".disconcern_"+id).get(0).style.display="";
 			alert('关注成功');
@@ -300,6 +304,9 @@ function disconcernPlan(id)
 	data:{"planId":id},
 	type:"GET",
 	success:function(result){
+		var temp = new Number($(".concernNum_"+id).text());
+		temp = temp - 1;
+		$(".concernNum_"+id).text(temp);
 		$(".concern_"+id).get(0).style.display="";
 		$(".disconcern_"+id).get(0).style.display="none";
 		alert('取消关注成功');
