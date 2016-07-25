@@ -121,9 +121,7 @@
 </div>
 </body>
 <script type="text/javascript">
-
 var uploader ;
-
 var flag = ${flag} ;
 var id = "${plan.id}";
 var type = "${type}";
@@ -164,7 +162,6 @@ $(function(){
 	document.getElementById("form-field-6").value = endtime ;	
 });
 
-
  $(function(){
 	var flag=${flag};
 	if(flag==1)
@@ -182,18 +179,13 @@ $(function(){
 /* 初始化模态框，清空模态框一切信息，设置上传按钮可用，警示信息隐藏 */
 function showModal()
 {	
-	/* $("#myModal").modal("show"); */
 	$('#myModal').modal({backdrop: 'static', keyboard: false});
 	$('#thelist').empty();
 	uploader = WebUploader.create({
-
 	    // swf文件路径
 	    swf: '<%=path%>/assets/js/Uploader.swf',
-
 	    // 文件接收服务端。
 	    server: '<%=path%>/plan/uploadFiles?id=${plan.id}&&type=${type}&&time=1',
-
-	    // 选择文件的按钮。可选。
 	    // 内部根据当前运行是创建，可能是input元素，也可能是flash.
 	    pick: '#picker'
 	});
@@ -202,9 +194,7 @@ function showModal()
 	var f = 1 ;//为了重新选择文件所用
 	var hasFile = 0 ;
 	var fileId = "";
-         /* 创建webuploader实例 */
-
-         
+    
          //webuploader注册监听事件 添加文件前先重置uploader
 	uploader.on( 'beforeFileQueued', function( file ){
 	     if(f==1)
@@ -231,8 +221,6 @@ function showModal()
 	    hasFile = 1;
 		f=1;
 	});
-
-	
 
 	uploader.on( 'uploadSuccess', function( file ) {
 		 success = success + 1 ;
@@ -263,9 +251,7 @@ function showModal()
 			{
 			uploader.upload();
 			}		
-	});
-         
-	
+	});	
 }
 
 $(function(){
@@ -274,82 +260,7 @@ $(function(){
 		$("#ctlBtn").off("click");
 		uploader.destroy();
 	});
-<%-- 	$("#upload").click(function(){
-		
-		var temp = document.getElementById("fileList").value;
-		if(temp=="")
-			{
-			alert("请先选择文件再上传");
-			return;
-			}
-		$("#docForm").submit();
-		$('#myModalProgress').modal({backdrop: 'static', keyboard: false});
-		var eventFun = function(){	
-			$.ajax({
-				type:'post',
-				url:'<%=path%>/plan/process.json',
-				dateType:'json',
-				contentType:"application/json",
-				success:function(data){
-					$('#proBar').css('width',data.rate+''+'%');  
-				    $('#showProgress')[0].innerHTML = data.rate+'%';  					
-					if(data.rate==100) 
-					{
-						window.clearInterval(intId);
-						$("#myModalProgress").modal("hide");
-						$("#myModal").modal("hide");			
-					}
-				},
-				error:function(){
-					alert("上传文件错误");
-				}
-			});
-		}
-		var intId = window.setInterval(eventFun,1000);   
-		var tempId =  document.getElementById("hiddenId").value;
-		document.getElementById("fileDescription").value = "" ;
-		document.getElementById("fileList").value = "" ;
-		var fileInput = $("#file");  
-		fileInput.replaceWith(fileInput.clone());  
-	}); --%>
-	
 });
-
-/* 文件选择完成后执行函数（判断是否有文件超过范围） */
-function showFileList()
-{
-	var firstOver="";//记录哪些文件超过规定Size
-	var fileMax = false ;//是否有文件超过规定Size
-	var fileNames ="";//记录文件清单 内容
-	//var imageEle = document.getElementById("file");
-	var fileList = document.getElementById("file").value;
-	alert(fileList)
-	for(var i = 0 ; i < fileList.length ; i ++)
-	{	
-		var file = fileList[i];
-		fileNames += "第" + (i + 1) + "个：" + file.name+'\r\n';
-		if(file.size>1000000000)
-			{
-			firstOver +=(i+1)+","
-			fileMax = true ;		
-			}
-	}
-	document.getElementById("fileList").value = fileNames;
-	if(fileMax)
-		{
-		 firstOver = firstOver.substring(0,firstOver.length-1);
-		 document.getElementById("sizeWarning").innerHTML = "第"+firstOver+"个文件超过500M,不允许上传！" ;		 
-		 document.getElementById("upload").disabled = true ;
-		 $("#sizeWarning").show();
-		}
-	else
-		{
-		document.getElementById("upload").disabled = false ;
-		$("#sizeWarning").hide();
-		}	
-}
-
-
 </script>
 </html>
 	

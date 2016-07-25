@@ -79,7 +79,12 @@
 
 						<div class="col-sm-9">
 						    <textArea id="form-field-7"  style="height:100px" placeholder="规划描述..." class="col-xs-10 col-sm-5" name="planDescription" >${plan.planDescription}</textArea>
-						    <script type="text/javascript">CKEDITOR.replace('planDescription');</script>
+						    <script type="text/javascript">CKEDITOR.replace('planDescription',
+						    		{   
+										filebrowserImageUploadUrl : '<%=request.getContextPath()%>/uploadImg',  
+										language : 'zh-cn',  
+									});
+						    </script>
 						</div>
 					</div> 
 					
