@@ -86,13 +86,15 @@
 					    	<div style="width:50%;height:100%;float:left;">  	
 									<div class="charts charts_${item_plan.key.id}" style="width:100%;height:100%" align="center">	
 										<c:forEach items="${item1}" var="item_charts" begin="2" end="2">		    	
-											<textArea class="inputs"  name="charts">${item_charts.value}</textArea>
+											<textArea class="inputs"  name="charts" style="display:none">${item_charts.value}</textArea>
 										</c:forEach>
 									</div>			
 							</div>
 							<!-- 几个指标几个图 -->	
-							<div class="charts charts_${item_plan.key.id}" style="width:50%;height:100%;float:right" align="center">
+							<div style="width:50%;height:100%;float:left;">
+								<div class="maincharts" style="width:100%;height:100%" align="center">	
 									
+								</div>
 							</div>	
 						</div>
 						<hr>			
@@ -103,7 +105,7 @@
 
 <script type="text/javascript">
 /* 完成总图 */
-option = {
+ option = {
 	    tooltip : {
 	        trigger: 'axis',
 	        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
@@ -149,52 +151,34 @@ option = {
 	};
 	
 
-option1 = {
-    color: ['#3398DB'],
-    tooltip : {
-        trigger: 'axis',
-        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
-            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-        }
-    },
-    grid: {
-        left: '3%',
-        right: '4%',
-        bottom: '3%',
-        containLabel: true
-    },
-    xAxis : [
-        {
-            type : 'category',
-            data : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-            axisTick: {
-                alignWithLabel: true
-            }
-        }
-    ],
-    yAxis : [
-        {
-            type : 'value'
-        }
-    ],
-    series : [
-        {
-            name:'直接访问',
-            type:'bar',
-            barWidth: '60%',
-            data:[10, 52, 200, 334, 390, 330, 220]
-        }
-    ]
-};
+ var option2 = {
+         title: {
+             text: ''
+         },
+         tooltip: {},
+         legend: {
+             data:['历史完成数据']
+         },
+         xAxis: {
+             data: []
+         },
+         yAxis: {},
+         series: [{
+             name: '历史完成数据',
+             type: 'bar',
+             data: []
+         }]
+     };
 
 
 
  	var $chartsDiv = $(".charts");
+ 	var $mainCharts = $(".maincharts");
  	var $inputs = $(".inputs");
 	for (var i=0;i<$chartsDiv.length;i++)
 		{
-			var myChart = echarts.init($chartsDiv[i]);
-			
+			var myChart = echarts.init($chartsDiv[i]);	
+			var myChart1 =echarts.init($mainCharts[i]);
 			var data = $inputs[i].value;
 			var obj = eval("(" + data + ")");
 			var mainData1="{\"X\":[";
@@ -209,7 +193,7 @@ option1 = {
 			var obj1 = eval("(" + mainData1 + ")");
 			var obj2 = eval("(" + mainData2 + ")");
 			myChart.setOption(option);
-			myChart.setOption({
+			 myChart.setOption({
 			   yAxis : [
 				          {
 				              data : obj1.X
@@ -221,6 +205,23 @@ option1 = {
 		                }
 		            ]				
 			});
+			myChart1.setOption(option2);
+			myChart1.setOption({
+	            title: {
+	                text:obj[0].indexName
+	            },
+	            xAxis: {
+	                data: obj[0].year
+	            },
+	          
+	            series: [{
+	                data: obj[0].value
+	            }]
+	        });
+			/* for(var k=0;k<obj.length;k++)
+				{
+				
+				} */
 		} 
 
 
