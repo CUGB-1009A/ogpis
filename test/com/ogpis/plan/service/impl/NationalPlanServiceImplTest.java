@@ -8,12 +8,14 @@ import javax.annotation.Resource;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.ogpis.document.entity.PlanDocument;
 import com.ogpis.document.service.PlanDocumentService;
-
+import com.ogpis.index.entity.IndexManagement;
+import com.ogpis.index.service.IndexManagementService;
 import com.ogpis.plan.entity.Plan;
 import com.ogpis.plan.service.PlanService;
 
@@ -28,8 +30,15 @@ public class NationalPlanServiceImplTest {
 	@Resource 
 	private PlanService planServives;
 	
+	@Resource
+	private IndexManagementService indexManagementService;
+	
 	@Resource 
 	private PlanDocumentService planDocumentService;
+	
+	private String[] defaultIndexs =  {"新增石油探明地质储量","新增天然气探明地质储量","新增煤层气探明地质储量","新增页岩气探明地质储量","石油产量","天然气产量","煤层气产量","页岩气产量"};
+	
+	
 	
 	@Test
 	public void testAddPlanDocument()
@@ -68,6 +77,21 @@ public class NationalPlanServiceImplTest {
 		System.out.println(nationalPlan.getPlanDocument().size());
 		System.out.println("find document success");
 		
+	}
+	
+	@Test
+	public void addDefaultIndex()
+	{
+		Plan bean = planServives.findById("51f92531-68f9-4b94-84ce-6fe06e413923");
+		IndexManagement index ;
+		for(int i=0;i<defaultIndexs.length;i++)
+		{
+			index = new IndexManagement();
+			index.setIndexName(defaultIndexs[i]);
+			index.setDeleted(false);
+			index.setPlan(bean);
+			indexManagementService.save(index);
+		}
 	}
 	
 	/*@Ignore

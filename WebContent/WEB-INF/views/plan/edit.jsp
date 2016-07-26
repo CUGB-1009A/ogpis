@@ -65,7 +65,7 @@
 		</div>
 		<div class="row">
 			<div class="col-xs-12">
-				<form class="form-horizontal" role="form" action="<%=path%>/plan/save" method="post">
+				<form class="form-horizontal" role="form" action="<%=path%>/plan/save" method="post" enctype="multipart/form-data">
 					<input type="hidden" value="${type}" name="type"/>
 					<input type="hidden" value="true" name="isAdd"/>
 				
@@ -137,7 +137,7 @@
 					<div class="space-4"></div> 
 					
 					 <div class="form-group">
-						<label class="col-sm-3 control-label no-padding-right" for="form-field-7">规划描述</label>
+						<label class="col-sm-3 control-label no-padding-right" for="form-field-7">规划背景和依据</label>
 
 						<div class="col-sm-9">
 						    <textArea id="form-field-7"  style="height:70px" placeholder="规划描述..." class="col-xs-10 col-sm-5" name="planDescription"></textArea>

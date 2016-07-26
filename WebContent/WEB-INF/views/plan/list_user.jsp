@@ -67,20 +67,9 @@
 				<form action="<%=path%>/plan/list" method="post">
 					<div class="input-group" style="margin:5px">						
 							 <input type="hidden" name="type" value="${type}">
-					 <%-- <c:if test='<%=!plansNumber.equals("0")%>'> --%>
 							 <input class="form-control" type="text" value="${condition}" name="condition">
-						<%-- </c:if> --%>
 							 <span class="input-group-btn">
-						<%-- <c:if test='<%=!plansNumber.equals("0")%>'> --%>
 						        <button class="btn btn-default" type="submit"><i class="icon-search "></i>搜索</button>
-						 <%-- </c:if> --%>
-						         <shiro:hasPermission name="plan:add">
-						         <button class="btn btn-default" type="button" onclick="newPlan('${type}')"><i class="icon-plus"></i> 新建</button>
-						         </shiro:hasPermission>
-						         
-						         <%-- <c:if test='<%=!plansNumber.equals("0")%>'> --%>
-						       		 <button class="btn btn-default" type="button" onclick="deletePlans()"><i class="icon-minus"></i> 批量删除</button>
-								<%--  </c:if> --%>
 						     </span>
 						</div>
 					</form>	
@@ -119,17 +108,11 @@
 													<div id="myCarousel${status.index}" class="carousel slide" style="height: 150px;">
 														<!-- 轮播（Carousel）项目 -->
 														<div class="carousel-inner activePicture">
-															<%-- <c:forEach items="${item1}" var="item_picture" begin="2" end="2">
-																<c:forEach items="${item_picture.value}" var="pictures">
-																	<c:if test="${pictures.picturePurpose.equals('1')}"> --%>
 																		<div class="item picture1">
 																		<a href="#" target="_blank">
 																			<img src="<%=basePath1%>${pictures.pictureAddress}" alt="${pictures.pictureName}" style="width: 100%;max-height:150px;">
 																		</a>
-																		</div>
-																	<%-- </c:if>
-																</c:forEach>
-															</c:forEach>	 --%>					
+																		</div>				
 														</div>
 														<!-- 轮播（Carousel）导航 -->
 														<a class="carousel-control left" href="#myCarousel${status.index}" data-slide="prev" style="padding-top:15%;">&lsaquo;</a>
@@ -167,15 +150,9 @@
 													<div id="myCarousel1${status.index}" class="carousel slide" style="height: 150px;">
 														<!-- 轮播（Carousel）项目 -->
 														<div class="carousel-inner activePicture">
-															<c:forEach items="${item1}" var="item_picture" begin="2" end="2">
-																<c:forEach items="${item_picture.value}" var="pictures">
-																	<c:if test="${pictures.picturePurpose.equals('2')}">
 																		<div class="item picture2">
 																			<img src="<%=basePath1%>${pictures.pictureAddress}" alt="${pictures.pictureName}" style="width: 100%;max-height:150px;">
 																		</div>
-																	</c:if>
-																</c:forEach>
-															</c:forEach>
 														</div>
 														<!-- 轮播（Carousel）导航 -->
 														<a class="carousel-control left" href="#myCarousel1${status.index}" data-slide="prev" style="padding-top:15%;">&lsaquo;</a>

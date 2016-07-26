@@ -2,6 +2,9 @@ package com.ogpis.plan.action;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -34,6 +37,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ogpis.base.AddDefaultIndex;
 import com.ogpis.base.common.paging.IPageList;
 import com.ogpis.base.common.paging.PageListUtil;
 import com.ogpis.document.entity.PlanDocument;
@@ -67,6 +71,8 @@ public class PlanAction  {
 	
 	@SuppressWarnings("rawtypes")
 	private ArrayList idList=new ArrayList();
+	private String[] defaultIndexs =  {"新增石油探明地质储量","新增天然气探明地质储量","新增煤层气探明地质储量","新增页岩气探明地质储量","石油产量","天然气产量","煤层气产量","页岩气产量"};
+	
 	
 	/*
 	 * 读取规划列表函数,根据type查询不同类型的规划
@@ -81,6 +87,12 @@ public class PlanAction  {
 	  	 User user = userService.findByUserName(currentUserName);
 	  	 Set<Role> roles = user.getRoles();
 	  	 boolean isManager = false ;
+	  	 List<IndexDataManagement> indexFinished = null;
+	  	 List<IndexDataManagement> indexRecord = null;
+	  	 ArrayList<Float> indexValue  = new ArrayList<Float>();
+	  	 ArrayList<Integer> year  = new ArrayList<Integer>();
+	  	 float hasFinished;
+	  	 String result = "[" ;
 	  	 for(Role role:roles)
 	  	 {
 	  		 if(role.getIsSuper())
@@ -102,6 +114,36 @@ public class PlanAction  {
 				map.put(temp, false);//value = false 说明用户还没有关注该规划
 			Set<PlanDocument> document = temp.getPlanDocument();
 			map.put("planDocument", document);
+			if(!isManager)
+			{
+				for(IndexManagement index:temp.getIndex())
+				{
+					year.clear();
+					indexValue.clear();
+					hasFinished = 0;
+					//计算规划时间段内的完成情况
+					indexFinished = indexDataManagementService.sumTheIndex(index.getId(),temp.getStartTime(),temp.getEndTime());
+					for(IndexDataManagement indexDataTemp:indexFinished)
+					{
+						hasFinished = hasFinished + indexDataTemp.getFinishedWorkload();
+					}
+					
+					//所有的历史记录
+					indexRecord = indexDataManagementService.findByIndexId(index.getId());
+
+					for(IndexDataManagement indexDataTemp:indexRecord)
+					{
+						year.add(Integer.parseInt(indexDataTemp.getCollectedTime().toString().substring(0,4)));
+						indexValue.add(indexDataTemp.getFinishedWorkload());
+					}
+					result = result + "{\"indexName\":\""+index.getIndexName()+"\",\"indexValue\":"+index.getIndexValue()+",\"hasFinished\":"+hasFinished+",\"year\":"+year.toString()+",\"value\":"+indexValue.toString()+"},";
+					
+				}
+				result = result.substring(0,result.length()-1);
+				result = result + "]";
+				map.put("charts",result);
+				System.out.println(result);
+			}
 			mapList.add(map);
 		}
 		model.addAttribute("mapList", mapList);//返回规划
@@ -185,12 +227,12 @@ public class PlanAction  {
 	@RequiresPermissions(value={"plan:add","plan:edit"},logical=Logical.OR)
 	@RequestMapping(value = "/plan/save", method = RequestMethod.POST)
 	public String save(HttpServletRequest request, boolean isAdd,ModelMap model,String id,Plan plan,String type) {		
-
 		Plan bean = null;
 		if(isAdd){
 			bean = new Plan();
 			bean.setPlanType(type);
 			bean.setReleased(false);
+			
 		}
 		else{
 			bean = planService.findById(id);
@@ -198,6 +240,7 @@ public class PlanAction  {
 		bean.setPlanName(plan.getPlanName());
 		bean.setPlanCode(plan.getPlanCode());
 		bean.setPlanDescription(plan.getPlanDescription());
+		System.out.println(plan.getPlanDescription());
 		bean.setReleaseUnit(plan.getReleaseUnit());
 		bean.setStartTime(plan.getStartTime());
 		bean.setEndTime(plan.getEndTime());		
@@ -207,15 +250,29 @@ public class PlanAction  {
 		model.addAttribute("condition", "");		
 		if (isAdd) {
 			planService.save(bean);
+			/*  建立规划之初就添加这8个指标
+			 *  '新增石油探明地质储量','新增天然气探明地质储量','新增煤层气探明地质储量','新增页岩气探明地质储量',
+			 *  '石油产量','天然气产量','煤层气产量','页岩气产量'
+			 */
+			Plan xixi = planService.findById(bean.getId());
+			IndexManagement index ;
+			for(int i=0;i<defaultIndexs.length;i++)
+			{
+				index = new IndexManagement();
+				index.setIndexName(defaultIndexs[i]);
+				index.setDeleted(false);
+				index.setPlan(xixi);
+				indexManagementService.save(index);
+			}
+
+			return "redirect:list";		
 		} 
 		else {
 			planService.update(bean);
 			model.addAttribute("id", bean.getId());
 			model.addAttribute("flag", 1);
 			return "redirect:show";
-		}
-		return "redirect:list";
-	
+		}	
 	}
 	
 	/*
@@ -244,7 +301,7 @@ public class PlanAction  {
 	
 	@RequiresPermissions(value={"plan:edit"})
 	@RequestMapping(value = "/plan/show")
-	public String show(HttpServletRequest request, ModelMap model,String id,String type,String flag) {	
+	public String show(HttpServletRequest request,HttpServletResponse response , ModelMap model,String id,String type,String flag) throws UnsupportedEncodingException {	
 		HashMap hasMap = new HashMap();
 		List<IndexDataManagement> indexDataManagement;
 		Plan plan =  this.planService.findById(id);

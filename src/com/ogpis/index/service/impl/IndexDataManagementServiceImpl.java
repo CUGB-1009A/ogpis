@@ -1,5 +1,6 @@
 package com.ogpis.index.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,5 +26,11 @@ public class IndexDataManagementServiceImpl extends BaseServiceImpl<IndexDataMan
 	public List<IndexDataManagement> findByIndexId(String indexId) {
 		// TODO Auto-generated method stub
 		return getIndexDataManagementDao().findByIndexId(indexId);
+	}
+
+	@Override
+	public List<IndexDataManagement> sumTheIndex(String id, Date startTime, Date endTime) {
+		// TODO Auto-generated method stub
+		return getIndexDataManagementDao().findByIndexId(id,startTime,endTime);
 	}
 }

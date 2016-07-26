@@ -37,7 +37,6 @@ public class CKEditorImageUpload {
 	{  	  
 	try 
 			{ 
-		    System.out.println("enter");
 			String proPath = request.getSession().getServletContext().getRealPath("/");  
 			String proName = request.getContextPath();  
 			String path=proName + UPLOAD_PATH;  
@@ -46,11 +45,9 @@ public class CKEditorImageUpload {
 			String fileName = file.getOriginalFilename();  
 			String uploadContentType = file.getContentType();  
 			String expandedName = "";  
-			System.out.println("enter1"+uploadContentType);
 			if (uploadContentType.equals("image/pjpeg")|| uploadContentType.equals("image/jpeg")) {  
 			// IE6上传jpg图片的headimageContentType是image/pjpeg，而IE9以及火狐上传的jpg图片是image/jpeg  
 			expandedName = ".jpg";  
-			System.out.println(file.getSize());
 			} 
 			else if (uploadContentType.equals("image/png")|| uploadContentType.equals("image/x-png")) {  
 			// IE6上传的png图片的headimageContentType是"image/x-png"  
@@ -65,7 +62,6 @@ public class CKEditorImageUpload {
 			+ CKEditorFuncNum + ",'',"  
 			+ "'文件格式不正确（必须为.jpg/.gif/.bmp/.png文件）');");  
 			out.println("</script>");  
-			System.out.println("enter2");
 			return;  
 			}  
 			if (file.getSize() > 1024 * 1024 * 2) {  
@@ -73,21 +69,17 @@ public class CKEditorImageUpload {
 			out.println("window.parent.CKEDITOR.tools.callFunction("  
 			+ CKEditorFuncNum + ",''," + "'文件大小不得大于2M');");  
 			out.println("</script>");  
-			System.out.println("enter3");
 			return;  
 			}  
 			DateFormat df = new SimpleDateFormat(DEFAULT_SUB_FOLDER_FORMAT_AUTO);  
 			fileName = df.format(new Date()) + expandedName; 
-			System.out.println("enter4"+path + "/" + fileName);
 			file.transferTo(new File(proPath + UPLOAD_PATH + fileName)); 
-			System.out.println("enter5");
 			// 返回"图像"选项卡并显示图片 request.getContextPath()为web项目名  
 			out.println("<script type=\"text/javascript\">");  
 			out.println("window.parent.CKEDITOR.tools.callFunction("  
 			+ CKEditorFuncNum + ",'" + "../planFileUpload/img/" + fileName  
 			+ "','')");  
 			out.println("</script>"); 
-			System.out.println("enter4");
 			return;  
 			} catch (IllegalStateException e) {  
 	e.printStackTrace();  

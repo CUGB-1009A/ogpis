@@ -75,7 +75,7 @@
 					</div>
 					
 					 <div class="form-group">
-						<label class="col-sm-3 control-label no-padding-right" for="form-field-7">规划描述</label>
+						<label class="col-sm-3 control-label no-padding-right" for="form-field-7">规划背景和依据</label>
 
 						<div class="col-sm-9">
 						    <textArea id="form-field-7"  style="height:100px" placeholder="规划描述..." class="col-xs-10 col-sm-5" name="planDescription" >${plan.planDescription}</textArea>

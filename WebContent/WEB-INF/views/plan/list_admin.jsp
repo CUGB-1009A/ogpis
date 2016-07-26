@@ -23,7 +23,7 @@
 	</nav>
 	<!--网页主体 -->	
 	<div id="page-wrapper" style="height:98%;width:100%">
-		<div class="breadcrumbs" id="breadcrumbs">
+		<div class="breadcrumbs" style="text-align: left;">
 			<ul class="breadcrumb">				
 				<c:if test='<%=type.equals("QG")%>'>
 					<li class="active">全国规划</li>
@@ -66,11 +66,11 @@
 									<a href="javascript:fuzzyQuery();" class="btn-sm btn-app btn-success no-radius">
 												<i class="icon-search bigger-200">&nbsp;查询</i>
 									</a>
-											&nbsp;&nbsp;&nbsp;&nbsp;
+											&nbsp;&nbsp;
 									<a href="<%=path%>/plan/toEditPage?type=${type}" class="btn-sm btn-app btn-success no-radius">
 											<i class="icon-plus bigger-200">&nbsp;添加规划</i>
 									</a>
-										&nbsp;									
+										&nbsp;&nbsp;								
 									<a href="javascript:delAll();" class="btn-sm btn-app btn-danger no-radius">
 											<i class="icon-trash bigger-200">&nbsp;批量删除</i>
 									</a>
@@ -103,9 +103,9 @@
 													<td>${item_plan.key.planName}</td>
 													<td>${item_plan.key.planCode}</td>
 													<td>
-														<i class="glyphicon glyphicon-file"></i> ${item_plan.key.planDocument.size()}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-														指标个数 ${item_plan.key.index.size()}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-														<i class="glyphicon glyphicon-heart"></i> <span class="concernNum_${item_plan.key.id}">${item_plan.key.users.size()}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+														<i class="glyphicon glyphicon-file"></i> ${item_plan.key.planDocument.size()}&nbsp;&nbsp;&nbsp;
+														指标个数 ${item_plan.key.index.size()}&nbsp;&nbsp;&nbsp;
+														<i class="glyphicon glyphicon-heart"></i> <span class="concernNum_${item_plan.key.id}">${item_plan.key.users.size()}</span>&nbsp;&nbsp;&nbsp;
 														<i class="icon-time"> ${item_plan.key.modifiedTime.toLocaleString()}</i>
 													</td>
 													<td>
@@ -132,7 +132,7 @@
 															<c:if test="${!item_plan.key.released}">
 																<a  href="javascript:releasePlan('${item_plan.key.id}')" class="btn-sm btn-app btn-primary no-radius release_${item_plan.key.id}">
 																	<i class="icon-unlock  bigger-200"></i>
-																	发布规划
+																	发布
 																</a>&nbsp;
 																<a  href="javascript:disreleasePlan('${item_plan.key.id}')" class="btn-sm btn-app btn-primary no-radius disrelease_${item_plan.key.id}" style="display:none">
 																	<i class="icon-lock  bigger-200"></i>
@@ -150,22 +150,22 @@
 															
 															<c:if test="${item_plan.value}">
 																<a href="javascript:disconcernPlan('${item_plan.key.id}');" class="btn-sm btn-app btn-success no-radius disconcern_${item_plan.key.id}" >
-																	<i class="icon-trash bigger-200"></i>
+																	<i class="icon-thumbs-down bigger-200"></i>
 																	取消关注
 																</a>
 																<a href="javascript:concernPlan('${item_plan.key.id}');" class="btn-sm btn-app btn-success no-radius concern_${item_plan.key.id}" style="display:none">
-																	<i class="icon-heart bigger-200"></i>
+																	<i class="icon-thumbs-up bigger-200"></i>
 																	关注
 																</a>
 															</c:if>
 															
 															<c:if test="${!item_plan.value}">
 																<a href="javascript:concernPlan('${item_plan.key.id}');" class="btn-sm btn-app btn-success no-radius concern_${item_plan.key.id}">
-																	<i class="icon-heart bigger-200"></i>
+																	<i class="icon-thumbs-up bigger-200"></i>
 																	关注
 																</a>&nbsp;
 																<a href="javascript:disconcernPlan('${item_plan.key.id}');" class="btn-sm btn-app btn-success no-radius disconcern_${item_plan.key.id}" style="display:none">
-																	<i class="icon-trash bigger-200"></i>
+																	<i class="icon-thumbs-down bigger-200"></i>
 																	取消关注
 																</a>
 															</c:if>
