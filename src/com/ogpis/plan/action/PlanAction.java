@@ -92,7 +92,7 @@ public class PlanAction  {
 	  	 ArrayList<Float> indexValue  = new ArrayList<Float>();
 	  	 ArrayList<Integer> year  = new ArrayList<Integer>();
 	  	 float hasFinished;
-	  	 String result = "[" ;
+	  	 String result  ;
 	  	 for(Role role:roles)
 	  	 {
 	  		 if(role.getIsSuper())
@@ -107,6 +107,7 @@ public class PlanAction  {
 		model.addAttribute("plansNumber", plans.size());//规划数量
 		for(Plan temp:plans)
 		{
+			result = "[";
 			map = new LinkedHashMap();
 			if(conceredPlanId.contains(temp.getId()))
 				map.put(temp, true);//value = true 说明用户已经关注该规划
@@ -116,7 +117,8 @@ public class PlanAction  {
 			map.put("planDocument", document);
 			if(!isManager)
 			{
-				for(IndexManagement index:temp.getIndex())
+				List<IndexManagement> tempIndex = indexManagementService.getOnePlanIndexs(temp.getId());
+				for(IndexManagement index:tempIndex)
 				{
 					year.clear();
 					indexValue.clear();
@@ -571,3 +573,4 @@ public class PlanAction  {
 	  	 response.getWriter().write(result);	 
 	  }
 }
+
