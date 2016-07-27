@@ -84,18 +84,24 @@
 				    		<h3>${item_plan.key.planName}</h3>	  
 					    	<!-- 主图 -->
 					    	<div style="width:50%;height:100%;float:left;">  	
-									<div class="charts charts_${item_plan.key.id}" style="width:100%;height:100%" align="center">	
+									<div class="charts charts_${status.index}" style="width:100%;height:100%" align="center">	
 										<c:forEach items="${item1}" var="item_charts" begin="2" end="2">		    	
 											<textArea class="inputs"  name="charts" style="display:none">${item_charts.value}</textArea>
 										</c:forEach>
 									</div>			
 							</div>
-							<!-- 几个指标几个图 -->	
-							<div style="width:50%;height:100%;float:left;">
-								<div class="maincharts" style="width:100%;height:100%" align="center">	
-									
-								</div>
-							</div>	
+							<!-- 几个指标几个图 -->								
+								<div id="lunbo${status.index}"  class="carousel slide" style="width:50%;height:100%;float:left;">
+									<div class="carousel-inner activeCharts" style="width:100%;height:100%">
+										<c:forEach items="${item_plan.key.index}" var="index" varStatus = "indexstatus">
+											<div class="maincharts_${status.index} item" style="width:400px;height:400px" align="center">	
+												
+											</div>
+										</c:forEach>
+									</div>
+									<a class="carousel-control left" href="#lunbo${status.index}" data-slide="prev" style="padding-top:15%;">&lsaquo;</a>
+									<a class="carousel-control right" href="#lunbo${status.index}" data-slide="next" style="padding-top:15%;">&rsaquo;</a>					
+								</div>	
 						</div>
 						<hr>			
 						</c:forEach>	
@@ -104,128 +110,130 @@
 </div>
 
 <script type="text/javascript">
+
+
 /* 完成总图 */
  option = {
-	    tooltip : {
-	        trigger: 'axis',
-	        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
-	            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-	        }
-	    },
-	    legend: {
-	        data:['完成情况']
-	    },
-	    grid: {
-	        left: '3%',
-	        right: '4%',
-	        bottom: '3%',
-	        containLabel: true
-	    },
-	    xAxis : [
-	        {
-	            type : 'value'
-	        }
-	    ],
-	    yAxis : [
-	        {
-	            type : 'category',
-	            axisTick : {show: false},
-	            data:[]
-	        }
-	    ],
-	    series : [
-	      
-	        {
-	            name:'完成情况',
-	            type:'bar',
-	            stack: '总量',
-	            label: {
-	                normal: {
-	                    show: false,
-	                    position: 'left'
-	                }
-	            },
-	            data:[]
-	        }
-	    ]
-	};
-	
-
- var option2 = {
+		 title: {
+             text: '规划完成情况'
+         },
+     tooltip : {
+         trigger: 'axis',
+         axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+             type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+         }
+     },
+     legend: {
+         data: [ ]
+     },
+     grid: {
+         left: '3%',
+         right: '4%',
+         bottom: '3%',
+         containLabel: true
+     },
+     xAxis:  {
+         type: 'value',
+         axisLabel: {
+        	 show: true,
+        	 interval: 'auto',
+        	 formatter: '{value} %'
+        	 }
+     },
+     yAxis: {
+         type: 'category',
+         data: [ ]
+     },
+     series: [ ]
+ };
+ 
+ option1 = {
          title: {
              text: ''
          },
          tooltip: {},
          legend: {
-             data:['历史完成数据']
+             data:['已经完成']
          },
          xAxis: {
              data: []
          },
          yAxis: {},
          series: [{
-             name: '历史完成数据',
+             name: '已经完成',
              type: 'bar',
              data: []
          }]
      };
 
-
-
  	var $chartsDiv = $(".charts");
- 	var $mainCharts = $(".maincharts");
  	var $inputs = $(".inputs");
 	for (var i=0;i<$chartsDiv.length;i++)
 		{
+	 		var $mainCharts = $(".maincharts_"+i);
 			var myChart = echarts.init($chartsDiv[i]);	
-			var myChart1 =echarts.init($mainCharts[i]);
+
 			var data = $inputs[i].value;
 			var obj = eval("(" + data + ")");
-			var mainData1="{\"X\":[";
-        	var mainData2="{\"Y\":[";
-			for(var j=0;j<obj.length;j++)
+			var tempLegend = "{\"legend\":["
+        	var tempYdata = "{\"yData\":[";
+        	var tempSeries = "{\"series\":["
+				for(var j=0;j<obj.length;j++)
+					{
+						tempYdata = tempYdata + "'"+obj[j].indexName+"',";
+					}
+	        		tempYdata = tempYdata.substring(0,tempYdata.length-1)+"]}";
+				for(var k=0;k<obj[0].year.length;k++)
 				{
-					mainData1 = mainData1 + "'"+obj[j].indexName+"',";
-					mainData2 = mainData2 + (obj[j].hasFinished/obj[j].indexValue)+","
+					tempSeries = tempSeries + "{ itemStyle: {normal: {label : {show:true,position:'top',formatter:'{c} %'}}},type:'bar',stack:'总量',label: {normal: {show: true,position: 'insideRight'}},name:'"+obj[0].year[k]+"',data:[";
+					tempLegend = tempLegend + "'"+ obj[0].year[k]+"',"
+					for(var l=0;l<obj.length;l++)
+						{
+						tempSeries = tempSeries + (obj[l].value[k]/obj[l].indexValue*100).toFixed(1)+","
+						}
+					tempSeries = tempSeries.substring(0,tempSeries.length-1)+"]},"
 				}
-			mainData1 = mainData1.substring(0,mainData1.length-1)+"]}";
-			mainData2 = mainData2.substring(0,mainData2.length-1)+"]}";	
-			var obj1 = eval("(" + mainData1 + ")");
-			var obj2 = eval("(" + mainData2 + ")");
+				tempSeries = tempSeries.substring(0,tempSeries.length-1)+"]}";
+				tempLegend = tempLegend.substring(0,tempLegend.length-1)+"]}";
+			var obj1 = eval("(" + tempLegend + ")");
+			var obj2 = eval("(" + tempYdata + ")");
+			var obj3 = eval("(" + tempSeries + ")");
 			myChart.setOption(option);
-			 myChart.setOption({
+			   myChart.setOption({
+				   legend: {
+				         data: obj1.legend
+				     },
 			   yAxis : [
 				          {
-				              data : obj1.X
+				              data : obj2.yData
 				          }
 				      ],
-		      series : [				                
-		                {
-		                	data:obj2.Y
-		                }
-		            ]				
+		      series : obj3.series
+		                				
 			});
-			myChart1.setOption(option2);
-			myChart1.setOption({
-	            title: {
-	                text:obj[0].indexName
-	            },
-	            xAxis: {
-	                data: obj[0].year
-	            },
-	          
-	            series: [{
-	                data: obj[0].value
-	            }]
-	        });
-			/* for(var k=0;k<obj.length;k++)
-				{
-				
-				} */
-		} 
+			   for(var ii=0;ii<$mainCharts.length;ii++)
+				   {
+					var myChart1 = echarts.init($mainCharts[ii]);
+					myChart1.setOption(option1);
+					myChart1.setOption({
+				        title: {
+				            text:obj[ii].indexName
+				        },
+				        xAxis: {
+				            data: obj[ii].year
+				        },
+				      
+				        series: [{
+				            data: obj[ii].value
+				        }]
+				});
+				   } 			
+			} 
 
-
-
+	$(".carousel").carousel({
+		interval: 2500
+	});	
+	$("div.activeCharts :first-child").addClass("active");
 
 </script>
 	</body>
