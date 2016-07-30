@@ -14,7 +14,7 @@
         String plansNumber = request.getAttribute("plansNumber").toString();
         String basePath1 = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
     %>
-        <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/echarts.js"></script>
+        <script type="text/javascript" src="<%=request.getContextPath()%>/assets/dist/echarts.js"></script>
     	<script type="text/javascript" src="<%=path%>/assets/js/webuploader.js"></script>
     	<link type="text/css" rel="stylesheet" href="<%=path%>/assets/bootstrap/css/AdminLTE.css">
 		<link type="text/css" rel="stylesheet" href="<%=path%>/assets/bootstrap/css/_all-skins.min.css">	
@@ -58,11 +58,11 @@
 					<c:if test='<%=type.equals("ZLM")%>'>
 						 <img src="<%=path%>/assets/companyPic/zhonglianmei.jpg" alt="中联煤"  style="border:solid 2px blue;max-height:60px">
 					</c:if>
-					
+
 					<c:if test='<%=type.equals("QT")%>'>
 						<img src="<%=path%>/assets/companyPic/qita.jpg" alt="其他公司"  style="border:solid 2px blue;max-height:60px">				
-					</c:if>	
-				</div>
+					</c:if>	 
+			</div>
 				<div class="col-lg-10" style="float:left">			
 					<form action="<%=path%>/plan/list" method="post">
 					     <div class="input-group" style="margin:5px">						
@@ -79,31 +79,33 @@
 		<!-- 规划内容开始容器div -->
 		<div class="panel-group" id="accordion" style="width:100%;height:100%;background:white">
 		    <c:forEach items="${mapList}" var="item1" varStatus="status">
-			    	<c:forEach items="${item1}" var="item_plan" begin="0" end="0">	
-				    	<div style="width:100%;height:400px;float:left;">
-				    		<h3>${item_plan.key.planName}</h3>	  
-					    	<!-- 主图 -->
-					    	<div style="width:50%;height:100%;float:left;">  	
-									<div class="charts charts_${status.index}" style="width:100%;height:100%" align="center">	
+			    	<c:forEach items="${item1}" var="item_plan" begin="0" end="0">
+				    		<h3>${item_plan.key.planName}</h3>	
+				    		<div class="col-xs-12">  
+					    		<!-- 主图 -->
+						    	<div class="col-xs-6">  	
+									<div class="charts charts_${status.index}" style="height:300px" align="center">	
 										<c:forEach items="${item1}" var="item_charts" begin="2" end="2">		    	
-											<textArea class="inputs"  name="charts" style="display:none">${item_charts.value}</textArea>
+											<p id="inputs${status.index}" class="inputs" style="display:none">${item_charts.value}</p>
 										</c:forEach>
 									</div>			
-							</div>
-							<!-- 几个指标几个图 -->								
-								<div id="lunbo${status.index}"  class="carousel slide" style="width:50%;height:100%;float:left;">
-									<div class="carousel-inner activeCharts" style="width:100%;height:100%">
-										<c:forEach items="${item_plan.key.index}" var="index" varStatus = "indexstatus">
-											<div class="maincharts_${status.index} item" style="width:400px;height:400px" align="center">	
-												
-											</div>
-										</c:forEach>
-									</div>
-									<a class="carousel-control left" href="#lunbo${status.index}" data-slide="prev" style="padding-top:15%;">&lsaquo;</a>
-									<a class="carousel-control right" href="#lunbo${status.index}" data-slide="next" style="padding-top:15%;">&rsaquo;</a>					
-								</div>	
+								</div>
+								<!-- 几个指标几个图 -->	
+								<div class="col-xs-6">							
+									<div id="lunbo${status.index}"  class="carousel slide" style="height:300px">
+										<div class="carousel-inner activeCharts">
+											<c:forEach items="${item_plan.key.index}" varStatus = "indexstatus">
+												<div class="maincharts_${status.index} first_${indexstatus.index} item" style="height:300px;width:600px">	
+
+												</div>
+											</c:forEach>
+										</div>
+										 <a class="carousel-control left" href="#lunbo${status.index}" data-slide="prev" style="padding-top:15%;">&lsaquo;</a>
+										<a class="carousel-control right" href="#lunbo${status.index}" data-slide="next" style="padding-top:15%;">&rsaquo;</a>					
+									 </div>
+								 </div>	
 						</div>
-						<hr>			
+						<hr align="center" width="1500px" color="#987cb9" size="1">			
 						</c:forEach>	
 				 </c:forEach>
 		</div>
@@ -111,69 +113,88 @@
 
 <script type="text/javascript">
 
-
 /* 完成总图 */
- option = {
+window.onload = function(){
+var option = {
 		 title: {
-             text: '规划完成情况'
-         },
-     tooltip : {
-         trigger: 'axis',
-         axisPointer : {            // 坐标轴指示器，坐标轴触发有效
-             type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-         }
-     },
-     legend: {
-         data: [ ]
-     },
+            text: '规划完成情况'
+        },
+    tooltip : {
+        trigger: 'axis',
+        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+        }
+    },
+    legend: {
+        data: [ ]
+    },
      grid: {
-         left: '3%',
-         right: '4%',
-         bottom: '3%',
-         containLabel: true
-     },
-     xAxis:  {
-         type: 'value',
-         axisLabel: {
-        	 show: true,
-        	 interval: 'auto',
-        	 formatter: '{value} %'
-        	 }
-     },
-     yAxis: {
-         type: 'category',
-         data: [ ]
-     },
-     series: [ ]
- };
- 
- option1 = {
-         title: {
-             text: ''
-         },
-         tooltip: {},
-         legend: {
-             data:['已经完成']
-         },
-         xAxis: {
-             data: []
-         },
-         yAxis: {},
-         series: [{
-             name: '已经完成',
-             type: 'bar',
-             data: []
-         }]
-     };
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+    }, 
+    xAxis:  {
+        type: 'value',
+        axisLabel: {
+       	 show: true,
+       	 interval: 'auto',
+       	 formatter: '{value} %'
+       	 }
+    },
+    yAxis: {
+        type: 'category',
+        data: []
+    },
+    series: []
+};
 
- 	var $chartsDiv = $(".charts");
- 	var $inputs = $(".inputs");
-	for (var i=0;i<$chartsDiv.length;i++)
-		{
-	 		var $mainCharts = $(".maincharts_"+i);
-			var myChart = echarts.init($chartsDiv[i]);	
+var option1 = {
+        title: {
+            text: '',
+            x: 'left',            
+            y: 'top'
+        },
+        tooltip: {},
+        legend: {
+            data:['已经完成'],
+            x:'right',
+            y:'top'
+        },
+        xAxis: {
+            data: []
+        },
+        yAxis: {},
+        series: [{
+            name: '已经完成',
+            type: 'bar',
+            data: []
+        }]
+    };
+require.config({
+    paths: {
+        echarts: '<%=request.getContextPath()%>/assets/dist'
+    }
+});
 
-			var data = $inputs[i].value;
+// 使用
+require(
+    [
+        'echarts',
+        'echarts/chart/bar' // 使用柱状图就加载bar模块，按需加载
+    ],
+    function (ec) {
+    	var $chartsDiv = $(".charts"); /* 所有的主图 */
+    	var $inputs = $(".inputs");
+    	var myCharts;
+    	/* var myCharts = new Array($chartsDiv.length*($mainCharts.length+1)); */
+    	for (var i=0;i<$chartsDiv.length;i++)
+		{	
+    		var $mainCharts = $(".maincharts_"+i);/* 一个规划的附图 */ 		
+			myCharts = ec.init($chartsDiv[i]);	
+			/* var data = $inputs[i].value;  */
+/* 			var data = "{\"indexName\":\"石油产量\"}"; */
+			var data = $inputs[i].innerHTML;  
 			var obj = eval("(" + data + ")");
 			var tempLegend = "{\"legend\":["
         	var tempYdata = "{\"yData\":[";
@@ -185,7 +206,7 @@
 	        		tempYdata = tempYdata.substring(0,tempYdata.length-1)+"]}";
 				for(var k=0;k<obj[0].year.length;k++)
 				{
-					tempSeries = tempSeries + "{ itemStyle: {normal: {label : {show:true,position:'top',formatter:'{c} %'}}},type:'bar',stack:'总量',label: {normal: {show: true,position: 'insideRight'}},name:'"+obj[0].year[k]+"',data:[";
+					tempSeries = tempSeries + "{ itemStyle: {normal: {label : {show:true,position:'insideRight',formatter:'{c} %'}}},type:'bar',stack:'总量',name:'"+obj[0].year[k]+"',data:[";
 					tempLegend = tempLegend + "'"+ obj[0].year[k]+"',"
 					for(var l=0;l<obj.length;l++)
 						{
@@ -198,43 +219,44 @@
 			var obj1 = eval("(" + tempLegend + ")");
 			var obj2 = eval("(" + tempYdata + ")");
 			var obj3 = eval("(" + tempSeries + ")");
-			myChart.setOption(option);
-			   myChart.setOption({
-				   legend: {
-				         data: obj1.legend
-				     },
-			   yAxis : [
-				          {
-				              data : obj2.yData
-				          }
-				      ],
-		      series : obj3.series
-		                				
-			});
+			option.legend.data = obj1.legend;
+			option.yAxis.data = obj2.yData;
+			option.series = obj3.series;
+			myCharts.setOption(option);
+	/* 		myCharts[($mainCharts.length+1)*i].setOption({
+			   legend: {
+			         data: obj1.legend
+			     },
+		    yAxis : [
+			          {
+			              data : obj2.yData
+			          }
+			      ],
+	       series : obj3.series
+	                				
+		}); */
 			   for(var ii=0;ii<$mainCharts.length;ii++)
-				   {
-					var myChart1 = echarts.init($mainCharts[ii]);
-					myChart1.setOption(option1);
-					myChart1.setOption({
-				        title: {
-				            text:obj[ii].indexName
-				        },
-				        xAxis: {
-				            data: obj[ii].year
-				        },
-				      
-				        series: [{
-				            data: obj[ii].value
-				        }]
-				});
+				   {			   
+				    myCharts = ec.init($(".maincharts_"+i+".first_"+ii)[0]);
+				    
+
+				   option1.title.text = obj[ii].indexName;
+				   option1.xAxis.data = obj[ii].year;
+				   option1.series[0].data = obj[ii].value;
+				   myCharts.setOption(option1);
 				   } 			
 			} 
+    });
 
 	$(".carousel").carousel({
-		interval: 2500
-	});	
-	$("div.activeCharts :first-child").addClass("active");
+		interval: 4000
+	});
+	$(".first_0").addClass("active");
+}
 
+
+
+	
 </script>
 	</body>
 
