@@ -187,7 +187,7 @@
 </body>
 <script type="text/javascript">
 var tempType = "${type}";
-
+alert(tempType)
 /* Ajax删除规划 */
 function deletePlan(id)
 {

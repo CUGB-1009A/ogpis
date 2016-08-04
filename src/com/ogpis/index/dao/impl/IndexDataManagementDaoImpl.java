@@ -34,7 +34,7 @@ public class IndexDataManagementDaoImpl extends BaseDaoImpl<IndexDataManagement,
 		@SuppressWarnings("unchecked") 
 		List<IndexDataManagement> items = this 
  				.queryByHql( 
- 						"from IndexDataManagement where deleted=false and index.id='"+id+"' and collectedTime between '"+startTime+"' and '"+endTime+"'", 
+ 						"from IndexDataManagement where deleted=false and index.id='"+id+"' and collectedTime between '"+startTime+"' and '"+endTime+"' order by collectedTime", 
  						null); 
 		return items;
 	}

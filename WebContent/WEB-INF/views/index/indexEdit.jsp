@@ -49,14 +49,15 @@
 					<div class="space-4"></div>
 					
 					<div class="form-group">
-						<label class="col-sm-3 control-label no-padding-right" for="selectCondition">类型</label>
-						<div class="col-sm-9" style="text-align:left;padding:0;margin:0">
-							<select id="indexType" name="indexType" class="col-xs-10 col-sm-5 selectpicker" data-style="btn-danger" style="margin:0;padding:0">
+						<label class="col-sm-3 control-label no-padding-right" for="indexType">类型</label>
+						<div class="col-sm-9">
+							<!-- <select id="indexType" name="indexType" class="col-xs-10 col-sm-5 selectpicker" data-style="btn-danger" style="margin:0;padding:0">
 									<option value='undefined'>选择指标类型</option>
 									<option value='char'>字符型(char)</option>
 									<option value='int'>整数型(int)</option>
 									<option value='float'>小数型(float)</option>				
-							</select> 
+							</select>  -->
+							<input type="text" id="indexType" placeholder="指标类型" class="col-xs-10 col-sm-5" name="indexType" value="${index.indexType}">			
 						</div>
 					</div>
 					
@@ -120,13 +121,13 @@ function test()
 }
 
 /* 回显单位select控件 */
-var indexType = "${index.indexType}";
+/* var indexType = "${index.indexType}";
 if(indexType=='char')
 	$('#indexType option:eq(1)').attr('selected','selected');
 if(indexType=='int')
 	$('#indexType option:eq(2)').attr('selected','selected');
 if(indexType=='float')
-	$('#indexType option:eq(3)').attr('selected','selected');
+	$('#indexType option:eq(3)').attr('selected','selected'); */
 
 </script>
 </html>

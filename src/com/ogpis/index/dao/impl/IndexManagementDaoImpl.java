@@ -34,7 +34,7 @@ public class IndexManagementDaoImpl extends BaseDaoImpl< IndexManagement,String>
 		
 		List<IndexManagement> items = this
 				.queryByHql(
-						"from IndexManagement m where m.plan.id='"+id+"' order by indexName desc",null);
+						"from IndexManagement m where m.plan.id='"+id+"' order by indexType desc",null);
 		return items;
 	}
 }

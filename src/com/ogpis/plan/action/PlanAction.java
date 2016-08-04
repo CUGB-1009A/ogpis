@@ -77,7 +77,7 @@ public class PlanAction  {
 	/*
 	 * 读取规划列表函数,根据type查询不同类型的规划
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({ "unchecked", "rawtypes", "null" })
 	@RequestMapping(value = "/plan/list")
 	public String list(HttpServletRequest request, ModelMap model, String type, String condition) {		
 		 LinkedHashMap map ;
@@ -90,12 +90,10 @@ public class PlanAction  {
 	  	 List<IndexDataManagement> indexFinished = null;
 	  	 List<IndexDataManagement> indexRecord = null;
 	  	 ArrayList<Float> indexValue  = new ArrayList<Float>();
-	  	ArrayList<Float> indexValue1  = new ArrayList<Float>();
 	  	 ArrayList<Integer> year  = new ArrayList<Integer>();
 	  	 ArrayList<Integer> year1  = new ArrayList<Integer>();
 	  	 float hasFinished;
-	  	 String result ;
-	  	 String result1 ;
+	  	
 	  	 for(Role role:roles)
 	  	 {
 	  		 if(role.getIsSuper())
@@ -110,8 +108,8 @@ public class PlanAction  {
 		model.addAttribute("plansNumber", plans.size());//规划数量
 		for(Plan temp:plans)
 		{
-			result = "[";
-			result1= "[";
+			StringBuilder result = new StringBuilder() ;
+			result.append("[");
 			map = new LinkedHashMap();
 			if(conceredPlanId.contains(temp.getId()))
 				map.put(temp, true);//value = true 说明用户已经关注该规划
@@ -144,11 +142,11 @@ public class PlanAction  {
 						year.add(Integer.parseInt(indexDataTemp.getCollectedTime().toString().substring(0,4)));
 						indexValue.add(indexDataTemp.getFinishedWorkload());
 					}
-					result = result + "{\"indexUnit\":\""+index.getIndexUnit()+"\",\"indexName\":\""+index.getIndexName()+"\",\"indexValue\":"+index.getIndexValue()+",\"hasFinished\":"+hasFinished+",\"year\":"+year.toString()+",\"value\":"+indexValue.toString()+"},";
+					result.append("{\"indexUnit\":\""+index.getIndexUnit()+"\",\"indexName\":\""+index.getIndexName()+"\",\"indexValue\":"+index.getIndexValue()+",\"hasFinished\":"+hasFinished+",\"year\":"+year.toString()+",\"value\":"+indexValue.toString()+"},");
 			
 				}
-				result = result.substring(0,result.length()-1);
-				result = result + "]";
+				result.deleteCharAt(result.length()-1);
+				result.append("]");
 				map.put("charts",result);
 
 			}
@@ -162,6 +160,47 @@ public class PlanAction  {
 		else
 			return "plan/list_user";
 	}
+	
+	@RequestMapping(value = "/plan/user_detail")
+	public String user_detail(HttpServletRequest request, ModelMap model,String id)		
+	{
+		Plan plan = planService.findById(id);
+		Set<PlanDocument> planDocument = plan.getPlanDocument();
+		model.addAttribute("plan", plan);
+		model.addAttribute("planDocument", planDocument);
+		List<IndexDataManagement> indexFinished = null;
+	  	List<IndexDataManagement> indexRecord = null;
+	  	ArrayList<Float> indexValue  = new ArrayList<Float>();
+	  	ArrayList<Integer> year  = new ArrayList<Integer>();
+	  	ArrayList<Integer> year1  = new ArrayList<Integer>();
+	  	float hasFinished;
+		List<IndexManagement> IndexChart1 = indexManagementService.getOnePlanIndexs(id);
+		StringBuilder result1 = new StringBuilder() ;
+		result1.append("[");
+		for(IndexManagement index:IndexChart1)
+		{
+			year.clear();
+			indexValue.clear();
+			year1.clear();
+			indexValue.clear();
+			hasFinished = 0;
+			//计算规划时间段内的完成情况
+			indexFinished = indexDataManagementService.sumTheIndex(index.getId(),plan.getStartTime(),plan.getEndTime());
+			for(IndexDataManagement indexDataTemp:indexFinished)
+			{
+				hasFinished = hasFinished + indexDataTemp.getFinishedWorkload();
+				year.add(Integer.parseInt(indexDataTemp.getCollectedTime().toString().substring(0,4)));
+				indexValue.add(indexDataTemp.getFinishedWorkload());
+			}
+			result1.append("{\"indexUnit\":\""+index.getIndexUnit()+"\",\"indexName\":\""+index.getIndexName()+"\",\"indexValue\":"+index.getIndexValue()+",\"hasFinished\":"+hasFinished+",\"year\":"+year.toString()+",\"value\":"+indexValue.toString()+"},");
+		}
+		result1.deleteCharAt(result1.length()-1);
+		result1.append("]");
+		model.addAttribute("type",plan.getPlanType());
+		model.addAttribute("charts1",result1);
+		return "plan/user_detail";
+	}
+	
 	
 	/*
 	 * 发布规划Ajax
@@ -267,6 +306,7 @@ public class PlanAction  {
 			for(int i=0;i<defaultIndexs.length;i++)
 			{
 				index = new IndexManagement();
+				index.setIndexType(i+1+"");
 				index.setIndexName(defaultIndexs[i]);
 				index.setDeleted(false);
 				index.setPlan(xixi);
@@ -400,8 +440,13 @@ public class PlanAction  {
 		final HttpSession hs = request.getSession();
 		Plan plan = planService.findById(id);
 		String type = request.getParameter("type");
-		Set<PlanDocument> planDocumentList = new HashSet<PlanDocument>();
-		planDocumentList.addAll(plan.getPlanDocument());
+		/*Set<PlanDocument> planDocumentList = new HashSet<PlanDocument>();*/
+		
+		
+		/*if(plan.getPlanDocument()!=null)
+			planDocumentList.addAll(plan.getPlanDocument());
+		*/
+		
 		PlanDocument bean = null;
 		request.setCharacterEncoding("utf-8");
 		boolean isMultipart = ServletFileUpload.isMultipartContent(request); 
@@ -444,7 +489,7 @@ public class PlanAction  {
           else 
           {  	bean = new PlanDocument();          
                 String fileName = item.getName();
-                
+                System.out.println(fileName);
                 //这里发现ie获取的是路径加文件名，chrome获取的是文件名，这里我们只需要文件名，所以有路径的要先去路径
                  
                 if(fileName.contains("\\"));
@@ -459,12 +504,12 @@ public class PlanAction  {
     			bean.setDocumentName(fileName);
     			bean.setPlan(plan);
     			bean.setDocumentType("规划相关文档");
-    			planDocumentList.add(bean);
+    			/*planDocumentList.add(bean);*/
     			planDocumentService.save(bean);
           }  
     }  		
-	plan.setPlanDocument(planDocumentList);
-	planService.update(plan);
+	/*plan.setPlanDocument(planDocumentList);
+	planService.update(plan);*/
 	model.addAttribute("id", id);
 	model.addAttribute("type",type);
 	model.addAttribute("flag",2);

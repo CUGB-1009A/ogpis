@@ -38,9 +38,7 @@
 					</c:if>
 					
 					<c:if test='<%=type.equals("ZSY")%>'>
-						<a target="_blank"  href="<%=path%>/assets/companyIntro/zhongshiyou.html" title="中石油公司相关介绍">
-						 	<img src="<%=path%>/assets/companyPic/zhongshiyou.jpg" alt="中石油"  style="border:solid 2px blue;max-height:60px">
-						 </a>
+						<img src="<%=path%>/assets/companyPic/zhongshiyou.jpg" alt="中石油"  style="border:solid 2px blue;max-height:60px">
 					</c:if>
 					
 					<c:if test='<%=type.equals("ZSH")%>'>
@@ -79,25 +77,26 @@
 		<!-- 规划内容开始容器div -->
 		<div class="panel-group" id="accordion" style="width:100%;height:100%;background:white">
 		    <c:forEach items="${mapList}" var="item1" varStatus="status">
-		    	<div class="panel panel-default" style="width:100%;height:100%">
+		    	<div class="panel panel-default" style="width:100%;">
 			    	<c:forEach items="${item1}" var="item_plan" begin="0" end="0">
 			    		<div class="panel-heading plan${item_plan.key.id}">
+			    		<input class="planId" type="hidden" value='${item_plan.key.id}'>
 				    		<h4 class="panel-title" align="left">
 						        <a data-toggle="collapse" data-parent="#accordion"  href="#collapseOne${status.index}">
-						          ${item_plan.key.planName}
+						          <b>${item_plan.key.planName}</b>
 						        </a>
-						        <i class="icon-time">&nbsp;&nbsp;&nbsp;&nbsp;<fmt:formatDate value="${item_plan.key.releaseDate}" pattern="YYYY-MM-dd"/>&nbsp;&nbsp;&nbsp;&nbsp;</i>
+						        <span>发布时间：</span><fmt:formatDate value="${item_plan.key.releaseDate}" pattern="YYYY-MM-dd"/>&nbsp;&nbsp;&nbsp;&nbsp;
+								<span>发布单位：${item_plan.key.releaseUnit}</span>
 		               		</h4>
-		          </div>
+		          		</div>
 		               
-			          <div id="collapseOne${status.index}" class="removeIn panel-collapse collapse in" style="width:100%;height:100%">
-						<div class="panel-body">
-				    		<a href="<%=path%>/plan/user_detail?id=${item_plan.key.id}" target="_blank"><b>${item_plan.key.planName}</b></a>
+			           <div id="collapseOne${status.index}" class="removeIn panel-collapse collapse in" style="width:100%;">
+						 <div class="panel-body">
 				    		<div class="col-xs-12">  
 					    		<!-- 主图 -->	
 					    		<div class="col-xs-6"> 
-					    			<textarea id="inputs${status.index}" class="inputs" style="display:none"  >${ item1.get('charts')}</textarea>
-									<div class="charts charts_${status.index}" style="height:300px;width:100%" align="center">	
+					    			<textarea id="inputs${status.index}" class="inputs" style="display:none"  >${item1.get('charts')}</textarea>
+									<div class="charts charts_${status.index}" style="height:300px;width:100%" align="center" onclick="showDetail('${item_plan.key.id}')">	
 
 									</div>
 								</div>
@@ -107,7 +106,7 @@
 										<div class="carousel-inner activeCharts">
 											<c:forEach items="${item_plan.key.index}" varStatus = "indexstatus">
 												<div class="item">	
-													<div class="mainCharts maincharts_${status.index} first_${indexstatus.index}" style="height:300px;width:100%;"></div>
+													<div class="mainCharts maincharts_${status.index} first_${indexstatus.index}" style="height:300px;width:100%;" onclick="showDetail('${item_plan.key.id}')"></div>
 												</div>
 											</c:forEach>
 										</div>
@@ -115,16 +114,69 @@
 										<a class="carousel-control right" href="#lunbo${status.index}" data-slide="next" style="padding-top:15%;">&rsaquo;</a>					
 									 </div>
 								</div>
-						</div>
-					</div>
-				</div>	
-						</c:forEach>
-						</div>
-				 </c:forEach>
-		</div>
+						 </div>
+					 </div>
+					 <div class="panel-footer" style="text-align:right">
+						<c:if test="${item_plan.value}">	
+							 <button class="disconcern" value="${item_plan.key.id}" >取消收藏</button>
+							 <button class="concern" value="${item_plan.key.id}" style="display:none">收藏</button>
+						</c:if>		
+						<c:if test="${!item_plan.value}">
+							<button class="disconcern" value="${item_plan.key.id}" style="display:none">取消收藏</button>
+							<button class="concern" value="${item_plan.key.id}">收藏</button>
+						</c:if>						
+					 </div>
+				 </div>	
+			  </c:forEach>
+			</div>
+		</c:forEach>
+	</div>
 </div>
 
 <script type="text/javascript">
+
+/* 关注 和 取消关注  按钮的ajax提交 */
+$(".concern").click(function(){
+	var planId = $(this).attr("value");
+	var getTimestamp = new Date().getTime();
+	//关注处理，处理成功后do
+	$.ajax({
+	url:"<%=request.getContextPath()%>/plan/concern?time="+getTimestamp,
+	dataType:"json",
+	async:true,
+	data:{"planId":planId},
+	type:"GET",
+	success:function(result){
+		$(".concern[value="+planId+"]").get(0).style.display="none";
+		$(".disconcern[value="+planId+"]").get(0).style.display="";
+		alert('收藏成功');
+	},
+	error:function(){
+		alert("出意外错误了");
+	}
+});
+})
+	
+	$(".disconcern").click(function(){
+		var planId = $(this).attr("value");
+		var getTimestamp = new Date().getTime();
+		//发布处理，处理成功后do
+		$.ajax({
+		url:"<%=request.getContextPath()%>/plan/disconcern?time="+getTimestamp,
+		dataType:"json",
+		async:true,
+		data:{"planId":planId},
+		type:"GET",
+		success:function(result){
+			$(".concern[value="+planId+"]").get(0).style.display="";
+			$(".disconcern[value="+planId+"]").get(0).style.display="none";
+			alert('取消收藏成功');
+		},
+		error:function(){
+			alert("出意外错误了");
+		}
+	});
+	})
 
 /* 完成总图 */
 window.onload = function(){
@@ -149,7 +201,7 @@ var option = {
     },
      grid: {
         x: '150px',
-        x2:'30px'
+        x2:'40px'
      
     }, 
     xAxis:  {
@@ -194,11 +246,24 @@ var option1 = {
         yAxis: {
         	name:''     	
         },
-        series: [{
-            name: '历史数据',
-            type: 'bar',
-            data: []
-        }]
+        series: [
+	                 {
+		        		itemStyle: 
+		        		{
+		        			normal: 
+		        			{
+		        				label : 
+		        				{
+		        					show:true
+		        				}
+		        	        }
+	                 },
+		
+		            name: '历史数据',
+		            type: 'bar',
+		            data: []
+        			  }
+	           ]
     };
 require.config({
     paths: {
@@ -216,8 +281,10 @@ require(
     	var $chartsDiv = $(".charts"); /* 所有的主图 */
     	var $inputs = $(".inputs");
     	var myCharts;
+    	var $planId = $(".planId");;
     	for (var i=0;i<$chartsDiv.length;i++)
 		{	
+    		var planId = $planId[i].value;
     		var $mainCharts = $(".maincharts_"+i);/* 一个规划的附图 */ 		
 			myCharts = ec.init($chartsDiv[i]);		
 			var data = $inputs[i].value; 
@@ -229,7 +296,7 @@ require(
 						tempYdata = tempYdata + "'"+obj[j].indexName+"',";
 					}
 	        		tempYdata = tempYdata.substring(0,tempYdata.length-1)+"]}";	        		
-					tempSeries = tempSeries + "{ itemStyle: {normal: {label : {show:true,position:'insideRight',formatter:'{c} %'}}},type:'bar',stack:'总量',name:'规划完成情况',data:[";
+					tempSeries = tempSeries + "{ itemStyle: {normal: {label : {show:true, textStyle: {color: '#800080'},formatter:'{c} %'}}},type:'bar',stack:'总量',name:'规划完成情况',data:[";
 					for(var l=0;l<obj.length;l++)
 						{
 						tempSeries = tempSeries + (obj[l].hasFinished/obj[l].indexValue*100).toFixed(1)+","
@@ -240,7 +307,8 @@ require(
 			var obj3 = eval("(" + tempSeries + ")");
 			option.yAxis.data = obj2.yData;
 			option.series = obj3.series;
-		 	myCharts.setOption(option); 
+		 	myCharts.setOption(option);
+		 	
 			for(var ii=0;ii<$mainCharts.length;ii++)
 			   {			   
 				   myCharts = ec.init($(".maincharts_"+i+".first_"+ii)[0]);
@@ -249,6 +317,7 @@ require(
 				   option1.xAxis.data = obj[ii].year;
 				   option1.series[0].data = obj[ii].value;
 				   myCharts.setOption(option1);
+				
 			   } 			
 			} 
     });
@@ -264,6 +333,10 @@ require(
 $(".removeIn").removeClass("in");
 $("#collapseOne0").addClass("in");
 
+function showDetail(planId)
+{
+	window.location.href = "<%=path%>/plan/user_detail?id="+planId;
+}
 
 
 	

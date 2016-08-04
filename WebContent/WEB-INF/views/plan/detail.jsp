@@ -100,12 +100,12 @@
 					   <li><a href="#completeEntry" data-toggle="tab" onclick="Tab4()">完成情况</a></li>
 					</c:if> 
 		 			
-		 			<c:if test='<%=flag.equals("5") %>'> 
+		 		<%-- 	<c:if test='<%=flag.equals("5") %>'> 
 					   <li class="active"><a href="#track" data-toggle="tab">规划跟踪</a></li>
 					</c:if> 
 					<c:if test='<%=!flag.equals("5") %>'> 
 					   <li><a href="#track" data-toggle="tab" onclick="Tab5()">规划跟踪</a></li>
-		 			</c:if> 		  
+		 			</c:if>  --%>		  
 				</ul>
 				
 				<div id="myTabContent" class="tab-content">
@@ -113,7 +113,7 @@
 					<%@ include file="Tab2Doc.jsp"%>
 					<%@ include file="Tab3Index.jsp"%>
 					<%@ include file="Tab4Complete.jsp"%>
-					<%@ include file="Tab5Track.jsp"%>			
+					<%-- <%@ include file="Tab5Track.jsp"%>	 --%>		
 				</div>
 			</div><!-- /span -->
 		</div><!-- /row -->
@@ -132,6 +132,7 @@ function Tab1()
 
 function Tab2()
 {
+	alert(id)
 	window.location.href="<%=path%>/plan/show?type="+type+"&&id="+id+"&&flag=2";
 }
 
@@ -144,11 +145,8 @@ function Tab4()
 {
 	window.location.href="<%=path%>/plan/show?type="+type+"&&id="+id+"&&flag=4";
 }
+ 
 
-function Tab5()
-{
-	window.location.href="<%=path%>/plan/show?type="+type+"&&id="+id+"&&flag=5";
-}
 /* 回显时间和规划描述字段，去掉时分秒（虽然在库中没有，但获取的时候自动添0了) */
 var endtime = '${plan.endTime}';
 var starttime = '${plan.startTime}';
@@ -172,8 +170,8 @@ $(function(){
 		$("#indexEntry").toggleClass("in active"); 
 	if(flag==4)
 		$("#completeEntry").toggleClass("in active");
-	if(flag==5)
-		$("#track").toggleClass("in active");
+	//if(flag==5)
+		//$("#track").toggleClass("in active");
 }); 
 
 /* 初始化模态框，清空模态框一切信息，设置上传按钮可用，警示信息隐藏 */
@@ -185,7 +183,7 @@ function showModal()
 	    // swf文件路径
 	    swf: '<%=path%>/assets/js/Uploader.swf',
 	    // 文件接收服务端。
-	    server: '<%=path%>/plan/uploadFiles?id=${plan.id}&&type=${type}&&time=1',
+	    server: '<%=path%>/plan/uploadFiles?id='+id+'&&type='+type+'&&time=1',
 	    // 内部根据当前运行是创建，可能是input元素，也可能是flash.
 	    pick: '#picker'
 	});
