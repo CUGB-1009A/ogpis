@@ -90,9 +90,12 @@ public class PlanAction  {
 	  	 List<IndexDataManagement> indexFinished = null;
 	  	 List<IndexDataManagement> indexRecord = null;
 	  	 ArrayList<Float> indexValue  = new ArrayList<Float>();
+	  	ArrayList<Float> indexValue1  = new ArrayList<Float>();
 	  	 ArrayList<Integer> year  = new ArrayList<Integer>();
+	  	 ArrayList<Integer> year1  = new ArrayList<Integer>();
 	  	 float hasFinished;
-	  	 String result  ;
+	  	 String result ;
+	  	 String result1 ;
 	  	 for(Role role:roles)
 	  	 {
 	  		 if(role.getIsSuper())
@@ -108,6 +111,7 @@ public class PlanAction  {
 		for(Plan temp:plans)
 		{
 			result = "[";
+			result1= "[";
 			map = new LinkedHashMap();
 			if(conceredPlanId.contains(temp.getId()))
 				map.put(temp, true);//value = true 说明用户已经关注该规划
@@ -121,6 +125,8 @@ public class PlanAction  {
 				for(IndexManagement index:tempIndex)
 				{
 					year.clear();
+					indexValue.clear();
+					year1.clear();
 					indexValue.clear();
 					hasFinished = 0;
 					//计算规划时间段内的完成情况
@@ -138,13 +144,13 @@ public class PlanAction  {
 						year.add(Integer.parseInt(indexDataTemp.getCollectedTime().toString().substring(0,4)));
 						indexValue.add(indexDataTemp.getFinishedWorkload());
 					}
-					result = result + "{\"indexName\":\""+index.getIndexName()+"\",\"indexValue\":"+index.getIndexValue()+",\"hasFinished\":"+hasFinished+",\"year\":"+year.toString()+",\"value\":"+indexValue.toString()+"},";
-					
+					result = result + "{\"indexUnit\":\""+index.getIndexUnit()+"\",\"indexName\":\""+index.getIndexName()+"\",\"indexValue\":"+index.getIndexValue()+",\"hasFinished\":"+hasFinished+",\"year\":"+year.toString()+",\"value\":"+indexValue.toString()+"},";
+			
 				}
 				result = result.substring(0,result.length()-1);
 				result = result + "]";
 				map.put("charts",result);
-				System.out.println(result);
+
 			}
 			mapList.add(map);
 		}

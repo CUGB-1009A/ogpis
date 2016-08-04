@@ -168,4 +168,8 @@ public class PlanEntity extends BaseEntity {
 	}
 
 
+	public String getResult(){
+		
+			return "";
+	}
 }

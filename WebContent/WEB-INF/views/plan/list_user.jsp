@@ -79,34 +79,47 @@
 		<!-- 规划内容开始容器div -->
 		<div class="panel-group" id="accordion" style="width:100%;height:100%;background:white">
 		    <c:forEach items="${mapList}" var="item1" varStatus="status">
+		    	<div class="panel panel-default" style="width:100%;height:100%">
 			    	<c:forEach items="${item1}" var="item_plan" begin="0" end="0">
-				    		<h3>${item_plan.key.planName}</h3>	
+			    		<div class="panel-heading plan${item_plan.key.id}">
+				    		<h4 class="panel-title" align="left">
+						        <a data-toggle="collapse" data-parent="#accordion"  href="#collapseOne${status.index}">
+						          ${item_plan.key.planName}
+						        </a>
+						        <i class="icon-time">&nbsp;&nbsp;&nbsp;&nbsp;<fmt:formatDate value="${item_plan.key.releaseDate}" pattern="YYYY-MM-dd"/>&nbsp;&nbsp;&nbsp;&nbsp;</i>
+		               		</h4>
+		          </div>
+		               
+			          <div id="collapseOne${status.index}" class="removeIn panel-collapse collapse in" style="width:100%;height:100%">
+						<div class="panel-body">
+				    		<a href="<%=path%>/plan/user_detail?id=${item_plan.key.id}" target="_blank"><b>${item_plan.key.planName}</b></a>
 				    		<div class="col-xs-12">  
-					    		<!-- 主图 -->
-						    	<div class="col-xs-6">  	
-									<div class="charts charts_${status.index}" style="height:300px" align="center">	
-										<c:forEach items="${item1}" var="item_charts" begin="2" end="2">		    	
-											<p id="inputs${status.index}" class="inputs" style="display:none">${item_charts.value}</p>
-										</c:forEach>
-									</div>			
+					    		<!-- 主图 -->	
+					    		<div class="col-xs-6"> 
+					    			<textarea id="inputs${status.index}" class="inputs" style="display:none"  >${ item1.get('charts')}</textarea>
+									<div class="charts charts_${status.index}" style="height:300px;width:100%" align="center">	
+
+									</div>
 								</div>
-								<!-- 几个指标几个图 -->	
-								<div class="col-xs-6">							
-									<div id="lunbo${status.index}"  class="carousel slide" style="height:300px">
+								<div class="col-xs-6">  			
+								<!-- 几个指标几个图 -->							
+									<div id="lunbo${status.index}"  class="carousel slide" style="height:300px;width:100%">
 										<div class="carousel-inner activeCharts">
 											<c:forEach items="${item_plan.key.index}" varStatus = "indexstatus">
-												<div class="maincharts_${status.index} first_${indexstatus.index} item" style="height:300px;width:600px">	
-
+												<div class="item">	
+													<div class="mainCharts maincharts_${status.index} first_${indexstatus.index}" style="height:300px;width:100%;"></div>
 												</div>
 											</c:forEach>
 										</div>
 										 <a class="carousel-control left" href="#lunbo${status.index}" data-slide="prev" style="padding-top:15%;">&lsaquo;</a>
 										<a class="carousel-control right" href="#lunbo${status.index}" data-slide="next" style="padding-top:15%;">&rsaquo;</a>					
 									 </div>
-								 </div>	
+								</div>
 						</div>
-						<hr align="center" width="1500px" color="#987cb9" size="1">			
-						</c:forEach>	
+					</div>
+				</div>	
+						</c:forEach>
+						</div>
 				 </c:forEach>
 		</div>
 </div>
@@ -117,7 +130,9 @@
 window.onload = function(){
 var option = {
 		 title: {
-            text: '规划完成情况'
+            text: '规划完成情况',
+            x: 'center',            
+            y: 'top'
         },
     tooltip : {
         trigger: 'axis',
@@ -125,14 +140,17 @@ var option = {
             type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
         }
     },
-    legend: {
-        data: [ ]
+    toolbox: {
+        show : true,
+        feature : {
+            saveAsImage : {show: true},
+            dataView : {show: true, readOnly: false}
+        }
     },
      grid: {
-        left: '3%',
-        right: '4%',
-        bottom: '3%',
-        containLabel: true
+        x: '150px',
+        x2:'30px'
+     
     }, 
     xAxis:  {
         type: 'value',
@@ -144,7 +162,8 @@ var option = {
     },
     yAxis: {
         type: 'category',
-        data: []
+        data: [],
+        show:true
     },
     series: []
 };
@@ -152,21 +171,31 @@ var option = {
 var option1 = {
         title: {
             text: '',
-            x: 'left',            
+            x: 'center',            
             y: 'top'
         },
-        tooltip: {},
+        toolbox: {
+            show : true,
+            feature : {
+                saveAsImage : {show: true},
+                dataView : {show: true, readOnly: false}
+            }
+        },
         legend: {
-            data:['已经完成'],
+        	show:false,
+            data:['历史数据'],
             x:'right',
             y:'top'
         },
         xAxis: {
-            data: []
+            data: [],
+        	name:'年份'
         },
-        yAxis: {},
+        yAxis: {
+        	name:''     	
+        },
         series: [{
-            name: '已经完成',
+            name: '历史数据',
             type: 'bar',
             data: []
         }]
@@ -187,72 +216,53 @@ require(
     	var $chartsDiv = $(".charts"); /* 所有的主图 */
     	var $inputs = $(".inputs");
     	var myCharts;
-    	/* var myCharts = new Array($chartsDiv.length*($mainCharts.length+1)); */
     	for (var i=0;i<$chartsDiv.length;i++)
 		{	
     		var $mainCharts = $(".maincharts_"+i);/* 一个规划的附图 */ 		
-			myCharts = ec.init($chartsDiv[i]);	
-			/* var data = $inputs[i].value;  */
-/* 			var data = "{\"indexName\":\"石油产量\"}"; */
-			var data = $inputs[i].innerHTML;  
+			myCharts = ec.init($chartsDiv[i]);		
+			var data = $inputs[i].value; 
 			var obj = eval("(" + data + ")");
-			var tempLegend = "{\"legend\":["
         	var tempYdata = "{\"yData\":[";
         	var tempSeries = "{\"series\":["
 				for(var j=0;j<obj.length;j++)
 					{
 						tempYdata = tempYdata + "'"+obj[j].indexName+"',";
 					}
-	        		tempYdata = tempYdata.substring(0,tempYdata.length-1)+"]}";
-				for(var k=0;k<obj[0].year.length;k++)
-				{
-					tempSeries = tempSeries + "{ itemStyle: {normal: {label : {show:true,position:'insideRight',formatter:'{c} %'}}},type:'bar',stack:'总量',name:'"+obj[0].year[k]+"',data:[";
-					tempLegend = tempLegend + "'"+ obj[0].year[k]+"',"
+	        		tempYdata = tempYdata.substring(0,tempYdata.length-1)+"]}";	        		
+					tempSeries = tempSeries + "{ itemStyle: {normal: {label : {show:true,position:'insideRight',formatter:'{c} %'}}},type:'bar',stack:'总量',name:'规划完成情况',data:[";
 					for(var l=0;l<obj.length;l++)
 						{
-						tempSeries = tempSeries + (obj[l].value[k]/obj[l].indexValue*100).toFixed(1)+","
+						tempSeries = tempSeries + (obj[l].hasFinished/obj[l].indexValue*100).toFixed(1)+","
 						}
-					tempSeries = tempSeries.substring(0,tempSeries.length-1)+"]},"
-				}
 				tempSeries = tempSeries.substring(0,tempSeries.length-1)+"]}";
-				tempLegend = tempLegend.substring(0,tempLegend.length-1)+"]}";
-			var obj1 = eval("(" + tempLegend + ")");
+				tempSeries = tempSeries +"]}";
 			var obj2 = eval("(" + tempYdata + ")");
 			var obj3 = eval("(" + tempSeries + ")");
-			option.legend.data = obj1.legend;
 			option.yAxis.data = obj2.yData;
 			option.series = obj3.series;
-			myCharts.setOption(option);
-	/* 		myCharts[($mainCharts.length+1)*i].setOption({
-			   legend: {
-			         data: obj1.legend
-			     },
-		    yAxis : [
-			          {
-			              data : obj2.yData
-			          }
-			      ],
-	       series : obj3.series
-	                				
-		}); */
-			   for(var ii=0;ii<$mainCharts.length;ii++)
-				   {			   
-				    myCharts = ec.init($(".maincharts_"+i+".first_"+ii)[0]);
-				    
-
+		 	myCharts.setOption(option); 
+			for(var ii=0;ii<$mainCharts.length;ii++)
+			   {			   
+				   myCharts = ec.init($(".maincharts_"+i+".first_"+ii)[0]);
+				   option1.yAxis.name = obj[ii].indexUnit;
 				   option1.title.text = obj[ii].indexName;
 				   option1.xAxis.data = obj[ii].year;
 				   option1.series[0].data = obj[ii].value;
 				   myCharts.setOption(option1);
-				   } 			
+			   } 			
 			} 
     });
 
 	$(".carousel").carousel({
 		interval: 4000
 	});
-	$(".first_0").addClass("active");
+
+	$(".first_0").parent(".item").addClass("active");
+	$(".mainCharts").css( 'width', $(".first_0").width() );
+	$(".charts").css( 'width', $(".charts_0").width() );
 }
+$(".removeIn").removeClass("in");
+$("#collapseOne0").addClass("in");
 
 
 

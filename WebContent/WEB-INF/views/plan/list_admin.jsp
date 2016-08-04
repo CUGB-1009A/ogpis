@@ -113,7 +113,7 @@
 															<c:if test="${item_plan.key.released}">
 																<a  href="javascript:releasePlan('${item_plan.key.id}')" class="btn-sm btn-app btn-primary no-radius release_${item_plan.key.id}" style="display:none">
 																	<i class="icon-unlock  bigger-200"></i>
-																	发布规划
+																	发布
 																</a>&nbsp;
 																<a  href="javascript:disreleasePlan('${item_plan.key.id}')" class="btn-sm btn-app btn-primary no-radius disrelease_${item_plan.key.id}">
 																	<i class="icon-lock  bigger-200"></i>
