@@ -132,7 +132,6 @@ function Tab1()
 
 function Tab2()
 {
-	alert(id)
 	window.location.href="<%=path%>/plan/show?type="+type+"&&id="+id+"&&flag=2";
 }
 
@@ -248,7 +247,6 @@ function showModal()
 			alert("请选择文件再上传");
 		else
 			{
-			alert("sdf");
 			uploader.upload();
 			}		
 	});	

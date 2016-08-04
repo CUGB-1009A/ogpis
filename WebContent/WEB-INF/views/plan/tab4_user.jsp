@@ -3,7 +3,7 @@
 
 <!-- user  tab页第4页 -->
 		<div class="tab-pane fade" id="planDocument">
-		<c:forEach items="${planDocument}" varStatus = "status">												      
+		<c:forEach items="${planDocument}" var="item" varStatus = "status">												      
 				<div class="row">
 					<div class="col-xs-12">				
 							<div class="box">
@@ -12,16 +12,20 @@
 								</div>
 								<div class="col-xs-10">
 									<div class="box-header">
-										<h4 style="text-align:left"><a href="" target="_blank">相关文档的名称</a></h4>
+										<h4 style="text-align:left"><a href="<c:url value='/document/previewDocument?id=${item.id}&&editType=0'/>" target="_blank">${item.documentName }</a></h4>
 									</div>
 									<div class="box-footer">
-										<button class="btn btn-xs btn-default" style="float: right;">下载</button>
+										<a  href="<c:url value='/document/downloadDocument?id=${item.id}'/>" class="btn-sm btn-app btn-primary no-radius">
+											<i class="icon-arrow-down bigger-200"></i>
+											下载
+										</a>
 								</div>
 						</div>
 					</div>
 					<br />
 					</div><!-- /span -->
 				</div><!-- /row -->
+				<hr style="width:'1500px';color:'blue'">
 		</c:forEach>
 	 </div>
 	<script>

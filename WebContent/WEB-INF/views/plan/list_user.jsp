@@ -23,7 +23,7 @@
 </head>
 <html>
 	<body>
-	<div id="wrapper">
+	<div id="wrapper" style="height:100%">
 <!-- 网站头及导航栏 -->
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="z-index:1080">
 		<%@ include file="../main/main_header.jsp"%>
@@ -33,7 +33,7 @@
       <!--  搜索div -->
        <div class="col-lg-12">
 				<div class="col-lg-2" style="float:left">				
-					<c:if test='<%=type.equals("QG")%>'>
+					<%-- <c:if test='<%=type.equals("QG")%>'>
 						 <img src="<%=path%>/assets/companyPic/quanguo.jpg" alt="全国" style="border:solid 2px blue;max-height:60px">
 					</c:if>
 					
@@ -59,7 +59,7 @@
 
 					<c:if test='<%=type.equals("QT")%>'>
 						<img src="<%=path%>/assets/companyPic/qita.jpg" alt="其他公司"  style="border:solid 2px blue;max-height:60px">				
-					</c:if>	 
+					</c:if>	 --%> 
 			</div>
 				<div class="col-lg-10" style="float:left">			
 					<form action="<%=path%>/plan/list" method="post">
