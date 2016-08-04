@@ -192,13 +192,6 @@ var option = {
             type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
         }
     },
-    toolbox: {
-        show : true,
-        feature : {
-            saveAsImage : {show: true},
-            dataView : {show: true, readOnly: false}
-        }
-    },
      grid: {
         x: '150px',
         x2:'40px'
@@ -225,13 +218,6 @@ var option1 = {
             text: '',
             x: 'center',            
             y: 'top'
-        },
-        toolbox: {
-            show : true,
-            feature : {
-                saveAsImage : {show: true},
-                dataView : {show: true, readOnly: false}
-            }
         },
         legend: {
         	show:false,

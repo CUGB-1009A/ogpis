@@ -125,7 +125,7 @@
 									</div>
 									<div class="modal-footer">
 										<span id="sizeWarning" style="color: red; display: none"></span>
-										<button type="button" class="btn btn-primary" id="upload">上传</button>
+										<!-- <button type="button" class="btn btn-primary" id="upload">上传</button> -->
 										<!-- <button type="button" class="btn btn-default" id="cancel">取消</button> -->
 									</div>
 								</div>

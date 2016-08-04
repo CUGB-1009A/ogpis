@@ -177,13 +177,14 @@ $(function(){
 /* 初始化模态框，清空模态框一切信息，设置上传按钮可用，警示信息隐藏 */
 function showModal()
 {	
+	var planId=id;
 	$('#myModal').modal({backdrop: 'static', keyboard: false});
 	$('#thelist').empty();
 	uploader = WebUploader.create({
 	    // swf文件路径
 	    swf: '<%=path%>/assets/js/Uploader.swf',
 	    // 文件接收服务端。
-	    server: '<%=path%>/plan/uploadFiles?id='+id+'&&type='+type+'&&time=1',
+	    server: '<%=path%>/plan/uploadFiles?type=${type}&time=1&planId=${plan.id}',
 	    // 内部根据当前运行是创建，可能是input元素，也可能是flash.
 	    pick: '#picker'
 	});
@@ -247,6 +248,7 @@ function showModal()
 			alert("请选择文件再上传");
 		else
 			{
+			alert("sdf");
 			uploader.upload();
 			}		
 	});	

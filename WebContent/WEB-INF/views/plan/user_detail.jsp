@@ -152,6 +152,60 @@ var option = {
    series: []
 };
 
+var option1 = {
+        title: {
+            text: '',
+            x: 'center',            
+            y: 'top'
+        },
+       
+        legend: {
+        	show:false,
+            data:['历史数据'],
+            x:'right',
+            y:'top'
+        },
+        xAxis: {
+            data: [],
+        	name:'年份'
+        },
+        yAxis: {
+        	name:''     	
+        },
+        series: [
+	                 {
+	                    markLine:{
+	                    	data : 
+	                               	 [
+		                               	    [
+		                               	     	{name: '规划目标值',value:0, xAxis: 5, yAxis:0},{xAxis:13,yAxis:0}
+		                               	    ]
+		                               	   
+	                               	 ],
+	                         itemStyle:{
+	                        	 normal:{
+	                        		 color:'green'
+	                        	 }
+	                         }
+	                  	},
+		        		itemStyle: 
+		        		{
+		        			normal: 
+		        			{
+		        				label : 
+		        				{
+		        					show:true
+		        				}
+		        	        }
+	                 },
+		
+		            name: '历史数据',
+		            type: 'bar',
+		            data: []
+        			  }
+	           ]
+    };
+
 require.config({
     paths: {
         echarts: '<%=request.getContextPath()%>/assets/dist'
@@ -169,6 +223,11 @@ require(
 			var myCharts = ec.init($(".charts1")[0]);		
 			var data = $(".inputs1")[0].value; 
 			var obj = eval("(" + data + ")");
+			
+			var $myCharts1 = $(".charts2");		
+			var data1 = $(".inputs2")[0].value; 
+			var obj_1 = eval("(" + data1 + ")");
+
 			var tempLegend = "{\"legend\":[";
 		 	var tempYdata = "{\"yData\":[";
         	var tempSeries = "{\"series\":["
@@ -196,6 +255,21 @@ require(
 			option.yAxis.data = obj2.yData;
 			option.series = obj3.series;
 		 	myCharts.setOption(option);
+
+		 	//第二个tab页显示
+		 	var myCharts2;
+		 	for(var jj=0;jj<obj_1.length;jj++)
+		 		{
+		 		   myCharts2 = ec.init($myCharts1[jj]);
+				   option1.yAxis.name = obj_1[jj].indexUnit;
+				   option1.title.text = obj_1[jj].indexName;
+				   option1.xAxis.data = obj_1[jj].year;
+				   option1.series[0].data = obj_1[jj].value;
+				   option1.series[0].markLine.data[0][0].value = obj_1[jj].indexValue/5;
+				   option1.series[0].markLine.data[0][0].yAxis = obj_1[jj].indexValue/5;
+				   option1.series[0].markLine.data[0][1].yAxis = obj_1[jj].indexValue/5;
+				   myCharts2.setOption(option1);
+		 		}
 });
 $("#overview").toggleClass("in active"); 
 </script>
