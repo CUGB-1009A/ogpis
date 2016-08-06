@@ -70,7 +70,7 @@
 			</ul>
 		</div>
 		<div class="row">
-			<div class="col-xs-12">
+			<div class="col-xs-12" style="margin:0;padding:0">
 				<ul id="myTab" class="nav nav-tabs">		
 					<c:if test='<%=flag.equals("1") %>'> 
 					   <li class="active"><a href="#overview" data-toggle="tab">规划概述</a></li> 

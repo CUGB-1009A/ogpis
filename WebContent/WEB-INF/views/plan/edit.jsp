@@ -65,7 +65,7 @@
 		</div>
 		<div class="row">
 			<div class="col-xs-12">
-				<form class="form-horizontal" role="form" action="<%=path%>/plan/save" method="post" enctype="multipart/form-data">
+				<form class="form-horizontal" role="form" action="<%=path%>/plan/save" method="post">
 					<input type="hidden" value="${type}" name="type"/>
 					<input type="hidden" value="true" name="isAdd"/>
 				

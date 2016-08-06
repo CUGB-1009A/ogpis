@@ -38,4 +38,18 @@ public class IndexDataManagementDaoImpl extends BaseDaoImpl<IndexDataManagement,
  						null); 
 		return items;
 	}
+
+	@Override
+	public List<IndexDataManagement> findHistoryData(String id, Date startTime, int i) {
+
+		@SuppressWarnings("unchecked")
+		List<IndexDataManagement> items = this 
+ 				.queryByHql( 
+ 						"from IndexDataManagement where deleted=false and index.id='"+id+"' and collectedTime < '"+startTime+"' order by collectedTime desc", 
+ 						null);
+		if(items.size()<i)
+			return items;
+		else
+			return items.subList(0, i);
+	}
 }

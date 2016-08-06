@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 
 <!-- tab页第一页 -->
-		<div class="tab-pane fade" id="overview">	      
+		<div class="tab-pane fade" id="overview" style="background: white;">	      
 		<div class="row">
 			<div class="col-xs-12">
 			&nbsp;

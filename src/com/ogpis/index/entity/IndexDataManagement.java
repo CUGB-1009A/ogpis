@@ -7,6 +7,11 @@ import com.ogpis.index.entity.base.IndexDataManagementEntity;
 
 @Entity
 @Table(name = "ogpis_indexData")
-public class IndexDataManagement extends IndexDataManagementEntity {
+public class IndexDataManagement extends IndexDataManagementEntity implements Comparable {
 
+	public int compareTo(Object o) {
+		// TODO Auto-generated method stub
+		IndexDataManagement indexDataManagement=(IndexDataManagement)o;
+		return this.getCollectedTime().compareTo(indexDataManagement.getCollectedTime());
+	}
 }

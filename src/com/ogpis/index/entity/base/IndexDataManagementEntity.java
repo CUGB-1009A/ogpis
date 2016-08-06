@@ -14,17 +14,17 @@ import com.ogpis.index.entity.IndexManagement;
 
 
 @MappedSuperclass
-public class IndexDataManagementEntity extends BaseEntity{
+public class IndexDataManagementEntity extends BaseEntity {
 	@ManyToOne
 	@JoinColumn(name = "对应指标id")
-	private IndexManagement index;
+	protected IndexManagement index;
 	
 	@Column(columnDefinition="DATE",name = "采集时间")
 	@DateTimeFormat( pattern = "yyyy-MM-dd" )
-	private Date collectedTime;
+	protected Date collectedTime;
 	
 	@Column(name = "完成量")
-	private float finishedWorkload ;
+	protected float finishedWorkload ;
 	
 	public IndexManagement getIndex() {
 		return index;
@@ -51,6 +51,5 @@ public class IndexDataManagementEntity extends BaseEntity{
 	public void setFinishedWorkload(float finishedWorkload) {
 		this.finishedWorkload = finishedWorkload;
 	}
-
 
 }

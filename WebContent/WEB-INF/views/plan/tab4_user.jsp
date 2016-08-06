@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 
 <!-- user  tab页第4页 -->
-		<div class="tab-pane fade" id="planDocument">
+		<div class="tab-pane fade" id="planDocument" style="background: white">
 		<c:forEach items="${planDocument}" var="item" varStatus = "status">												      
 				<div class="row">
 					<div class="col-xs-12">				

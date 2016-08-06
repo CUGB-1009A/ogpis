@@ -1,7 +1,9 @@
 package com.ogpis.plan.entity.base;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Basic;
@@ -14,10 +16,15 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import com.ogpis.base.entity.BaseEntity;
 import com.ogpis.document.entity.PlanDocument;
+import com.ogpis.index.entity.IndexDataManagement;
 import com.ogpis.index.entity.IndexManagement;
+import com.ogpis.index.service.IndexDataManagementService;
+import com.ogpis.index.service.IndexManagementService;
 import com.ogpis.system.entity.User;
 
 /**
@@ -28,43 +35,43 @@ import com.ogpis.system.entity.User;
 public class PlanEntity extends BaseEntity {
 	
 	@Column(name = "规划名称")
-	private String planName;
+	protected String planName;
 
 	@Column(name = "规划代号")
-	private String planCode;
+	protected String planCode;
 	
 	@Column(name = "发布单位")
-	private String releaseUnit;
+	protected String releaseUnit;
 	
 	@Column(name = "是否已发布")
-	private boolean released;
-	
+	protected boolean released;
+
 	//指规划实际发文的时间
 	@Column(columnDefinition="DATE",name = "发布时间")
 	@DateTimeFormat( pattern = "yyyy-MM-dd" )
-	private Date releaseDate;
+	protected Date releaseDate;
 
 	@Column(columnDefinition="DATE",name = "规划开始时间")
 	@DateTimeFormat( pattern = "yyyy-MM-dd" )
-	private Date startTime;
+	protected Date startTime;
 	
 	@Column(columnDefinition="DATE",name = "规划结束时间")
 	@DateTimeFormat( pattern = "yyyy-MM-dd" )
-	private Date endTime;
+	protected Date endTime;
 	
 	//这个是指是全国、各大石油公司、其他规划；还是以后从其他维度的规划
 	@Column(name = "规划类型")
-	private String planType;
+	protected String planType;
 	
 	//指规划的依据和背景，clob类型
 	@Column(columnDefinition="TEXT", name = "规划描述")
-	private String planDescription;
+	protected String planDescription;
 	
 	@OneToMany(fetch=FetchType.EAGER,cascade = { CascadeType.ALL }, mappedBy = "plan")
-	private Set<PlanDocument> planDocument;
+	protected Set<PlanDocument> planDocument;
 
 	@OneToMany(fetch=FetchType.EAGER,cascade = { CascadeType.ALL }, mappedBy = "plan")
-	private Set<IndexManagement> index;
+	protected Set<IndexManagement> index;
 	
 	//规划对应被哪些用户收藏 many-to-many
 	@ManyToMany(targetEntity = User.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -168,8 +175,6 @@ public class PlanEntity extends BaseEntity {
 	}
 
 
-	public String getResult(){
-		
-			return "";
-	}
+
+
 }

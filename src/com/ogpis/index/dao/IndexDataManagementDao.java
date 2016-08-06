@@ -12,4 +12,6 @@ public interface IndexDataManagementDao extends BaseDao<IndexDataManagement , St
 
 	List<IndexDataManagement> findByIndexId(String id, Date startTime, Date endTime);
 
+	List<IndexDataManagement> findHistoryData(String id, Date startTime, int i);
+
 }

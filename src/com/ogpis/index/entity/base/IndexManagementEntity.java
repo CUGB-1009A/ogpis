@@ -1,6 +1,8 @@
 package com.ogpis.index.entity.base;
 
+import java.util.List;
 import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.FetchType;
@@ -8,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
+
 import com.ogpis.base.entity.BaseEntity;
 import com.ogpis.index.entity.IndexDataManagement;
 import com.ogpis.plan.entity.Plan;
@@ -17,30 +20,30 @@ public class IndexManagementEntity extends BaseEntity {
 	
 
 	@Column(name = "指标名称")
-	private String indexName;
+	protected String indexName;
 	
 	@Column(name = "指标类型")
-	private String indexType;
+	protected String indexType;
 	
 	@Column(name = "指标单位")
-	private String indexUnit;
+	protected String indexUnit;
 	
 	@Column(name = "目标值")
-	private float indexValue;
+	protected float indexValue;
 	
 	@ManyToOne
 	@JoinColumn(name = "对应规划id")
-	private Plan plan;
+	protected Plan plan;
 	
 	@OneToMany(fetch=FetchType.EAGER,cascade = { CascadeType.ALL }, mappedBy = "index")
-	private Set<IndexDataManagement> indexData;
+	protected List<IndexDataManagement> indexData;
 
 
-	public Set<IndexDataManagement> getIndexData() {
+	public List<IndexDataManagement> getIndexData() {
 		return indexData;
 	}
 
-	public void setIndexData(Set<IndexDataManagement> indexData) {
+	public void setIndexData(List<IndexDataManagement> indexData) {
 		this.indexData = indexData;
 	}
 

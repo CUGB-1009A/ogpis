@@ -76,7 +76,7 @@ public class PlanAction {
 	/*
 	 * 读取规划列表函数,根据type查询不同类型的规划
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes", "null" })
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value = "/plan/list")
 	public String list(HttpServletRequest request, ModelMap model, String type, String condition) {
 		LinkedHashMap map;
@@ -165,22 +165,29 @@ public class PlanAction {
 		model.addAttribute("planDocument", planDocument);
 		List<IndexDataManagement> indexFinished = null;
 		List<IndexDataManagement> indexRecord = null;
+		List<IndexDataManagement> indexNotInYear = null;
 		ArrayList<Float> indexValue = new ArrayList<Float>();
 		ArrayList<Float> indexValue1 = new ArrayList<Float>();
+		ArrayList<Float> indexValue2 = new ArrayList<Float>();
 		ArrayList<Integer> year = new ArrayList<Integer>();
 		ArrayList<Integer> year1 = new ArrayList<Integer>();
+		ArrayList<Integer> year2 = new ArrayList<Integer>();
 		float hasFinished;
 		List<IndexManagement> IndexChart1 = indexManagementService.getOnePlanIndexs(id);
 		model.addAttribute("index",IndexChart1);
 		StringBuilder result1 = new StringBuilder();
 		StringBuilder result2 = new StringBuilder();
+		StringBuilder result3 = new StringBuilder();
 		result1.append("[");
 		result2.append("[");
+		result3.append("[");
 		for (IndexManagement index : IndexChart1) {
 			year.clear();
 			indexValue.clear();
 			year1.clear();
 			indexValue1.clear();
+			year2.clear();
+			indexValue2.clear();
 			hasFinished = 0;
 			// 计算规划时间段内的完成情况
 			indexFinished = indexDataManagementService.sumTheIndex(index.getId(), plan.getStartTime(),
@@ -208,9 +215,12 @@ public class PlanAction {
 		result1.append("]");
 		result2.deleteCharAt(result2.length() - 1);
 		result2.append("]");
+		result3.deleteCharAt(result3.length() - 1);
+		result3.append("]");
 		model.addAttribute("type", plan.getPlanType());
 		model.addAttribute("charts1", result1);
 		model.addAttribute("charts2", result2);
+		model.addAttribute("charts3", result3);
 		return "plan/user_detail";
 	}
 

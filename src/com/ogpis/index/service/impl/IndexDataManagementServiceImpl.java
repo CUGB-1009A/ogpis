@@ -33,4 +33,10 @@ public class IndexDataManagementServiceImpl extends BaseServiceImpl<IndexDataMan
 		// TODO Auto-generated method stub
 		return getIndexDataManagementDao().findByIndexId(id,startTime,endTime);
 	}
+
+	@Override
+	public List<IndexDataManagement> findHistoryData(String id, Date startTime, int i) {
+		// TODO Auto-generated method stub
+		return getIndexDataManagementDao().findHistoryData(id,startTime,i);
+	}
 }

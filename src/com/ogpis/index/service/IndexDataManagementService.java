@@ -12,5 +12,7 @@ public interface IndexDataManagementService extends BaseService<IndexDataManagem
 
 	List<IndexDataManagement> sumTheIndex(String id, Date startTime, Date endTime);
 
+	List<IndexDataManagement> findHistoryData(String id, Date startTime, int i);
+
 
 }

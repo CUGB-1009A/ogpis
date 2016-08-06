@@ -2,11 +2,11 @@
     pageEncoding="UTF-8"%>
 
 <!-- usertab页第一页 -->
-		<div class="tab-pane fade" id="overview">	      
+		<div class="tab-pane fade" id="overview" style="background: white;">	      
 		<div class="row">
 			<div class="col-xs-12">				
 					 <div class="form-group">
-						<div class="col-sm-12">
+						<div class="col-sm-12" >
 						   <%--  <textArea style="height:100px" placeholder="规划描述..." class="col-xs-10 col-sm-5" name="planDescription" >${plan.planDescription}</textArea> --%>
 						 <%--    <script type="text/javascript">CKEDITOR.replace('planDescription',
 						    		{   

@@ -32,36 +32,10 @@
        
       <!--  搜索div -->
        <div class="col-lg-12">
-				<div class="col-lg-2" style="float:left">				
-					<%-- <c:if test='<%=type.equals("QG")%>'>
-						 <img src="<%=path%>/assets/companyPic/quanguo.jpg" alt="全国" style="border:solid 2px blue;max-height:60px">
-					</c:if>
+				<div class="col-lg-6" style="float:left">				
 					
-					<c:if test='<%=type.equals("ZSY")%>'>
-						<img src="<%=path%>/assets/companyPic/zhongshiyou.jpg" alt="中石油"  style="border:solid 2px blue;max-height:60px">
-					</c:if>
-					
-					<c:if test='<%=type.equals("ZSH")%>'>
-						 <img src="<%=path%>/assets/companyPic/zhongshihua.jpg" alt="中石化"  style="border:solid 2px blue;max-height:60px">
-					</c:if>
-					
-					<c:if test='<%=type.equals("ZHY")%>'>
-						 <img src="<%=path%>/assets/companyPic/zhonghaiyou.jpg" alt="中海油"  style="border:solid 2px blue;max-height:60px">
-					</c:if>
-					
-					<c:if test='<%=type.equals("YC")%>'>
-						 <img src="<%=path%>/assets/companyPic/yanchangshiyou.jpg" alt="延长"  style="border:solid 2px blue;max-height:60px">
-					</c:if>
-					
-					<c:if test='<%=type.equals("ZLM")%>'>
-						 <img src="<%=path%>/assets/companyPic/zhonglianmei.jpg" alt="中联煤"  style="border:solid 2px blue;max-height:60px">
-					</c:if>
-
-					<c:if test='<%=type.equals("QT")%>'>
-						<img src="<%=path%>/assets/companyPic/qita.jpg" alt="其他公司"  style="border:solid 2px blue;max-height:60px">				
-					</c:if>	 --%> 
 			</div>
-				<div class="col-lg-10" style="float:left">			
+				<div class="col-lg-6" style="float:left">			
 					<form action="<%=path%>/plan/list" method="post">
 					     <div class="input-group" style="margin:5px">						
 							 <input type="hidden" name="type" value="${type}">
@@ -95,7 +69,7 @@
 				    		<div class="col-xs-12">  
 					    		<!-- 主图 -->	
 					    		<div class="col-xs-6"> 
-					    			<textarea id="inputs${status.index}" class="inputs" style="display:none"  >${item1.get('charts')}</textarea>
+					    			<textarea id="inputs${status.index}" class="inputs">${item_plan.key.tenHistoryIndexData}</textarea>
 									<div class="charts charts_${status.index}" style="height:300px;width:100%" align="center" onclick="showDetail('${item_plan.key.id}')">	
 
 									</div>
@@ -116,7 +90,7 @@
 								</div>
 						 </div>
 					 </div>
-					 <div class="panel-footer" style="text-align:right">
+					 <div class="panel-footer" style="text-align:right;background:white">
 						<c:if test="${item_plan.value}">	
 							 <button class="disconcern" value="${item_plan.key.id}" >取消收藏</button>
 							 <button class="concern" value="${item_plan.key.id}" style="display:none">收藏</button>
