@@ -93,78 +93,76 @@
 									</thead>
 									<tbody>
 										<c:forEach items="${mapList}" var="item1" varStatus="status">
-											<c:forEach items="${item1}" var="item_plan"  begin="0" end="0">
-												<tr class="odd gradeX tr_${item_plan.key.id}">
+												<tr class="odd gradeX tr_${item1.get('plan').id}">
 													<td class="check_cell">
-														<c:if test="${!item_plan.key.released}">
-															 <input type="checkbox" class="checkboxes" name="checkbox" value="${item_plan.key.id}" /> <!-- 未发布的规划才能批量删除 -->
+														<c:if test="${!item1.get('plan').released}">
+															 <input type="checkbox" class="checkboxes" name="checkbox" value="${item1.get('plan').id}" /> <!-- 未发布的规划才能批量删除 -->
 														</c:if>
 													</td>
-													<td>${item_plan.key.planName}</td>
-													<td>${item_plan.key.planCode}</td>
+													<td>${item1.get('plan').planName}</td>
+													<td>${item1.get('plan').planCode}</td>
 													<td>
-														<i class="glyphicon glyphicon-file"></i> ${item_plan.key.planDocument.size()}&nbsp;&nbsp;&nbsp;
-														指标个数 ${item_plan.key.index.size()}&nbsp;&nbsp;&nbsp;
-														<i class="glyphicon glyphicon-heart"></i> <span class="concernNum_${item_plan.key.id}">${item_plan.key.users.size()}</span>&nbsp;&nbsp;&nbsp;
-														<i class="icon-time"> ${item_plan.key.modifiedTime.toLocaleString()}</i>
+														<i class="glyphicon glyphicon-file"></i> ${item1.get('plan').planDocument.size()}&nbsp;&nbsp;&nbsp;
+														指标个数 ${item1.get('plan').index.size()}&nbsp;&nbsp;&nbsp;
+														<i class="glyphicon glyphicon-heart"></i> <span class="concernNum_${item1.get('plan').id}">${item1.get('plan').users.size()}</span>&nbsp;&nbsp;&nbsp;
+														<i class="icon-time"> ${item1.get('plan').modifiedTime.toLocaleString()}</i>
 													</td>
 													<td>
 														<p>
-															<c:if test="${item_plan.key.released}">
-																<a  href="javascript:releasePlan('${item_plan.key.id}')" class="btn-sm btn-app btn-primary no-radius release_${item_plan.key.id}" style="display:none">
+														
+															<a  href="javascript:editPlan('${item1.get('plan').id}')" class="btn-sm btn-app btn-primary no-radius editPlan_${item1.get('plan').id}">
+																	<i class="icon-edit bigger-200"></i>
+																	编辑
+															</a>&nbsp;
+															
+															<c:if test="${item1.get('plan').released}">
+																<a  href="javascript:releasePlan('${item1.get('plan').id}')" class="btn-sm btn-app btn-primary no-radius release_${item1.get('plan').id}" style="display:none">
 																	<i class="icon-unlock  bigger-200"></i>
 																	发布
 																</a>&nbsp;
-																<a  href="javascript:disreleasePlan('${item_plan.key.id}')" class="btn-sm btn-app btn-primary no-radius disrelease_${item_plan.key.id}">
+																<a  href="javascript:disreleasePlan('${item1.get('plan').id}')" class="btn-sm btn-app btn-primary no-radius disrelease_${item1.get('plan').id}">
 																	<i class="icon-lock  bigger-200"></i>
 																	取消发布
 																</a>&nbsp;
-																<a  href="javascript:editPlan('${item_plan.key.id}')" class="btn-sm btn-app btn-primary no-radius editPlan_${item_plan.key.id}" style="display:none">
-																	<i class="icon-edit bigger-200"></i>
-																	编辑
-																</a>&nbsp;
-																<a href="javascript:deletePlan('${item_plan.key.id}');" class="btn-sm btn-app btn-danger no-radius deletePlan_${item_plan.key.id}" style="display:none">
+															
+																<a href="javascript:deletePlan('${item1.get('plan').id}');" class="btn-sm btn-app btn-danger no-radius deletePlan_${item1.get('plan').id}" style="display:none">
 																	<i class="icon-trash bigger-200"></i>
 																	删除
 																</a>&nbsp;
 															</c:if>
 															
-															<c:if test="${!item_plan.key.released}">
-																<a  href="javascript:releasePlan('${item_plan.key.id}')" class="btn-sm btn-app btn-primary no-radius release_${item_plan.key.id}">
+															<c:if test="${!item1.get('plan').released}">
+																<a  href="javascript:releasePlan('${item1.get('plan').id}')" class="btn-sm btn-app btn-primary no-radius release_${item1.get('plan').id}">
 																	<i class="icon-unlock  bigger-200"></i>
 																	发布
 																</a>&nbsp;
-																<a  href="javascript:disreleasePlan('${item_plan.key.id}')" class="btn-sm btn-app btn-primary no-radius disrelease_${item_plan.key.id}" style="display:none">
+																<a  href="javascript:disreleasePlan('${item1.get('plan').id}')" class="btn-sm btn-app btn-primary no-radius disrelease_${item1.get('plan').id}" style="display:none">
 																	<i class="icon-lock  bigger-200"></i>
 																	取消发布
 																</a>&nbsp;
-																<a  href="javascript:editPlan('${item_plan.key.id}')" class="btn-sm btn-app btn-primary no-radius editPlan_${item_plan.key.id}">
-																	<i class="icon-edit bigger-200"></i>
-																	编辑
-																</a>&nbsp;
-																<a href="javascript:deletePlan('${item_plan.key.id}');" class="btn-sm btn-app btn-danger no-radius deletePlan_${item_plan.key.id}">
+																<a href="javascript:deletePlan('${item1.get('plan').id}');" class="btn-sm btn-app btn-danger no-radius deletePlan_${item1.get('plan').id}">
 																	<i class="icon-trash bigger-200"></i>
 																	删除
 																</a>&nbsp;
 															</c:if>
 															
-															<c:if test="${item_plan.value}">
-																<a href="javascript:disconcernPlan('${item_plan.key.id}');" class="btn-sm btn-app btn-success no-radius disconcern_${item_plan.key.id}" >
+															<c:if test="${item1.get('isconcerned')}">
+																<a href="javascript:disconcernPlan('${item1.get('plan').id}');" class="btn-sm btn-app btn-success no-radius disconcern_${item1.get('plan').id}" >
 																	<i class="icon-thumbs-down bigger-200"></i>
 																	取消关注
 																</a>
-																<a href="javascript:concernPlan('${item_plan.key.id}');" class="btn-sm btn-app btn-success no-radius concern_${item_plan.key.id}" style="display:none">
+																<a href="javascript:concernPlan('${item1.get('plan').id}');" class="btn-sm btn-app btn-success no-radius concern_${item1.get('plan').id}" style="display:none">
 																	<i class="icon-thumbs-up bigger-200"></i>
 																	关注
 																</a>
 															</c:if>
 															
-															<c:if test="${!item_plan.value}">
-																<a href="javascript:concernPlan('${item_plan.key.id}');" class="btn-sm btn-app btn-success no-radius concern_${item_plan.key.id}">
+															<c:if test="${!item1.get('isconcerned')}">
+																<a href="javascript:concernPlan('${item1.get('plan').id}');" class="btn-sm btn-app btn-success no-radius concern_${item1.get('plan').id}">
 																	<i class="icon-thumbs-up bigger-200"></i>
 																	关注
 																</a>&nbsp;
-																<a href="javascript:disconcernPlan('${item_plan.key.id}');" class="btn-sm btn-app btn-success no-radius disconcern_${item_plan.key.id}" style="display:none">
+																<a href="javascript:disconcernPlan('${item1.get('plan').id}');" class="btn-sm btn-app btn-success no-radius disconcern_${item1.get('plan').id}" style="display:none">
 																	<i class="icon-thumbs-down bigger-200"></i>
 																	取消关注
 																</a>
@@ -173,7 +171,6 @@
 													</td>
 												</tr>
 										    </c:forEach>
-										</c:forEach>
 									</tbody>
 								</table>
 							</div>
@@ -231,7 +228,6 @@ function releasePlan(id)
 			$("input[value="+id+"]").remove();
 			$(".release_"+id).get(0).style.display="none";
 			$(".disrelease_"+id).get(0).style.display="";
-			$(".editPlan_"+id).get(0).style.display="none";
 			$(".deletePlan_"+id).get(0).style.display="none";
 			alert('发布成功');		
 		},
@@ -256,7 +252,6 @@ function disreleasePlan(id)
 			$(".tr_"+id).find("td:first").append("<input type='checkbox' class='checkboxes' name='checkbox' value='"+id+"'/>");
 			$(".release_"+id).get(0).style.display="";
 			$(".disrelease_"+id).get(0).style.display="none";
-			$(".editPlan_"+id).get(0).style.display="";
 			$(".deletePlan_"+id).get(0).style.display="";
 			alert('撤销发布成功');		
 		},

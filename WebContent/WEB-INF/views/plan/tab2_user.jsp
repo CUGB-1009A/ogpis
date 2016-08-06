@@ -3,8 +3,8 @@
 
 <!-- user  tab页第2页 -->
 		<div class="tab-pane fade" id="planDistination" style="background:white;">	      
-		 <textarea class="inputs2" style="display:none" >${charts2}</textarea>	      
-				<c:forEach items="${index}" varStatus = "status" begin='0' end='3'>
+		 <textarea class="inputs2" >${plan.tenHistoryIndexData}</textarea>	      
+				<c:forEach items="${index}" varStatus = "status" step='2'>
 					<div class="row">
 							<div class="col-xs-12">  
 						    		<!-- 主图 -->	

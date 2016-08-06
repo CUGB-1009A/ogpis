@@ -72,7 +72,7 @@
 						<div class="col-xs-12">  
 					    		<!-- 主图 -->	
 					    		<div class="col-xs-9"> 
-					    			<textarea class="inputs1" style="display:none">${charts1}</textarea>
+					    			<textarea class="inputs1" style="display:none">${plan.indexDataInPlanYear}</textarea>
 									<div class="charts1" style="height:300px;width:100%;" align="center">	
 
 									</div>
@@ -332,6 +332,7 @@ require(
 			var myCharts = ec.init($(".charts1")[0]);		
 			var data = $(".inputs1")[0].value; 
 			var obj = eval("(" + data + ")");
+			alert(data)
 			
 			var $myCharts1 = $(".charts2");		
 			var data1 = $(".inputs2")[0].value; 

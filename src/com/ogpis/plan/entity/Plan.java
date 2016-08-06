@@ -43,7 +43,7 @@ public class Plan extends PlanEntity {
 			indexValue.clear();
 			//找出历史（规划起始年份前）十年数据
 			indexDataAll =tempIndex.getIndexData();
-			Collections.sort(indexDataAll); //根据年份排序（2000----2010）
+			Collections.sort(indexDataAll); //根据年份排序（小到大）
 			for(IndexDataManagement temp:indexDataAll) //确保只有十个完成记录
 			{
 				if(temp.getCollectedTime().getTime()<super.startTime.getTime())
@@ -51,8 +51,6 @@ public class Plan extends PlanEntity {
 				if(indexDataTen.size()>10)
 					indexDataTen.remove(0);
 			}
-			/*if(indexData.size()>10)//超过十个截取后十个记录
-				indexData = indexData.subList(indexData.size()-10, indexData.size());*/
 			for(IndexDataManagement indexDataTemp : indexDataTen)
 			{
 				year.add(Integer.parseInt(indexDataTemp.getCollectedTime().toString().substring(0, 4)));
@@ -67,32 +65,85 @@ public class Plan extends PlanEntity {
 		return result.toString();
 	}
 	
+	//这个是取规划年间的完成情况（在规划年间，完成情况有几年，算几年）
 	@SuppressWarnings("unchecked")
-	public String getPlanYearIndexData() {
-		int yearNumber = Integer.parseInt(super.endTime.toString().substring(0, 4))-Integer.parseInt(super.startTime.toString().substring(0, 4))+1;
+	public String getIndexDataInPlanYear() {
+		float hasFinished ;
 		StringBuilder result = new StringBuilder();
-		List<IndexManagement> index = null;
-		List<IndexDataManagement> indexData = null;
 		ArrayList<Float> indexValue = new ArrayList<Float>();
 		ArrayList<Integer> year = new ArrayList<Integer>();
+		List<IndexDataManagement> indexDataAll =  new ArrayList<IndexDataManagement>();//对应所有的完成情况
+		List<IndexDataManagement> indexDataInPlanYear =  new ArrayList<IndexDataManagement>();//对应的规划外的十年完成情况
+		
 		/*index =(List<IndexManagement>) super.getIndex();
 		Collections.sort(index);*/
 		result.append("[");
 		for(IndexManagement tempIndex : super.getIndex())
 		{
+			hasFinished = 0;
 			year.clear();
 			indexValue.clear();
-
-			//找出历史（规划起始年份前）十年数据 参数三为历史数据记录条数
-			indexData =tempIndex.getIndexData();
-			Collections.sort(indexData); //根据年份排序
-			for(IndexDataManagement indexDataTemp : indexData)
+			indexDataAll.clear();
+			indexDataInPlanYear.clear();
+			indexDataAll =tempIndex.getIndexData();
+			Collections.sort(indexDataAll); //根据年份排序（2000----2010）
+			for(IndexDataManagement temp:indexDataAll) //记录处在规划期内的完成记录
+			{
+				if(temp.getCollectedTime().getTime()>super.startTime.getTime()&&temp.getCollectedTime().getTime()<super.endTime.getTime())
+					indexDataInPlanYear.add(temp);
+			}
+			for(IndexDataManagement indexDataTemp : indexDataInPlanYear)
+			{
+				hasFinished = hasFinished + indexDataTemp.getFinishedWorkload();
+				year.add(Integer.parseInt(indexDataTemp.getCollectedTime().toString().substring(0, 4)));
+				indexValue.add(indexDataTemp.getFinishedWorkload());
+			}
+			result.append("{\"hasFinished\":"+hasFinished+",\"indexUnit\":\"" + tempIndex.getIndexUnit() + "\",\"indexName\":\"" + tempIndex.getIndexName()
+			+ "\",\"indexValue\":" + tempIndex.getIndexValue()+ ",\"year\":"
+			+ year.toString() + ",\"value\":" + indexValue.toString() + "},");
+		}
+		result.deleteCharAt(result.length() - 1);
+		result.append("]");
+		return result.toString();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public String getIndexDataInBoth() {
+		StringBuilder result = new StringBuilder();
+		ArrayList<Float> indexValue = new ArrayList<Float>();
+		ArrayList<Integer> year = new ArrayList<Integer>();
+		List<IndexDataManagement> indexDataAll =  new ArrayList<IndexDataManagement>();//对应所有的完成情况
+		List<IndexDataManagement> indexDataInBoth =  new ArrayList<IndexDataManagement>();//对应的规划截止时间的最新10年数据
+		
+		/*index =(List<IndexManagement>) super.getIndex();
+		Collections.sort(index);*/
+		result.append("[");
+		System.out.println(super.getIndex().size());
+		for(IndexManagement tempIndex : super.getIndex())
+		{
+			year.clear();
+			indexValue.clear();
+			indexDataAll.clear();
+			indexDataInBoth.clear();
+			indexDataAll =tempIndex.getIndexData();
+			System.out.println(tempIndex.getId());
+			System.out.println(tempIndex.getIndexName()+"---------------------------dataSize:"+indexDataAll.size());
+		
+			Collections.sort(indexDataAll); //根据年份排序（2000----2010）
+			for(IndexDataManagement temp:indexDataAll) //记录处在规划期内的完成记录
+			{
+				if(temp.getCollectedTime().getTime()<super.endTime.getTime())
+					indexDataInBoth.add(temp);
+				if(indexDataInBoth.size()>10)
+					indexDataInBoth.remove(0);
+			}
+			for(IndexDataManagement indexDataTemp : indexDataInBoth)
 			{
 				year.add(Integer.parseInt(indexDataTemp.getCollectedTime().toString().substring(0, 4)));
 				indexValue.add(indexDataTemp.getFinishedWorkload());
 			}
 			result.append("{\"indexUnit\":\"" + tempIndex.getIndexUnit() + "\",\"indexName\":\"" + tempIndex.getIndexName()
-			+ "\",\"indexValue\":" + tempIndex.getIndexValue()/yearNumber + ",\"year\":"
+			+ "\",\"indexValue\":" + tempIndex.getIndexValue()+ ",\"year\":"
 			+ year.toString() + ",\"value\":" + indexValue.toString() + "},");
 		}
 		result.deleteCharAt(result.length() - 1);

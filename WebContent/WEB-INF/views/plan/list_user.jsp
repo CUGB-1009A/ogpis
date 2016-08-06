@@ -52,15 +52,14 @@
 		<div class="panel-group" id="accordion" style="width:100%;height:100%;background:white">
 		    <c:forEach items="${mapList}" var="item1" varStatus="status">
 		    	<div class="panel panel-default" style="width:100%;">
-			    	<c:forEach items="${item1}" var="item_plan" begin="0" end="0">
-			    		<div class="panel-heading plan${item_plan.key.id}">
-			    		<input class="planId" type="hidden" value='${item_plan.key.id}'>
+			    		<div class="panel-heading plan${item1.get('plan').id}">
+			    		<input class="planId" type="hidden" value="${item1.get('plan').id}">
 				    		<h4 class="panel-title" align="left">
 						        <a data-toggle="collapse" data-parent="#accordion"  href="#collapseOne${status.index}">
-						          <b>${item_plan.key.planName}</b>
+						          <b>${item1.get('plan').planName}</b>
 						        </a>
-						        <span>发布时间：</span><fmt:formatDate value="${item_plan.key.releaseDate}" pattern="YYYY-MM-dd"/>&nbsp;&nbsp;&nbsp;&nbsp;
-								<span>发布单位：${item_plan.key.releaseUnit}</span>
+						        <span>发布时间：</span><fmt:formatDate value="${item1.get('plan').releaseDate}" pattern="YYYY-MM-dd"/>&nbsp;&nbsp;&nbsp;&nbsp;
+								<span>发布单位：${item1.get('plan').releaseUnit}</span>
 		               		</h4>
 		          		</div>
 		               
@@ -69,18 +68,22 @@
 				    		<div class="col-xs-12">  
 					    		<!-- 主图 -->	
 					    		<div class="col-xs-6"> 
-					    			<textarea id="inputs${status.index}" class="inputs">${item_plan.key.tenHistoryIndexData}</textarea>
-									<div class="charts charts_${status.index}" style="height:300px;width:100%" align="center" onclick="showDetail('${item_plan.key.id}')">	
+					    				<textarea class="inputsindex">${item1.get('plan').indexDataInPlanYear}</textarea>		
+														
+									<div class="charts charts_${status.index}" style="height:300px;width:100%" align="center" onclick="showDetail('${item1.get('plan').id}')">	
 
 									</div>
 								</div>
-								<div class="col-xs-6">  			
-								<!-- 几个指标几个图 -->							
+								
+								<!-- 几个指标几个图 -->	
+								<div class="col-xs-6"> 
+								 <textarea class="inputsmain"> ${item1.get('plan').indexDataInBoth}</textarea>
+									  
 									<div id="lunbo${status.index}"  class="carousel slide" style="height:300px;width:100%">
 										<div class="carousel-inner activeCharts">
-											<c:forEach items="${item_plan.key.index}" varStatus = "indexstatus">
+											<c:forEach items="${item1.get('plan').index}" varStatus = "indexstatus">
 												<div class="item">	
-													<div class="mainCharts maincharts_${status.index} first_${indexstatus.index}" style="height:300px;width:100%;" onclick="showDetail('${item_plan.key.id}')"></div>
+													<div class="mainCharts maincharts_${status.index} first_${indexstatus.index}" style="height:300px;width:100%;" onclick="showDetail('${item1.get('plan').id}')"></div>
 												</div>
 											</c:forEach>
 										</div>
@@ -91,17 +94,16 @@
 						 </div>
 					 </div>
 					 <div class="panel-footer" style="text-align:right;background:white">
-						<c:if test="${item_plan.value}">	
-							 <button class="disconcern" value="${item_plan.key.id}" >取消收藏</button>
-							 <button class="concern" value="${item_plan.key.id}" style="display:none">收藏</button>
+						<c:if test="${item1.get('isconcerned')}">	
+							 <button class="disconcern" value="${item1.get('plan').id}" >取消收藏</button>
+							 <button class="concern" value="${item1.get('plan').id}" style="display:none">收藏</button>
 						</c:if>		
-						<c:if test="${!item_plan.value}">
-							<button class="disconcern" value="${item_plan.key.id}" style="display:none">取消收藏</button>
-							<button class="concern" value="${item_plan.key.id}">收藏</button>
+						<c:if test="${!item1.get('isconcerned')}">
+							<button class="disconcern" value="${item1.get('plan').id}" style="display:none">取消收藏</button>
+							<button class="concern" value="${item1.get('plan').id}">收藏</button>
 						</c:if>						
 					 </div>
 				 </div>	
-			  </c:forEach>
 			</div>
 		</c:forEach>
 	</div>
@@ -152,8 +154,8 @@ $(".concern").click(function(){
 	});
 	})
 
-/* 完成总图 */
-window.onload = function(){
+/* 完成总图option */
+<%-- window.onload = function(){
 var option = {
 		 title: {
             text: '规划完成情况',
@@ -195,7 +197,7 @@ var option1 = {
         },
         legend: {
         	show:false,
-            data:['历史数据'],
+            data:['已经完成的情况'],
             x:'right',
             y:'top'
         },
@@ -219,7 +221,7 @@ var option1 = {
 		        	        }
 	                 },
 		
-		            name: '历史数据',
+		            name: '已经完成的情况',
 		            type: 'bar',
 		            data: []
         			  }
@@ -239,27 +241,30 @@ require(
     ],
     function (ec) {
     	var $chartsDiv = $(".charts"); /* 所有的主图 */
-    	var $inputs = $(".inputs");
+    	var $inputsmain = $(".inputsmain");
+    	var $inputsindex = $(".inputsindex");
     	var myCharts;
-    	var $planId = $(".planId");;
     	for (var i=0;i<$chartsDiv.length;i++)
 		{	
-    		var planId = $planId[i].value;
     		var $mainCharts = $(".maincharts_"+i);/* 一个规划的附图 */ 		
-			myCharts = ec.init($chartsDiv[i]);		
-			var data = $inputs[i].value; 
-			var obj = eval("(" + data + ")");
-        	var tempYdata = "{\"yData\":[";
+			 myCharts = ec.init($chartsDiv[i]);		
+			var datamain = $inputsmain[i].value; 
+			var objmain = eval("(" + datamain + ")"); 
+			console.log(datamain) 
+			var dataindex = $inputsindex[i].value; 
+			var objindex = eval("(" + dataindex + ")"); 
+			console.log(dataindex)
+         	var tempYdata = "{\"yData\":[";
         	var tempSeries = "{\"series\":["
-				for(var j=0;j<obj.length;j++)
+				for(var j=0;j<objmain.length;j++)
 					{
-						tempYdata = tempYdata + "'"+obj[j].indexName+"',";
+						tempYdata = tempYdata + "'"+objmain[j].indexName+"',";
 					}
 	        		tempYdata = tempYdata.substring(0,tempYdata.length-1)+"]}";	        		
 					tempSeries = tempSeries + "{ itemStyle: {normal: {label : {show:true, textStyle: {color: '#800080'},formatter:'{c} %'}}},type:'bar',stack:'总量',name:'规划完成情况',data:[";
-					for(var l=0;l<obj.length;l++)
+					for(var l=0;l<objmain.length;l++)
 						{
-						tempSeries = tempSeries + (obj[l].hasFinished/obj[l].indexValue*100).toFixed(1)+","
+						tempSeries = tempSeries + (objmain[l].hasFinished/objmain[l].indexValue*100).toFixed(1)+","
 						}
 				tempSeries = tempSeries.substring(0,tempSeries.length-1)+"]}";
 				tempSeries = tempSeries +"]}";
@@ -267,15 +272,15 @@ require(
 			var obj3 = eval("(" + tempSeries + ")");
 			option.yAxis.data = obj2.yData;
 			option.series = obj3.series;
-		 	myCharts.setOption(option);
+		 	myCharts.setOption(option); 
 		 	
 			for(var ii=0;ii<$mainCharts.length;ii++)
 			   {			   
-				   myCharts = ec.init($(".maincharts_"+i+".first_"+ii)[0]);
-				   option1.yAxis.name = obj[ii].indexUnit;
-				   option1.title.text = obj[ii].indexName;
-				   option1.xAxis.data = obj[ii].year;
-				   option1.series[0].data = obj[ii].value;
+				   myCharts = ec.init($mainCharts[ii]);
+				   option1.yAxis.name = objindex[ii].indexUnit;
+				   option1.title.text = objindex[ii].indexName;
+				   option1.xAxis.data = objindex[ii].year;
+				   option1.series[0].data = objindex[ii].value;
 				   myCharts.setOption(option1);
 				
 			   } 			
@@ -290,6 +295,7 @@ require(
 	$(".mainCharts").css( 'width', $(".first_0").width() );
 	$(".charts").css( 'width', $(".charts_0").width() );
 }
+ --%>
 $(".removeIn").removeClass("in");
 $("#collapseOne0").addClass("in");
 

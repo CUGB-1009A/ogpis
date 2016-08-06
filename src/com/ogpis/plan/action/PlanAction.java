@@ -86,13 +86,6 @@ public class PlanAction {
 		User user = userService.findByUserName(currentUserName);
 		Set<Role> roles = user.getRoles();
 		boolean isManager = false;
-		List<IndexDataManagement> indexFinished = null;
-		List<IndexDataManagement> indexRecord = null;
-		ArrayList<Float> indexValue = new ArrayList<Float>();
-		ArrayList<Integer> year = new ArrayList<Integer>();
-		ArrayList<Integer> year1 = new ArrayList<Integer>();
-		float hasFinished;
-
 		for (Role role : roles) {
 			if (role.getIsSuper())
 				isManager = true;
@@ -104,48 +97,14 @@ public class PlanAction {
 		}
 		model.addAttribute("plansNumber", plans.size());// 规划数量
 		for (Plan temp : plans) {
-			StringBuilder result = new StringBuilder();
-			result.append("[");
 			map = new LinkedHashMap();
+			map.put("plan", temp);
 			if (conceredPlanId.contains(temp.getId()))
-				map.put(temp, true);// value = true 说明用户已经关注该规划
+				map.put("isconcerned", true);// value = true 说明用户已经关注该规划
 			else
-				map.put(temp, false);// value = false 说明用户还没有关注该规划
+				map.put("isconcerned", false);// value = false 说明用户还没有关注该规划
 			Set<PlanDocument> document = temp.getPlanDocument();
 			map.put("planDocument", document);
-			if (!isManager) {
-				List<IndexManagement> tempIndex = indexManagementService.getOnePlanIndexs(temp.getId());
-				for (IndexManagement index : tempIndex) {
-					year.clear();
-					indexValue.clear();
-					year1.clear();
-					indexValue.clear();
-					hasFinished = 0;
-					// 计算规划时间段内的完成情况
-					indexFinished = indexDataManagementService.sumTheIndex(index.getId(), temp.getStartTime(),
-							temp.getEndTime());
-					for (IndexDataManagement indexDataTemp : indexFinished) {
-						hasFinished = hasFinished + indexDataTemp.getFinishedWorkload();
-					}
-
-					// 所有的历史记录
-					indexRecord = indexDataManagementService.findByIndexId(index.getId());
-
-					for (IndexDataManagement indexDataTemp : indexRecord) {
-						year.add(Integer.parseInt(indexDataTemp.getCollectedTime().toString().substring(0, 4)));
-						indexValue.add(indexDataTemp.getFinishedWorkload());
-					}
-					result.append(
-							"{\"indexUnit\":\"" + index.getIndexUnit() + "\",\"indexName\":\"" + index.getIndexName()
-									+ "\",\"indexValue\":" + index.getIndexValue() + ",\"hasFinished\":" + hasFinished
-									+ ",\"year\":" + year.toString() + ",\"value\":" + indexValue.toString() + "},");
-
-				}
-				result.deleteCharAt(result.length() - 1);
-				result.append("]");
-				map.put("charts", result);
-
-			}
 			mapList.add(map);
 		}
 		model.addAttribute("mapList", mapList);// 返回规划
@@ -175,10 +134,8 @@ public class PlanAction {
 		float hasFinished;
 		List<IndexManagement> IndexChart1 = indexManagementService.getOnePlanIndexs(id);
 		model.addAttribute("index",IndexChart1);
-		StringBuilder result1 = new StringBuilder();
 		StringBuilder result2 = new StringBuilder();
 		StringBuilder result3 = new StringBuilder();
-		result1.append("[");
 		result2.append("[");
 		result3.append("[");
 		for (IndexManagement index : IndexChart1) {
@@ -194,14 +151,7 @@ public class PlanAction {
 					plan.getEndTime());
 			//所有记录
 			indexRecord = indexDataManagementService.findByIndexId(index.getId());
-			for (IndexDataManagement indexDataTemp : indexFinished) {
-				hasFinished = hasFinished + indexDataTemp.getFinishedWorkload();
-				year.add(Integer.parseInt(indexDataTemp.getCollectedTime().toString().substring(0, 4)));
-				indexValue.add(indexDataTemp.getFinishedWorkload());
-			}
-			result1.append("{\"indexUnit\":\"" + index.getIndexUnit() + "\",\"indexName\":\"" + index.getIndexName()
-					+ "\",\"indexValue\":" + index.getIndexValue() + ",\"hasFinished\":" + hasFinished + ",\"year\":"
-					+ year.toString() + ",\"value\":" + indexValue.toString() + "},");
+
 			for (IndexDataManagement indexDataTemp : indexRecord) {
 				hasFinished = hasFinished + indexDataTemp.getFinishedWorkload();
 				year1.add(Integer.parseInt(indexDataTemp.getCollectedTime().toString().substring(0, 4)));
@@ -211,14 +161,11 @@ public class PlanAction {
 			+ "\",\"indexValue\":" + index.getIndexValue() + ",\"hasFinished\":" + hasFinished + ",\"year\":"
 			+ year1.toString() + ",\"value\":" + indexValue1.toString() + "},");
 		}
-		result1.deleteCharAt(result1.length() - 1);
-		result1.append("]");
 		result2.deleteCharAt(result2.length() - 1);
 		result2.append("]");
 		result3.deleteCharAt(result3.length() - 1);
 		result3.append("]");
 		model.addAttribute("type", plan.getPlanType());
-		model.addAttribute("charts1", result1);
 		model.addAttribute("charts2", result2);
 		model.addAttribute("charts3", result3);
 		return "plan/user_detail";
