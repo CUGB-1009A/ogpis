@@ -17,7 +17,7 @@ import com.ogpis.plan.entity.base.PlanEntity;
 public class Plan extends PlanEntity {
 	
 	public List<IndexManagement> getOrderedIndex() {
-		List<IndexManagement> list = (List<IndexManagement>) super.getIndex();
+		List<IndexManagement> list = (List<IndexManagement>) this.getIndexs();
 		Collections.sort(list);
 		return list;
 	}
@@ -29,9 +29,9 @@ public class Plan extends PlanEntity {
 		List<IndexDataManagement> indexDataAll =  new ArrayList<IndexDataManagement>();//对应所有的完成情况
 		List<IndexDataManagement> indexDataTen =  new ArrayList<IndexDataManagement>();;//对应的规划外的十年完成情况
 		ArrayList<Float> indexValue = new ArrayList<Float>();
-		ArrayList<Integer> year = new ArrayList<Integer>();
+		ArrayList<String> year = new ArrayList<String>();
 		List<IndexManagement> indexTemp = new ArrayList<IndexManagement>();
-		indexTemp.addAll(super.getIndex());
+		indexTemp.addAll(this.getIndexs());
 		Collections.sort(indexTemp);
 		result.append("[");
 		for(IndexManagement tempIndex : indexTemp)
@@ -52,9 +52,11 @@ public class Plan extends PlanEntity {
 			}
 			for(IndexDataManagement indexDataTemp : indexDataTen)
 			{
-				year.add(Integer.parseInt(indexDataTemp.getCollectedTime().toString().substring(0, 4)));
+				year.add("'"+indexDataTemp.getCollectedTime().toString().substring(0, 4)+"'");
 				indexValue.add(indexDataTemp.getFinishedWorkload());
 			}
+			year.add("'目标值'");
+			indexValue.add(tempIndex.getIndexValue()/yearNumber);
 			result.append("{\"indexUnit\":\"" + tempIndex.getIndexUnit() + "\",\"indexName\":\"" + tempIndex.getIndexName()
 			+ "\",\"indexValue\":" + tempIndex.getIndexValue()/yearNumber + ",\"year\":"
 			+ year.toString() + ",\"value\":" + indexValue.toString() + "},");
@@ -74,7 +76,7 @@ public class Plan extends PlanEntity {
 		List<IndexDataManagement> indexDataAll =  new ArrayList<IndexDataManagement>();//对应所有的完成情况
 		List<IndexDataManagement> indexDataInPlanYear =  new ArrayList<IndexDataManagement>();//对应的规划外的十年完成情况
 		List<IndexManagement> indexTemp = new ArrayList<IndexManagement>();
-		indexTemp.addAll(super.getIndex());
+		indexTemp.addAll(this.getIndexs());
 		Collections.sort(indexTemp);
 		result.append("[");
 		for(IndexManagement tempIndex : indexTemp)
@@ -114,7 +116,7 @@ public class Plan extends PlanEntity {
 		List<IndexDataManagement> indexDataAll =  new ArrayList<IndexDataManagement>();//对应所有的完成情况
 		List<IndexDataManagement> indexDataInBoth =  new ArrayList<IndexDataManagement>();//对应的规划截止时间的最新10年数据
 		List<IndexManagement> indexTemp = new ArrayList<IndexManagement>();
-		indexTemp.addAll(super.getIndex());
+		indexTemp.addAll(this.getIndexs());
 		Collections.sort(indexTemp);
 		result.append("[");
 		for(IndexManagement tempIndex : indexTemp)

@@ -158,10 +158,11 @@ public class PlanEntity extends BaseEntity {
 		this.planDocument = planDocument;
 	}
 
+	@Deprecated
 	public List<IndexManagement> getIndex() {
 		return index;
 	}
-
+	@Deprecated
 	public void setIndex(List<IndexManagement> index) {
 		this.index = index;
 	}
