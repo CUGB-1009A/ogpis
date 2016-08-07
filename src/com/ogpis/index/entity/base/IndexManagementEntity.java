@@ -33,7 +33,7 @@ public class IndexManagementEntity extends BaseEntity {
 	protected String indexType;
 	
 	@Column(name = "优先级")
-	protected int priority;
+	protected Integer priority;
 	
 	@Column(name = "指标单位")
 	protected String indexUnit;
@@ -136,14 +136,14 @@ public class IndexManagementEntity extends BaseEntity {
 	/**
 	 * @return the priority
 	 */
-	public int getPriority() {
+	public Integer getPriority() {
 		return priority;
 	}
 
 	/**
 	 * @param priority the priority to set
 	 */
-	public void setPriority(int priority) {
+	public void setPriority(Integer priority) {
 		this.priority = priority;
 	}
 	
