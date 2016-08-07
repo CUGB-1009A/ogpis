@@ -110,9 +110,9 @@
 <script type="text/javascript">
 var option = {
 		 title: {
-           text: '规划年间各年完成情况',
+           text: '规划每年完成情况',
            x: 'center',            
-           y: 'bottom'
+           y: 'top'
        },
    tooltip : {
        trigger: 'axis',

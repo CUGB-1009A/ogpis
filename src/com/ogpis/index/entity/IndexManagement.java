@@ -15,6 +15,6 @@ public class IndexManagement extends IndexManagementEntity implements Comparable
 	public int compareTo(Object o) {
 		// TODO Auto-generated method stub
 		IndexManagement indexManagement=(IndexManagement)o;
-		return this.getIndexType().compareTo(indexManagement.getIndexType());
+		return this.getPriority().compareTo(indexManagement.getPriority());
 	}
 }
