@@ -17,11 +17,4 @@ public class IndexManagement extends IndexManagementEntity implements Comparable
 		IndexManagement indexManagement=(IndexManagement)o;
 		return this.getIndexType().compareTo(indexManagement.getIndexType());
 	}
-	
-	public List<IndexDataManagement> getOrderedData() {
-		List<IndexDataManagement> list = super.getIndexData();
-		Collections.sort(list);
-		return list;
-	}
-
 }

@@ -35,7 +35,7 @@ public class IndexManagementEntity extends BaseEntity {
 	@JoinColumn(name = "对应规划id")
 	protected Plan plan;
 	
-	@OneToMany(fetch=FetchType.EAGER,cascade = { CascadeType.ALL }, mappedBy = "index")
+	@OneToMany(fetch=FetchType.LAZY,cascade = { CascadeType.ALL }, mappedBy = "index")
 	protected List<IndexDataManagement> indexData;
 
 

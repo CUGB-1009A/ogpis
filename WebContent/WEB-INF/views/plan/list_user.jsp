@@ -68,8 +68,7 @@
 				    		<div class="col-xs-12">  
 					    		<!-- 主图 -->	
 					    		<div class="col-xs-6"> 
-					    				<textarea class="inputsindex">${item1.get('plan').indexDataInPlanYear}</textarea>		
-														
+					    				<textarea class="inputsmain" style="display:none">${item1.get('plan').indexDataInPlanYear}</textarea>				
 									<div class="charts charts_${status.index}" style="height:300px;width:100%" align="center" onclick="showDetail('${item1.get('plan').id}')">	
 
 									</div>
@@ -77,8 +76,7 @@
 								
 								<!-- 几个指标几个图 -->	
 								<div class="col-xs-6"> 
-								 <textarea class="inputsmain"> ${item1.get('plan').indexDataInBoth}</textarea>
-									  
+								 <textarea class="inputsindex" style="display:none"> ${item1.get('plan').indexDataInBoth}</textarea>
 									<div id="lunbo${status.index}"  class="carousel slide" style="height:300px;width:100%">
 										<div class="carousel-inner activeCharts">
 											<c:forEach items="${item1.get('plan').index}" varStatus = "indexstatus">
@@ -155,7 +153,7 @@ $(".concern").click(function(){
 	})
 
 /* 完成总图option */
-<%-- window.onload = function(){
+ window.onload = function(){
 var option = {
 		 title: {
             text: '规划完成情况',
@@ -250,10 +248,10 @@ require(
 			 myCharts = ec.init($chartsDiv[i]);		
 			var datamain = $inputsmain[i].value; 
 			var objmain = eval("(" + datamain + ")"); 
-			console.log(datamain) 
+			
 			var dataindex = $inputsindex[i].value; 
 			var objindex = eval("(" + dataindex + ")"); 
-			console.log(dataindex)
+
          	var tempYdata = "{\"yData\":[";
         	var tempSeries = "{\"series\":["
 				for(var j=0;j<objmain.length;j++)
@@ -295,7 +293,7 @@ require(
 	$(".mainCharts").css( 'width', $(".first_0").width() );
 	$(".charts").css( 'width', $(".charts_0").width() );
 }
- --%>
+
 $(".removeIn").removeClass("in");
 $("#collapseOne0").addClass("in");
 

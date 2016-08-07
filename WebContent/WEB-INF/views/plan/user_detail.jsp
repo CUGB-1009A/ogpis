@@ -73,6 +73,7 @@
 					    		<!-- 主图 -->	
 					    		<div class="col-xs-9"> 
 					    			<textarea class="inputs1" style="display:none">${plan.indexDataInPlanYear}</textarea>
+					    			
 									<div class="charts1" style="height:300px;width:100%;" align="center">	
 
 									</div>

@@ -50,7 +50,7 @@ public class IndexManagementAction {
 	public void detail  (HttpServletRequest request,HttpServletResponse resp, ModelMap model) throws IOException {
 		String planId = request.getParameter("planId");
 		Plan plan = planService.findById(planId);
-		Set<IndexManagement> indexs =  plan.getIndex();
+		List<IndexManagement> indexs =  plan.getIndex();
 		String result = "";
 		System.out.println(indexs.size());
 		if(indexs.size()== 0)

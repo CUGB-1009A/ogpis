@@ -70,8 +70,8 @@ public class PlanEntity extends BaseEntity {
 	@OneToMany(fetch=FetchType.EAGER,cascade = { CascadeType.ALL }, mappedBy = "plan")
 	protected Set<PlanDocument> planDocument;
 
-	@OneToMany(fetch=FetchType.EAGER,cascade = { CascadeType.ALL }, mappedBy = "plan")
-	protected Set<IndexManagement> index;
+	@OneToMany(fetch=FetchType.LAZY,cascade = { CascadeType.ALL }, mappedBy = "plan")
+	protected List<IndexManagement> index;
 	
 	//规划对应被哪些用户收藏 many-to-many
 	@ManyToMany(targetEntity = User.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -158,11 +158,11 @@ public class PlanEntity extends BaseEntity {
 		this.planDocument = planDocument;
 	}
 
-	public Set<IndexManagement> getIndex() {
+	public List<IndexManagement> getIndex() {
 		return index;
 	}
 
-	public void setIndex(Set<IndexManagement> index) {
+	public void setIndex(List<IndexManagement> index) {
 		this.index = index;
 	}
 

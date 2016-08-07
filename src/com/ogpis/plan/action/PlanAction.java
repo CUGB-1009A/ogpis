@@ -119,7 +119,8 @@ public class PlanAction {
 	@RequestMapping(value = "/plan/user_detail")
 	public String user_detail(HttpServletRequest request, ModelMap model, String id) {
 		Plan plan = planService.findById(id);
-		Set<PlanDocument> planDocument = plan.getPlanDocument();
+		model.addAttribute("plan", plan);
+		/*Set<PlanDocument> planDocument = plan.getPlanDocument();
 		model.addAttribute("plan", plan);
 		model.addAttribute("planDocument", planDocument);
 		List<IndexDataManagement> indexFinished = null;
@@ -164,10 +165,10 @@ public class PlanAction {
 		result2.deleteCharAt(result2.length() - 1);
 		result2.append("]");
 		result3.deleteCharAt(result3.length() - 1);
-		result3.append("]");
+		result3.append("]");*/
 		model.addAttribute("type", plan.getPlanType());
-		model.addAttribute("charts2", result2);
-		model.addAttribute("charts3", result3);
+	/*	model.addAttribute("charts2", result2);
+		model.addAttribute("charts3", result3);*/
 		return "plan/user_detail";
 	}
 
@@ -211,7 +212,7 @@ public class PlanAction {
 		Plan plan = planService.findById(id);
 		model.addAttribute("plan", plan);
 		Set<PlanDocument> planDocuments = plan.getPlanDocument();
-		Set<IndexManagement> indexs = plan.getIndex();
+		List<IndexManagement> indexs = plan.getIndex();
 		HashMap hasMap = new HashMap();
 		List<IndexDataManagement> indexDataManagement;
 		for (IndexManagement temp : indexs) {
