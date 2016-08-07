@@ -91,7 +91,7 @@
 								</div>
 						 </div>
 					 </div>
-					 <div class="panel-footer" style="text-align:right;background:white">
+					<%--  <div class="panel-footer" style="text-align:right;background:white">
 						<c:if test="${item1.get('isconcerned')}">	
 							 <button class="disconcern" value="${item1.get('plan').id}" >取消收藏</button>
 							 <button class="concern" value="${item1.get('plan').id}" style="display:none">收藏</button>
@@ -100,7 +100,7 @@
 							<button class="disconcern" value="${item1.get('plan').id}" style="display:none">取消收藏</button>
 							<button class="concern" value="${item1.get('plan').id}">收藏</button>
 						</c:if>						
-					 </div>
+					 </div> --%>
 				 </div>	
 			</div>
 		</c:forEach>

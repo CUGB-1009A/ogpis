@@ -200,6 +200,40 @@ var option1 = {
 	           ]
     };
     
+var option2 = {
+		title:{
+			text: '',
+            x: 'center',            
+            y: 'top'
+		},
+	    tooltip : {
+	        trigger: 'axis'
+	    },
+	    dataZoom : {
+	        show : true,
+	        realtime : true,
+	     /*   动态配置能看的起始位置 start */
+	        end : 100
+	    },
+	    xAxis : [
+	        {
+	            type : 'category',
+	            data : []
+	        }
+	    ],
+	    yAxis : [
+	        {
+	            type : 'value'
+	        }
+	    		],
+	    series : [
+	        {
+	            type:'bar',
+	            data:[]
+	        }  
+	    		] 
+	    };
+    
 
 require.config({
     paths: {
@@ -223,6 +257,12 @@ require(
 			var $myCharts1 = $(".charts2");		
 			var data1 = $(".inputs2")[0].value; 
 			var obj_1 = eval("(" + data1 + ")");
+			
+			//按指标的类型分 indexType
+			var $myCharts2 = $(".charts3");
+			var $myCharts3 = $(".charts4");
+			var data2 = $(".inputs3")[0].value;
+			var obj_2 = eval("(" + data2 + ")");
 			
 			var tempLegend = "{\"legend\":[";
 		 	var tempYdata = "{\"yData\":[";
@@ -262,6 +302,31 @@ require(
 				   option1.xAxis.data = obj_1[jj].year;
 				   option1.series[0].data = obj_1[jj].value;
 				   myCharts2.setOption(option1);
+		 		}
+		 	
+		 	var myCharts3;
+		 	var m=0,n=0;
+		 	for(var kk=0;kk<obj_2.length;kk++)
+		 		{
+		 		 option2.title.text = obj_2[kk].indexName+'历史数据';
+		 		 option2.yAxis.name = obj_2[kk].indexUnit;
+		 		 option2.xAxis[0].data = obj_2[kk].year;
+		 		 option2.series[0].data = obj_2[kk].value;
+		 		    if(obj_2[kk].year.length>10)
+		 		    	 option2.dataZoom.start = 0;
+		 		    else
+		 		    	 option2.dataZoom.start = 100-1000/obj_2[kk].year.length;
+					if(obj_2[kk].indexType=='1')
+						{
+						myCharts3 = ec.init($myCharts2[m]);
+						m = m + 1 ;
+						}
+					if(obj_2[kk].indexType=='2')
+						{
+						myCharts3 = ec.init($myCharts3[n]);
+						n = n + 1 ;
+						}
+					myCharts3.setOption(option2);
 		 		}
 		 	
 });

@@ -147,6 +147,46 @@ public class Plan extends PlanEntity {
 		result.append("]");
 		return result.toString();
 	}
+	
+	//获取指标对应的所有历史数据（规划截止时间前的所有历史数据）
+	@SuppressWarnings("unchecked")
+	public String getAllHistoryIndexData(){	
+		StringBuilder result = new StringBuilder();
+		ArrayList<Float> indexValue = new ArrayList<Float>();
+		ArrayList<Integer> year = new ArrayList<Integer>();
+		List<IndexDataManagement> indexDataAll =  new ArrayList<IndexDataManagement>();//对应所有的完成情况
+		List<IndexDataManagement> indexDataInPlanYear =  new ArrayList<IndexDataManagement>();//对应的规划外的十年完成情况
+		List<IndexManagement> indexTemp = new ArrayList<IndexManagement>();
+		indexTemp.addAll(this.getIndexs());
+		Collections.sort(indexTemp);
+		result.append("[");
+		for(IndexManagement tempIndex : indexTemp)
+		{
+			year.clear();
+			indexValue.clear();
+			indexDataAll.clear();
+			indexDataInPlanYear.clear();
+			indexDataAll.addAll(tempIndex.getIndexData());		
+			Collections.sort(indexDataAll); //根据年份排序（2000----2010）
+			for(IndexDataManagement temp:indexDataAll) //记录处在规划期内的完成记录
+			{
+				if(temp.getCollectedTime().getTime()<super.endTime.getTime())
+					indexDataInPlanYear.add(temp);
+			}
+			for(IndexDataManagement indexDataTemp : indexDataInPlanYear)
+			{
+				year.add(Integer.parseInt(indexDataTemp.getCollectedTime().toString().substring(0, 4)));
+				indexValue.add(indexDataTemp.getFinishedWorkload());
+			}
+			result.append("{\"indexType\":\""+tempIndex.getIndexType()+"\",\"indexUnit\":\"" + tempIndex.getIndexUnit() + "\",\"indexName\":\"" + tempIndex.getIndexName()
+			+ "\",\"indexValue\":" + tempIndex.getIndexValue()+ ",\"year\":"
+			+ year.toString() + ",\"value\":" + indexValue.toString() + "},");
+		}
+		result.deleteCharAt(result.length() - 1);
+		result.append("]");
+		return result.toString();
+		
+	}
 
 	public List<IndexManagement> getIndexs() {
 		List<IndexManagement> result = new ArrayList();
