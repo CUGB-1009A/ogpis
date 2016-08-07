@@ -71,7 +71,6 @@ public class PlanDaoImpl extends BaseDaoImpl<Plan, String>
  						"from Plan where deleted=false order by createTime desc", 
  						null); 
 		return items; 
-
 	}
 
 	@Override

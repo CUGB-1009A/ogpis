@@ -100,20 +100,21 @@
 					   <li><a href="#completeEntry" data-toggle="tab" onclick="Tab4()">完成情况</a></li>
 					</c:if> 
 		 			
-		 		<%-- 	<c:if test='<%=flag.equals("5") %>'> 
+		 			<c:if test='<%=flag.equals("5") %>'> 
 					   <li class="active"><a href="#track" data-toggle="tab">规划跟踪</a></li>
 					</c:if> 
 					<c:if test='<%=!flag.equals("5") %>'> 
 					   <li><a href="#track" data-toggle="tab" onclick="Tab5()">规划跟踪</a></li>
-		 			</c:if>  --%>		  
+		 			</c:if>  		  
 				</ul>
 				
 				<div id="myTabContent" class="tab-content">
 					<%@ include file="Tab1Detail.jsp"%>
 					<%@ include file="Tab2Doc.jsp"%>
-					<%@ include file="Tab3Index.jsp"%>
+<%-- 					<%@ include file="Tab3Index.jsp"%> --%>
+					<%@ include file="admin/index/list.jsp"%>
 					<%@ include file="Tab4Complete.jsp"%>
-					<%-- <%@ include file="Tab5Track.jsp"%>	 --%>		
+					<%@ include file="Tab5Track.jsp"%>		
 				</div>
 			</div><!-- /span -->
 		</div><!-- /row -->
@@ -169,8 +170,8 @@ $(function(){
 		$("#indexEntry").toggleClass("in active"); 
 	if(flag==4)
 		$("#completeEntry").toggleClass("in active");
-	//if(flag==5)
-		//$("#track").toggleClass("in active");
+	if(flag==5)
+		$("#track").toggleClass("in active");
 }); 
 
 /* 初始化模态框，清空模态框一切信息，设置上传按钮可用，警示信息隐藏 */

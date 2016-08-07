@@ -67,7 +67,11 @@ public abstract class BaseDaoImpl<T, ID extends Serializable> extends
 	@Override
 	public void update(T entity) {
 		try {
-			this.getHibernateTemplate().update(entity);
+			this.getHibernateTemplate().merge(entity);
+			//开启懒加载时 update会报Illegal attempt to associate a collection with two open sessions异常
+			//不知道为什么
+			//this.getHibernateTemplate().update(entity);
+		
 		} catch (Exception e) {
 			super.logger.error("更新数据失败," + e);
 			throw new DAOException("更新数据失败," + e.getMessage());
@@ -77,13 +81,17 @@ public abstract class BaseDaoImpl<T, ID extends Serializable> extends
 	@Override
 	public T findById(ID id) {
 		try {
-			return this.getHibernateTemplate().get(getEntityClass(), id);
-/*			Session session = this.getHibernateTemplate().getSessionFactory().getCurrentSession();
-			Transaction trans =session.beginTransaction();
-			trans.begin();
-			T t=(T)session.createQuery("from NationalPlan where id='"+id+"'").uniqueResult();
-			trans.commit();
-			return t;*/
+			T result = this.getHibernateTemplate().get(getEntityClass(), id);
+			return result;
+			/*
+			 * Session session =
+			 * this.getHibernateTemplate().getSessionFactory().
+			 * getCurrentSession(); Transaction trans
+			 * =session.beginTransaction(); trans.begin(); T
+			 * t=(T)session.createQuery
+			 * ("from NationalPlan where id='"+id+"'").uniqueResult();
+			 * trans.commit(); return t;
+			 */
 		} catch (Exception e) {
 			super.logger.error("获取数据失败," + e);
 			throw new DAOException("获取数据失败," + e.getMessage());

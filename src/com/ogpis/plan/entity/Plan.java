@@ -1,7 +1,5 @@
 package com.ogpis.plan.entity;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -147,4 +145,13 @@ public class Plan extends PlanEntity {
 		result.append("]");
 		return result.toString();
 	}
+
+	public List<IndexManagement> getIndexs() {
+		List<IndexManagement> result = new ArrayList();
+		for (Plan_Index p_i : this.getPlan_indexs()) {
+			result.add(p_i.getIndex());
+		}
+		return result;
+	}
+
 }

@@ -1,39 +1,35 @@
 package com.ogpis.plan.entity.base;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+
 import com.ogpis.base.entity.BaseEntity;
 import com.ogpis.document.entity.PlanDocument;
-import com.ogpis.index.entity.IndexDataManagement;
 import com.ogpis.index.entity.IndexManagement;
-import com.ogpis.index.service.IndexDataManagementService;
-import com.ogpis.index.service.IndexManagementService;
+import com.ogpis.plan.entity.Plan_Index;
 import com.ogpis.system.entity.User;
 
 /**
  * 规划信息的基类，定义了规划信息的公有字段
+ * 
  * @author Danny
  */
 @MappedSuperclass
 public class PlanEntity extends BaseEntity {
-	
+
 	@Column(name = "规划名称")
 	protected String planName;
 
@@ -51,6 +47,9 @@ public class PlanEntity extends BaseEntity {
 	@DateTimeFormat( pattern = "yyyy-MM-dd" )
 	protected Date releaseDate;
 
+
+
+	// 这个是指是全国、各大石油公司、其他规划；还是以后从其他维度的规划
 	@Column(columnDefinition="DATE",name = "规划开始时间")
 	@DateTimeFormat( pattern = "yyyy-MM-dd" )
 	protected Date startTime;
@@ -67,13 +66,14 @@ public class PlanEntity extends BaseEntity {
 	@Column(columnDefinition="TEXT", name = "规划描述")
 	protected String planDescription;
 	
-	@OneToMany(fetch=FetchType.EAGER,cascade = { CascadeType.ALL }, mappedBy = "plan")
+	@OneToMany(fetch=FetchType.LAZY,cascade = { CascadeType.ALL }, mappedBy = "plan")
 	protected Set<PlanDocument> planDocument;
 
-	@OneToMany(fetch=FetchType.LAZY,cascade = { CascadeType.ALL }, mappedBy = "plan")
+	@Deprecated
+	@OneToMany(fetch = FetchType.LAZY, cascade = { CascadeType.ALL }, mappedBy = "plan")
 	protected List<IndexManagement> index;
-	
-	//规划对应被哪些用户收藏 many-to-many
+
+	// 规划对应被哪些用户收藏 many-to-many
 	@ManyToMany(targetEntity = User.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name = "ogpis_user_plan", joinColumns = @JoinColumn(name = "PLAN_ID"), inverseJoinColumns = @JoinColumn(name = "USER_ID"))
 	protected Set<User> users = new HashSet<User>();
@@ -174,7 +174,24 @@ public class PlanEntity extends BaseEntity {
 		this.users = users;
 	}
 
+	@OneToMany(mappedBy = "plan",fetch = FetchType.LAZY,targetEntity=Plan_Index.class)
+	private List<Plan_Index> plan_indexs;
 
+
+	/**
+	 * @return the plan_indexs
+	 */
+	public List<Plan_Index> getPlan_indexs() {
+		return plan_indexs;
+	}
+
+	/**
+	 * @param plan_indexs
+	 *            the plan_indexs to set
+	 */
+	public void setPlan_indexs(List<Plan_Index> plan_indexs) {
+		this.plan_indexs = plan_indexs;
+	}
 
 
 }

@@ -7,6 +7,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
@@ -14,10 +16,15 @@ import javax.persistence.OneToMany;
 import com.ogpis.base.entity.BaseEntity;
 import com.ogpis.index.entity.IndexDataManagement;
 import com.ogpis.plan.entity.Plan;
+import com.ogpis.plan.entity.Plan_Index;
+import com.ogpis.system.entity.User;
 
 @MappedSuperclass
 public class IndexManagementEntity extends BaseEntity {
-	
+
+	public static final String FREQUENCY_YEAR = "year";
+	public static final String FREQUENCY_QUARTER = "quarter";
+	public static final String FREQUENCY_MONTH = "month";
 
 	@Column(name = "指标名称")
 	protected String indexName;
@@ -28,9 +35,11 @@ public class IndexManagementEntity extends BaseEntity {
 	@Column(name = "指标单位")
 	protected String indexUnit;
 	
+	@Deprecated
 	@Column(name = "目标值")
 	protected float indexValue;
-	
+
+	@Deprecated
 	@ManyToOne
 	@JoinColumn(name = "对应规划id")
 	protected Plan plan;
@@ -87,7 +96,40 @@ public class IndexManagementEntity extends BaseEntity {
 		this.plan = plan;
 	}
 
+	@OneToMany(mappedBy = "index")
+	private Set<Plan_Index> plan_indexs;
 	
 	
+	@Column(name = "指标采集频率")
+	private String frequency;
+
+	/**
+	 * @return the plan_indexs
+	 */
+	public Set<Plan_Index> getPlan_indexs() {
+		return plan_indexs;
+	}
+
+	/**
+	 * @param plan_indexs the plan_indexs to set
+	 */
+	public void setPlan_indexs(Set<Plan_Index> plan_indexs) {
+		this.plan_indexs = plan_indexs;
+	}
+
+	/**
+	 * @return the frequency
+	 */
+	public String getFrequency() {
+		return frequency;
+	}
+
+	/**
+	 * @param frequency the frequency to set
+	 */
+	public void setFrequency(String frequency) {
+		this.frequency = frequency;
+	}
+
 
 }
