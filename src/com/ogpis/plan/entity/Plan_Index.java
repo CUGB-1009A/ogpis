@@ -14,5 +14,7 @@ public class Plan_Index extends Plan_IndexEntity implements Comparable {
 		Plan_Index plan_index = (Plan_Index)o;
 		return this.getIndex().getPriority().compareTo(plan_index.getIndex().getPriority());
 	}
+	
+	
 
 }

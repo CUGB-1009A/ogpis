@@ -16,7 +16,8 @@ import com.ogpis.plan.entity.base.PlanEntity;
 @Table(name = "ogpis_plan")
 public class Plan extends PlanEntity {
 	
-	public List<Plan_Index> getOrderedIndex() {
+	@SuppressWarnings("unchecked")
+	public List<Plan_Index> getOrderedPlan_Index() {
 		List<Plan_Index> list = (List<Plan_Index>) this.getPlan_indexs();
 		Collections.sort(list);
 		return list;

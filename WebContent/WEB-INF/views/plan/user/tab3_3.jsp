@@ -3,8 +3,8 @@
 
 <!-- 第二层次的第一个tab页 -->
 		<div class="tab-pane fade" id="output" style="background: white;">	      
-			<c:forEach items="${plan.indexs}" var="item">
-							<c:if test="${item.indexType=='2'}">
+			<c:forEach items="${plan.orderedPlan_Index}" var="item">
+							<c:if test="${item.index.indexType=='2'}">
 								<div class="row">
 										<div class="col-xs-12">  	
 								    		<div class="col-xs-6"> 
@@ -19,7 +19,8 @@
 											</div>
 												
 											<div class="col-xs-4"> 
-												<div style="height:300px;" align="center">	
+												<div style="height:300px;" align="center">
+												${item.indexPerformance}
 												</div> 
 											</div>									
 									</div>
