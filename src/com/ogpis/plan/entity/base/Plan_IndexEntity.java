@@ -27,6 +27,9 @@ public class Plan_IndexEntity extends BaseEntity {
 	
 	@Column(name = "目标值")
 	private float targetValue;
+	
+	@Column(name = "指标完成情况")
+	private String indexPerformance;
 
 	/**
 	 * @return the plan
@@ -69,4 +72,20 @@ public class Plan_IndexEntity extends BaseEntity {
 	public void setTargetValue(float targetValue) {
 		this.targetValue = targetValue;
 	}
+
+	/**
+	 * @return the indexPerformance
+	 */
+	public String getIndexPerformance() {
+		return indexPerformance;
+	}
+
+	/**
+	 * @param indexPerformance the indexPerformance to set
+	 */
+	public void setIndexPerformance(String indexPerformance) {
+		this.indexPerformance = indexPerformance;
+	}
+
+	
 }

@@ -118,86 +118,19 @@ public class PlanAction {
 		model.addAttribute("type", type);// 返回公司名称
 		model.addAttribute("condition", condition);// 查询条件回显到前台
 		if (isManager)
-			return "plan/list_admin";
+			return "plan/admin/list";
 		else
-			return "plan/list_user";
+			return "plan/user/list";
 	}
 
 	@RequestMapping(value = "/plan/user_detail")
 	public String user_detail(HttpServletRequest request, ModelMap model, String id) {
 		Plan plan = planService.findById(id);
 		model.addAttribute("plan", plan);
-		/*Set<PlanDocument> planDocument = plan.getPlanDocument();
-		model.addAttribute("plan", plan);
-		model.addAttribute("planDocument", planDocument);
-		List<IndexDataManagement> indexFinished = null;
-		List<IndexDataManagement> indexRecord = null;
-		List<IndexDataManagement> indexNotInYear = null;
-		ArrayList<Float> indexValue = new ArrayList<Float>();
-		ArrayList<Float> indexValue1 = new ArrayList<Float>();
-		ArrayList<Float> indexValue2 = new ArrayList<Float>();
-		ArrayList<Integer> year = new ArrayList<Integer>();
-		ArrayList<Integer> year1 = new ArrayList<Integer>();
-		ArrayList<Integer> year2 = new ArrayList<Integer>();
-		float hasFinished;
-<<<<<<< HEAD
-		List<IndexManagement> IndexChart1 = indexManagementService
-				.getOnePlanIndexs(id);
-		model.addAttribute("index", IndexChart1);
-=======
-		List<IndexManagement> IndexChart1 = indexManagementService.getOnePlanIndexs(id);
-		model.addAttribute("index",IndexChart1);
->>>>>>> refs/remotes/origin/规划（本身的）管理-涂健
-		StringBuilder result2 = new StringBuilder();
-		StringBuilder result3 = new StringBuilder();
-		result2.append("[");
-		result3.append("[");
-		for (IndexManagement index : IndexChart1) {
-			year.clear();
-			indexValue.clear();
-			year1.clear();
-			indexValue1.clear();
-			year2.clear();
-			indexValue2.clear();
-			hasFinished = 0;
-			// 计算规划时间段内的完成情况
-<<<<<<< HEAD
-			indexFinished = indexDataManagementService.sumTheIndex(
-					index.getId(), plan.getStartTime(), plan.getEndTime());
-			// 所有记录
-			indexRecord = indexDataManagementService.findByIndexId(index
-					.getId());
-					for (IndexDataManagement indexDataTemp : indexRecord) {
-				hasFinished = hasFinished + indexDataTemp.getFinishedWorkload();
-				year1.add(Integer.parseInt(indexDataTemp.getCollectedTime()
-						.toString().substring(0, 4)));
-=======
-			indexFinished = indexDataManagementService.sumTheIndex(index.getId(), plan.getStartTime(),
-					plan.getEndTime());
-			//所有记录
-			indexRecord = indexDataManagementService.findByIndexId(index.getId());
-
-			for (IndexDataManagement indexDataTemp : indexRecord) {
-				hasFinished = hasFinished + indexDataTemp.getFinishedWorkload();
-				year1.add(Integer.parseInt(indexDataTemp.getCollectedTime().toString().substring(0, 4)));
->>>>>>> refs/remotes/origin/规划（本身的）管理-涂健
-				indexValue1.add(indexDataTemp.getFinishedWorkload());
-			}
-			result2.append("{\"indexUnit\":\"" + index.getIndexUnit()
-					+ "\",\"indexName\":\"" + index.getIndexName()
-					+ "\",\"indexValue\":" + index.getIndexValue()
-					+ ",\"hasFinished\":" + hasFinished + ",\"year\":"
-					+ year1.toString() + ",\"value\":" + indexValue1.toString()
-					+ "},");
-		}
-		result2.deleteCharAt(result2.length() - 1);
-		result2.append("]");
-		result3.deleteCharAt(result3.length() - 1);
-		result3.append("]");*/
 		model.addAttribute("type", plan.getPlanType());
 	/*	model.addAttribute("charts2", result2);
 		model.addAttribute("charts3", result3);*/
-		return "plan/user_detail";
+		return "plan/user/detail";
 	}
 
 	/*
@@ -237,6 +170,7 @@ public class PlanAction {
 	/*
 	 * 普通用户查看规划响应函数
 	 */
+	@Deprecated
 	@RequestMapping(value = "/plan/showDetail")
 	public String showDetail(HttpServletRequest request, ModelMap model,
 			String id) {
@@ -265,7 +199,7 @@ public class PlanAction {
 	public String toEditPage(HttpServletRequest request, ModelMap model,
 			String type) {
 		model.addAttribute("type", type);
-		return "/plan/edit";
+		return "/plan/admin/add";
 	}
 
 	/*
@@ -391,7 +325,7 @@ public class PlanAction {
 			model.addAttribute("flag", 5);
 		}
 		model.addAttribute("type", type);
-		return "/plan/detail";
+		return "/plan/admin/detail";
 	}
 
 	/*

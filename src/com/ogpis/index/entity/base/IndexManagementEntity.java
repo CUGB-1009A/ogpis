@@ -32,8 +32,20 @@ public class IndexManagementEntity extends BaseEntity {
 	@Column(name = "指标类型")
 	protected String indexType;
 	
+	@Column(name = "优先级")
+	protected int priority;
+	
 	@Column(name = "指标单位")
 	protected String indexUnit;
+
+	@OneToMany(mappedBy = "index")
+	private Set<Plan_Index> plan_indexs;
+	
+	@Column(name = "指标采集频率")
+	private String frequency;
+	
+	@OneToMany(fetch=FetchType.LAZY,cascade = { CascadeType.ALL }, mappedBy = "index")
+	protected List<IndexDataManagement> indexData;
 	
 	@Deprecated
 	@Column(name = "目标值")
@@ -44,10 +56,7 @@ public class IndexManagementEntity extends BaseEntity {
 	@JoinColumn(name = "对应规划id")
 	protected Plan plan;
 	
-	@OneToMany(fetch=FetchType.LAZY,cascade = { CascadeType.ALL }, mappedBy = "index")
-	protected List<IndexDataManagement> indexData;
-
-
+	
 	public List<IndexDataManagement> getIndexData() {
 		return indexData;
 	}
@@ -79,29 +88,22 @@ public class IndexManagementEntity extends BaseEntity {
 	public void setIndexUnit(String indexUnit) {
 		this.indexUnit = indexUnit;
 	}
-
+	@Deprecated
 	public float getIndexValue() {
 		return indexValue;
 	}
-
+	@Deprecated
 	public void setIndexValue(float indexValue) {
 		this.indexValue = indexValue;
 	}
-
+	@Deprecated
 	public Plan getPlan() {
 		return plan;
 	}
-
+	@Deprecated
 	public void setPlan(Plan plan) {
 		this.plan = plan;
 	}
-
-	@OneToMany(mappedBy = "index")
-	private Set<Plan_Index> plan_indexs;
-	
-	
-	@Column(name = "指标采集频率")
-	private String frequency;
 
 	/**
 	 * @return the plan_indexs
@@ -130,6 +132,22 @@ public class IndexManagementEntity extends BaseEntity {
 	public void setFrequency(String frequency) {
 		this.frequency = frequency;
 	}
+
+	/**
+	 * @return the priority
+	 */
+	public int getPriority() {
+		return priority;
+	}
+
+	/**
+	 * @param priority the priority to set
+	 */
+	public void setPriority(int priority) {
+		this.priority = priority;
+	}
+	
+	
 
 
 }

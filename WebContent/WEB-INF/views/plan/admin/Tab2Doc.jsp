@@ -63,7 +63,7 @@
 								</tbody>
 							</table>
 						</div>
-						<c:import url ="../common/paging.jsp">
+						<c:import url ="../../common/paging.jsp">
 	        				<c:param name="pageModelName" value="planDocumentSet"/>
 	        				<c:param name="urlAddress" value="/plan/show"/>
 	       				</c:import>
