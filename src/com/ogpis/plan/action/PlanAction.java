@@ -76,9 +76,6 @@ public class PlanAction {
 
 	@SuppressWarnings("rawtypes")
 	private ArrayList idList = new ArrayList();
-	private String[] defaultIndexs = { "新增石油探明地质储量", "新增天然气探明地质储量",
-			"新增煤层气探明地质储量", "新增页岩气探明地质储量", "石油产量", "天然气产量", "煤层气产量", "页岩气产量" };
-
 	/*
 	 * 读取规划列表函数,根据type查询不同类型的规划
 	 */
@@ -211,17 +208,18 @@ public class PlanAction {
 	@RequestMapping(value = "/plan/save", method = RequestMethod.POST)
 	public String save(HttpServletRequest request, boolean isAdd,
 			ModelMap model, String id, Plan plan, String type,String indexIds) {
-		Plan bean = null;
+		Plan bean = null;			
 		if (isAdd) {
 			bean = new Plan();
 			bean.setPlanType(type);
 			bean.setReleased(false);
-			System.out.println(type+indexIds);
-
 		} else {
 			bean = planService.findById(id);
 		}
 		bean.setPlanName(plan.getPlanName());
+		bean.setPlanShortDescription(plan.getPlanShortDescription());
+		bean.setTargetAndFinished(plan.getTargetAndFinished());
+		//bean.setPlanType(type);
 		bean.setPlanCode(plan.getPlanCode());
 		bean.setPlanDescription(plan.getPlanDescription());
 		bean.setReleaseUnit(plan.getReleaseUnit());
@@ -232,7 +230,15 @@ public class PlanAction {
 		model.addAttribute("type", type);
 		model.addAttribute("condition", "");
 		if (isAdd) {
-			planService.save(bean);
+			Plan tempPlan = planService.save(bean);
+			if(indexIds.length()!=0)//如果选择了指标项则和规划关联
+			{	
+				String[] indexId = indexIds.split(",");
+				for(int i=0;i<indexId.length;i++)
+				{
+					plan_IndexService.add(tempPlan, indexManagementService.findById(indexId[i]),0);
+				}
+			}	
 			return "redirect:list";
 		} else {
 			planService.update(bean);

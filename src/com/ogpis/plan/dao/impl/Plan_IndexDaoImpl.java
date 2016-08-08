@@ -1,5 +1,7 @@
 package com.ogpis.plan.dao.impl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import com.ogpis.base.dao.impl.BaseDaoImpl;
@@ -34,5 +36,14 @@ public class Plan_IndexDaoImpl extends BaseDaoImpl<Plan_Index, String>
 		Plan_Index plan_index = (Plan_Index) this.findUnique(hql, planId,
 				indexId);
 		return plan_index;
+	}
+
+	@Override
+	public void batchAdd(Plan tempPlan, List<IndexManagement> indexs, float[] target) {
+		for(int i=0;i<indexs.size();i++)
+		{
+			this.add(tempPlan, indexs.get(i), target[i]);
+		}
+		
 	}
 }
