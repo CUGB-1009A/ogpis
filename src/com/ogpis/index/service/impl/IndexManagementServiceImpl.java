@@ -32,4 +32,10 @@ public class IndexManagementServiceImpl extends BaseServiceImpl<IndexManagement,
 		
 		return getIndexManagementDao().getOnePlanIndexs(id);
 	}
+
+	@Override
+	public List<IndexManagement> findAllIndexByPriority() {
+
+		return getIndexManagementDao().findAllIndexByPriority();
+	}
 }

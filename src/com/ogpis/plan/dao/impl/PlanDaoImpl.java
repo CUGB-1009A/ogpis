@@ -89,10 +89,10 @@ public class PlanDaoImpl extends BaseDaoImpl<Plan, String>
         String hql="";
         if(isManager)//管理员查看所有规划
         {
-	        if(condition=="")//查询对应type的所有规划
-	        	hql = "from Plan where deleted=false and planType='"+type+"' order by releaseDate desc";	
+	        if(condition=="")//查询所有规划
+	        	hql = "from Plan where deleted=false order by released,releaseDate desc";	
 	        else
-	        	hql = "from Plan where deleted=false and planType='"+type+"' and (planName like '%"+condition+"%' or planCode like '%"+condition+"%' or releaseUnit like '%"+condition+"%') order by releaseDate desc";
+	        	hql = "from Plan where deleted=false and (planName like '%"+condition+"%' or planCode like '%"+condition+"%' or releaseUnit like '%"+condition+"%') order by released,releaseDate desc";
         }
         else//普通用户查看已发布规划
         {

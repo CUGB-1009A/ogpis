@@ -37,4 +37,13 @@ public class IndexManagementDaoImpl extends BaseDaoImpl< IndexManagement,String>
 						"from IndexManagement m where m.plan.id='"+id+"' order by indexType asc",null);
 		return items;
 	}
+
+	@Override
+	public List<IndexManagement> findAllIndexByPriority() {
+		// TODO Auto-generated method stub
+		List<IndexManagement> items = this
+				.queryByHql(
+						"from IndexManagement m where m.deleted=false order by priority asc",null);
+		return items;
+	}
 }

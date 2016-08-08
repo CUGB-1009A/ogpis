@@ -25,11 +25,11 @@
 <!-- 网站头及导航栏 -->
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="z-index:1080">
 		<%@ include file="../../main/main_header.jsp"%>
-		<%@ include file="../../main/main_nav.jsp"%>
+		<%@ include file="../../main/main_nav_admin.jsp"%>
 	</nav>
 	<!--网页主体 -->
 <div id="page-wrapper" style="height:100%">
-		<div class="breadcrumbs" id="breadcrumbs" style="text-align: left;">
+		<%-- <div class="breadcrumbs" id="breadcrumbs" style="text-align: left;">
 			<ul class="breadcrumb">
 				<li>
 					<i class="icon-home home-icon"></i>
@@ -68,7 +68,7 @@
 				<li class="active">${plan.planName}</li>
 
 			</ul>
-		</div>
+		</div> --%>
 		<div class="row">
 			<div class="col-xs-12" style="margin:0;padding:0">
 				<ul id="myTab" class="nav nav-tabs">		

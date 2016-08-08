@@ -21,11 +21,6 @@
 												           data-toggle="table_1${status.index}" 
 												           data-height="300">
 												        <thead>
-												        <tr>
-												           <!--  <th data-field="id" data-formatter="idFormatter">序号</th>
-												            <th data-field="year">年份</th>
-												            <th data-field="complete">完成量</th> -->
-												        </tr>
 												        </thead>
 												    </table>
 												</div>	

@@ -19,36 +19,10 @@
 <!-- 网站头及导航栏 -->
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="z-index:1080">
 		<%@ include file="../../main/main_header.jsp"%>
-		<%@ include file="../../main/main_nav.jsp"%>
+		<%@ include file="../../main/main_nav_admin.jsp"%>
 	</nav>
 	<!--网页主体 -->	
-	<div id="page-wrapper" style="height:98%;width:100%">
-		<div class="breadcrumbs" style="text-align: left;">
-			<ul class="breadcrumb">				
-				<c:if test='<%=type.equals("QG")%>'>
-					<li class="active">全国规划</li>
-				</c:if>			
-				<c:if test='<%=type.equals("ZSY")%>'>
-					<li class="active">中石油规划</li>
-				</c:if>
-				<c:if test='<%=type.equals("ZSH")%>'>
-					<li class="active">中石化规划</li>
-				</c:if>
-				<c:if test='<%=type.equals("ZHY")%>'>
-					<li class="active">中海油规划</li>
-				</c:if>
-				<c:if test='<%=type.equals("YC")%>'>
-					<li class="active">延长石油规划</li>
-				</c:if>
-				<c:if test='<%=type.equals("ZLM")%>'>
-					<li class="active">中联煤规划</li>
-				</c:if>
-				<c:if test='<%=type.equals("QT")%>'>
-					<li class="active">其它公司规划</li>
-				</c:if>				
-			</ul>
-		</div>
-		
+	<div id="page-wrapper" style="height:98%;width:100%">		
 		<div class="row">
             <div class="col-md-12">
             	<div class="portlet box light-grey">
@@ -87,6 +61,7 @@
 											<th class="table-checkbox"><input type="checkbox" class="group-checkable" name="checkboxFirst"/>全选</th>
 											<th>规划名称</th>
 											<th>规划代号</th>
+											<th>规划类型</th>
 											<th>信息</th>											
 											<th>操作</th>
 										</tr>
@@ -101,6 +76,7 @@
 													</td>
 													<td>${item1.get('plan').planName}</td>
 													<td>${item1.get('plan').planCode}</td>
+													<td>${item1.get('plan').planType}</td>
 													<td>
 														<i class="glyphicon glyphicon-file"></i> ${item1.get('plan').planDocument.size()}&nbsp;&nbsp;&nbsp;
 														指标个数 ${item1.get('plan').index.size()}&nbsp;&nbsp;&nbsp;
@@ -144,28 +120,6 @@
 																	<i class="icon-trash bigger-200"></i>
 																	删除
 																</a>&nbsp;
-															</c:if>
-															
-															<c:if test="${item1.get('isconcerned')}">
-																<a href="javascript:disconcernPlan('${item1.get('plan').id}');" class="btn-sm btn-app btn-success no-radius disconcern_${item1.get('plan').id}" >
-																	<i class="icon-thumbs-down bigger-200"></i>
-																	取消关注
-																</a>
-																<a href="javascript:concernPlan('${item1.get('plan').id}');" class="btn-sm btn-app btn-success no-radius concern_${item1.get('plan').id}" style="display:none">
-																	<i class="icon-thumbs-up bigger-200"></i>
-																	关注
-																</a>
-															</c:if>
-															
-															<c:if test="${!item1.get('isconcerned')}">
-																<a href="javascript:concernPlan('${item1.get('plan').id}');" class="btn-sm btn-app btn-success no-radius concern_${item1.get('plan').id}">
-																	<i class="icon-thumbs-up bigger-200"></i>
-																	关注
-																</a>&nbsp;
-																<a href="javascript:disconcernPlan('${item1.get('plan').id}');" class="btn-sm btn-app btn-success no-radius disconcern_${item1.get('plan').id}" style="display:none">
-																	<i class="icon-thumbs-down bigger-200"></i>
-																	取消关注
-																</a>
 															</c:if>
 														</p>
 													</td>

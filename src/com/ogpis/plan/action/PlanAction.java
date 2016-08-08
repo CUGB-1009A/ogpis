@@ -198,6 +198,8 @@ public class PlanAction {
 	@RequestMapping(value = "/plan/toEditPage")
 	public String toEditPage(HttpServletRequest request, ModelMap model,
 			String type) {
+		List<IndexManagement> indexs = indexManagementService.findAllIndexByPriority();
+		model.addAttribute("indexs",indexs);
 		model.addAttribute("type", type);
 		return "/plan/admin/add";
 	}
@@ -208,12 +210,13 @@ public class PlanAction {
 	@RequiresPermissions(value = { "plan:add", "plan:edit" }, logical = Logical.OR)
 	@RequestMapping(value = "/plan/save", method = RequestMethod.POST)
 	public String save(HttpServletRequest request, boolean isAdd,
-			ModelMap model, String id, Plan plan, String type) {
+			ModelMap model, String id, Plan plan, String type,String indexIds) {
 		Plan bean = null;
 		if (isAdd) {
 			bean = new Plan();
 			bean.setPlanType(type);
 			bean.setReleased(false);
+			System.out.println(type+indexIds);
 
 		} else {
 			bean = planService.findById(id);
@@ -221,7 +224,6 @@ public class PlanAction {
 		bean.setPlanName(plan.getPlanName());
 		bean.setPlanCode(plan.getPlanCode());
 		bean.setPlanDescription(plan.getPlanDescription());
-		System.out.println(plan.getPlanDescription());
 		bean.setReleaseUnit(plan.getReleaseUnit());
 		bean.setStartTime(plan.getStartTime());
 		bean.setEndTime(plan.getEndTime());
@@ -231,22 +233,6 @@ public class PlanAction {
 		model.addAttribute("condition", "");
 		if (isAdd) {
 			planService.save(bean);
-			/*
-			 * 建立规划之初就添加这8个指标
-			 * '新增石油探明地质储量','新增天然气探明地质储量','新增煤层气探明地质储量','新增页岩气探明地质储量',
-			 * '石油产量','天然气产量','煤层气产量','页岩气产量'
-			 */
-			Plan xixi = planService.findById(bean.getId());
-			IndexManagement index;
-			for (int i = 0; i < defaultIndexs.length; i++) {
-				index = new IndexManagement();
-				index.setIndexType(i + 1 + "");
-				index.setIndexName(defaultIndexs[i]);
-				index.setDeleted(false);
-				index.setPlan(xixi);
-				indexManagementService.save(index);
-			}
-
 			return "redirect:list";
 		} else {
 			planService.update(bean);

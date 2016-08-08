@@ -23,6 +23,12 @@ public class IndexManagementAction {
 	@Autowired IndexManagementService indexManagementService ;
 	@Autowired PlanService planService ;
 	
+	@RequestMapping(value="/index/list")
+	public String list(HttpServletRequest request, ModelMap model) {	
+
+		return "index/indexEdit";	
+	}
+	
 	@RequestMapping(value = "/index/add")
 	public String add(HttpServletRequest request, ModelMap model,String planId) {	
 		model.addAttribute("planId", planId);
