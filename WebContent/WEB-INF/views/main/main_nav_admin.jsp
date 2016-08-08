@@ -12,9 +12,18 @@
          </li>
          
           <li>
-            <a href="<%=basePath%>/index/list"><i class="glyphicon glyphicon-star"></i> 指标管理<i></i></a>
-         </li>        
-        <shiro:hasPermission name="document:management">
+            <a href="#index" data-toggle="collapse" class="nav-header collapsed"><i class="glyphicon glyphicon-list"></i> 指标管理 <i class="fa fa-fw fa-caret-down"></i></a>
+            <ul id="index" class="nav nav-list collapse secondmenu" style="height:0px;">
+                <li>
+            		<a href="<c:url value='/index/list'/>"><i class="glyphicon glyphicon-star"></i> 指标项管理<i></i></a>
+         		</li> 
+                <li>
+                    <a href="<c:url value='/indexData/list?id=0'/>"><i class="glyphicon glyphicon-pencil"></i> 完成情况管理 </a>
+                </li>
+            </ul>
+         </li>
+                 
+
           <li>
             <a href="#doc" data-toggle="collapse" class="nav-header collapsed"><i class="glyphicon glyphicon-folder-close"></i> 文档管理 <i class="fa fa-fw fa-caret-down"></i></a>
             <ul id="doc" class="nav nav-list collapse secondmenu" style="height:0px;">
@@ -27,9 +36,7 @@
                 </li>
             </ul>
         </li>
-        </shiro:hasPermission> 
         
-        <shiro:hasPermission name="system:Management">
            <li>
             <a href="#sys" data-toggle="collapse" class="nav-header collapsed"><i class="glyphicon glyphicon-cog"></i> 系统管理 <i class="fa fa-fw fa-caret-down"></i></a>
             <ul id="sys" class="nav nav-list collapse secondmenu" style="height:0px;">
@@ -42,7 +49,6 @@
                 </li>            
             </ul>
         </li>
-        </shiro:hasPermission>
     </ul>
 </div>
 <script type="text/javascript">

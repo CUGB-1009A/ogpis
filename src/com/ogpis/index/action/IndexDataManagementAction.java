@@ -3,6 +3,8 @@ package com.ogpis.index.action;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,6 +27,24 @@ public class IndexDataManagementAction {
 	
 	@Autowired
 	private IndexManagementService indexManagementService;
+	
+	//只显示一个指标项(通过id判断显示哪个)，通过下来列表来选择显示哪个指标项
+	@RequestMapping(value = "/indexData/list")
+	public String list(HttpServletRequest request, ModelMap model,String id){
+		List<IndexManagement> indexList = indexManagementService.findAllIndexByPriority();
+		List<IndexDataManagement> indexDataList ;
+		if(id.equals("0"))
+			 {
+				indexDataList = indexList.get(0).getOrderedIndexData();
+				id = indexList.get(0).getId();
+			 }
+		else
+			indexDataList = indexManagementService.findById(id).getOrderedIndexData();
+		model.addAttribute("id",id);
+		model.addAttribute("indexDataList",indexDataList);
+		model.addAttribute("indexList",indexList);
+		return "indexData/list";		
+	}
 	
 	@RequestMapping(value = "/indexData/add")
 	public void add(HttpServletRequest request,HttpServletResponse resp, ModelMap model) throws ParseException, IOException {	

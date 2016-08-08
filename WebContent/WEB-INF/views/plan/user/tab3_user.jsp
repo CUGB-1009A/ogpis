@@ -9,9 +9,9 @@
 					 <textarea class="inputs3" style="display:none">${plan.allHistoryIndexData}</textarea>
 						<div class="col-xs-12" style="margin:0;padding:0">
 							<ul id="myTab" class="nav nav-tabs">		
-								   <li class="active"><a href="#completeCondition" data-toggle="tab">规划目标和完成情况</a></li> 
-								   <li><a href="#storage" data-toggle="tab">油气储量完成情况</a></li>
-								   <li><a href="#output" data-toggle="tab">油气产量完成情况</a></li>  
+								   <li class="active"><a href="#completeCondition" data-toggle="tab">规划目标和总体情况</a></li> 
+								   <li><a href="#storage" data-toggle="tab">油气储量</a></li>
+								   <li><a href="#output" data-toggle="tab">油气产量</a></li>  
 							</ul>				
 							<div id="tabContent" class="tab-content">
 								<%@ include file="tab3_1.jsp"%>
