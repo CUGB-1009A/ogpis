@@ -12,7 +12,7 @@
          </li>
          
           <li>
-            <a href="<%=basePath%>/plan/list"><i class="glyphicon glyphicon-star"></i> 指标管理<i></i></a>
+            <a href="<%=basePath%>/index/list"><i class="glyphicon glyphicon-star"></i> 指标管理<i></i></a>
          </li>        
         <shiro:hasPermission name="document:management">
           <li>

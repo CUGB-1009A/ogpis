@@ -25,21 +25,20 @@ public class IndexManagementAction {
 	
 	@RequestMapping(value="/index/list")
 	public String list(HttpServletRequest request, ModelMap model) {	
-
-		return "index/indexEdit";	
+		List<IndexManagement> indexList = indexManagementService.findAllIndexByPriority();
+		model.addAttribute("indexList",indexList);
+		return "index/list";	
 	}
 	
 	@RequestMapping(value = "/index/add")
-	public String add(HttpServletRequest request, ModelMap model,String planId) {	
-		model.addAttribute("planId", planId);
+	public String add(HttpServletRequest request, ModelMap model) {	
 		return "index/indexEdit";	
 	}
 	
 	@RequestMapping(value = "/index/edit")
-	public String edit(HttpServletRequest request, ModelMap model,String id,String planId) {		
+	public String edit(HttpServletRequest request, ModelMap model,String id) {		
 		IndexManagement index = indexManagementService.findById(id);
 		model.addAttribute("index",index);
-		model.addAttribute("planId",index.getPlan().getId());
 		return "index/indexEdit";	
 	}
 	
@@ -82,17 +81,16 @@ public class IndexManagementAction {
 	}
 	
 	@RequestMapping(value = "/index/save" , method = RequestMethod.POST)
-	public String save(HttpServletRequest request, ModelMap model,String id,boolean isAdd,IndexManagement indexManagement,String planId) {		
+	public String save(HttpServletRequest request, ModelMap model,boolean isAdd,IndexManagement indexManagement) {		
 		IndexManagement bean = null;
-		Plan plan = planService.findById(planId);
+		String id = request.getParameter("id");
 		if(isAdd)
 			{
 			bean = new IndexManagement();
 			bean.setIndexName(indexManagement.getIndexName());
 			bean.setIndexType(indexManagement.getIndexType());
 			bean.setIndexUnit(indexManagement.getIndexUnit());
-			bean.setIndexValue(indexManagement.getIndexValue());
-			bean.setPlan(plan);
+			bean.setPriority(indexManagement.getPriority());
 			indexManagementService.save(bean);
 			}
 		else		
@@ -101,26 +99,19 @@ public class IndexManagementAction {
 			bean.setIndexName(indexManagement.getIndexName());
 			bean.setIndexType(indexManagement.getIndexType());
 			bean.setIndexUnit(indexManagement.getIndexUnit());
-			bean.setIndexValue(indexManagement.getIndexValue());
+			bean.setPriority(indexManagement.getPriority());
 			indexManagementService.update(bean);
 			}
-		model.addAttribute("id", planId);
-		model.addAttribute("flag", 3);
-		model.addAttribute("type",plan.getPlanType());
-		return "redirect:/plan/show";	
+
+		return "redirect:/index/list";	
 	}
 	
 	@RequestMapping(value = "/index/delete")
-	public String delete(HttpServletRequest request, ModelMap model,String planId,String id) {	
-		Plan plan = planService.findById(planId);
+	public String delete(HttpServletRequest request, ModelMap model,String id) {	
 		IndexManagement bean = indexManagementService.findById(id);
 		bean.setDeleted(true);
-		bean.setPlan(null);
 		indexManagementService.update(bean);
-		model.addAttribute("flag", 3);
-		model.addAttribute("type",plan.getPlanType());
-		model.addAttribute("id", planId);
-		return "redirect:/plan/show";
+		return "redirect:/index/list";
 	}
 	
 	@RequestMapping(value = "/index/toImportPage")
