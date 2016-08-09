@@ -69,6 +69,19 @@ public class IndexDataManagementAction {
 		resp.getWriter().write(result);
 	}
 	
+	@RequestMapping(value = "/indexData/addIndexData")
+	public String addIndexData(HttpServletRequest request, ModelMap model,String indexId,IndexDataManagement indexDataTemp){
+		IndexDataManagement indexData = new IndexDataManagement();
+		IndexManagement index = indexManagementService.findById(indexId);
+		indexData.setCollectedTime(indexDataTemp.getCollectedTime());
+		indexData.setFinishedWorkload(indexDataTemp.getFinishedWorkload());
+		System.out.println(indexDataTemp.getCollectedTime());
+		indexData.setIndex(index);
+		indexDataManagementService.save(indexData);
+		model.addAttribute("id",indexId);
+		return "redirect:list";		
+	}
+	
 	@RequestMapping(value = "/indexData/add")
 	public void add(HttpServletRequest request,HttpServletResponse resp, ModelMap model) throws ParseException, IOException {	
 		String planId = request.getParameter("planId");
