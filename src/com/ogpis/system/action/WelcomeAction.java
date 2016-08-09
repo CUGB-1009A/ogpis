@@ -63,13 +63,11 @@ public class WelcomeAction {
 	  	for(Plan temp:planConcern)
 		{
 			map = new LinkedHashMap();
-			map.put(temp, true);
-			Set<PlanDocument> document = temp.getPlanDocument();
-			map.put("12", document);
+			map.put("plan",temp);
 			mapList.add(map);
 		}
 		model.addAttribute("mapList", mapList);//返回规划
-		return "main";
+		return "plan/user/concern";
 	}
 
 	/**

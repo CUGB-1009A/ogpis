@@ -44,6 +44,7 @@
 							     <a href="javascript:showAddIndexDataModel();" class="btn-sm btn-app btn-success no-radius">
 									<i class="icon-plus bigger-200">&nbsp;录入</i>
 								</a>
+								&nbsp;&nbsp;
 							</div>
 						</div>
 						<div class="dataTables_wrapper form-inline" role="grid">
@@ -56,7 +57,7 @@
 											<th>操作</th>
 										</tr>
 									</thead>
-									<tbody style="overflow-y:auto;max-height:150px;display:block">
+									<tbody>
 										<c:forEach items="${indexDataList}" var="item1" varStatus="status">
 											<tr class="tr_${item1.id}">
 												<td><fmt:formatDate value="${item1.collectedTime}" pattern="YYYY-MM-dd"/></td>
@@ -165,7 +166,6 @@ function cancleEditIndexData(id)
 function saveEditIndexData(id)
 {
 	var value = $("#input_"+id).val();//获取改变前的值	
-	alert(id)
 	$.ajax({
 		url:"<%=path%>/indexData/save",
 		type:"get",
