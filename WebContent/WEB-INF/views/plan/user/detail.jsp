@@ -274,7 +274,7 @@ require(
 			var data2 = $(".inputs3")[0].value;
 			var obj_2 = eval("(" + data2 + ")");
 			
-			var tempLegend = "{\"legend\":[";
+		 	var tempLegend = "{\"legend\":[";
 		 	var tempYdata = "{\"yData\":[";
         	var tempSeries = "{\"series\":["
 				for(var j=0;j<obj.length;j++)

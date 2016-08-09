@@ -58,10 +58,10 @@
 								
 								<!-- 几个指标几个图 -->	
 								<div class="col-xs-6"> 
-								 <textarea class="inputsindex" style="display:none"> ${item1.get('plan').indexDataInBoth}</textarea>
+								 <textarea class="inputsindex"  style="display:none"> ${item1.get('plan').indexDataInBoth}</textarea>
 									<div id="lunbo${status.index}"  class="carousel slide" style="height:300px;width:100%">
 										<div class="carousel-inner activeCharts">
-											<c:forEach items="${item1.get('plan').index}" varStatus = "indexstatus">
+											<c:forEach items="${item1.get('plan').indexs}" varStatus = "indexstatus">
 												<div class="item">	
 													<div class="mainCharts maincharts_${status.index} first_${indexstatus.index}" style="height:300px;width:100%;" onclick="showDetail('${item1.get('plan').id}')"></div>
 												</div>
@@ -242,7 +242,7 @@ require(
 	});
 
 	$(".first_0").parent(".item").addClass("active");
-	$(".mainCharts").css( 'width', $(".first_0").width() );
+	$(".mainCharts").css( 'width', $(".maincharts_0.first_0").width() );
 	$(".charts").css( 'width', $(".charts_0").width() );
 }
 

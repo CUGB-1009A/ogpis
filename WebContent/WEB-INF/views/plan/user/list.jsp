@@ -79,7 +79,7 @@
 								 <textarea class="inputsindex" style="display:none"> ${item1.get('plan').indexDataInBoth}</textarea>
 									<div id="lunbo${status.index}"  class="carousel slide" style="height:300px;width:100%">
 										<div class="carousel-inner activeCharts">
-											<c:forEach items="${item1.get('plan').index}" varStatus = "indexstatus">
+											<c:forEach items="${item1.get('plan').indexs}" varStatus = "indexstatus">
 												<div class="item">	
 													<div class="mainCharts maincharts_${status.index} first_${indexstatus.index}" style="height:300px;width:100%;" onclick="showDetail('${item1.get('plan').id}')"></div>
 												</div>
@@ -245,14 +245,12 @@ require(
     	for (var i=0;i<$chartsDiv.length;i++)
 		{	
     		var $mainCharts = $(".maincharts_"+i);/* 一个规划的附图 */ 		
-			 myCharts = ec.init($chartsDiv[i]);		
+			myCharts = ec.init($chartsDiv[i]);		
 			var datamain = $inputsmain[i].value; 
 			var objmain = eval("(" + datamain + ")"); 
-			
 			var dataindex = $inputsindex[i].value; 
 			var objindex = eval("(" + dataindex + ")"); 
-
-         	var tempYdata = "{\"yData\":[";
+            var tempYdata = "{\"yData\":[";
         	var tempSeries = "{\"series\":["
 				for(var j=0;j<objmain.length;j++)
 					{
@@ -260,20 +258,20 @@ require(
 					}
 	        		tempYdata = tempYdata.substring(0,tempYdata.length-1)+"]}";	        		
 					tempSeries = tempSeries + "{ itemStyle: {normal: {label : {show:true, textStyle: {color: '#800080'},formatter:'{c} %'}}},type:'bar',stack:'总量',name:'规划完成情况',data:[";
-					for(var l=0;l<objmain.length;l++)
-						{
-						tempSeries = tempSeries + (objmain[l].hasFinished/objmain[l].indexValue*100).toFixed(1)+","
-						}
-				tempSeries = tempSeries.substring(0,tempSeries.length-1)+"]}";
-				tempSeries = tempSeries +"]}";
+				for(var l=0;l<objmain.length;l++)
+					{
+					tempSeries = tempSeries + (objmain[l].hasFinished/objmain[l].indexValue*100).toFixed(1)+","
+					}
+			tempSeries = tempSeries.substring(0,tempSeries.length-1)+"]}";
+			tempSeries = tempSeries +"]}";
 			var obj2 = eval("(" + tempYdata + ")");
 			var obj3 = eval("(" + tempSeries + ")");
 			option.yAxis.data = obj2.yData;
 			option.series = obj3.series;
-		 	myCharts.setOption(option); 
+		 	myCharts.setOption(option);
 		 	
 			for(var ii=0;ii<$mainCharts.length;ii++)
-			   {			   
+			   {	   
 				   myCharts = ec.init($mainCharts[ii]);
 				   option1.yAxis.name = objindex[ii].indexUnit;
 				   option1.title.text = objindex[ii].indexName;
@@ -290,7 +288,7 @@ require(
 	});
 
 	$(".first_0").parent(".item").addClass("active");
-	$(".mainCharts").css( 'width', $(".first_0").width() );
+	$(".mainCharts").css( 'width', $(".maincharts_0.first_0").width() );
 	$(".charts").css( 'width', $(".charts_0").width() );
 }
 

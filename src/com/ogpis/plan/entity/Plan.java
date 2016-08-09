@@ -73,18 +73,17 @@ public class Plan extends PlanEntity {
 	//这个是取规划年间的完成情况（在规划年间，完成情况有几年，算几年）
 	@SuppressWarnings("unchecked")
 	public String getIndexDataInPlanYear() {
+		Integer beginYear = Integer.parseInt(super.startTime.toString().substring(0, 4));
+		Integer endYear = Integer.parseInt(super.endTime.toString().substring(0, 4));
 		float hasFinished ;
 		StringBuilder result = new StringBuilder();
 		ArrayList<Float> indexValue = new ArrayList<Float>();
 		ArrayList<Integer> year = new ArrayList<Integer>();
 		List<IndexDataManagement> indexDataAll =  new ArrayList<IndexDataManagement>();//对应所有的完成情况
 		List<IndexDataManagement> indexDataInPlanYear =  new ArrayList<IndexDataManagement>();//对应的规划外的十年完成情况
-		//List<IndexManagement> indexTemp = new ArrayList<IndexManagement>();
-		//indexTemp.addAll(this.getIndexs());
 		List<Plan_Index> plan_index = new ArrayList<Plan_Index>();
 		plan_index.addAll(this.getPlan_indexs());
 		Collections.sort(plan_index);
-		//Collections.sort(indexTemp);
 		result.append("[");
 		for(Plan_Index tempPlan_Index : plan_index)
 		{
@@ -94,7 +93,7 @@ public class Plan extends PlanEntity {
 			indexDataAll.clear();
 			indexDataInPlanYear.clear();
 			indexDataAll.addAll(tempPlan_Index.getIndex().getIndexData());		
-			Collections.sort(indexDataAll); //根据年份排序（2000----2010）
+			Collections.sort(indexDataAll); //根据年份排序（from small to big）
 			for(IndexDataManagement temp:indexDataAll) //记录处在规划期内的完成记录
 			{
 				if(temp.getCollectedTime().getTime()>super.startTime.getTime()&&temp.getCollectedTime().getTime()<super.endTime.getTime())

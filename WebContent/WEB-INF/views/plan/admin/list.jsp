@@ -79,7 +79,7 @@
 													<td>${item1.get('plan').planType}</td>
 													<td>
 														<i class="glyphicon glyphicon-file"></i> ${item1.get('plan').planDocument.size()}&nbsp;&nbsp;&nbsp;
-														指标个数 ${item1.get('plan').index.size()}&nbsp;&nbsp;&nbsp;
+														指标个数 ${item1.get('plan').indexs.size()}&nbsp;&nbsp;&nbsp;
 														<i class="glyphicon glyphicon-heart"></i> <span class="concernNum_${item1.get('plan').id}">${item1.get('plan').users.size()}</span>&nbsp;&nbsp;&nbsp;
 														<i class="icon-time"> ${item1.get('plan').modifiedTime.toLocaleString()}</i>
 													</td>
