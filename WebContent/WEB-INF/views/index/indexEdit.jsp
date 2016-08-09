@@ -19,7 +19,7 @@
 <!-- 网站头及导航栏 -->
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="z-index:1080">
 		<%@ include file="../main/main_header.jsp"%>
-		<%@ include file="../main/main_nav.jsp"%>
+		<%@ include file="../main/main_nav_admin.jsp"%>
 	</nav>
 	<!--网页主体 -->
 	
@@ -37,49 +37,40 @@
 			<div class="col-xs-12">
 				<form class="form-horizontal" role="form" action="<%=path%>/index/save" method="post"  onsubmit="return test()">
 					<input type="hidden" value="<%=isAdd%>" name="isAdd"/>
-					<input type="hidden" value="${index.id }" name="id"/>
-				    <input type="hidden" value="${planId}" name="planId"/>
+					<input type="hidden" value="${index.id}" name="id"/>
 					<div class="form-group">
-						<label class="col-sm-3 control-label no-padding-right" for="indexName">指标项</label>
+						<label class="col-sm-3 control-label no-padding-right" for="indexName">指标项名称</label>
 						<div class="col-sm-9">
 							<input type="text" id="indexName" placeholder="指标项名称" class="col-xs-10 col-sm-5" name="indexName" value="${index.indexName}">
 						</div>
 					</div>
+					
+					<div class="space-4"></div>	
+					<div class="form-group">
+						<label class="col-sm-3 control-label no-padding-right" for="indexUnit">指标单位</label>
+
+						<div class="col-sm-9">
+							<input type="text" id="indexUnit" placeholder="指标单位" class="col-xs-10 col-sm-5" name="indexUnit" value="${index.indexUnit}">
+						</div>
+					</div>
 
 					<div class="space-4"></div>
-					
 					<div class="form-group">
-						<label class="col-sm-3 control-label no-padding-right" for="indexType">类型</label>
+						<label class="col-sm-3 control-label no-padding-right" for="indexType">指标类型</label>
 						<div class="col-sm-9">
-							<!-- <select id="indexType" name="indexType" class="col-xs-10 col-sm-5 selectpicker" data-style="btn-danger" style="margin:0;padding:0">
-									<option value='undefined'>选择指标类型</option>
-									<option value='char'>字符型(char)</option>
-									<option value='int'>整数型(int)</option>
-									<option value='float'>小数型(float)</option>				
-							</select>  -->
 							<input type="text" id="indexType" placeholder="指标类型" class="col-xs-10 col-sm-5" name="indexType" value="${index.indexType}">			
 						</div>
 					</div>
 					
 					<div class="space-4"></div>
-					
 					<div class="form-group">
-						<label class="col-sm-3 control-label no-padding-right" for="indexUnit">单位</label>
-
+						<label class="col-sm-3 control-label no-padding-right" for="indexType">优先级</label>
 						<div class="col-sm-9">
-							<input type="text" id="indexUnit" placeholder="单位" class="col-xs-10 col-sm-5" name="indexUnit" value="${index.indexUnit}">
+							<input type="text" id="priority" placeholder="优先级" class="col-xs-10 col-sm-5" name="priority" value="${index.priority}">			
 						</div>
 					</div>
 					
-					<div class="space-4"></div>
-					
-					<div class="form-group">
-						<label class="col-sm-3 control-label no-padding-right" for="indexValue">目标值</label>
-
-						<div class="col-sm-9">
-							<input type="text" id="indexValue" placeholder="目标值" class="col-xs-10 col-sm-5" name="indexValue" value="${index.indexValue}">
-						</div>
-					</div>
+				
 					<div class="clearfix form-actions">
 						<div class="col-md-12">
 							<button class="btn-sm btn-success no-radius" type="submit">
@@ -103,7 +94,7 @@
 /* 返回指标列表 */
 function back()
 {
-	window.location.href="<%=path%>/index/back?planId=${planId}";
+	window.location.href="<%=path%>/index/list";
 }
 
 /* 保证四个数据都填写完成，否则不允许提交 */
@@ -113,21 +104,13 @@ function test()
 	var indexType = $("#indexType").val();
 	var indexUnit = $("#indexUnit").val();
 	var indexValue = $("#indexValue").val();
-	if(indexName==''||indexType=='undefined'||indexUnit==''||indexValue=='')
+	if(indexName==''||indexType==''||indexUnit==''||indexValue=='')
 		{
 		alert("请填写完整信息再提交！");
 		return false;
 		}		
 }
 
-/* 回显单位select控件 */
-/* var indexType = "${index.indexType}";
-if(indexType=='char')
-	$('#indexType option:eq(1)').attr('selected','selected');
-if(indexType=='int')
-	$('#indexType option:eq(2)').attr('selected','selected');
-if(indexType=='float')
-	$('#indexType option:eq(3)').attr('selected','selected'); */
 
 </script>
 </html>

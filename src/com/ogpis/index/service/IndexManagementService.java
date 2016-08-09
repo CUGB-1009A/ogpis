@@ -11,4 +11,9 @@ public interface IndexManagementService extends BaseService<IndexManagement,Stri
 
 	List<IndexManagement> getOnePlanIndexs(String id);
 
+	List<IndexManagement> findAll();
+
+	List<IndexManagement> findAllIndexByPriority();
+
+
 }

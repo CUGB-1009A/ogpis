@@ -5,9 +5,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.ogpis.base.service.impl.BaseServiceImpl;
 import com.ogpis.index.dao.IndexDataManagementDao;
 import com.ogpis.index.entity.IndexDataManagement;
+import com.ogpis.index.entity.IndexManagement;
 import com.ogpis.index.service.IndexDataManagementService;
 
 @Service
@@ -39,4 +41,5 @@ public class IndexDataManagementServiceImpl extends BaseServiceImpl<IndexDataMan
 		// TODO Auto-generated method stub
 		return getIndexDataManagementDao().findHistoryData(id,startTime,i);
 	}
+	
 }

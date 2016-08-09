@@ -10,7 +10,6 @@
     <meta name="author" content="">
     <title>油气资源规划管理系统</title>
      <%
-    	String type = request.getAttribute("type").toString();
         String plansNumber = request.getAttribute("plansNumber").toString();
         String basePath1 = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
     %>
@@ -30,29 +29,12 @@
 		<%@ include file="../../main/main_nav.jsp"%>
 	</nav>
        
-      <!--  搜索div -->
-       <div class="col-lg-12">
-				<div class="col-lg-6" style="float:left">				
-					
-			</div>
-				<div class="col-lg-6" style="float:left">			
-					<form action="<%=path%>/plan/list" method="post">
-					     <div class="input-group" style="margin:5px">						
-							 <input type="hidden" name="type" value="${type}">
-							 <input class="form-control" type="text" value="${condition}" name="condition">
-							 <span class="input-group-btn">
-						        <button class="btn btn-default" type="submit"><i class="icon-search "></i>搜索</button>
-						     </span>
-						</div>
-					</form>	
-			   </div>
-		</div>
 		
 		<!-- 规划内容开始容器div -->
 		<div class="panel-group" id="accordion" style="width:100%;height:100%;background:white">
 		    <c:forEach items="${mapList}" var="item1" varStatus="status">
-		    	<div class="panel panel-default" style="width:100%;">
-			    		<div class="panel-heading plan${item1.get('plan').id}">
+		    	<div class="panel panel-default plan${item1.get('plan').id}" style="width:100%;">
+			    		<div class="panel-heading">
 			    		<input class="planId" type="hidden" value="${item1.get('plan').id}">
 				    		<h4 class="panel-title" align="left">
 						        <a data-toggle="collapse" data-parent="#accordion"  href="#collapseOne${status.index}">
@@ -76,7 +58,7 @@
 								
 								<!-- 几个指标几个图 -->	
 								<div class="col-xs-6"> 
-								 <textarea class="inputsindex" style="display:none"> ${item1.get('plan').indexDataInBoth}</textarea>
+								 <textarea class="inputsindex"  style="display:none"> ${item1.get('plan').indexDataInBoth}</textarea>
 									<div id="lunbo${status.index}"  class="carousel slide" style="height:300px;width:100%">
 										<div class="carousel-inner activeCharts">
 											<c:forEach items="${item1.get('plan').indexs}" varStatus = "indexstatus">
@@ -91,15 +73,8 @@
 								</div>
 						 </div>
 					 </div>
-					<div class="panel-footer" style="text-align:right;background:white">
-						<c:if test="${item1.get('isconcerned')}">	
+					 <div class="panel-footer" style="text-align:right;background:white">
 							 <button class="disconcern" value="${item1.get('plan').id}" >取消收藏</button>
-							 <button class="concern" value="${item1.get('plan').id}" style="display:none">收藏</button>
-						</c:if>		
-						<c:if test="${!item1.get('isconcerned')}">
-							<button class="disconcern" value="${item1.get('plan').id}" style="display:none">取消收藏</button>
-							<button class="concern" value="${item1.get('plan').id}">收藏</button>
-						</c:if>						
 					 </div>
 				 </div>	
 			</div>
@@ -108,28 +83,6 @@
 </div>
 
 <script type="text/javascript">
-
-/* 关注 和 取消关注  按钮的ajax提交 */
-$(".concern").click(function(){
-	var planId = $(this).attr("value");
-	var getTimestamp = new Date().getTime();
-	//关注处理，处理成功后do
-	$.ajax({
-	url:"<%=request.getContextPath()%>/plan/concern?time="+getTimestamp,
-	dataType:"json",
-	async:true,
-	data:{"planId":planId},
-	type:"GET",
-	success:function(result){
-		$(".concern[value="+planId+"]").get(0).style.display="none";
-		$(".disconcern[value="+planId+"]").get(0).style.display="";
-		alert('收藏成功');
-	},
-	error:function(){
-		alert("出意外错误了");
-	}
-});
-})
 	
 	$(".disconcern").click(function(){
 		var planId = $(this).attr("value");
@@ -142,8 +95,7 @@ $(".concern").click(function(){
 		data:{"planId":planId},
 		type:"GET",
 		success:function(result){
-			$(".concern[value="+planId+"]").get(0).style.display="";
-			$(".disconcern[value="+planId+"]").get(0).style.display="none";
+			$(".plan"+planId).parent().empty();
 			alert('取消收藏成功');
 		},
 		error:function(){
@@ -245,12 +197,14 @@ require(
     	for (var i=0;i<$chartsDiv.length;i++)
 		{	
     		var $mainCharts = $(".maincharts_"+i);/* 一个规划的附图 */ 		
-			myCharts = ec.init($chartsDiv[i]);		
+			 myCharts = ec.init($chartsDiv[i]);		
 			var datamain = $inputsmain[i].value; 
 			var objmain = eval("(" + datamain + ")"); 
+			
 			var dataindex = $inputsindex[i].value; 
 			var objindex = eval("(" + dataindex + ")"); 
-            var tempYdata = "{\"yData\":[";
+
+         	var tempYdata = "{\"yData\":[";
         	var tempSeries = "{\"series\":["
 				for(var j=0;j<objmain.length;j++)
 					{
@@ -258,20 +212,20 @@ require(
 					}
 	        		tempYdata = tempYdata.substring(0,tempYdata.length-1)+"]}";	        		
 					tempSeries = tempSeries + "{ itemStyle: {normal: {label : {show:true, textStyle: {color: '#800080'},formatter:'{c} %'}}},type:'bar',stack:'总量',name:'规划完成情况',data:[";
-				for(var l=0;l<objmain.length;l++)
-					{
-					tempSeries = tempSeries + (objmain[l].hasFinished/objmain[l].indexValue*100).toFixed(1)+","
-					}
-			tempSeries = tempSeries.substring(0,tempSeries.length-1)+"]}";
-			tempSeries = tempSeries +"]}";
+					for(var l=0;l<objmain.length;l++)
+						{
+						tempSeries = tempSeries + (objmain[l].hasFinished/objmain[l].indexValue*100).toFixed(1)+","
+						}
+				tempSeries = tempSeries.substring(0,tempSeries.length-1)+"]}";
+				tempSeries = tempSeries +"]}";
 			var obj2 = eval("(" + tempYdata + ")");
 			var obj3 = eval("(" + tempSeries + ")");
 			option.yAxis.data = obj2.yData;
 			option.series = obj3.series;
-		 	myCharts.setOption(option);
+		 	myCharts.setOption(option); 
 		 	
 			for(var ii=0;ii<$mainCharts.length;ii++)
-			   {	   
+			   {			   
 				   myCharts = ec.init($mainCharts[ii]);
 				   option1.yAxis.name = objindex[ii].indexUnit;
 				   option1.title.text = objindex[ii].indexName;

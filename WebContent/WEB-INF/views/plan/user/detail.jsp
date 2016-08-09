@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
+    <link rel="stylesheet" href="<%=path%>/assets/bootstrapTable/css/bootstrap-table.min.css">
     <title>${plan.planName}详情</title>
     <%
    		 String type = request.getAttribute("type").toString();
@@ -15,6 +16,13 @@
 </head>
 <html>
 <body>
+
+<script src="<%=path%>/assets/bootstrapTable/js/jquery.min.js"></script>
+<script src="<%=path%>/assets/bootstrapTable/js/bootstrap.min.js"></script>
+<script src="<%=path%>/assets/bootstrapTable/js/tableExport.js"></script>
+<script src="<%=path%>/assets/bootstrapTable/js/jquery.base64.js"></script>
+<script src="<%=path%>/assets/bootstrapTable/js/bootstrap-table.js"></script>
+<script src="<%=path%>/assets/bootstrapTable/js/bootstrap-table-export.js"></script>
 <script type="text/javascript" src="<%=path%>/assets/bootstrap/js/bootstrap-datetimepicker.min.js"></script>
 <script type="text/javascript" src="<%=path%>/assets/bootstrap/js/bootstrap-datetimepicker.fr.js"></script>
 <script type="text/javascript" src="<%=path%>/assets/ckeditor/ckeditor.js"></script>
@@ -200,6 +208,42 @@ var option1 = {
 	           ]
     };
     
+var option2 = {
+		title:{
+			text: '',
+            x: 'center',            
+            y: 'top'
+		},
+	    tooltip : {
+	        trigger: 'axis'
+	    },
+	    dataZoom : {
+	        show : true,
+	        realtime : true,
+	     /*   动态配置能看的起始位置 start */
+	        end : 100
+	    },
+	    xAxis : [
+	        {
+	            type : 'category',
+	            name:'年份',
+	            data : []
+	        }
+	    ],
+	    yAxis : [
+	        {
+	        	name:'',
+	            type : 'value'
+	        }
+	    		],
+	    series : [
+	        {
+	            type:'bar',
+	            data:[]
+	        }  
+	    		] 
+	    };
+    
 
 require.config({
     paths: {
@@ -224,7 +268,13 @@ require(
 			var data1 = $(".inputs2")[0].value; 
 			var obj_1 = eval("(" + data1 + ")");
 			
-			var tempLegend = "{\"legend\":[";
+			//按指标的类型分 indexType
+			var $myCharts2 = $(".charts3");
+			var $myCharts3 = $(".charts4");
+			var data2 = $(".inputs3")[0].value;
+			var obj_2 = eval("(" + data2 + ")");
+			
+		 	var tempLegend = "{\"legend\":[";
 		 	var tempYdata = "{\"yData\":[";
         	var tempSeries = "{\"series\":["
 				for(var j=0;j<obj.length;j++)
@@ -264,8 +314,102 @@ require(
 				   myCharts2.setOption(option1);
 		 		}
 		 	
+		 	var myCharts3;
+		 	var m=0,n=0;
+		 	var rows;
+		 	var $table1 = $(".table_1");
+		 	var $table2 = $(".table_2");
+		 	var tableshow;
+		 	var tableId;
+		 	for(var kk=0;kk<obj_2.length;kk++)
+		 		{
+		 		 columns = [], data = [];
+		 		 option2.title.text = obj_2[kk].indexName+'历史数据';
+		 		 option2.yAxis[0].name = obj_2[kk].indexUnit;
+		 		 option2.xAxis[0].data = obj_2[kk].year;
+		 		 option2.series[0].data = obj_2[kk].value;
+		 		 columns.push({
+		 			field:'field0',
+		 			title:'年份'
+		 		 });
+		 		columns.push({
+		 			field:'field1',
+		 			title:'完成量（'+ obj_2[kk].indexUnit+'）'
+		 		 });
+		 		    if(obj_2[kk].year.length>10)
+		 		    	 option2.dataZoom.start = 0;
+		 		    else
+		 		    	 option2.dataZoom.start = 100-1000/obj_2[kk].year.length;
+					if(obj_2[kk].indexType=='1')
+						{
+							myCharts3 = ec.init($myCharts2[m]);
+	
+							//填充表格中数据
+							for(var ll = 0; ll<obj_2[kk].year.length; ll++)
+								{
+									row={};
+									row['field0']=obj_2[kk].year[ll];
+									row['field1']=obj_2[kk].value[ll];
+									data.push(row);
+								}
+							var id = $('.table_1')[m].id;
+							$('#'+id).bootstrapTable('destroy').bootstrapTable({
+					            columns: columns,
+					            data: data
+					        }); 
+							m = m + 1 ;
+						}
+					if(obj_2[kk].indexType=='2')
+						{
+							myCharts3 = ec.init($myCharts3[n]);
+	
+							//填充表格中数据
+							for(var ll = 0; ll<obj_2[kk].year.length; ll++)
+								{
+									row={};
+									row['field0']=obj_2[kk].year[ll];
+									row['field1']=obj_2[kk].value[ll];
+									data.push(row);
+								}
+							var id = $('.table_2')[n].id;
+							$('#'+id).bootstrapTable('destroy').bootstrapTable({
+					            columns: columns,
+					            data: data
+					        }); 
+							n = n + 1 ;
+						}
+					myCharts3.setOption(option2);
+					
+					
+		 		}
+		 	
 });
 $("#overview").toggleClass("in active"); 
+function build() {
+    var cells = $('#cells').val(),
+        rows = $('#rows').val(),
+        i, j, row,
+        columns = [],
+        data = [];
+
+    for (i = 0; i < cells; i++) {
+        columns.push({
+            field: 'field' + i,
+            title: 'Cell' + i
+        });
+    }
+    for (i = 0; i < rows; i++) {
+        row = {};
+        for (j = 0; j < cells; j++) {
+            row['field' + j] = 'Row-' + i + '-' + j;
+        }
+        data.push(row);
+    }
+    $('#table').bootstrapTable('destroy').bootstrapTable({
+        columns: columns,
+        data: data
+    });
+}
 </script>
 </html>
 	

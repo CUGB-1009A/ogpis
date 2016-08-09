@@ -62,12 +62,19 @@ public class PlanEntity extends BaseEntity {
 	@Column(name = "规划类型")
 	protected String planType;
 	
+	@Column(name="规划概述")
+	protected String planShortDescription;
+	
+	@Column(name="目标和总体完成情况")
+	protected String targetAndFinished;
+	
 	//指规划的依据和背景，clob类型
 	@Column(columnDefinition="TEXT", name = "规划描述")
 	protected String planDescription;
 	
 	@OneToMany(fetch=FetchType.LAZY,cascade = { CascadeType.ALL }, mappedBy = "plan")
 	protected Set<PlanDocument> planDocument;
+
 
 	@Deprecated
 	@OneToMany(fetch = FetchType.LAZY, cascade = { CascadeType.ALL }, mappedBy = "plan")
@@ -156,6 +163,22 @@ public class PlanEntity extends BaseEntity {
 
 	public void setPlanDocument(Set<PlanDocument> planDocument) {
 		this.planDocument = planDocument;
+	}
+	
+	public String getPlanShortDescription() {
+		return planShortDescription;
+	}
+
+	public void setPlanShortDescription(String planShortDescription) {
+		this.planShortDescription = planShortDescription;
+	}
+
+	public String getTargetAndFinished() {
+		return targetAndFinished;
+	}
+
+	public void setTargetAndFinished(String targetAndFinished) {
+		this.targetAndFinished = targetAndFinished;
 	}
 
 	@Deprecated

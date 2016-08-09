@@ -16,8 +16,9 @@ import com.ogpis.plan.entity.base.PlanEntity;
 @Table(name = "ogpis_plan")
 public class Plan extends PlanEntity {
 	
-	public List<IndexManagement> getOrderedIndex() {
-		List<IndexManagement> list = (List<IndexManagement>) this.getIndexs();
+	@SuppressWarnings("unchecked")
+	public List<Plan_Index> getOrderedPlan_Index() {
+		List<Plan_Index> list = (List<Plan_Index>) this.getPlan_indexs();
 		Collections.sort(list);
 		return list;
 	}
@@ -28,20 +29,23 @@ public class Plan extends PlanEntity {
 		StringBuilder result = new StringBuilder();
 		List<IndexDataManagement> indexDataAll =  new ArrayList<IndexDataManagement>();//对应所有的完成情况
 		List<IndexDataManagement> indexDataTen =  new ArrayList<IndexDataManagement>();;//对应的规划外的十年完成情况
+		List<Plan_Index> plan_index = new ArrayList<Plan_Index>();
+		plan_index.addAll(this.getPlan_indexs());
+		Collections.sort(plan_index);
 		ArrayList<Float> indexValue = new ArrayList<Float>();
 		ArrayList<String> year = new ArrayList<String>();
-		List<IndexManagement> indexTemp = new ArrayList<IndexManagement>();
-		indexTemp.addAll(this.getIndexs());
-		Collections.sort(indexTemp);
+		//List<IndexManagement> indexTemp = new ArrayList<IndexManagement>();
+		//indexTemp.addAll(this.getIndexs());
+		//Collections.sort(indexTemp);
 		result.append("[");
-		for(IndexManagement tempIndex : indexTemp)
+		for(Plan_Index tempPlan_Index : plan_index)
 		{
 			indexDataAll.clear();
 			indexDataTen.clear();
 			year.clear();
 			indexValue.clear();
 			//找出历史（规划起始年份前）十年数据
-			indexDataAll.addAll(tempIndex.getIndexData());	
+			indexDataAll.addAll(tempPlan_Index.getIndex().getIndexData());	
 			Collections.sort(indexDataAll); //根据年份排序（小到大）
 			for(IndexDataManagement temp:indexDataAll) //确保只有十个完成记录
 			{
@@ -56,9 +60,9 @@ public class Plan extends PlanEntity {
 				indexValue.add(indexDataTemp.getFinishedWorkload());
 			}
 			year.add("'目标值'");
-			indexValue.add(tempIndex.getIndexValue()/yearNumber);
-			result.append("{\"indexUnit\":\"" + tempIndex.getIndexUnit() + "\",\"indexName\":\"" + tempIndex.getIndexName()
-			+ "\",\"indexValue\":" + tempIndex.getIndexValue()/yearNumber + ",\"year\":"
+			indexValue.add(tempPlan_Index.getTargetValue()/yearNumber);
+			result.append("{\"indexUnit\":\"" + tempPlan_Index.getIndex().getIndexUnit() + "\",\"indexName\":\"" + tempPlan_Index.getIndex().getIndexName()
+			+ "\",\"indexValue\":" + tempPlan_Index.getTargetValue()/yearNumber + ",\"year\":"
 			+ year.toString() + ",\"value\":" + indexValue.toString() + "},");
 		}
 		result.deleteCharAt(result.length() - 1);
@@ -67,40 +71,57 @@ public class Plan extends PlanEntity {
 	}
 	
 	//这个是取规划年间的完成情况（在规划年间，完成情况有几年，算几年）
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked"})
 	public String getIndexDataInPlanYear() {
+		int beginYear = Integer.parseInt(super.startTime.toString().substring(0, 4));
+		int endYear = Integer.parseInt(super.endTime.toString().substring(0, 4));
 		float hasFinished ;
+		boolean hasRecord = false ;
 		StringBuilder result = new StringBuilder();
 		ArrayList<Float> indexValue = new ArrayList<Float>();
 		ArrayList<Integer> year = new ArrayList<Integer>();
 		List<IndexDataManagement> indexDataAll =  new ArrayList<IndexDataManagement>();//对应所有的完成情况
 		List<IndexDataManagement> indexDataInPlanYear =  new ArrayList<IndexDataManagement>();//对应的规划外的十年完成情况
-		List<IndexManagement> indexTemp = new ArrayList<IndexManagement>();
-		indexTemp.addAll(this.getIndexs());
-		Collections.sort(indexTemp);
+		List<Plan_Index> plan_index = new ArrayList<Plan_Index>();
+		plan_index.addAll(this.getPlan_indexs());
+		Collections.sort(plan_index);
 		result.append("[");
-		for(IndexManagement tempIndex : indexTemp)
+		for(Plan_Index tempPlan_Index : plan_index)
 		{
 			hasFinished = 0;
 			year.clear();
 			indexValue.clear();
 			indexDataAll.clear();
 			indexDataInPlanYear.clear();
-			indexDataAll.addAll(tempIndex.getIndexData());		
-			Collections.sort(indexDataAll); //根据年份排序（2000----2010）
+			indexDataAll.addAll(tempPlan_Index.getIndex().getIndexData());		
+			Collections.sort(indexDataAll); //根据年份排序（from small to big）
 			for(IndexDataManagement temp:indexDataAll) //记录处在规划期内的完成记录
 			{
 				if(temp.getCollectedTime().getTime()>super.startTime.getTime()&&temp.getCollectedTime().getTime()<super.endTime.getTime())
 					indexDataInPlanYear.add(temp);
 			}
-			for(IndexDataManagement indexDataTemp : indexDataInPlanYear)
+			for(int i=beginYear;i<endYear+1;i++)
 			{
-				hasFinished = hasFinished + indexDataTemp.getFinishedWorkload();
-				year.add(Integer.parseInt(indexDataTemp.getCollectedTime().toString().substring(0, 4)));
-				indexValue.add(indexDataTemp.getFinishedWorkload());
+				hasRecord = false;
+				for(IndexDataManagement indexDataTemp : indexDataInPlanYear)
+				{
+					if(Integer.parseInt(indexDataTemp.getCollectedTime().toString().substring(0, 4))==i)
+					{
+						hasFinished = hasFinished + indexDataTemp.getFinishedWorkload();
+						year.add(Integer.parseInt(indexDataTemp.getCollectedTime().toString().substring(0, 4)));
+						indexValue.add(indexDataTemp.getFinishedWorkload());
+						hasRecord = true ;
+					}
+				}
+				if(!hasRecord)
+				{
+					year.add(i);
+					indexValue.add(Float.parseFloat("0"));
+				}			
 			}
-			result.append("{\"hasFinished\":"+hasFinished+",\"indexUnit\":\"" + tempIndex.getIndexUnit() + "\",\"indexName\":\"" + tempIndex.getIndexName()
-			+ "\",\"indexValue\":" + tempIndex.getIndexValue()+ ",\"year\":"
+			
+			result.append("{\"hasFinished\":"+hasFinished+",\"indexUnit\":\"" + tempPlan_Index.getIndex().getIndexUnit() + "\",\"indexName\":\"" + tempPlan_Index.getIndex().getIndexName()
+			+ "\",\"indexValue\":" + tempPlan_Index.getTargetValue()+ ",\"year\":"
 			+ year.toString() + ",\"value\":" + indexValue.toString() + "},");
 		}
 		result.deleteCharAt(result.length() - 1);
@@ -115,17 +136,20 @@ public class Plan extends PlanEntity {
 		ArrayList<Integer> year = new ArrayList<Integer>();
 		List<IndexDataManagement> indexDataAll =  new ArrayList<IndexDataManagement>();//对应所有的完成情况
 		List<IndexDataManagement> indexDataInBoth =  new ArrayList<IndexDataManagement>();//对应的规划截止时间的最新10年数据
-		List<IndexManagement> indexTemp = new ArrayList<IndexManagement>();
-		indexTemp.addAll(this.getIndexs());
-		Collections.sort(indexTemp);
+		//List<IndexManagement> indexTemp = new ArrayList<IndexManagement>();
+		//indexTemp.addAll(this.getIndexs());
+		List<Plan_Index> plan_index = new ArrayList<Plan_Index>();
+		plan_index.addAll(this.getPlan_indexs());
+		Collections.sort(plan_index);
+		//Collections.sort(indexTemp);
 		result.append("[");
-		for(IndexManagement tempIndex : indexTemp)
+		for(Plan_Index tempPlan_Index : plan_index)
 		{
 			year.clear();
 			indexValue.clear();
 			indexDataAll.clear();
 			indexDataInBoth.clear();
-			indexDataAll.addAll(tempIndex.getIndexData());		
+			indexDataAll.addAll(tempPlan_Index.getIndex().getIndexData());		
 			Collections.sort(indexDataAll); //根据年份排序（2000----2010）
 			for(IndexDataManagement temp:indexDataAll) //记录处在规划期内的完成记录
 			{
@@ -139,19 +163,70 @@ public class Plan extends PlanEntity {
 				year.add(Integer.parseInt(indexDataTemp.getCollectedTime().toString().substring(0, 4)));
 				indexValue.add(indexDataTemp.getFinishedWorkload());
 			}
-			result.append("{\"indexUnit\":\"" + tempIndex.getIndexUnit() + "\",\"indexName\":\"" + tempIndex.getIndexName()
-			+ "\",\"indexValue\":" + tempIndex.getIndexValue()+ ",\"year\":"
+			result.append("{\"indexUnit\":\"" + tempPlan_Index.getIndex().getIndexUnit() + "\",\"indexName\":\"" + tempPlan_Index.getIndex().getIndexName()
+			+ "\",\"indexValue\":" + tempPlan_Index.getTargetValue()+ ",\"year\":"
 			+ year.toString() + ",\"value\":" + indexValue.toString() + "},");
 		}
 		result.deleteCharAt(result.length() - 1);
 		result.append("]");
 		return result.toString();
 	}
+	
+	//获取指标对应的所有历史数据（规划截止时间前的所有历史数据）
+	@SuppressWarnings("unchecked")
+	public String getAllHistoryIndexData(){	
+		StringBuilder result = new StringBuilder();
+		ArrayList<Float> indexValue = new ArrayList<Float>();
+		ArrayList<Integer> year = new ArrayList<Integer>();
+		List<IndexDataManagement> indexDataAll =  new ArrayList<IndexDataManagement>();//对应所有的完成情况
+		List<IndexDataManagement> indexDataInPlanYear =  new ArrayList<IndexDataManagement>();//对应的规划外的十年完成情况
+		//List<IndexManagement> indexTemp = new ArrayList<IndexManagement>();
+		//indexTemp.addAll(this.getIndexs());
+		List<Plan_Index> plan_index = new ArrayList<Plan_Index>();
+		plan_index.addAll(this.getPlan_indexs());
+		Collections.sort(plan_index);
+		//Collections.sort(indexTemp);
+		result.append("[");
+		for(Plan_Index tempPlan_Index : plan_index)
+		{
+			year.clear();
+			indexValue.clear();
+			indexDataAll.clear();
+			indexDataInPlanYear.clear();
+			indexDataAll.addAll(tempPlan_Index.getIndex().getIndexData());		
+			Collections.sort(indexDataAll); //根据年份排序（2000----2010）
+			for(IndexDataManagement temp:indexDataAll) //记录处在规划期内的完成记录
+			{
+				if(temp.getCollectedTime().getTime()<super.endTime.getTime())
+					indexDataInPlanYear.add(temp);
+			}
+			for(IndexDataManagement indexDataTemp : indexDataInPlanYear)
+			{
+				year.add(Integer.parseInt(indexDataTemp.getCollectedTime().toString().substring(0, 4)));
+				indexValue.add(indexDataTemp.getFinishedWorkload());
+			}
+			result.append("{\"indexType\":\""+tempPlan_Index.getIndex().getIndexType()+"\",\"indexUnit\":\"" + tempPlan_Index.getIndex().getIndexUnit() + "\",\"indexName\":\"" + tempPlan_Index.getIndex().getIndexName()
+			+ "\",\"indexValue\":" + tempPlan_Index.getTargetValue()+ ",\"year\":"
+			+ year.toString() + ",\"value\":" + indexValue.toString() + "},");
+		}
+		result.deleteCharAt(result.length() - 1);
+		result.append("]");
+		return result.toString();
+		
+	}
 
 	public List<IndexManagement> getIndexs() {
 		List<IndexManagement> result = new ArrayList();
 		for (Plan_Index p_i : this.getPlan_indexs()) {
 			result.add(p_i.getIndex());
+		}
+		return result;
+	}
+	
+	public List<String> getIndexIds() {
+		List<String> result = new ArrayList();
+		for (Plan_Index p_i : this.getPlan_indexs()) {
+			result.add(p_i.getIndex().getId());
 		}
 		return result;
 	}

@@ -11,4 +11,8 @@ public interface IndexManagementDao extends BaseDao< IndexManagement,String> {
 
 	List<IndexManagement> getOnePlanIndexs(String id);
 
+	List<IndexManagement> findAll();
+
+	List<IndexManagement> findAllIndexByPriority();
+
 }

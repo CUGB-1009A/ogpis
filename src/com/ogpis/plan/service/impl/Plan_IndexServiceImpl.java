@@ -1,5 +1,8 @@
 package com.ogpis.plan.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,8 +31,21 @@ public class Plan_IndexServiceImpl extends BaseServiceImpl<Plan_Index, String>
 	public Plan_Index add(Plan plan, IndexManagement index, float targetValue) {
 		return getPlan_IndexDao().add(plan, index, targetValue);
 	}
+
 	@Override
-	public Plan_Index findByP_I(String planId, String indexId){
+	public Plan_Index findByP_I(String planId, String indexId) {
 		return getPlan_IndexDao().findByP_I(planId, indexId);
+	}
+
+	@Override
+	public void batchAdd(Plan plan, List<IndexManagement> indexs) {
+		List<IndexManagement> addIndexs=new ArrayList<IndexManagement>();
+		List<IndexManagement> deleteIndexs=new ArrayList<IndexManagement>();
+		for(IndexManagement index:indexs){
+			if(!plan.getIndexIds().contains(index.getId())){
+				addIndexs.add(index);
+			}
+		}
+		getPlan_IndexDao().batchAdd(plan, addIndexs);
 	}
 }

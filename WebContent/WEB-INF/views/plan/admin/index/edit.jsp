@@ -28,9 +28,10 @@
 		</div>
 		<div class="row">
 			<div class="col-xs-12">
-				<form class="form-horizontal" role="form" action="<%=path%>/plan/admin/saveTargetValue" method="post"  onsubmit="return verify()">
+				<form class="form-horizontal" role="form" action="<%=path%>/plan/admin/savePlan_Index" method="post"  onsubmit="return verify()">
 					<input type="hidden" value="${plan_Index.index.id}" name="indexId"/>
 				    <input type="hidden" value="${plan_Index.plan.id}" name="planId"/>
+				    <input type="hidden" value="${plan_Index.id}" name="plan_IndexId"/>
 					<div class="form-group">
 						<label class="col-sm-3 control-label no-padding-right" for="indexName">指标项</label>
 						<div class="col-sm-9">
@@ -39,10 +40,17 @@
 					</div>
 
 					<div class="form-group">
-						<label class="col-sm-3 control-label no-padding-right" for="indexValue">目标值</label>
+						<label class="col-sm-3 control-label no-padding-right" for="targetValue">目标值</label>
 
 						<div class="col-sm-9">
-							<input type="text" id="targetValue" placeholder="目标值" required="required" class="col-xs-10 col-sm-5" name="targetValue" value="${plan_Index.targetValue}">
+							<input type="text" id="targetValue" placeholder="目标值..." required="required" class="col-xs-10 col-sm-5" name="targetValue" value="${plan_Index.targetValue}">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3 control-label no-padding-right" for="indexPerformance">完成情况</label>
+
+						<div class="col-sm-9">
+							<textarea  id="indexPerformance" placeholder="完成情况..."  class="col-xs-10 col-sm-5" name="indexPerformance" style="height:250px; ">${plan_Index.indexPerformance}</textarea>
 						</div>
 					</div>
 					<div class="clearfix form-actions">

@@ -19,12 +19,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.catalina.tribes.util.Arrays;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.ProgressListener;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.log4j.Logger;
+import org.apache.poi.util.ArrayUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.annotation.Logical;
@@ -56,6 +58,7 @@ import com.ogpis.plan.service.Plan_IndexService;
 import com.ogpis.system.entity.Role;
 import com.ogpis.system.entity.User;
 import com.ogpis.system.service.UserService;
+import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 
 @Controller
 public class PlanAction {
@@ -76,9 +79,6 @@ public class PlanAction {
 
 	@SuppressWarnings("rawtypes")
 	private ArrayList idList = new ArrayList();
-	private String[] defaultIndexs = { "新增石油探明地质储量", "新增天然气探明地质储量",
-			"新增煤层气探明地质储量", "新增页岩气探明地质储量", "石油产量", "天然气产量", "煤层气产量", "页岩气产量" };
-
 	/*
 	 * 读取规划列表函数,根据type查询不同类型的规划
 	 */
@@ -124,12 +124,15 @@ public class PlanAction {
 	}
 
 	@RequestMapping(value = "/plan/user_detail")
-	public String user_detail(HttpServletRequest request, ModelMap model, String id) {
+	public String user_detail(HttpServletRequest request, ModelMap model,
+			String id) {
 		Plan plan = planService.findById(id);
 		model.addAttribute("plan", plan);
 		model.addAttribute("type", plan.getPlanType());
-	/*	model.addAttribute("charts2", result2);
-		model.addAttribute("charts3", result3);*/
+		/*
+		 * model.addAttribute("charts2", result2); model.addAttribute("charts3",
+		 * result3);
+		 */
 		return "plan/user/detail";
 	}
 
@@ -198,6 +201,8 @@ public class PlanAction {
 	@RequestMapping(value = "/plan/toEditPage")
 	public String toEditPage(HttpServletRequest request, ModelMap model,
 			String type) {
+		List<IndexManagement> indexs = indexManagementService.findAllIndexByPriority();
+		model.addAttribute("indexs",indexs);
 		model.addAttribute("type", type);
 		return "/plan/admin/add";
 	}
@@ -208,20 +213,21 @@ public class PlanAction {
 	@RequiresPermissions(value = { "plan:add", "plan:edit" }, logical = Logical.OR)
 	@RequestMapping(value = "/plan/save", method = RequestMethod.POST)
 	public String save(HttpServletRequest request, boolean isAdd,
-			ModelMap model, String id, Plan plan, String type) {
-		Plan bean = null;
+			ModelMap model, String id, Plan plan, String type,String indexIds) {
+		Plan bean = null;			
 		if (isAdd) {
 			bean = new Plan();
 			bean.setPlanType(type);
 			bean.setReleased(false);
-
 		} else {
 			bean = planService.findById(id);
 		}
 		bean.setPlanName(plan.getPlanName());
+		bean.setPlanShortDescription(plan.getPlanShortDescription());
+		bean.setTargetAndFinished(plan.getTargetAndFinished());
+		//bean.setPlanType(type);
 		bean.setPlanCode(plan.getPlanCode());
 		bean.setPlanDescription(plan.getPlanDescription());
-		System.out.println(plan.getPlanDescription());
 		bean.setReleaseUnit(plan.getReleaseUnit());
 		bean.setStartTime(plan.getStartTime());
 		bean.setEndTime(plan.getEndTime());
@@ -230,23 +236,15 @@ public class PlanAction {
 		model.addAttribute("type", type);
 		model.addAttribute("condition", "");
 		if (isAdd) {
-			planService.save(bean);
-			/*
-			 * 建立规划之初就添加这8个指标
-			 * '新增石油探明地质储量','新增天然气探明地质储量','新增煤层气探明地质储量','新增页岩气探明地质储量',
-			 * '石油产量','天然气产量','煤层气产量','页岩气产量'
-			 */
-			Plan xixi = planService.findById(bean.getId());
-			IndexManagement index;
-			for (int i = 0; i < defaultIndexs.length; i++) {
-				index = new IndexManagement();
-				index.setIndexType(i + 1 + "");
-				index.setIndexName(defaultIndexs[i]);
-				index.setDeleted(false);
-				index.setPlan(xixi);
-				indexManagementService.save(index);
-			}
-
+			Plan tempPlan = planService.save(bean);
+			if(indexIds.length()!=0)//如果选择了指标项则和规划关联
+			{	
+				String[] indexId = indexIds.split(",");
+				for(int i=0;i<indexId.length;i++)
+				{
+					plan_IndexService.add(tempPlan, indexManagementService.findById(indexId[i]),0);
+				}
+			}	
 			return "redirect:list";
 		} else {
 			planService.update(bean);
@@ -306,6 +304,9 @@ public class PlanAction {
 			// indexManagementService.getOnePlanIndexs(pageNo, pageSize,
 			// plan.getId());
 			System.out.println("size: " + plan.getPlan_indexs().size());
+
+			List<IndexManagement> allIndexs = indexManagementService.findAll();//这里要加入指标类型的筛选，确定是全国的还是各公司的
+			model.addAttribute("allIndexs", allIndexs);
 			model.addAttribute("plan_indexs", plan.getPlan_indexs());
 			model.addAttribute("flag", 3);
 		}
@@ -586,32 +587,57 @@ public class PlanAction {
 	/*
 	 * 保存目标值
 	 */
-	@RequestMapping(value = "/plan/admin/saveTargetValue", method = RequestMethod.POST)
-	public String saveTargetValue(HttpServletRequest request, ModelMap model,
-			String planId, String indexId, float targetValue) {
-		Plan_Index plan_Index = plan_IndexService.findByP_I(planId, indexId);
-		if (plan_Index != null) {
-			plan_Index.setTargetValue(targetValue);
+	@RequestMapping(value = "/plan/admin/savePlan_Index", method = RequestMethod.POST)
+	public String savePlan_Index(String plan_IndexId,Plan_Index plan_Index,
+			 ModelMap model) {
+		Plan_Index bean = plan_IndexService.findById(plan_IndexId);
+		if (bean != null) {
+			bean.setTargetValue(plan_Index.getTargetValue());
+			bean.setIndexPerformance(plan_Index.getIndexPerformance());
 		}
-		plan_IndexService.update(plan_Index);
-		model.addAttribute("id", planId);
+		plan_IndexService.update(bean);
+		model.addAttribute("id", bean.getPlan().getId());
 		model.addAttribute("flag", 3);
-		model.addAttribute("type", plan_Index.getPlan().getPlanType());
+		model.addAttribute("type", bean.getPlan().getPlanType());
 		return "redirect:/plan/show";
 
 	}
 
 	@RequestMapping(value = "/plan/admin/deleteIndex")
 	public String deleteIndex(HttpServletRequest request, ModelMap model,
-			String planId, String indexId) {
+			String planId, String indexId, String type) {
 		Plan_Index plan_Index = plan_IndexService.findByP_I(planId, indexId);
 		if (plan_Index != null) {
 			plan_IndexService.delete(plan_Index.getId());
 		}
 		model.addAttribute("id", planId);
 		model.addAttribute("flag", 3);
-		model.addAttribute("type", plan_Index.getPlan().getPlanType());
+		model.addAttribute("type", type);
 		return "redirect:/plan/show";
+	}
+
+	@RequestMapping(value = "/plan/admin/selectIndex")
+	public String selectIndex(HttpServletRequest request, ModelMap model,
+			String type, String planId, String[] indexIds) {
+		System.out.println("planId " + planId);
+		System.out.println("indexIds " + Arrays.toString(indexIds));
+		model.addAttribute("id", planId);
+		model.addAttribute("flag", 3);
+		model.addAttribute("type", type);
+		List<IndexManagement> indexs = new ArrayList<IndexManagement>();
+		IndexManagement index = null;
+		if(indexIds!=null&&indexIds.length>0){
+			for (String indexId : indexIds) {
+				index = indexManagementService.findById(indexId);
+				if (index != null) {
+					indexs.add(index);
+				}
+			}
+		}
+		Plan plan = planService.findById(planId);
+		plan_IndexService.batchAdd(plan, indexs);
+		return "redirect:/plan/show";
+
 	}
 
 }

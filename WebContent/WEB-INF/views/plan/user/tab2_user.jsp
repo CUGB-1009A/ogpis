@@ -4,7 +4,7 @@
 <!-- user  tab页第2页 -->
 		<div class="tab-pane fade" id="planDistination" style="background:white;">	      
 		 <textarea class="inputs2" style="display:none">${plan.tenHistoryIndexData}</textarea>	      
-				<c:forEach items="${plan.index}" varStatus = "status" step='2'>
+				<c:forEach items="${plan.indexs}" varStatus = "status" step='2'>
 					<div class="row">
 							<div class="col-xs-12">  
 						    		<!-- 主图 -->	

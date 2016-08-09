@@ -3,6 +3,8 @@ package com.ogpis.index.action;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,6 +27,60 @@ public class IndexDataManagementAction {
 	
 	@Autowired
 	private IndexManagementService indexManagementService;
+	
+	//只显示一个指标项(通过id判断显示哪个)，通过下来列表来选择显示哪个指标项
+	@RequestMapping(value = "/indexData/list")
+	public String list(HttpServletRequest request, ModelMap model,String id){
+		List<IndexManagement> indexList = indexManagementService.findAllIndexByPriority();
+		List<IndexDataManagement> indexDataList ;
+		if(id.equals("0"))
+			 {
+				indexDataList = indexList.get(0).getOrderedIndexData();
+				id = indexList.get(0).getId();
+			 }
+		else
+			indexDataList = indexManagementService.findById(id).getOrderedIndexData();
+		model.addAttribute("id",id);
+		model.addAttribute("indexDataList",indexDataList);
+		model.addAttribute("indexList",indexList);
+		return "indexData/list";		
+	}
+	
+	@RequestMapping(value = "/indexData/save")
+	public void save(HttpServletRequest request,HttpServletResponse resp, ModelMap model) throws IOException{
+		String id = request.getParameter("id");
+		String value = request.getParameter("value");
+		IndexDataManagement indexData = indexDataManagementService.findById(id);
+		indexData.setFinishedWorkload(Float.parseFloat(value));
+		indexDataManagementService.update(indexData);
+		String result = "{\"result\":\"success\"}";
+		resp.setContentType("application/json");
+	    resp.setCharacterEncoding("utf-8");
+		resp.getWriter().write(result);
+	}
+	
+	@RequestMapping(value = "/indexData/delete")
+	public void delete(HttpServletRequest request,HttpServletResponse resp, ModelMap model) throws IOException{
+		String id = request.getParameter("id");
+		indexDataManagementService.delete(id);
+		String result = "{\"result\":\"success\"}";
+		resp.setContentType("application/json");
+	    resp.setCharacterEncoding("utf-8");
+		resp.getWriter().write(result);
+	}
+	
+	@RequestMapping(value = "/indexData/addIndexData")
+	public String addIndexData(HttpServletRequest request, ModelMap model,String indexId,IndexDataManagement indexDataTemp){
+		IndexDataManagement indexData = new IndexDataManagement();
+		IndexManagement index = indexManagementService.findById(indexId);
+		indexData.setCollectedTime(indexDataTemp.getCollectedTime());
+		indexData.setFinishedWorkload(indexDataTemp.getFinishedWorkload());
+		System.out.println(indexDataTemp.getCollectedTime());
+		indexData.setIndex(index);
+		indexDataManagementService.save(indexData);
+		model.addAttribute("id",indexId);
+		return "redirect:list";		
+	}
 	
 	@RequestMapping(value = "/indexData/add")
 	public void add(HttpServletRequest request,HttpServletResponse resp, ModelMap model) throws ParseException, IOException {	

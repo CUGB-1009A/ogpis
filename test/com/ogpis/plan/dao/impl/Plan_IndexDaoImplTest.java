@@ -13,6 +13,7 @@ import com.ogpis.index.entity.IndexManagement;
 import com.ogpis.plan.dao.PlanDao;
 import com.ogpis.plan.dao.Plan_IndexDao;
 import com.ogpis.plan.entity.Plan;
+import com.ogpis.plan.entity.Plan_Index;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:config/application-context.xml" })
@@ -43,5 +44,22 @@ public class Plan_IndexDaoImplTest {
 		Plan plan = planDao.findById(planId);
 		IndexManagement index = indexManagementDao.findById(indexId);
 		plan_indexDao.add(plan, index, targetValue);
+	}
+	
+
+	@Test
+	public void testAdd1() {
+		String planId="a99d5b0f-55ab-437e-931c-0b4512a0d75e";
+		String indexId = "904f1f42-d8e0-4c50-9e7a-85081cf3d33d";
+		Plan plan = planDao.findById(planId);
+		IndexManagement index = indexManagementDao.findById(indexId);
+		
+		Plan_Index p_i = new Plan_Index();
+		p_i.setPlan(plan);
+		p_i.setIndex(index);
+		
+		plan.getPlan_indexs();
+		plan.getPlan_indexs().add(p_i);
+		planDao.save(plan);
 	}
 }
