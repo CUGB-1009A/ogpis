@@ -40,7 +40,6 @@ public class IndexManagementServiceImpl extends
 		return getIndexManagementDao().findAll();
 	}
 
-
 	@Override
 	public List<IndexManagement> findAllIndexByPriority() {
 

@@ -15,4 +15,5 @@ public interface Plan_IndexService extends BaseService<Plan_Index, String>{
 
 	void batchAdd(Plan plan, List<IndexManagement> indexs);
 
+
 }

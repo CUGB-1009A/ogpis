@@ -214,7 +214,6 @@ public class Plan extends PlanEntity {
 		return result.toString();
 		
 	}
-
 	public List<IndexManagement> getIndexs() {
 		List<IndexManagement> result = new ArrayList();
 		for (Plan_Index p_i : this.getPlan_indexs()) {

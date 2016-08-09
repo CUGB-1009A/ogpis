@@ -39,10 +39,10 @@ public class Plan_IndexServiceImpl extends BaseServiceImpl<Plan_Index, String>
 
 	@Override
 	public void batchAdd(Plan plan, List<IndexManagement> indexs) {
-		List<IndexManagement> addIndexs=new ArrayList<IndexManagement>();
-		List<IndexManagement> deleteIndexs=new ArrayList<IndexManagement>();
-		for(IndexManagement index:indexs){
-			if(!plan.getIndexIds().contains(index.getId())){
+		List<IndexManagement> addIndexs = new ArrayList<IndexManagement>();
+		List<IndexManagement> deleteIndexs = new ArrayList<IndexManagement>();
+		for (IndexManagement index : indexs) {
+			if (!plan.getIndexIds().contains(index.getId())) {
 				addIndexs.add(index);
 			}
 		}

@@ -1,6 +1,7 @@
 package com.ogpis.plan.dao.impl;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
@@ -51,5 +52,4 @@ public class Plan_IndexDaoImpl extends BaseDaoImpl<Plan_Index, String>
 				indexId);
 		return plan_index;
 	}
-
 }
