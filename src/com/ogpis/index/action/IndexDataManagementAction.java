@@ -46,6 +46,29 @@ public class IndexDataManagementAction {
 		return "indexData/list";		
 	}
 	
+	@RequestMapping(value = "/indexData/save")
+	public void save(HttpServletRequest request,HttpServletResponse resp, ModelMap model) throws IOException{
+		String id = request.getParameter("id");
+		String value = request.getParameter("value");
+		IndexDataManagement indexData = indexDataManagementService.findById(id);
+		indexData.setFinishedWorkload(Float.parseFloat(value));
+		indexDataManagementService.update(indexData);
+		String result = "{\"result\":\"success\"}";
+		resp.setContentType("application/json");
+	    resp.setCharacterEncoding("utf-8");
+		resp.getWriter().write(result);
+	}
+	
+	@RequestMapping(value = "/indexData/delete")
+	public void delete(HttpServletRequest request,HttpServletResponse resp, ModelMap model) throws IOException{
+		String id = request.getParameter("id");
+		indexDataManagementService.delete(id);
+		String result = "{\"result\":\"success\"}";
+		resp.setContentType("application/json");
+	    resp.setCharacterEncoding("utf-8");
+		resp.getWriter().write(result);
+	}
+	
 	@RequestMapping(value = "/indexData/add")
 	public void add(HttpServletRequest request,HttpServletResponse resp, ModelMap model) throws ParseException, IOException {	
 		String planId = request.getParameter("planId");

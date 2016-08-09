@@ -89,7 +89,7 @@
 						
 						<label class="col-sm-2 control-label no-padding-right" for="form-field-9">规划指标</label>
 						<div class="col-sm-4">
-							<table id="indexTable" class="col-sm-12">
+							<table id="indexTable" class="col-sm-12" >
 						     	<thead> 
 							     	<tr>
 							     		<td><input type="checkBox" name="indexCheckBox">全选</td>
@@ -97,7 +97,7 @@
 							     		<td>指标单位</td>
 							     	</tr>
 						     	</thead>
-						     	<tbody style="overflow-y:auto;max-height:150px;display:block">
+						     	<tbody  style="overflow-y:auto;max-height:300px;display:block">
 							     	<c:forEach items="${indexs}" var="item">
 							     		<tr>
 							     			<td><input type="checkBox" name="checkbox" value="${item.id}"/></td>
