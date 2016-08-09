@@ -71,11 +71,12 @@ public class Plan extends PlanEntity {
 	}
 	
 	//这个是取规划年间的完成情况（在规划年间，完成情况有几年，算几年）
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked"})
 	public String getIndexDataInPlanYear() {
-		Integer beginYear = Integer.parseInt(super.startTime.toString().substring(0, 4));
-		Integer endYear = Integer.parseInt(super.endTime.toString().substring(0, 4));
+		int beginYear = Integer.parseInt(super.startTime.toString().substring(0, 4));
+		int endYear = Integer.parseInt(super.endTime.toString().substring(0, 4));
 		float hasFinished ;
+		boolean hasRecord = false ;
 		StringBuilder result = new StringBuilder();
 		ArrayList<Float> indexValue = new ArrayList<Float>();
 		ArrayList<Integer> year = new ArrayList<Integer>();
@@ -99,12 +100,26 @@ public class Plan extends PlanEntity {
 				if(temp.getCollectedTime().getTime()>super.startTime.getTime()&&temp.getCollectedTime().getTime()<super.endTime.getTime())
 					indexDataInPlanYear.add(temp);
 			}
-			for(IndexDataManagement indexDataTemp : indexDataInPlanYear)
+			for(int i=beginYear;i<endYear+1;i++)
 			{
-				hasFinished = hasFinished + indexDataTemp.getFinishedWorkload();
-				year.add(Integer.parseInt(indexDataTemp.getCollectedTime().toString().substring(0, 4)));
-				indexValue.add(indexDataTemp.getFinishedWorkload());
+				hasRecord = false;
+				for(IndexDataManagement indexDataTemp : indexDataInPlanYear)
+				{
+					if(Integer.parseInt(indexDataTemp.getCollectedTime().toString().substring(0, 4))==i)
+					{
+						hasFinished = hasFinished + indexDataTemp.getFinishedWorkload();
+						year.add(Integer.parseInt(indexDataTemp.getCollectedTime().toString().substring(0, 4)));
+						indexValue.add(indexDataTemp.getFinishedWorkload());
+						hasRecord = true ;
+					}
+				}
+				if(!hasRecord)
+				{
+					year.add(i);
+					indexValue.add(Float.parseFloat("0"));
+				}			
 			}
+			
 			result.append("{\"hasFinished\":"+hasFinished+",\"indexUnit\":\"" + tempPlan_Index.getIndex().getIndexUnit() + "\",\"indexName\":\"" + tempPlan_Index.getIndex().getIndexName()
 			+ "\",\"indexValue\":" + tempPlan_Index.getTargetValue()+ ",\"year\":"
 			+ year.toString() + ",\"value\":" + indexValue.toString() + "},");
