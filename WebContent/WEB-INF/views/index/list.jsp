@@ -28,10 +28,20 @@
 						<div class="portlet-body">
 						<div class="table-toolbar" style="text-align: right;">
 							<div class="btn-group">
-									<a href="<%=path%>/index/add" class="btn-sm btn-app btn-success no-radius">
+									<select id="selectType" name="type" class="selectpicker" data-style="btn-danger">
+							    		<option value='QG' <c:if test="${type.equals('QG')}">selected</c:if>>全国</option>
+							    		<option value='ZSY' <c:if test="${type.equals('ZSY')}">selected</c:if>>中石油</option>
+							    		<option value='ZSH' <c:if test="${type.equals('ZSH')}">selected</c:if>>中石化</option>
+							    		<option value='ZHY' <c:if test="${type.equals('ZHY')}">selected</c:if>>中海油</option>
+							    		<option value='YC' <c:if test="${type.equals('YC')}">selected</c:if>>延长石油</option>
+							    		<option value='ZLM' <c:if test="${type.equals('ZLM')}">selected</c:if>>中联煤</option>
+							    		<option value='QT' <c:if test="${type.equals('QT')}">selected</c:if>>其他</option>	
+							        </select>
+							        &nbsp;&nbsp;
+									<a href="<%=path%>/index/add?type=${type}" class="btn-sm btn-app btn-success no-radius">
 											<i class="icon-plus bigger-200">&nbsp;添加指标</i>
 									</a>
-										&nbsp;&nbsp;								
+									&nbsp;&nbsp;								
 							</div>
 					</div>
 						
@@ -56,7 +66,10 @@
 													</td> --%>
 													<td>${item1.indexName}</td>
 													<td>${item1.indexUnit}</td>
-													<td>${item1.indexType}</td>
+													<td>
+														<c:if test="${item1.indexType.equals('1')}">新增探明地质储量</c:if>
+														<c:if test="${item1.indexType.equals('2')}">产量</c:if>
+													</td>
 													<td>${item1.priority}</td>
 													<td>
 														<p>
@@ -85,6 +98,11 @@
 </div>
 </body>
 <script type="text/javascript">
+$("#selectType").change(function(){
+	var type = $("#selectType").val()
+	window.location.href="<%=path%>/index/list?type="+type;
+});
+
 function deleteIndex(id){
 	var isDel =  confirm('确定删除该指标吗？删除后将不再提供给新的规划使用', '确认对话框');
 	if(isDel){

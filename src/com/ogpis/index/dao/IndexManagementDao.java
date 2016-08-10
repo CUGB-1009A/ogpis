@@ -13,6 +13,6 @@ public interface IndexManagementDao extends BaseDao< IndexManagement,String> {
 
 	List<IndexManagement> findAll();
 
-	List<IndexManagement> findAllIndexByPriority();
+	List<IndexManagement> findAllIndexByPriority(String type);
 
 }

@@ -41,8 +41,8 @@ public class IndexManagementServiceImpl extends
 	}
 
 	@Override
-	public List<IndexManagement> findAllIndexByPriority() {
+	public List<IndexManagement> findAllIndexByPriority(String type) {
 
-		return getIndexManagementDao().findAllIndexByPriority();
+		return getIndexManagementDao().findAllIndexByPriority(type);
 	}
 }

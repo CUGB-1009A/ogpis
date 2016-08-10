@@ -48,11 +48,11 @@ public class IndexManagementDaoImpl extends
 	}
 
 	@Override
-	public List<IndexManagement> findAllIndexByPriority() {
+	public List<IndexManagement> findAllIndexByPriority(String type) {
 		// TODO Auto-generated method stub
 		List<IndexManagement> items = this
 				.queryByHql(
-						"from IndexManagement m where m.deleted=false order by priority asc",null);
+						"from IndexManagement m where m.deleted=false and m.type ='"+type+"' order by priority asc",null);
 		return items;
 	}
 }

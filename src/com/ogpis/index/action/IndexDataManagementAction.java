@@ -31,7 +31,7 @@ public class IndexDataManagementAction {
 	//只显示一个指标项(通过id判断显示哪个)，通过下来列表来选择显示哪个指标项
 	@RequestMapping(value = "/indexData/list")
 	public String list(HttpServletRequest request, ModelMap model,String id){
-		List<IndexManagement> indexList = indexManagementService.findAllIndexByPriority();
+		List<IndexManagement> indexList = indexManagementService.findAllIndexByPriority("QG");
 		List<IndexDataManagement> indexDataList ;
 		if(id.equals("0"))
 			 {

@@ -56,9 +56,29 @@
 
 					<div class="space-4"></div>
 					<div class="form-group">
-						<label class="col-sm-3 control-label no-padding-right" for="indexType">指标类型</label>
+						<label class="col-sm-3 control-label no-padding-right" for="selectIndex">指标类型</label>
 						<div class="col-sm-9">
-							<input type="text" id="indexType" placeholder="指标类型" class="col-xs-10 col-sm-5" name="indexType" value="${index.indexType}">			
+							<select id="selectType" name="type" class="selectpicker col-xs-10 col-sm-5" data-style="btn-danger" style="text-align:left">
+										<option value='QG' <c:if test="${type.equals('QG')}">selected</c:if>>全国</option>
+							    		<option value='ZSY' <c:if test="${type.equals('ZSY')}">selected</c:if>>中石油</option>
+							    		<option value='ZSH' <c:if test="${type.equals('ZSH')}">selected</c:if>>中石化</option>
+							    		<option value='ZHY' <c:if test="${type.equals('ZHY')}">selected</c:if>>中海油</option>
+							    		<option value='YC' <c:if test="${type.equals('YC')}">selected</c:if>>延长石油</option>
+							    		<option value='ZLM' <c:if test="${type.equals('ZLM')}">selected</c:if>>中联煤</option>
+							    		<option value='QT' <c:if test="${type.equals('QT')}">selected</c:if>>其他</option>	    
+							</select>   
+						</div>
+					</div>
+					
+					<div class="space-4"></div>
+					<div class="form-group">
+						<label class="col-sm-3 control-label no-padding-right" for="selectIndex">指标类型</label>
+						<div class="col-sm-9">
+							<select id="selectType" name="indexType" class="selectpicker col-xs-10 col-sm-5" data-style="btn-danger">
+										<option value='1' <c:if test="${index.indexType.equals('1')}">selected</c:if>>新增探明地质储量</option>
+							    		<option value='2' <c:if test="${index.indexType.equals('2')}">selected</c:if>>产量</option>
+							       
+							    </select>
 						</div>
 					</div>
 					
@@ -94,7 +114,7 @@
 /* 返回指标列表 */
 function back()
 {
-	window.location.href="<%=path%>/index/list";
+	window.location.href="<%=path%>/index/list?type=${type}";
 }
 
 /* 保证四个数据都填写完成，否则不允许提交 */

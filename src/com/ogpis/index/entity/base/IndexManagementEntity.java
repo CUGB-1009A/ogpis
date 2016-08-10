@@ -29,9 +29,12 @@ public class IndexManagementEntity extends BaseEntity {
 	@Column(name = "指标名称")
 	protected String indexName;
 	
-	@Column(name = "指标类型")
+	@Column(name = "指标类型")//指储量还是产量，1为储量 2为产量
 	protected String indexType;
 	
+	@Column(name = "类型")//指该指标对应哪个规划，全国，或是其他公司
+	protected String type;
+
 	@Column(name = "优先级")
 	protected Integer priority;
 	
@@ -79,6 +82,14 @@ public class IndexManagementEntity extends BaseEntity {
 
 	public void setIndexType(String indexType) {
 		this.indexType = indexType;
+	}
+	
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public String getIndexUnit() {

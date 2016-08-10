@@ -66,7 +66,7 @@
 										</div>
 										<div class="modal-body">
 											<div class="dataTables_wrapper form-inline" role="grid">
-												<form class="form-horizontal" role="form" action="<%=path%>/plan/admin/selectIndex" method="post">
+												<form class="form-horizontal" role="form" action="<%=request.getContextPath()%>/plan/admin/selectIndex" method="post">
 													<input type="hidden" name="planId" value="${plan.id}" />
 													<input type="hidden" name="type" value="${type}" />
 													<div class="table-scrollable">

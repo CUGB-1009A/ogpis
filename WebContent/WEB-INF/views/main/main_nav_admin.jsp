@@ -15,7 +15,7 @@
             <a href="#index" data-toggle="collapse" class="nav-header collapsed"><i class="glyphicon glyphicon-list"></i> 指标管理 <i class="fa fa-fw fa-caret-down"></i></a>
             <ul id="index" class="nav nav-list collapse secondmenu" style="height:0px;">
                 <li>
-            		<a href="<c:url value='/index/list'/>"><i class="glyphicon glyphicon-star"></i> 指标项管理<i></i></a>
+            		<a href="<c:url value='/index/list?type=QG'/>"><i class="glyphicon glyphicon-star"></i> 指标项管理<i></i></a>
          		</li> 
                 <li>
                     <a href="<c:url value='/indexData/list?id=0'/>"><i class="glyphicon glyphicon-pencil"></i> 完成情况管理 </a>

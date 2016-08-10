@@ -201,8 +201,8 @@ public class PlanAction {
 	@RequestMapping(value = "/plan/toEditPage")
 	public String toEditPage(HttpServletRequest request, ModelMap model,
 			String type) {
-		List<IndexManagement> indexs = indexManagementService.findAllIndexByPriority();
-		model.addAttribute("indexs",indexs);
+/*		List<IndexManagement> indexs = indexManagementService.findAllIndexByPriority();
+		model.addAttribute("indexs",indexs);*/
 		model.addAttribute("type", type);
 		return "/plan/admin/add";
 	}

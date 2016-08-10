@@ -24,14 +24,19 @@ public class IndexManagementAction {
 	@Autowired PlanService planService ;
 	
 	@RequestMapping(value="/index/list")
-	public String list(HttpServletRequest request, ModelMap model) {	
-		List<IndexManagement> indexList = indexManagementService.findAllIndexByPriority();
+	public String list(HttpServletRequest request, ModelMap model) {
+		String type = request.getParameter("type");
+		System.out.println(type);
+		List<IndexManagement> indexList = indexManagementService.findAllIndexByPriority(type);
 		model.addAttribute("indexList",indexList);
+		model.addAttribute("type",type);
 		return "index/list";	
 	}
 	
 	@RequestMapping(value = "/index/add")
 	public String add(HttpServletRequest request, ModelMap model) {	
+		String type = request.getParameter("type");
+		model.addAttribute("type",type);
 		return "index/indexEdit";	
 	}
 	
@@ -39,6 +44,7 @@ public class IndexManagementAction {
 	public String edit(HttpServletRequest request, ModelMap model,String id) {		
 		IndexManagement index = indexManagementService.findById(id);
 		model.addAttribute("index",index);
+		model.addAttribute("type",index.getType());
 		return "index/indexEdit";	
 	}
 	
@@ -87,6 +93,7 @@ public class IndexManagementAction {
 		if(isAdd)
 			{
 			bean = new IndexManagement();
+			bean.setType(indexManagement.getType());
 			bean.setIndexName(indexManagement.getIndexName());
 			bean.setIndexType(indexManagement.getIndexType());
 			bean.setIndexUnit(indexManagement.getIndexUnit());
@@ -96,13 +103,14 @@ public class IndexManagementAction {
 		else		
 			{
 			bean = indexManagementService.findById(id);
+			bean.setType(indexManagement.getType());
 			bean.setIndexName(indexManagement.getIndexName());
 			bean.setIndexType(indexManagement.getIndexType());
 			bean.setIndexUnit(indexManagement.getIndexUnit());
 			bean.setPriority(indexManagement.getPriority());
 			indexManagementService.update(bean);
 			}
-
+		model.addAttribute("type",indexManagement.getType());
 		return "redirect:/index/list";	
 	}
 	
@@ -111,6 +119,7 @@ public class IndexManagementAction {
 		IndexManagement bean = indexManagementService.findById(id);
 		bean.setDeleted(true);
 		indexManagementService.update(bean);
+		model.addAttribute("type",bean.getType());
 		return "redirect:/index/list";
 	}
 	

@@ -13,7 +13,7 @@ public interface IndexManagementService extends BaseService<IndexManagement,Stri
 
 	List<IndexManagement> findAll();
 
-	List<IndexManagement> findAllIndexByPriority();
+	List<IndexManagement> findAllIndexByPriority(String type);
 
 
 }
