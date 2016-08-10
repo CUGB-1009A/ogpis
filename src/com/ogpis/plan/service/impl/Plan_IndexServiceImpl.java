@@ -48,4 +48,10 @@ public class Plan_IndexServiceImpl extends BaseServiceImpl<Plan_Index, String>
 		}
 		getPlan_IndexDao().batchAdd(plan, addIndexs);
 	}
+
+	@Override
+	public List<Plan_Index> findByPlanTypeAndMineType(String planType, String mineType) {
+		// TODO Auto-generated method stub
+		return getPlan_IndexDao().findByPlanTypeAndMineType(planType, mineType);
+	}
 }

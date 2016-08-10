@@ -15,4 +15,6 @@ public interface Plan_IndexDao extends BaseDao<Plan_Index, String> {
 
 	void batchAdd(Plan plan, List<IndexManagement> indexs);
 
+	List<Plan_Index> findByPlanTypeAndMineType(String planType, String mineType);
+
 }

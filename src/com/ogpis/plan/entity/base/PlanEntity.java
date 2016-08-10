@@ -197,7 +197,7 @@ public class PlanEntity extends BaseEntity {
 	public void setUsers(Set<User> users) {
 		this.users = users;
 	}
-
+	
 	@OneToMany(mappedBy = "plan",fetch = FetchType.LAZY,targetEntity=Plan_Index.class)
 	private List<Plan_Index> plan_indexs;
 

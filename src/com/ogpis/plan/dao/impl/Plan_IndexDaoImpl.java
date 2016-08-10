@@ -52,4 +52,14 @@ public class Plan_IndexDaoImpl extends BaseDaoImpl<Plan_Index, String>
 				indexId);
 		return plan_index;
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Plan_Index> findByPlanTypeAndMineType(String planType, String mineType) {
+		List<Plan_Index> items = this 
+ 				.queryByHql( 
+ 						"from Plan_Index where deleted=false plan.planType='"+planType+"' and index.mineType='"+mineType+"' order by index.indexType", 
+ 						null); 
+		return items; 
+	}
 }

@@ -15,5 +15,7 @@ public interface Plan_IndexService extends BaseService<Plan_Index, String>{
 
 	void batchAdd(Plan plan, List<IndexManagement> indexs);
 
+	List<Plan_Index> findByPlanTypeAndMineType(String planType, String mineType);
+
 
 }

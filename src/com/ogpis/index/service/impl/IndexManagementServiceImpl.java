@@ -45,4 +45,10 @@ public class IndexManagementServiceImpl extends
 
 		return getIndexManagementDao().findAllIndexByPriority(type);
 	}
+
+	@Override
+	public List<IndexManagement> findByMineType(String mineType) {
+		// TODO Auto-generated method stub
+		return getIndexManagementDao().findByMineType(mineType);
+	}
 }

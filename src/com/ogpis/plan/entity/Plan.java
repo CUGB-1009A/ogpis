@@ -214,6 +214,12 @@ public class Plan extends PlanEntity {
 		return result.toString();
 		
 	}
+	
+	public Integer getPlanYears()
+	{
+		return Integer.parseInt(super.endTime.toString().substring(0, 4))-Integer.parseInt(super.startTime.toString().substring(0, 4));
+	}
+	
 	public List<IndexManagement> getIndexs() {
 		List<IndexManagement> result = new ArrayList();
 		for (Plan_Index p_i : this.getPlan_indexs()) {

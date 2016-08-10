@@ -74,7 +74,7 @@
 					<div class="form-group">
 						<label class="col-sm-3 control-label no-padding-right" for="selectIndex">矿种类型</label>
 						<div class="col-sm-9">
-							<select id="selectType" name="indexType" class="selectpicker col-xs-10 col-sm-5" data-style="btn-danger">
+							<select id="selectMineType" name="mineType" class="selectpicker col-xs-10 col-sm-5" data-style="btn-danger">
 										<option value='1' <c:if test="${index.mineType.equals('1')}">selected</c:if>>石油</option>
 							    		<option value='2' <c:if test="${index.mineType.equals('2')}">selected</c:if>>天然气</option>
 							    		<option value='3' <c:if test="${index.mineType.equals('3')}">selected</c:if>>煤层气</option>
@@ -88,7 +88,7 @@
 					<div class="form-group">
 						<label class="col-sm-3 control-label no-padding-right" for="selectIndex">储产量</label>
 						<div class="col-sm-9">
-							<select id="selectType" name="indexType" class="selectpicker col-xs-10 col-sm-5" data-style="btn-danger">
+							<select id="selectIndexType" name="indexType" class="selectpicker col-xs-10 col-sm-5" data-style="btn-danger">
 										<option value='1' <c:if test="${index.indexType.equals('1')}">selected</c:if>>新增探明地质储量</option>
 							    		<option value='2' <c:if test="${index.indexType.equals('2')}">selected</c:if>>产量</option>		       
 							    </select>

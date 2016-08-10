@@ -44,16 +44,16 @@
             <a href="#specialShow" data-toggle="collapse" class="nav-header collapsed"><i class=" glyphicon glyphicon-facetime-video"></i> 专题展示 <i class="fa fa-fw fa-caret-down"></i></a>
             <ul id="specialShow" class="nav nav-list collapse secondmenu" style="height:0px;">
                 <li>
-                    <a href="#"><i class="glyphicon glyphicon-glass"></i> 石油 </a>
+                    <a href="<c:url value='/special/list?mineType=1'/>"><i class="glyphicon glyphicon-glass"></i> 石油 </a>
                 </li>
                 <li>
-                    <a href="#"><i class="glyphicon glyphicon-fire"></i> 天然气 </a>
+                    <a href="<c:url value='/special/list?mineType=2'/>"><i class="glyphicon glyphicon-fire"></i> 天然气 </a>
                 </li>
                 <li>
-                    <a href="#"><i class="glyphicon glyphicon-fire"></i>煤层气 </a>
+                    <a href="<c:url value='/special/list?mineType=3'/>"><i class="glyphicon glyphicon-fire"></i>煤层气 </a>
                 </li>
                 <li>
-                    <a href="#"><i class="glyphicon glyphicon-fire"></i> 页岩气 </a>
+                    <a href="<c:url value='/special/list?mineType=4'/>"><i class="glyphicon glyphicon-fire"></i> 页岩气 </a>
                 </li>
             </ul>
         </li>
