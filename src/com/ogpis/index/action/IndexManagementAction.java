@@ -94,6 +94,7 @@ public class IndexManagementAction {
 			{
 			bean = new IndexManagement();
 			bean.setType(indexManagement.getType());
+			bean.setMineType(indexManagement.getMineType());
 			bean.setIndexName(indexManagement.getIndexName());
 			bean.setIndexType(indexManagement.getIndexType());
 			bean.setIndexUnit(indexManagement.getIndexUnit());
@@ -104,6 +105,7 @@ public class IndexManagementAction {
 			{
 			bean = indexManagementService.findById(id);
 			bean.setType(indexManagement.getType());
+			bean.setMineType(indexManagement.getMineType());
 			bean.setIndexName(indexManagement.getIndexName());
 			bean.setIndexType(indexManagement.getIndexType());
 			bean.setIndexUnit(indexManagement.getIndexUnit());

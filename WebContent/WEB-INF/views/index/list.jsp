@@ -53,6 +53,7 @@
 											<!-- <th class="table-checkbox"><input type="checkbox" class="group-checkable" name="checkboxFirst"/>全选</th>
 											 --><th>指标名称</th>
 											<th>指标单位</th>
+											<th>矿种类型</th>
 											<th>指标类型</th>
 											<th>优先级</th>											
 											<th>操作</th>
@@ -66,6 +67,13 @@
 													</td> --%>
 													<td>${item1.indexName}</td>
 													<td>${item1.indexUnit}</td>
+													<td>
+														<c:if test="${item1.mineType.equals('1')}">石油</c:if>
+														<c:if test="${item1.mineType.equals('2')}">天然气</c:if>
+														<c:if test="${item1.mineType.equals('3')}">煤层气</c:if>
+														<c:if test="${item1.mineType.equals('4')}">页岩气</c:if>
+														<c:if test="${item1.mineType.equals('5')}">其他</c:if>
+													</td>
 													<td>
 														<c:if test="${item1.indexType.equals('1')}">新增探明地质储量</c:if>
 														<c:if test="${item1.indexType.equals('2')}">产量</c:if>

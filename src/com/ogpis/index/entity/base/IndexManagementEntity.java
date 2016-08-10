@@ -29,6 +29,9 @@ public class IndexManagementEntity extends BaseEntity {
 	@Column(name = "指标名称")
 	protected String indexName;
 	
+	@Column(name = "矿种类型")//目前只有石油、天然气、煤层气、页岩气、其他   五类矿种
+	protected String mineType;
+
 	@Column(name = "指标类型")//指储量还是产量，1为储量 2为产量
 	protected String indexType;
 	
@@ -90,6 +93,14 @@ public class IndexManagementEntity extends BaseEntity {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+	
+	public String getMineType() {
+		return mineType;
+	}
+
+	public void setMineType(String mineType) {
+		this.mineType = mineType;
 	}
 
 	public String getIndexUnit() {
