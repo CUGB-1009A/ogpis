@@ -34,17 +34,31 @@
 						<div class="table-toolbar" style="text-align: right;">
 						
 							<div class="btn-group">
+								<span title="">指标类型：</span>									
+								<select id="selectType" name="type" class="selectpicker" data-style="btn-danger">
+							    		<option value='QG' <c:if test="${type.equals('QG')}">selected</c:if>>全国</option>
+							    		<option value='ZSY' <c:if test="${type.equals('ZSY')}">selected</c:if>>中石油</option>
+							    		<option value='ZSH' <c:if test="${type.equals('ZSH')}">selected</c:if>>中石化</option>
+							    		<option value='ZHY' <c:if test="${type.equals('ZHY')}">selected</c:if>>中海油</option>
+							    		<option value='YC' <c:if test="${type.equals('YC')}">selected</c:if>>延长石油</option>
+							    		<option value='ZLM' <c:if test="${type.equals('ZLM')}">selected</c:if>>中联煤</option>
+							    		<option value='QT' <c:if test="${type.equals('QT')}">selected</c:if>>其他</option>	
+							    </select>	
+							    &nbsp;&nbsp;
 								<span title="">指标项名称：</span>									
 								<select id="selectIndex" name="selectCondition" class="selectpicker" data-style="btn-danger">
+									 <c:if test="${id.equals('0')}"><option value='0'selected>没有指标项</option></c:if>
 							    	<c:forEach items="${indexList}" var="item" varStatus="status">
 							    		<option value='${item.id}' <c:if test="${item.id==id}">selected</c:if>>${item.indexName}</option>
 									</c:forEach>
 							    </select>	
 							    &nbsp;&nbsp;
-							     <a href="javascript:showAddIndexDataModel();" class="btn-sm btn-app btn-success no-radius">
-									<i class="icon-plus bigger-200">&nbsp;录入</i>
-								</a>
+							    <c:if test="${!id.equals('0')}">
+								     <a href="javascript:showAddIndexDataModel();" class="btn-sm btn-app btn-success no-radius">
+										<i class="icon-plus bigger-200">&nbsp;录入</i>
+									</a>
 								&nbsp;&nbsp;
+								</c:if>
 							</div>
 						</div>
 						<div class="dataTables_wrapper form-inline" role="grid">
@@ -165,7 +179,7 @@ function cancleEditIndexData(id)
 /* 确认编辑提交 */
 function saveEditIndexData(id)
 {
-	var value = $("#input_"+id).val();//获取改变前的值	
+	var value = $("#input_"+id).val();//获取改当前值
 	$.ajax({
 		url:"<%=path%>/indexData/save",
 		type:"get",
@@ -175,6 +189,7 @@ function saveEditIndexData(id)
 	    contentType: "application/json",
 		success:function()
 		{
+			$("#input_"+id).attr("lastValue",value);
 			document.getElementById("ok_"+id).style.display="none";
 			document.getElementById("cancle_"+id).style.display="none";
 			document.getElementById("delete_"+id).style.display="";	
@@ -222,7 +237,12 @@ function showAddIndexDataModel()
 
 $("#selectIndex").change(function(){
 	var id = $("#selectIndex").val()
-	window.location.href="<%=path%>/indexData/list?id="+id;
+	window.location.href="<%=path%>/indexData/list?type=${type}&&id="+id;
+});
+
+$("#selectType").change(function(){
+	var type = $("#selectType").val()
+	window.location.href="<%=path%>/indexData/list?id=0&&type="+type;
 });
 
 /* 日期选择定制 */

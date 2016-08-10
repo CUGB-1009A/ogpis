@@ -18,7 +18,7 @@
             		<a href="<c:url value='/index/list?type=QG'/>"><i class="glyphicon glyphicon-star"></i> 指标项管理<i></i></a>
          		</li> 
                 <li>
-                    <a href="<c:url value='/indexData/list?id=0'/>"><i class="glyphicon glyphicon-pencil"></i> 完成情况管理 </a>
+                    <a href="<c:url value='/indexData/list?type=QG&&id=0'/>"><i class="glyphicon glyphicon-pencil"></i> 完成情况管理 </a>
                 </li>
             </ul>
          </li>

@@ -30,8 +30,14 @@ public class IndexDataManagementAction {
 	
 	//只显示一个指标项(通过id判断显示哪个)，通过下来列表来选择显示哪个指标项
 	@RequestMapping(value = "/indexData/list")
-	public String list(HttpServletRequest request, ModelMap model,String id){
-		List<IndexManagement> indexList = indexManagementService.findAllIndexByPriority("QG");
+	public String list(HttpServletRequest request, ModelMap model,String id,String type){
+		List<IndexManagement> indexList = indexManagementService.findAllIndexByPriority(type);
+		if(indexList.size()==0)
+			{
+			model.addAttribute("id",id);
+			model.addAttribute("type",type);
+			return "indexData/list";
+			}
 		List<IndexDataManagement> indexDataList ;
 		if(id.equals("0"))
 			 {
@@ -41,6 +47,7 @@ public class IndexDataManagementAction {
 		else
 			indexDataList = indexManagementService.findById(id).getOrderedIndexData();
 		model.addAttribute("id",id);
+		model.addAttribute("type",type);
 		model.addAttribute("indexDataList",indexDataList);
 		model.addAttribute("indexList",indexList);
 		return "indexData/list";		
@@ -78,6 +85,7 @@ public class IndexDataManagementAction {
 		System.out.println(indexDataTemp.getCollectedTime());
 		indexData.setIndex(index);
 		indexDataManagementService.save(indexData);
+		model.addAttribute("type",index.getType());
 		model.addAttribute("id",indexId);
 		return "redirect:list";		
 	}
