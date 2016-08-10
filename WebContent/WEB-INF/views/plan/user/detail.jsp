@@ -334,7 +334,7 @@ require(
 		 		 });
 		 		columns.push({
 		 			field:'field1',
-		 			title:'完成量（'+ obj_2[kk].indexUnit+'）'
+		 			title:obj_2[kk].indexUnit
 		 		 });
 		 		    if(obj_2[kk].year.length>10)
 		 		    	 option2.dataZoom.start = 0;
@@ -378,9 +378,7 @@ require(
 					        }); 
 							n = n + 1 ;
 						}
-					myCharts3.setOption(option2);
-					
-					
+					myCharts3.setOption(option2);					
 		 		}
 		 	
 });

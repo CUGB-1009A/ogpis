@@ -84,38 +84,12 @@
 					<div class="form-group">
 						<label class="col-sm-2 control-label no-padding-right" for="form-field-7">规划概述</label>
 						<div class="col-sm-4">
-						    <textArea id="form-field-7"  style="height:180px" class="col-sm-12" placeholder="规划概述..." name="planShortDescription"></textArea>
+						    <textArea id="form-field-7"  style="height:80px" class="col-sm-12" placeholder="规划概述..." name="planShortDescription"></textArea>
 						</div>
 						
-						<label class="col-sm-2 control-label no-padding-right" for="form-field-9">规划指标</label>
+						<label class="col-sm-2 control-label no-padding-right" for="form-field-11">规划类型</label>
 						<div class="col-sm-4">
-							<table id="indexTable" class="col-sm-12" >
-						     	<thead> 
-							     	<tr>
-							     		<td><input type="checkBox" name="indexCheckBox">全选</td>
-							     		<td>指标名称</td>
-							     		<td>指标单位</td>
-							     	</tr>
-						     	</thead>
-						     	<tbody  style="overflow-y:auto;max-height:300px;display:block">
-							     	<c:forEach items="${indexs}" var="item">
-							     		<tr>
-							     			<td><input type="checkBox" name="checkbox" value="${item.id}"/></td>
-							     			<td>${item.indexName}</td>
-							     			<td>${item.indexUnit}</td>
-							     		</tr>
-							     	</c:forEach>
-						     	</tbody>
-						     </table>		     
-						</div>	
-					</div> 
-					
-					<div class="space-4"></div> 	
-					<div class="form-group">
-					<label class="col-sm-2 control-label no-padding-right" for="form-field-11">规划类型</label>
-						<div class="col-sm-4">
-							<select id="planType" name="type" class="selectpicker col-sm-12" data-style="btn-success">
-							    	<option value='0'>规划类型</option>
+							<select id="planType" name="type" class="selectpicker col-sm-10" data-style="btn-success">
 							    	<option value='QG'>全国规划</option>
 							    	<option value='ZSY'>中石油规划</option>
 							    	<option value='ZSH'>中石化规划</option>
@@ -125,13 +99,13 @@
 							    	<option value='QT'>其他公司规划</option>
 							</select>
 						</div>
-					</div>
-					
+					</div> 
+				
 					<div class="space-4"></div> 
 					 <div class="form-group">
 						<label class="col-sm-2 control-label no-padding-right" for="form-field-8">规划背景和依据</label>
-						<div class="col-sm-9">
-						    <textArea id="form-field-8"  style="height:70px"  class="col-sm-10" name="planDescription"></textArea>
+						<div class="col-sm-10">
+						    <textArea id="form-field-8"  style="height:70px"  class="col-sm-12" name="planDescription"></textArea>
 							<script type="text/javascript">CKEDITOR.replace('planDescription',
 									{   
 										filebrowserImageUploadUrl : '<%=path%>/uploadImg',  

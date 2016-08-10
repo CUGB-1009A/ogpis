@@ -6,41 +6,63 @@
 %>
 <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
 <div class="collapse navbar-collapse navbar-ex1-collapse" align="left">
-    <ul class="nav navbar-nav side-nav pull-left" id="menuList">
-        
+    <ul class="nav navbar-nav side-nav pull-left">   
          <li>
             <a href="<%=basePath%>/plan/list?timeStamp=<%=timeStamp%>&&type=QG&&condition="><i class="glyphicon glyphicon-star"></i> 全国规划<i></i></a>
          </li> 
-             
-         <li>
-            <a href="<%=basePath%>/plan/list?type=ZSY&&condition="><i class="glyphicon glyphicon-star"></i> 中石油规划<i></i></a>
-         </li> 
-             
-         <li>
-            <a href="<%=basePath%>/plan/list?type=ZSH&&condition="><i class="glyphicon glyphicon-star"></i> 中石化规划<i></i></a>
-         </li> 
          
          <li>
-            <a href="<%=basePath%>/plan/list?type=ZHY&&condition="><i class="glyphicon glyphicon-star"></i> 中海油规划<i></i></a>
-         </li> 
-         
-         <li>
-            <a href="<%=basePath%>/plan/list?type=YC&&condition="><i class="glyphicon glyphicon-star"></i> 延长石油规划<i></i></a>
-         </li> 
-          
-          <li>
-            <a href="<%=basePath%>/plan/list?type=ZLM&&condition="><i class="glyphicon glyphicon-star"></i> 中联煤规划<i></i></a>
-         </li> 
+            <a href="#companyPlan" data-toggle="collapse" class="nav-header collapsed"><i class="glyphicon glyphicon-book"></i> 公司规划 <i class="fa fa-fw fa-caret-down"></i></a>
+            <ul id="companyPlan" class="nav nav-list collapse secondmenu" style="height:0px;">
+                 <li>
+		            <a href="<%=basePath%>/plan/list?type=ZSY&&condition="><i class="glyphicon glyphicon-file"></i> 中石油规划<i></i></a>
+		         </li> 
+		             
+		         <li>
+		            <a href="<%=basePath%>/plan/list?type=ZSH&&condition="><i class="glyphicon glyphicon-file"></i> 中石化规划<i></i></a>
+		         </li> 
+		         
+		         <li>
+		            <a href="<%=basePath%>/plan/list?type=ZHY&&condition="><i class="glyphicon glyphicon-file"></i> 中海油规划<i></i></a>
+		         </li> 
+		         
+		         <li>
+		            <a href="<%=basePath%>/plan/list?type=YC&&condition="><i class="glyphicon glyphicon-file"></i> 延长石油规划<i></i></a>
+		         </li> 
+		          
+		          <li>
+		            <a href="<%=basePath%>/plan/list?type=ZLM&&condition="><i class="glyphicon glyphicon-file"></i> 中联煤规划<i></i></a>
+		         </li> 
+		        
+		         <li>
+		            <a href="<%=basePath%>/plan/list?type=QT&&condition="><i class="glyphicon glyphicon-file"></i> 其它公司规划<i></i></a>
+		         </li> 
+            </ul>
+        </li>
         
          <li>
-            <a href="<%=basePath%>/plan/list?type=QT&&condition="><i class="glyphicon glyphicon-star"></i> 其它公司规划<i></i></a>
-         </li> 
-         
+            <a href="#specialShow" data-toggle="collapse" class="nav-header collapsed"><i class=" glyphicon glyphicon-facetime-video"></i> 专题展示 <i class="fa fa-fw fa-caret-down"></i></a>
+            <ul id="specialShow" class="nav nav-list collapse secondmenu" style="height:0px;">
+                <li>
+                    <a href="#"><i class="glyphicon glyphicon-glass"></i> 石油 </a>
+                </li>
+                <li>
+                    <a href="#"><i class="glyphicon glyphicon-fire"></i> 天然气 </a>
+                </li>
+                <li>
+                    <a href="#"><i class="glyphicon glyphicon-fire"></i>煤层气 </a>
+                </li>
+                <li>
+                    <a href="#"><i class="glyphicon glyphicon-fire"></i> 页岩气 </a>
+                </li>
+            </ul>
+        </li>
+                 
          <li>           
             <a href="<c:url value='/main'/>"><i class="glyphicon glyphicon-heart"></i> 我的收藏</a>
          </li>
        
-        <shiro:hasPermission name="document:management">
+    <%--     <shiro:hasPermission name="document:management">
           <li>
             <a href="#doc" data-toggle="collapse" class="nav-header collapsed"><i class="glyphicon glyphicon-folder-close"></i> 文档管理 <i class="fa fa-fw fa-caret-down"></i></a>
             <ul id="doc" class="nav nav-list collapse secondmenu" style="height:0px;">
@@ -66,12 +88,12 @@
                  <li>
                     <a href="<c:url value='/system/role/list'/>"><i class="glyphicon glyphicon-lock"></i> 角色管理 </a>
                 </li>            
-               <%--  <li>
+                <li>
            			 <a href="<c:url value='/menu/list?pageId=&&id=&&pageNo=1'/>"><i class="glyphicon glyphicon-list"></i> 菜单管理<i></i></a>
-        		</li>  --%>
+        		</li>
             </ul>
         </li>
-        </shiro:hasPermission>
+        </shiro:hasPermission> --%>
     </ul>
 </div>
 <script type="text/javascript">

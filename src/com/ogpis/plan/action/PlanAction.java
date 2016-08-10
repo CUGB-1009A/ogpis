@@ -171,27 +171,14 @@ public class PlanAction {
 	}
 
 	/*
-	 * 普通用户查看规划响应函数
+	 * 管理员以用户的视角看规划
 	 */
-	@Deprecated
-	@RequestMapping(value = "/plan/showDetail")
-	public String showDetail(HttpServletRequest request, ModelMap model,
+	@RequestMapping(value = "/plan/preview")
+	public String preview(HttpServletRequest request, ModelMap model,
 			String id) {
 		Plan plan = planService.findById(id);
 		model.addAttribute("plan", plan);
-		Set<PlanDocument> planDocuments = plan.getPlanDocument();
-		List<IndexManagement> indexs = plan.getIndex();
-		HashMap hasMap = new HashMap();
-		List<IndexDataManagement> indexDataManagement;
-		for (IndexManagement temp : indexs) {
-			indexDataManagement = indexDataManagementService.findByIndexId(temp
-					.getId());
-			hasMap.put(temp, indexDataManagement);
-		}
-		request.setAttribute("map", hasMap);
-		model.addAttribute("planDocuments", planDocuments);
-		model.addAttribute("indexs", indexs);
-		return "/plan/showDetail";
+		return "/plan/admin/preview";
 	}
 
 	/*
@@ -236,15 +223,7 @@ public class PlanAction {
 		model.addAttribute("type", type);
 		model.addAttribute("condition", "");
 		if (isAdd) {
-			Plan tempPlan = planService.save(bean);
-			if(indexIds.length()!=0)//如果选择了指标项则和规划关联
-			{	
-				String[] indexId = indexIds.split(",");
-				for(int i=0;i<indexId.length;i++)
-				{
-					plan_IndexService.add(tempPlan, indexManagementService.findById(indexId[i]),0);
-				}
-			}	
+			planService.save(bean);	
 			return "redirect:list";
 		} else {
 			planService.update(bean);
