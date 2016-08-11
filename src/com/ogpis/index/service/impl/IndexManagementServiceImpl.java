@@ -1,8 +1,10 @@
 package com.ogpis.index.service.impl;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.ogpis.base.common.paging.IPageList;
 import com.ogpis.base.service.impl.BaseServiceImpl;
 import com.ogpis.index.dao.IndexManagementDao;
@@ -50,5 +52,10 @@ public class IndexManagementServiceImpl extends
 	public List<IndexManagement> findByMineType(String mineType) {
 		// TODO Auto-generated method stub
 		return getIndexManagementDao().findByMineType(mineType);
+	}
+
+	@Override
+	public List<IndexManagement> findByType(String type) {
+		return getIndexManagementDao().findByType(type);
 	}
 }

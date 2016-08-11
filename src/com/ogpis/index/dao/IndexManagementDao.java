@@ -1,6 +1,7 @@
 package com.ogpis.index.dao;
 
 import java.util.List;
+
 import com.ogpis.base.common.paging.IPageList;
 import com.ogpis.base.dao.BaseDao;
 import com.ogpis.index.entity.IndexManagement;
@@ -16,5 +17,7 @@ public interface IndexManagementDao extends BaseDao< IndexManagement,String> {
 	List<IndexManagement> findAllIndexByPriority(String type);
 
 	List<IndexManagement> findByMineType(String mineType);
+
+	List<IndexManagement> findByType(String type);
 
 }

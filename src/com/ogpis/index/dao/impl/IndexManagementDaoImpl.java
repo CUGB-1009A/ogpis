@@ -64,4 +64,13 @@ public class IndexManagementDaoImpl extends
 						"from IndexManagement m where m.deleted=false and m.type='QG' and m.mineType ='"+mineType+"' order by indexType asc",null);
 		return items;
 	}
+	
+	@Override
+	public List<IndexManagement> findByType(String type) {
+		// TODO Auto-generated method stub
+		List<IndexManagement> items = this
+				.queryByHql(
+						"from IndexManagement m where m.deleted=false and m.type='QG' and m.type ='"+type+"' order by indexType asc",null);
+		return items;
+	}
 }

@@ -1,6 +1,7 @@
 package com.ogpis.index.service;
 
 import java.util.List;
+
 import com.ogpis.base.common.paging.IPageList;
 import com.ogpis.base.service.BaseService;
 import com.ogpis.index.entity.IndexManagement;
@@ -16,6 +17,8 @@ public interface IndexManagementService extends BaseService<IndexManagement,Stri
 	List<IndexManagement> findAllIndexByPriority(String type);
 
 	List<IndexManagement> findByMineType(String mineType);
+
+	List<IndexManagement> findByType(String type);
 
 
 }

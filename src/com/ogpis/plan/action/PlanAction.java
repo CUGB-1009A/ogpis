@@ -282,9 +282,11 @@ public class PlanAction {
 			// IPageList<IndexManagement> indexs =
 			// indexManagementService.getOnePlanIndexs(pageNo, pageSize,
 			// plan.getId());
-			System.out.println("size: " + plan.getPlan_indexs().size());
+			//System.out.println("size: " + plan.getPlan_indexs().size());
+			//System.out.println("type: " + type);
 
-			List<IndexManagement> allIndexs = indexManagementService.findAll();//这里要加入指标类型的筛选，确定是全国的还是各公司的
+			//这里要加入指标类型的筛选，确定是全国的还是各公司的
+			List<IndexManagement> allIndexs = indexManagementService.findAllIndexByPriority(plan.getPlanType());
 			model.addAttribute("allIndexs", allIndexs);
 			model.addAttribute("plan_indexs", plan.getPlan_indexs());
 			model.addAttribute("flag", 3);
