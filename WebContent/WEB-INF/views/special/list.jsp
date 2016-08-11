@@ -207,6 +207,41 @@
 		        echarts: '<%=request.getContextPath()%>/assets/dist'
 		    }
 		});
+		
+		option3 = {
+			    title : {
+			        text: '',
+			        x: 'right',            
+			        y: 'top'
+			    },
+			    tooltip : {
+			        trigger: 'axis'
+			    },
+			    legend: {
+			        data:['规划累计完成'],
+			        x: 'left',            
+			        y: 'top'
+			    },
+			    xAxis : [
+			        {
+			            type : 'category',
+			           data:[]
+			        }
+			    ],
+			    yAxis : [
+			        {
+			            type : 'value',
+			            name:''
+			        }
+			    ],
+			    series : [
+			        {
+			            name:'规划累计完成',
+			            type:'bar',
+			           data:[]
+			        }
+			    ]
+			};                       
 		// 使用
 		require(
 		    [
@@ -249,7 +284,7 @@
 		    	myCharts.setOption(option1);
 		    	
 		    	/* 专题下有几行，一个类别（index） 一行 */
-		    	var $charts2 = $(".charts2")
+		    	
 		    	var chart1_X = "{\"xAxis\":["
     			for(mm=1;mm<obj[0].plans[0].year.length+1;mm++)
 					{
@@ -257,8 +292,10 @@
 					}
 		    	chart1_X = chart1_X.substring(0,chart1_X.length-1)+"]}";
 		    	var xAxis = eval("(" + chart1_X + ")");
+		    	var $charts2 = $(".charts2")
 		    	for(var ii=0;ii<$charts2.length;ii++)
 			    	{
+		    		/* 显示左图 */
 			    		var tempSeriesChart1 = "{\"series\":[";
 			    		for(k=0;k<obj[0].plans.length;k++)
 						{
@@ -274,7 +311,24 @@
 			    		option2.series = seriesChart1.series;
 			    		charts2.setOption(option2);
 		    		}
-		    	var $charts3 = $(".charts3");
+		    	var $charts3 = $(".charts3")
+		    	for(var jj=0;jj<$charts3.length;jj++)
+		    	{
+		    	/* 显示右图 */
+		    		var tempSeriesChart2 = "{\"series\":[";
+		    		for(k=0;k<obj[0].plans.length;k++)
+					{
+		    			tempSeriesChart2 = tempSeriesChart2 +obj[jj].plans[k].hasFinished+",";
+		    		}
+		    		tempSeriesChart2= tempSeriesChart2.substring(0,tempSeriesChart2.length-1)+"]}"
+		    		var seriesChart2 = eval("(" + tempSeriesChart2 + ")");
+		    		var charts3 = ec.init($charts3[jj]);
+		    		option3.series[0].data = seriesChart2.series;
+		    		option3.xAxis[0].data = legend.legend;
+		    		option3.title.text = obj[jj].indexName+"规划年间累计完成情况";
+		    		option3.yAxis[0].name = obj[jj].indexUnit;	
+		    		charts3.setOption(option3);
+		    	}
 		    });
 			                    
 	</script>
