@@ -169,7 +169,6 @@ var option = {
      grid: {
         x: '150px',
         x2:'40px'
-     
     }, 
     xAxis:  {
         type: 'value',
