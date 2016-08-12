@@ -64,6 +64,7 @@ public class WelcomeAction {
 		{
 			map = new LinkedHashMap();
 			map.put("plan",temp);
+			map.put("isconcerned",true);
 			mapList.add(map);
 		}
 		model.addAttribute("mapList", mapList);//返回规划

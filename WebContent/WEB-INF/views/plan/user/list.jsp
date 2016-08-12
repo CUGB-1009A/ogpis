@@ -98,9 +98,9 @@
 								</div>
 						 </div>
 					 </div>
-					 <c:if test="${!listType.equals('preview')}">
-						<div class="panel-footer" style="text-align:right;background:white">
-							<c:if test="${item1.get('isconcerned')}">	
+					 <c:if test="${listType.equals('user')}">
+						 <div class="panel-footer" style="text-align:right;background:white">
+							<c:if test="${item1.get('isconcerned')}">
 								 <button class="disconcern" value="${item1.get('plan').id}" >取消收藏</button>
 								 <button class="concern" value="${item1.get('plan').id}" style="display:none">收藏</button>
 							</c:if>		
@@ -110,6 +110,12 @@
 							</c:if>						
 						 </div>
 					 </c:if>
+					 
+					 <c:if test="${listType.equals('concern')}">
+					  	<div class="panel-footer" style="text-align:right;background:white">
+							 <button class="disconcern_1" value="${item1.get('plan').id}" >取消收藏</button>
+					 	</div>
+					 </c:if>
 				 </div>	
 			</div>
 		</c:forEach>
@@ -117,6 +123,26 @@
 </div>
 
 <script type="text/javascript">
+//这个是收藏页面的取消收藏
+$(".disconcern_1").click(function(){
+	var planId = $(this).attr("value");
+	var getTimestamp = new Date().getTime();
+	//发布处理，处理成功后do
+	$.ajax({
+	url:"<%=request.getContextPath()%>/plan/disconcern?time="+getTimestamp,
+	dataType:"json",
+	async:true,
+	data:{"planId":planId},
+	type:"GET",
+	success:function(result){
+		$(".plan"+planId).parent().empty();
+		alert('取消收藏成功');
+	},
+	error:function(){
+		alert("出意外错误了");
+	}
+});
+})
 
 /* 关注 和 取消关注  按钮的ajax提交 */
 $(".concern").click(function(){
@@ -139,7 +165,8 @@ $(".concern").click(function(){
 	}
 });
 })
-	
+
+//user查看时的取消收藏
 	$(".disconcern").click(function(){
 		var planId = $(this).attr("value");
 		var getTimestamp = new Date().getTime();
