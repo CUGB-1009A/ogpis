@@ -30,6 +30,7 @@ public class IndexManagementAction {
 		List<IndexManagement> indexList = indexManagementService.findAllIndexByPriority(type);
 		model.addAttribute("indexList",indexList);
 		model.addAttribute("type",type);
+		model.addAttribute("navUL","index");//指定导航栏展开那个子菜单
 		return "index/list";	
 	}
 	
