@@ -212,6 +212,8 @@ public class PlanAction {
 		bean.setPlanName(plan.getPlanName());
 		bean.setPlanShortDescription(plan.getPlanShortDescription());
 		bean.setTargetAndFinished(plan.getTargetAndFinished());
+		bean.setOutputDescription(plan.getOutputDescription());
+		bean.setStorageDescription(plan.getOutputDescription());
 		//bean.setPlanType(type);
 		bean.setPlanCode(plan.getPlanCode());
 		bean.setPlanDescription(plan.getPlanDescription());
@@ -261,7 +263,7 @@ public class PlanAction {
 	@RequestMapping(value = "/plan/show")
 	public String show(HttpServletRequest request,
 			HttpServletResponse response, ModelMap model, String id,
-			String type, String flag) throws UnsupportedEncodingException {
+			String flag) throws UnsupportedEncodingException {
 		HashMap hasMap = new HashMap();
 		List<IndexDataManagement> indexDataManagement;
 		Plan plan = this.planService.findById(id);
@@ -306,7 +308,7 @@ public class PlanAction {
 		if (flag.equals("5")) {
 			model.addAttribute("flag", 5);
 		}
-		model.addAttribute("type", type);
+		model.addAttribute("type", plan.getPlanType());
 		return "/plan/admin/detail";
 	}
 
@@ -351,7 +353,8 @@ public class PlanAction {
 	@RequestMapping(value = "/plan/uploadFiles")
 	public void uploadFiles(HttpServletResponse resp,
 			HttpServletRequest request, ModelMap model) throws Exception {
-
+		float fileSize = 0;
+		String[] fileSizeUnit = { "B","KB","MB","GB","TB" };
 		final HttpSession hs = request.getSession();
 
 		String id = request.getParameter("planId");
@@ -360,20 +363,15 @@ public class PlanAction {
 		String type = request.getParameter("type");
 		// Set<PlanDocument> planDocumentList = new HashSet<PlanDocument>();
 
-		System.out.println(plan == null);
-
 		// if (plan.getPlanDocument() != null)
 		// planDocumentList.addAll(plan.getPlanDocument());
 
 		PlanDocument bean = null;
 		request.setCharacterEncoding("utf-8");
 		boolean isMultipart = ServletFileUpload.isMultipartContent(request);
-		System.out.println(1235);
 		if (!isMultipart) {
-			System.out.println(12);
 			resp.sendRedirect("show?id=" + id + "&&flag=2");
 		}
-		System.out.println(15);
 		FileItemFactory factory = new DiskFileItemFactory();
 		ServletFileUpload upload = new ServletFileUpload(factory);
 
@@ -385,17 +383,7 @@ public class PlanAction {
 			}
 		});
 		List items = upload.parseRequest(request);
-		System.out.println("----items:" + items.size());
 		Iterator iter = items.iterator();
-		Iterator iter1 = items.iterator();
-		String fileDescription = "";
-		while (iter1.hasNext()) {
-			FileItem item = (FileItem) iter1.next();
-			if (item.isFormField()) {
-				if (item.getFieldName().equals("fileDescription"))
-					fileDescription = item.getString("UTF-8");
-			}
-		}
 		while (iter.hasNext()) // 表单中有几个input标签，就循环几次
 		{
 			FileItem item = (FileItem) iter.next();
@@ -404,14 +392,14 @@ public class PlanAction {
 			} else {
 				bean = new PlanDocument();
 				String fileName = item.getName();
-				System.out.println(fileName);
+				fileSize = item.getSize();
 				// 这里发现ie获取的是路径加文件名，chrome获取的是文件名，这里我们只需要文件名，所以有路径的要先去路径
-
-				if (fileName.contains("\\"))
-					;
 				fileName = fileName.substring(fileName.lastIndexOf("\\") + 1,
 						fileName.length());
 				String prefix = System.currentTimeMillis() + "";
+				File file = new File(request.getServletContext().getRealPath("/")+ "planFileUpload\\"+ type);
+				if(!file.exists())
+					file.mkdirs();
 				File uploadedFile = new File(request.getServletContext()
 						.getRealPath("/")
 						+ "planFileUpload\\"
@@ -421,9 +409,17 @@ public class PlanAction {
 				item.write(uploadedFile);
 				bean.setDocumentAddress("planFileUpload\\" + type + "\\"
 						+ prefix + fileName);
-				bean.setDocumentDescription(fileDescription);
+				/*bean.setDocumentDescription(fileDescription);*/
 				bean.setUploadDate(new Date());
-				bean.setDocumentSize(item.getSize() + "");
+				int i = 0;//记录除了多少次1024，为了用0-1024间的数字+合适的单位来表示文件的大小
+				while(fileSize>1024)
+				{
+					fileSize = fileSize /1024 ;
+					i++;
+					if(i==4)
+						break;
+				}		
+				bean.setDocumentSize((int)fileSize + fileSizeUnit[i]);
 				bean.setDocumentName(fileName);
 				bean.setPlan(plan);
 				bean.setDocumentType("规划相关文档");

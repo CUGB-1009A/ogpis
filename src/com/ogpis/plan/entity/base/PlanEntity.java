@@ -62,7 +62,7 @@ public class PlanEntity extends BaseEntity {
 	@Column(name = "规划类型")
 	protected String planType;
 	
-	@Column(name="规划概述")
+	@Column(columnDefinition="TEXT",name="规划概述")
 	protected String planShortDescription;
 	
 	@Column(name="目标和总体完成情况")
@@ -71,6 +71,12 @@ public class PlanEntity extends BaseEntity {
 	//指规划的依据和背景，clob类型
 	@Column(columnDefinition="TEXT", name = "规划描述")
 	protected String planDescription;
+	
+	@Column(columnDefinition="TEXT",name = "储量完成情况描述")
+	protected String storageDescription;
+
+	@Column(columnDefinition="TEXT",name = "产量完成情况描述")
+	protected String outputDescription;
 	
 	@OneToMany(fetch=FetchType.LAZY,cascade = { CascadeType.ALL }, mappedBy = "plan")
 	protected Set<PlanDocument> planDocument;
@@ -155,6 +161,22 @@ public class PlanEntity extends BaseEntity {
 
 	public void setPlanDescription(String planDescription) {
 		this.planDescription = planDescription;
+	}
+	
+	public String getStorageDescription() {
+		return storageDescription;
+	}
+
+	public void setStorageDescription(String storageDescription) {
+		this.storageDescription = storageDescription;
+	}
+
+	public String getOutputDescription() {
+		return outputDescription;
+	}
+
+	public void setOutputDescription(String outputDescription) {
+		this.outputDescription = outputDescription;
 	}
 
 	public Set<PlanDocument> getPlanDocument() {

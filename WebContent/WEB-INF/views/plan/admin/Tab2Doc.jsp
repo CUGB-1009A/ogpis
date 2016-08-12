@@ -30,7 +30,7 @@
 										<th class="table-checkbox"><input type="checkbox"
 											class="group-checkable" name="checkboxFirst" />全选</th>
 										<th>文档名称</th>
-										<th>文档描述</th>
+										<th>文档大小</th>
 										<th>上传时间</th>
 										<!-- <th>上传者</th> -->
 										<th>操作</th>
@@ -43,7 +43,7 @@
 											<td class="check_cell"><input type="checkbox"
 												class="checkboxes" name="checkbox" value="${item.id}" /></td>
 											<td><a target="_blank" href="<c:url value='/document/previewDocument?id=${item.id}&&editType=0'/>">${item.documentName}</a></td>
-											<td>${item.documentDescription}</td>
+											<td>${item.documentSize}</td>
 											<td><fmt:formatDate value="${item.uploadDate}" pattern="YYYY-MM-dd"/></td>
 											
 											<td>
@@ -70,10 +70,11 @@
 						<!-- 模态框保存文件 -->
 						<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
 							aria-labelledby="myModalLabel" aria-hidden="true"
-							style="width: 1600px">
+							style="width: 1600px;margin-top:100px">
 							<div class="modal-dialog">
 								<div class="modal-content">
 									<div class="modal-header">
+									<button type="button"  id="closeFileUploadModel" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 										<h3 class="modal-title">文件上传</h3>
 									</div>
 									<div class="modal-body">
@@ -88,79 +89,9 @@
 												        <button id="ctlBtn" class="btn btn-default">开始上传</button>
 												    </div>
 												</div>
-												<%-- <form id="docForm" class="form-horizontal" role="form"
-													action="<%=request.getContextPath()%>/plan/uploadFiles?id=${plan.id}&&type=${type}"
-													method="post" encType="multipart/form-data">
-													<div class="form-group col-md-8 col-md-offset-2 ">
-														<label class="col-md-4 control-label">选择文件</label>
-														<div class="col-md-8">
-															<input id="file" class="file" type="file" name="file"
-																onchange="showFileList()" multiple>
-														</div>
-													</div>
-
-													<div class="form-group col-md-offset-2 col-md-8">
-														<label class="col-md-4 control-label">文件清单</label>
-														<div class="col-md-8">
-															<textarea id="fileList" name="fileList" rows="4"
-																cols="20" style="height: 120px; width: 400px" readonly></textarea>
-														</div>
-													</div>
-
-													<div class="form-group col-md-offset-2 col-md-8">
-														<label class="col-md-4 control-label"></label>
-													</div>
-
-													<div class="form-group col-md-offset-2 col-md-8">
-														<label class="col-md-4 control-label">文件描述</label>
-														<div class="col-md-8">
-															<textarea id="fileDescription" name="fileDescription"
-																rows="4" cols="20" style="height: 120px; width: 400px"></textarea>
-														</div>
-													</div>
-												</form> --%>
 											</div>
 										</div>
 
-									</div>
-									<div class="modal-footer">
-										<span id="sizeWarning" style="color: red; display: none"></span>
-										<!-- <button type="button" class="btn btn-primary" id="upload">上传</button> -->
-										<!-- <button type="button" class="btn btn-default" id="cancel">取消</button> -->
-									</div>
-								</div>
-								<!-- /.modal-content -->
-							</div>
-							<!-- /.modal-dialog -->
-						</div>
-						<!-- /.modal -->
-
-
-						<!-- 模态框上传进度条 -->
-						<div class="modal fade" id="myModalProgress" tabindex="-1"
-							role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
-							style="width: 1600px">
-							<div class="modal-dialog">
-								<div class="modal-content">
-									<div class="modal-header">
-										<h3 class="modal-title">文件上传进度</h3>
-									</div>
-									<div class="modal-body">
-										<div class="row">
-											<div class="col-md-12">
-												<div class="progress" style="width: 100%">
-													<div id="proBar"
-														class="progress-bar progress-bar-success progress-bar-striped"
-														role="progressbar" style="width: 0%">
-														<span id="showProgress"></span>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="modal-footer">
-										<button type="button" class="btn btn-default"
-											id="cancelUploading">取消上传(未实现)</button>
 									</div>
 								</div>
 								<!-- /.modal-content -->

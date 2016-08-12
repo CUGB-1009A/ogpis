@@ -67,7 +67,7 @@
 										<tr>
 											<th class="table-checkbox"><input type="checkbox" class="group-checkable" name="checkboxFirst"/>全选</th>
 											<th>文档名称</th>
-											<th>文档概述</th>
+											<th>文档大小</th>
 											<th>删除时间</th>											
 											<th>操作</th>
 										</tr>
@@ -79,7 +79,7 @@
 												 <input type="checkbox" class="checkboxes" name="checkbox" value="${item.id}" />
 												</td>
 												<td><a target="_blank" href="<c:url value='/document/previewDocument?id=${item.id}'/>">${item.documentName}</a></td>
-												<td>${item.documentDescription}</td>
+												<td>${item.documentSize}</td>
 												<td><fmt:formatDate value="${item.modifiedTime}" pattern="YYYY-MM-dd"/></td>
 												<td>
 													<p>

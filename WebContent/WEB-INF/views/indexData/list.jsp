@@ -101,33 +101,32 @@
 							</div>
 						
 							<!-- 管理员添加完成记录模态框 -->
-							<div class="modal fade" id="addIndexData" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width: 1600px;">
+							<div class="modal fade" id="addIndexData" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width: 1600px;margin-top: 150px;">
 								<div class="modal-dialog">
 									<div class="modal-content">
 										<div class="modal-header">
-											<br>
 											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 											<h3 class="modal-title">完成情况录入</h3>
 										</div>
 										<div class="modal-body">
 											<div class="row">
-												<div class="col-sm-12">
-													<form class="form-horizontal" role="form" action="<%=path%>/indexData/addIndexData" method="post"> 
+											<div class="col-sm-12">
+												<form class="form-horizontal" role="form" action="<%=path%>/indexData/addIndexData" method="post"> 	
 													<input type="hidden" value="${id}" name="indexId"/>
 														  <div class="form-group">
-															<label class="col-sm-3 control-label no-padding-right" for="form-field-4">采集时间</label>
-														   	<div class="col-sm-9">
+															<label class="col-sm-4 control-label no-padding-right" for="form-field-4">采集时间</label>
+														   	<div class="col-sm-8">
 															   	<div class="input-append date date_picker" data-date-format="dd MM yyyy" data-link-field="form-field-4" data-link-format="yyyy-mm-dd">
-															   		<input type="text" id="form-field-4" placeholder="采集时间..." name="collectedTime" class="col-sm-10" readonly>
-															   		<span class="add-on"><i class="col-sm-2 icon-th"></i></span>	
+															   		<input type="text" id="collectedTime" name="collectedTime" class="col-sm-10" readonly>
+															   		<span class="add-on col-sm-2" style="padding:0;margin:0"><i style="padding:0;margin:0" class="icon-th"></i></span>	
 															   	</div>		   
 															</div>
 														 </div> 
-														 <div class="space-4"></div> 							 
+							 
 														 <div class="form-group">
-															<label class="col-sm-3 control-label no-padding-right" for="form-field-2">完成量：</label>
-															<div class="col-sm-9">
-																<input type="text"  id="form-field-2" placeholder="完成量" class="col-sm-12" name="finishedWorkload" >
+															<label class="col-sm-4 control-label no-padding-right" for="form-field-2">完成量的</label>
+															<div class="col-sm-8" style="margin:0;">
+																	<input type="text"  id="finishedWorkload" placeholder="完成量" class="col-sm-10" style="margin:0" name="finishedWorkload" >
 															</div>
 														 </div> 
 														 <div class="col-sm-12">

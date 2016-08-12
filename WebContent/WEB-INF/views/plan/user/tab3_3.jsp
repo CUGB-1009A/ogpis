@@ -2,7 +2,13 @@
     pageEncoding="UTF-8"%>
 
 <!-- 第二层次的第一个tab页 -->
-		<div class="tab-pane fade" id="output" style="background: white;">	      
+		<div class="tab-pane fade" id="output" style="background: white;">	
+		<div class="col-xs-12"> 
+			<div align="center">	
+			<h2>油气产量总体情况</h2>
+				${plan.outputDescription}
+			</div> 
+		</div>      
 			<c:forEach items="${plan.orderedPlan_Index}" var="item" varStatus="status">
 							<c:if test="${item.index.indexType=='2'}">
 								<div class="row">
