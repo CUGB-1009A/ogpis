@@ -10,8 +10,8 @@
     <meta name="author" content="">
     <title>油气资源规划管理系统</title>
      <%
-    	String type = request.getAttribute("type").toString();
-        String plansNumber = request.getAttribute("plansNumber").toString();
+    	/* String type = request.getAttribute("type").toString(); */
+        /* String plansNumber = request.getAttribute("plansNumber").toString(); */
         String basePath1 = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
     %>
         <script type="text/javascript" src="<%=request.getContextPath()%>/assets/dist/echarts.js"></script>
@@ -27,26 +27,33 @@
 <!-- 网站头及导航栏 -->
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="z-index:1080">
 		<%@ include file="../../main/main_header.jsp"%>
-		<%@ include file="../../main/main_nav.jsp"%>
+		<c:if test="${listType.equals('preview')}">
+			<%@ include file="../../main/main_nav_admin.jsp"%>
+		</c:if>
+		<c:if test="${!listType.equals('preview')}">
+			<%@ include file="../../main/main_nav.jsp"%>
+		</c:if>
 	</nav>
        
       <!--  搜索div -->
-       <div class="col-lg-12">
-				<div class="col-lg-6" style="float:left">				
-					
+      <c:if test="${listType.equals('user')}">
+	       <div class="col-lg-12">
+					<div class="col-lg-6" style="float:left">				
+						
+				</div>
+					<div class="col-lg-6" style="float:left">			
+						<form action="<%=path%>/plan/list" method="post">
+						     <div class="input-group" style="margin:5px">						
+								 <input type="hidden" name="type" value="${type}">
+								 <input class="form-control" type="text" value="${condition}" name="condition">
+								 <span class="input-group-btn">
+							        <button class="btn btn-default" type="submit"><i class="icon-search "></i>搜索</button>
+							     </span>
+							</div>
+						</form>	
+				   </div>
 			</div>
-				<div class="col-lg-6" style="float:left">			
-					<form action="<%=path%>/plan/list" method="post">
-					     <div class="input-group" style="margin:5px">						
-							 <input type="hidden" name="type" value="${type}">
-							 <input class="form-control" type="text" value="${condition}" name="condition">
-							 <span class="input-group-btn">
-						        <button class="btn btn-default" type="submit"><i class="icon-search "></i>搜索</button>
-						     </span>
-						</div>
-					</form>	
-			   </div>
-		</div>
+		</c:if>
 		
 		<!-- 规划内容开始容器div -->
 		<div class="panel-group" id="accordion" style="width:100%;height:100%;background:white">
@@ -69,7 +76,7 @@
 					    		<!-- 主图 -->	
 					    		<div class="col-xs-6"> 
 					    				<textarea class="inputsmain" style="display:none">${item1.get('plan').indexDataInPlanYear}</textarea>				
-									<div class="charts charts_${status.index}" style="height:300px;width:100%" align="center" onclick="showDetail('${item1.get('plan').id}')">	
+									<div class="charts charts_${status.index}" style="height:300px;width:100%" align="center" onclick="showDetail('${item1.get('plan').id}','${listType}')">	
 
 									</div>
 								</div>
@@ -81,7 +88,7 @@
 										<div class="carousel-inner activeCharts">
 											<c:forEach items="${item1.get('plan').indexs}" varStatus = "indexstatus">
 												<div class="item">	
-													<div class="mainCharts maincharts_${status.index} first_${indexstatus.index}" style="height:300px;width:100%;" onclick="showDetail('${item1.get('plan').id}')"></div>
+													<div class="mainCharts maincharts_${status.index} first_${indexstatus.index}" style="height:300px;width:100%;" onclick="showDetail('${item1.get('plan').id}','${listType}')"></div>
 												</div>
 											</c:forEach>
 										</div>
@@ -91,16 +98,18 @@
 								</div>
 						 </div>
 					 </div>
-					<div class="panel-footer" style="text-align:right;background:white">
-						<c:if test="${item1.get('isconcerned')}">	
-							 <button class="disconcern" value="${item1.get('plan').id}" >取消收藏</button>
-							 <button class="concern" value="${item1.get('plan').id}" style="display:none">收藏</button>
-						</c:if>		
-						<c:if test="${!item1.get('isconcerned')}">
-							<button class="disconcern" value="${item1.get('plan').id}" style="display:none">取消收藏</button>
-							<button class="concern" value="${item1.get('plan').id}">收藏</button>
-						</c:if>						
-					 </div>
+					 <c:if test="${!listType.equals('preview')}">
+						<div class="panel-footer" style="text-align:right;background:white">
+							<c:if test="${item1.get('isconcerned')}">	
+								 <button class="disconcern" value="${item1.get('plan').id}" >取消收藏</button>
+								 <button class="concern" value="${item1.get('plan').id}" style="display:none">收藏</button>
+							</c:if>		
+							<c:if test="${!item1.get('isconcerned')}">
+								<button class="disconcern" value="${item1.get('plan').id}" style="display:none">取消收藏</button>
+								<button class="concern" value="${item1.get('plan').id}">收藏</button>
+							</c:if>						
+						 </div>
+					 </c:if>
 				 </div>	
 			</div>
 		</c:forEach>
@@ -294,9 +303,9 @@ require(
 $(".removeIn").removeClass("in");
 $("#collapseOne0").addClass("in");
 
-function showDetail(planId)
+function showDetail(planId,listType)
 {
-	window.location.href = "<%=path%>/plan/user_detail?id="+planId;
+	window.location.href = "<%=path%>/plan/user_detail?id="+planId+"&&listType="+listType;
 }
 
 

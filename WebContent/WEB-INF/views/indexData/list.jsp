@@ -169,7 +169,7 @@ function addIndexData(id)
 		dataType: "json", 
 	    contentType: "application/json",
 		success:function(result)
-		{	alert(result.result)
+		{	
 			if(result.result == 'success')
 				window.location.href = "<%=path%>/indexData/list?id=${id}&&type=${type}";
 			else
@@ -181,7 +181,6 @@ function addIndexData(id)
 			alert("添加失败！");
 		}			
 	});
-	<%-- action="" method="post" --%>
 }
 
 /* 编辑按钮：让class=“input_id"的input变为可编辑状态 ,同时显示保存和取消，隐藏删除*/

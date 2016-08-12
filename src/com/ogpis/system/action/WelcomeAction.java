@@ -67,7 +67,8 @@ public class WelcomeAction {
 			mapList.add(map);
 		}
 		model.addAttribute("mapList", mapList);//返回规划
-		return "plan/user/concern";
+		model.addAttribute("listType","concern");
+		return "plan/user/list";
 	}
 
 	/**

@@ -218,7 +218,7 @@
 			        trigger: 'axis'
 			    },
 			    legend: {
-			        data:['规划累计完成'],
+			        data:['规划完成情况'],
 			        x: 'left',            
 			        y: 'top'
 			    },
@@ -236,7 +236,17 @@
 			    ],
 			    series : [
 			        {
-			            name:'规划累计完成',
+			        	itemStyle: 
+		        		{
+		        			normal: 
+		        			{
+		        				label : 
+		        				{
+		        					show:true
+		        				}
+		        	        }
+	                 },
+			            name:'规划完成情况',
 			            type:'bar',
 			           data:[]
 			        }
@@ -266,7 +276,7 @@
 				
 				for(k=0;k<obj[0].plans.length;k++)
 					{
-						tempSeries = tempSeries + "{name:'"+obj[0].plans[k].planName+"',type:'bar',data:[";
+						tempSeries = tempSeries + "{itemStyle:{normal:{label : {show:true,formatter:'{c} %'}} },name:'"+obj[0].plans[k].planName+"',type:'bar',data:[";
 						for(l=0;l<obj.length;l++)
 							{
 							tempSeries = tempSeries + (obj[l].plans[k].hasFinished/obj[l].plans[k].indexValue*100).toFixed(1)+",";
@@ -295,16 +305,16 @@
 		    	var $charts2 = $(".charts2")
 		    	for(var ii=0;ii<$charts2.length;ii++)
 			    	{
-		    		/* 显示左图 */
+		    		/* 显示右图 */
 			    		var tempSeriesChart1 = "{\"series\":[";
 			    		for(k=0;k<obj[0].plans.length;k++)
 						{
-			    			tempSeriesChart1 = tempSeriesChart1 + "{name:'"+obj[0].plans[k].planName+"',type:'line',data:["+obj[ii].plans[k].value+"]},";
+			    			tempSeriesChart1 = tempSeriesChart1 + "{itemStyle:{normal:{label : {show:true}} },name:'"+obj[0].plans[k].planName+"',type:'line',data:["+obj[ii].plans[k].value+"]},";
 			    		}
 			    		tempSeriesChart1 = tempSeriesChart1.substring(0,tempSeriesChart1.length-1)+"]}"	
 			    		var seriesChart1 = eval("(" + tempSeriesChart1 + ")");
 			    		var charts2 = ec.init($charts2[ii]);
-			    		option2.title.text = obj[ii].indexName+"规划年间完成情况";
+			    		option2.title.text = obj[ii].indexName+"规划年间各年情况";
 			    		option2.legend.data = legend.legend;
 			    		option2.yAxis.name = obj[ii].indexUnit;
 			    		option2.xAxis.data = xAxis.xAxis;
@@ -314,7 +324,7 @@
 		    	var $charts3 = $(".charts3")
 		    	for(var jj=0;jj<$charts3.length;jj++)
 		    	{
-		    	/* 显示右图 */
+		    	/* 显示左图 */
 		    		var tempSeriesChart2 = "{\"series\":[";
 		    		for(k=0;k<obj[0].plans.length;k++)
 					{
@@ -325,7 +335,7 @@
 		    		var charts3 = ec.init($charts3[jj]);
 		    		option3.series[0].data = seriesChart2.series;
 		    		option3.xAxis[0].data = legend.legend;
-		    		option3.title.text = obj[jj].indexName+"规划年间累计完成情况";
+		    		option3.title.text = obj[jj].indexName+"规划年间完成情况";
 		    		option3.yAxis[0].name = obj[jj].indexUnit;	
 		    		charts3.setOption(option3);
 		    	}

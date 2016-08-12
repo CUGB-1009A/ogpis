@@ -57,7 +57,7 @@
 					<div class="space-4"></div>
 					<div class="form-group">
 						<label class="col-sm-3 control-label no-padding-right" for="selectIndex">指标类型</label>
-						<div class="col-sm-9">
+						<div class="col-sm-9" style="text-align:left">
 							<select id="selectType" name="type" class="selectpicker col-xs-10 col-sm-5" data-style="btn-danger" style="text-align:left">
 										<option value='QG' <c:if test="${type.equals('QG')}">selected</c:if>>全国</option>
 							    		<option value='ZSY' <c:if test="${type.equals('ZSY')}">selected</c:if>>中石油</option>
@@ -73,7 +73,7 @@
 					<div class="space-4"></div>
 					<div class="form-group">
 						<label class="col-sm-3 control-label no-padding-right" for="selectIndex">矿种类型</label>
-						<div class="col-sm-9">
+						<div class="col-sm-9" style="text-align:left">
 							<select id="selectMineType" name="mineType" class="selectpicker col-xs-10 col-sm-5" data-style="btn-danger" style="text-align:left">
 										<option value='1' <c:if test="${index.mineType.equals('1')}">selected</c:if>>石油</option>
 							    		<option value='2' <c:if test="${index.mineType.equals('2')}">selected</c:if>>天然气</option>
@@ -87,7 +87,7 @@
 					<div class="space-4"></div>
 					<div class="form-group">
 						<label class="col-sm-3 control-label no-padding-right" for="selectIndex">储产量</label>
-						<div class="col-sm-9">
+						<div class="col-sm-9" style="text-align:left">
 							<select id="selectIndexType" name="indexType" class="selectpicker col-xs-10 col-sm-5" data-style="btn-danger">
 										<option value='1' <c:if test="${index.indexType.equals('1')}">selected</c:if>>新增探明地质储量</option>
 							    		<option value='2' <c:if test="${index.indexType.equals('2')}">selected</c:if>>产量</option>		       

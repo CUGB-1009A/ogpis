@@ -120,15 +120,20 @@ public class PlanAction {
 		if (isManager)
 			return "plan/admin/list";
 		else
+		{
+			model.addAttribute("listType","user");
 			return "plan/user/list";
+		}
+			
 	}
 
 	@RequestMapping(value = "/plan/user_detail")
 	public String user_detail(HttpServletRequest request, ModelMap model,
-			String id) {
+			String id,String listType) {
 		Plan plan = planService.findById(id);
 		model.addAttribute("plan", plan);
 		model.addAttribute("type", plan.getPlanType());
+		model.addAttribute("listType",listType);
 		/*
 		 * model.addAttribute("charts2", result2); model.addAttribute("charts3",
 		 * result3);
@@ -173,12 +178,18 @@ public class PlanAction {
 	/*
 	 * 管理员以用户的视角看规划
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value = "/plan/preview")
 	public String preview(HttpServletRequest request, ModelMap model,
 			String id) {
+		LinkedHashMap map = new LinkedHashMap();
+		List<LinkedHashMap> mapList = new ArrayList<LinkedHashMap>();
 		Plan plan = planService.findById(id);
-		model.addAttribute("plan", plan);
-		return "/plan/admin/preview";
+		map.put("plan", plan);
+		mapList.add(map);
+		model.addAttribute("mapList", mapList);
+		model.addAttribute("listType","preview");
+		return "/plan/user/list";
 	}
 
 	/*
