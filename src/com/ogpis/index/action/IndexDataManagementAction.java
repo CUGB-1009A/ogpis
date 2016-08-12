@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -77,17 +78,36 @@ public class IndexDataManagementAction {
 	}
 	
 	@RequestMapping(value = "/indexData/addIndexData")
-	public String addIndexData(HttpServletRequest request, ModelMap model,String indexId,IndexDataManagement indexDataTemp){
-		IndexDataManagement indexData = new IndexDataManagement();
-		IndexManagement index = indexManagementService.findById(indexId);
-		indexData.setCollectedTime(indexDataTemp.getCollectedTime());
-		indexData.setFinishedWorkload(indexDataTemp.getFinishedWorkload());
-		System.out.println(indexDataTemp.getCollectedTime());
-		indexData.setIndex(index);
-		indexDataManagementService.save(indexData);
-		model.addAttribute("type",index.getType());
-		model.addAttribute("id",indexId);
-		return "redirect:list";		
+	public void addIndexData(HttpServletRequest request, HttpServletResponse resp,ModelMap model) throws ParseException, IOException{
+		String indexId = request.getParameter("id");
+		String collectedTime = request.getParameter("collectedTime");
+		String finishedWorkload = request.getParameter("finishedWorkload");
+		boolean hasThisYearRecord = false ;
+		String result = "";
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		//先判断该指标是否已经存在该年份的记录
+		List<IndexDataManagement> indexDataAll = indexDataManagementService.findByIndexId(indexId);
+		for(IndexDataManagement temp : indexDataAll)
+		{
+			if(temp.getCollectedTime().toString().substring(0, 4).equals(collectedTime.substring(0, 4)))
+				hasThisYearRecord = true;
+		}
+		if(!hasThisYearRecord)
+		{
+			IndexDataManagement indexData = new IndexDataManagement();
+			IndexManagement index = indexManagementService.findById(indexId);
+			indexData.setCollectedTime(sdf.parse(collectedTime));
+			indexData.setFinishedWorkload(Float.parseFloat(finishedWorkload));
+			indexData.setIndex(index);
+			indexDataManagementService.save(indexData);
+			result = "{\"result\":\"success\"}";
+		}
+		else
+			result = "{\"result\":\"failed\"}";
+		resp.setContentType("application/json");
+	    resp.setCharacterEncoding("utf-8");
+		resp.getWriter().write(result);
+			
 	}
 	
 	@RequestMapping(value = "/indexData/add")

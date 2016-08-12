@@ -93,7 +93,7 @@
 					   <li><a href="#indexEntry" data-toggle="tab" onclick="Tab3()">规划指标</a></li>
 		 			</c:if> 
 		 			
-		 			<c:if test='<%=flag.equals("4") %>'> 
+<%-- 		 			<c:if test='<%=flag.equals("4") %>'> 
 					   <li class="active"><a href="#completeEntry" data-toggle="tab">完成情况</a></li>
 					</c:if> 
 					<c:if test='<%=!flag.equals("4") %>'> 
@@ -105,7 +105,7 @@
 					</c:if> 
 					<c:if test='<%=!flag.equals("5") %>'> 
 					   <li><a href="#track" data-toggle="tab" onclick="Tab5()">规划跟踪</a></li>
-		 			</c:if>  		  
+		 			</c:if>  --%> 		  
 				</ul>
 				
 				<div id="myTabContent" class="tab-content">
@@ -113,8 +113,8 @@
 					<%@ include file="Tab2Doc.jsp"%>
 <%-- 					<%@ include file="Tab3Index.jsp"%> --%>
 					<%@ include file="index/list.jsp"%>
-					<%@ include file="Tab4Complete.jsp"%>
-					<%@ include file="Tab5Track.jsp"%>		
+					<%-- <%@ include file="Tab4Complete.jsp"%>
+					<%@ include file="Tab5Track.jsp"%>	 --%>	
 				</div>
 			</div><!-- /span -->
 		</div><!-- /row -->
@@ -254,8 +254,7 @@ function showModal()
 }
 
 $(function(){
-	$("#cancel").click(function(){
-		$("#myModal").modal("hide");
+	$("#closeFileUploadModel").click(function(){
 		$("#ctlBtn").off("click");
 		uploader.destroy();
 	});

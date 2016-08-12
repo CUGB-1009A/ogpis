@@ -32,7 +32,12 @@
 <!-- 网站头及导航栏 -->
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="z-index:1080">
 		<%@ include file="../../main/main_header.jsp"%>
-		<%@ include file="../../main/main_nav.jsp"%>
+		<c:if test="${listType.equals('preview')}">
+			<%@ include file="../../main/main_nav_admin.jsp"%>
+		</c:if>
+		<c:if test="${!listType.equals('preview')}">
+			<%@ include file="../../main/main_nav.jsp"%>
+		</c:if>
 	</nav>
 	<!--网页主体 -->
 <div id="page-wrapper" style="height:100%">
