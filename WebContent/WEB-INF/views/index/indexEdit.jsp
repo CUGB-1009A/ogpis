@@ -74,7 +74,7 @@
 					<div class="form-group">
 						<label class="col-sm-3 control-label no-padding-right" for="selectIndex">矿种类型</label>
 						<div class="col-sm-9">
-							<select id="selectMineType" name="mineType" class="selectpicker col-xs-10 col-sm-5" data-style="btn-danger">
+							<select id="selectMineType" name="mineType" class="selectpicker col-xs-10 col-sm-5" data-style="btn-danger" style="text-align:left">
 										<option value='1' <c:if test="${index.mineType.equals('1')}">selected</c:if>>石油</option>
 							    		<option value='2' <c:if test="${index.mineType.equals('2')}">selected</c:if>>天然气</option>
 							    		<option value='3' <c:if test="${index.mineType.equals('3')}">selected</c:if>>煤层气</option>

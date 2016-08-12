@@ -111,12 +111,11 @@
 										<div class="modal-body">
 											<div class="row">
 											<div class="col-sm-12">
-												<form class="form-horizontal" role="form" action="<%=path%>/indexData/addIndexData" method="post"> 	
-													<input type="hidden" value="${id}" name="indexId"/>
+												<form class="form-horizontal" role="form"> 	
 														  <div class="form-group">
 															<label class="col-sm-4 control-label no-padding-right" for="form-field-4">采集时间</label>
 														   	<div class="col-sm-8">
-															   	<div class="input-append date date_picker" data-date-format="dd MM yyyy" data-link-field="form-field-4" data-link-format="yyyy-mm-dd">
+															   	<div class="input-append date date_picker" data-date-format="dd MM yyyy" data-link-field="collectedTime" data-link-format="yyyy-mm-dd">
 															   		<input type="text" id="collectedTime" name="collectedTime" class="col-sm-10" readonly>
 															   		<span class="add-on col-sm-2" style="padding:0;margin:0"><i style="padding:0;margin:0" class="icon-th"></i></span>	
 															   	</div>		   
@@ -130,7 +129,7 @@
 															</div>
 														 </div> 
 														 <div class="col-sm-12">
-															<button class="btn-sm btn-success no-radius" type="submit">
+															<button class="btn-sm btn-success no-radius" type="button" onclick="addIndexData('${id}')">
 																<i class="icon-edit bigger-200"></i>
 																录入
 															</button>
@@ -152,6 +151,39 @@
 </div>
 </body>
 <script type="text/javascript">
+/* 为id=id的指标加完成情况 */
+function addIndexData(id)
+{
+	var collectedTime = $("#collectedTime").val();
+	var finishedWorkload = $("#finishedWorkload").val();
+	if(finishedWorkload==''||collectedTime=='')
+		{
+		alert("请填写完整再提交");
+		return false;
+		}
+	$.ajax({
+		url:"<%=path%>/indexData/addIndexData",
+		type:"get",
+		async:true,
+		data:{"id":id,"collectedTime":collectedTime,"finishedWorkload":finishedWorkload},
+		dataType: "json", 
+	    contentType: "application/json",
+		success:function(result)
+		{	alert(result.result)
+			if(result.result == 'success')
+				window.location.href = "<%=path%>/indexData/list?id=${id}&&type=${type}";
+			else
+				alert("该年份的记录已经存在，不能再次添加！");
+					
+		},
+		error:function()
+		{
+			alert("添加失败！");
+		}			
+	});
+	<%-- action="" method="post" --%>
+}
+
 /* 编辑按钮：让class=“input_id"的input变为可编辑状态 ,同时显示保存和取消，隐藏删除*/
 function editIndexData(id)
 {
