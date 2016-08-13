@@ -32,7 +32,8 @@
 			</ul>
 		</div>		
 		
-		<div>
+		<div class="row" style="background:white">
+		<div class="col-md-12">
 			<script id="container" name="content" type="text/plain" style="height:400px" >${international.content}</script>
 		    <!-- 配置文件 -->
 		    <script type="text/javascript" src="<%=path%>/assets/UEditor/ueditor.config.js"></script>
@@ -43,9 +44,13 @@
 		        var ue = UE.getEditor('container',
 		        		 
 		        			 {
-		        	toolbars:[[]]
+		        	toolbars:[],
+		        	wordCount:false,  
+	                //关闭elementPath  
+	                elementPathEnabled:false
 		        			 });
 		    </script>
+		 </div>
 		 </div>
 	</div>	
 </div>
