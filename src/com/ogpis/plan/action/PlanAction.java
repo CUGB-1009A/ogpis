@@ -53,6 +53,7 @@ import com.ogpis.index.entity.IndexManagement;
 import com.ogpis.index.service.IndexDataManagementService;
 import com.ogpis.index.service.IndexManagementService;
 import com.ogpis.plan.entity.Plan;
+import com.ogpis.plan.entity.PlanType;
 import com.ogpis.plan.entity.Plan_Index;
 import com.ogpis.plan.service.PlanService;
 import com.ogpis.plan.service.Plan_IndexService;
@@ -202,11 +203,7 @@ public class PlanAction extends BaseAction {
 	@RequestMapping(value = "/plan/toEditPage")
 	public String toEditPage(HttpServletRequest request, ModelMap model,
 			String type) {
-		/*
-		 * List<IndexManagement> indexs =
-		 * indexManagementService.findAllIndexByPriority();
-		 * model.addAttribute("indexs",indexs);
-		 */
+		model.addAttribute("planType",PlanType.values());
 		model.addAttribute("type", type);
 		return "/plan/admin/add";
 	}
@@ -438,11 +435,12 @@ public class PlanAction extends BaseAction {
 					i++;
 					if (i == 4)
 						break;
-				}
-				bean.setDocumentSize((int) fileSize + fileSizeUnit[i]);
+
+				}		
+				bean.setDocumentSize((float)(Math.round(fileSize*100)/100) + fileSizeUnit[i]);
 				bean.setDocumentName(fileName);
 				bean.setPlan(plan);
-				bean.setDocumentType("规划相关文档");
+				bean.setDocumentType(fileName.substring(fileName.lastIndexOf(".")+1,fileName.length()));
 				/* planDocumentList.add(bean); */
 				planDocumentService.save(bean);
 			}

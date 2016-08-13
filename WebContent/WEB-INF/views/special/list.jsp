@@ -101,15 +101,17 @@
 			if(n==-1)//table的第一行
 				{
 				$("#tr_"+t).append("<td></td>");
+			 	$("#tr_"+t).append("<td>目标("+ obj[t].indexUnit +")</td>");
 				for(m=1;m<obj[0].plans[0].year.length+1;m++)
 					$("#tr_"+t).append("<td>第"+m+"年</td>");
-				$("#tr_"+t).append("<td>总体完成比例</td>");
+				$("#tr_"+t).append("<td>合计</td>");
 				
 				}
 			else
 				{
 				$("#tbody_"+t).append("<tr>")
 				$("#tbody_"+t).append("<td>"+obj[t].plans[n].planName+"</td>");
+				$("#tbody_"+t).append("<td>"+obj[t].plans[n].indexValue+"</td>");
 				for(y=0;y<obj[0].plans[0].year.length;y++)
 					{
 					$("#tbody_"+t).append("<td>"+(obj[t].plans[n].value[y]/obj[t].plans[n].indexValue*100).toFixed(1)+"%</td>")
@@ -218,9 +220,10 @@
 			        trigger: 'axis'
 			    },
 			    legend: {
-			        data:['规划完成情况'],
+			        data:['规划完成情况','目标值'],
 			        x: 'left',            
-			        y: 'top'
+			        y: 'top',
+			        orient:'vertical'
 			    },
 			    xAxis : [
 			        {
@@ -248,7 +251,22 @@
 	                 },
 			            name:'规划完成情况',
 			            type:'bar',
-			           data:[]
+			            data:[]
+			        },
+			        {
+			        	itemStyle: 
+		        		{
+		        			normal: 
+		        			{
+		        				label : 
+		        				{
+		        					show:true
+		        				}
+		        	        }
+	                 },
+			            name:'目标值',
+			            type:'bar',
+			            data:[]
 			        }
 			    ]
 			};                       
@@ -325,15 +343,20 @@
 		    	for(var jj=0;jj<$charts3.length;jj++)
 		    	{
 		    	/* 显示左图 */
-		    		var tempSeriesChart2 = "{\"series\":[";
+		    		var seriesData1 = "{\"series\":[";
+		    		var seriesData2 = "{\"series\":[";
 		    		for(k=0;k<obj[0].plans.length;k++)
 					{
-		    			tempSeriesChart2 = tempSeriesChart2 +obj[jj].plans[k].hasFinished+",";
+		    			seriesData1 = seriesData1 +obj[jj].plans[k].hasFinished+",";
+		    			seriesData2 = seriesData2 +obj[jj].plans[k].indexValue+",";
 		    		}
-		    		tempSeriesChart2= tempSeriesChart2.substring(0,tempSeriesChart2.length-1)+"]}"
-		    		var seriesChart2 = eval("(" + tempSeriesChart2 + ")");
+		    		seriesData1= seriesData1.substring(0,seriesData1.length-1)+"]}"
+		    		seriesData2= seriesData2.substring(0,seriesData2.length-1)+"]}"
+		    		var series1 = eval("(" + seriesData1 + ")");
+		    		var series2 = eval("(" + seriesData2 + ")");
 		    		var charts3 = ec.init($charts3[jj]);
-		    		option3.series[0].data = seriesChart2.series;
+		    		option3.series[0].data = series1.series;
+		    		option3.series[1].data = series2.series;
 		    		option3.xAxis[0].data = legend.legend;
 		    		option3.title.text = obj[jj].indexName+"规划年间完成情况";
 		    		option3.yAxis[0].name = obj[jj].indexUnit;	

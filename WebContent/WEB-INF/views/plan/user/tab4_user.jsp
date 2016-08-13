@@ -8,7 +8,26 @@
 					<div class="col-xs-12">				
 							<div class="box">
 								<div class="col-xs-2" style="text-align: center;">
-									<img src="<%=request.getContextPath()%>/assets/companyPic/documentPic.jpg" height="100px" width="100px" />
+								<c:choose>
+									<c:when test="${item.documentType.equals('jpg')||item.documentType.equals('bmp')||item.documentType.equals('png')}">
+										<img src="<%=request.getContextPath()%>/assets/documentTypePic/jpg.jpg" height="100px" width="100px" />
+									</c:when>
+									<c:when test="${item.documentType.equals('doc')||item.documentType.equals('docx')}">
+										<img src="<%=request.getContextPath()%>/assets/documentTypePic/word.jpg" height="100px" width="100px" />
+									</c:when>
+									<c:when test="${item.documentType.equals('xls')||item.documentType.equals('xlsx')}">
+										<img src="<%=request.getContextPath()%>/assets/documentTypePic/excel.jpg" height="100px" width="100px" />
+									</c:when>
+									<c:when test="${item.documentType.equals('ppt')||item.documentType.equals('pptx')}">
+										<img src="<%=request.getContextPath()%>/assets/documentTypePic/ppt.jpg" height="100px" width="100px" />
+									</c:when>
+									<c:when test="${item.documentType.equals('pdf')}">
+										<img src="<%=request.getContextPath()%>/assets/documentTypePic/pdf.jpg" height="100px" width="100px" />
+									</c:when>
+									<c:otherwise>
+										<img src="<%=request.getContextPath()%>/assets/documentTypePic/other.jpg" height="100px" width="100px" />
+									</c:otherwise>
+								</c:choose>
 								</div>
 								<div class="col-xs-10">
 									<div class="box-header">

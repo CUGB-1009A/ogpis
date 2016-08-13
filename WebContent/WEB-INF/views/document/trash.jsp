@@ -25,11 +25,7 @@
 	<div id="page-wrapper" style="height:98%;width:100%">
 		<div class="breadcrumbs" id="breadcrumbs" style="text-align: left;">
 			<ul class="breadcrumb">
-				<li>
-					<i class="icon-home home-icon"></i>
-					<a href="<c:url value='/main'/>">首页</a>
-				</li>
-				<li class="active">文档回收站</li>
+				<li class="active"><i class="icon-trash"></i> 文档回收站</li>
 			</ul>
 		</div>
 		<div class="row">

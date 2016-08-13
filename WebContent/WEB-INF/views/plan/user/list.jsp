@@ -34,13 +34,25 @@
 			<%@ include file="../../main/main_nav.jsp"%>
 		</c:if>
 	</nav>
+	<div id="page-wrapper" style="height:100%;">	
+		<c:if test="${listType.equals('preview')}">
+			<div class="breadcrumbs" id="breadcrumbs" style="text-align: left;">
+					<ul class="breadcrumb">
+						<li>
+							<i class="icon-star "></i>
+							<a href="<%=request.getContextPath()%>/plan/list?condition=">规划管理</a>
+						</li>
+						<li class="active">规划预览</li>
+					</ul>
+			</div>
+		</c:if>
        
       <!--  搜索div -->
       <c:if test="${listType.equals('user')}">
 	       <div class="col-lg-12">
 					<div class="col-lg-6" style="float:left">				
 						
-				</div>
+				    </div>
 					<div class="col-lg-6" style="float:left">			
 						<form action="<%=path%>/plan/list" method="post">
 						     <div class="input-group" style="margin:5px">						
@@ -54,7 +66,7 @@
 				   </div>
 			</div>
 		</c:if>
-		
+
 		<!-- 规划内容开始容器div -->
 		<div class="panel-group" id="accordion" style="width:100%;height:100%;background:white">
 		    <c:forEach items="${mapList}" var="item1" varStatus="status">
@@ -85,7 +97,7 @@
 								<div class="col-xs-6"> 
 								 <textarea class="inputsindex" style="display:none"> ${item1.get('plan').indexDataInBoth}</textarea>
 									<div id="lunbo${status.index}"  class="carousel slide" style="height:300px;width:100%">
-										<div class="carousel-inner activeCharts">
+									<div class="carousel-inner activeCharts">
 											<c:forEach items="${item1.get('plan').indexs}" varStatus = "indexstatus">
 												<div class="item">	
 													<div class="mainCharts maincharts_${status.index} first_${indexstatus.index}" style="height:300px;width:100%;" onclick="showDetail('${item1.get('plan').id}','${listType}')"></div>
@@ -120,6 +132,7 @@
 			</div>
 		</c:forEach>
 	</div>
+</div>
 </div>
 
 <script type="text/javascript">

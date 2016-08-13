@@ -19,7 +19,12 @@
 		<%@ include file="../../main/main_nav_admin.jsp"%>
 	</nav>
 	<!--网页主体 -->	
-	<div id="page-wrapper" style="height:98%;width:100%">		
+	<div id="page-wrapper" style="height:98%;width:100%">	
+		<div class="breadcrumbs" id="breadcrumbs" style="text-align: left;">
+			<ul class="breadcrumb">	
+				<li class="active"><i class="icon-star"></i> 规划管理</li>
+			</ul>
+		</div>		
 		<div class="row">
             <div class="col-md-12">
             	<div class="portlet box light-grey">

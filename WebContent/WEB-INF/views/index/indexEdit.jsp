@@ -26,11 +26,16 @@
 	<div id="page-wrapper" style="height:100%;">
 		<div class="breadcrumbs" id="breadcrumbs" style="text-align: left;">
 			<ul class="breadcrumb">
-				
-				<li class="#">
-					<c:if test='<%=isAdd %>'>添加指标</c:if>
-					<c:if test='<%=!isAdd %>'>修改指标</c:if>
+				<li>
+					<i class="icon-star "></i>
+					<a href="<%=request.getContextPath()%>/index/list?type=${type}">指标项管理</a>
 				</li>
+				<c:if test="<%=isAdd%>">
+					<li class="active">新建指标</li>
+				</c:if>
+				<c:if test="<%=!isAdd%>">
+					<li class="active">修改指标</li>
+				</c:if>
 			</ul>
 		</div>
 		<div class="row">

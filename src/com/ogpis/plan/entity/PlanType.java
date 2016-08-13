@@ -1,28 +1,22 @@
 package com.ogpis.plan.entity;
 
 public enum PlanType {
-	全国("QC"), 中石油("QC"), 中石化("QC"), 中海油("QC"), 延长石油("QC"), 中联煤("QC"), 其他("QC"), 全部(
-			"ALL"), ;
+	全国("QG"), 中石油("ZSY"), 中石化("ZSH"), 中海油("ZHY"), 延长石油("YC"), 中联煤("ZLM"), 其他("QT") ;
 
 	// 定义私有变量
-	private String planType;
+	private String key;
 
 	// 构造函数，枚举类型只能为私有
 	private PlanType(String planType) {
-		this.planType = planType;
+		this.key = planType;
 	}
 
-	public String getPlanType() {
-		return planType;
+	public String getKey() {
+		return key;
 	}
 
-	public void setPlanType(String planType) {
-		this.planType = planType;
-	}
-
-	@Override
-	public String toString() {
-		return this.planType;
+	public void setKey(String key) {
+		this.key = key;
 	}
 
 }
