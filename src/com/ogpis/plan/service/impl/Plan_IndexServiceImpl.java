@@ -40,17 +40,19 @@ public class Plan_IndexServiceImpl extends BaseServiceImpl<Plan_Index, String>
 	@Override
 	public void batchAdd(Plan plan, List<IndexManagement> indexs) {
 		List<IndexManagement> addIndexs = new ArrayList<IndexManagement>();
-		List<IndexManagement> deleteIndexs = new ArrayList<IndexManagement>();
 		for (IndexManagement index : indexs) {
 			if (!plan.getIndexIds().contains(index.getId())) {
 				addIndexs.add(index);
 			}
 		}
+		System.out.println("---indexs size:" + indexs.size());
+		System.out.println("---addIndexs size:" + addIndexs.size());
 		getPlan_IndexDao().batchAdd(plan, addIndexs);
 	}
 
 	@Override
-	public List<Plan_Index> findByPlanTypeAndMineType(String planType, String mineType) {
+	public List<Plan_Index> findByPlanTypeAndMineType(String planType,
+			String mineType) {
 		// TODO Auto-generated method stub
 		return getPlan_IndexDao().findByPlanTypeAndMineType(planType, mineType);
 	}

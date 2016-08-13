@@ -37,7 +37,7 @@
 												<td>${item.targetValue}</td>
 												<td>
 													<p>
-														<a href="<c:url value='/plan/admin/targetValueEdit?planId=${item.plan.id}&&indexId=${item.index.id}'/>"class="btn-sm btn-app btn-primary no-radius">
+														<a href="<c:url value='/plan/admin/targetValueEdit?planId=${item.plan.id}&indexId=${item.index.id}'/>"class="btn-sm btn-app btn-primary no-radius">
 															<i class="icon-edit bigger-200"></i>
 															编辑
 														</a>
@@ -66,7 +66,7 @@
 										</div>
 										<div class="modal-body">
 											<div class="dataTables_wrapper form-inline" role="grid">
-												<form class="form-horizontal" role="form" action="<%=request.getContextPath()%>/plan/admin/selectIndex" method="post">
+												<form id="selectIndexForm" class="form-horizontal" role="form" action="<%=request.getContextPath()%>/plan/admin/selectIndex" method="post">
 													<input type="hidden" name="planId" value="${plan.id}" />
 													<input type="hidden" name="type" value="${type}" />
 													<div class="table-scrollable">
@@ -94,7 +94,7 @@
 															</tbody>
 														</table>
 													</div>
-													<button type="submit" class="btn btn-default" id="cancel">确定</button>
+													<button type="submit" class="btn btn-default" id="submit" onclick="return isSelected()">确定</button>
 												</form>
 											</div>
 										</div>
@@ -140,6 +140,10 @@ function delIndex(url) {
 }
 function isContains(plan){
 	
+}
+function isSelected(){
+	$('#selectModal').modal('hide')
+	return $("#selectIndexForm .checkboxes:checked:enabled").length>0;
 }
 
 </script>

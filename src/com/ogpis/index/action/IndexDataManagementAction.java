@@ -15,13 +15,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.ogpis.base.action.BaseAction;
 import com.ogpis.index.entity.IndexDataManagement;
 import com.ogpis.index.entity.IndexManagement;
 import com.ogpis.index.service.IndexDataManagementService;
 import com.ogpis.index.service.IndexManagementService;
 
 @Controller
-public class IndexDataManagementAction {
+public class IndexDataManagementAction extends BaseAction{
 	
 	@Autowired
 	private IndexDataManagementService indexDataManagementService;
@@ -32,6 +33,7 @@ public class IndexDataManagementAction {
 	//只显示一个指标项(通过id判断显示哪个)，通过下来列表来选择显示哪个指标项
 	@RequestMapping(value = "/indexData/list")
 	public String list(HttpServletRequest request, ModelMap model,String id,String type){
+		super.addMenuParams(request, model);
 		List<IndexManagement> indexList = indexManagementService.findAllIndexByPriority(type);
 		if(indexList.size()==0)
 			{

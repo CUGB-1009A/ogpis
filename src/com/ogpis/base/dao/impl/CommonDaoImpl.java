@@ -250,8 +250,8 @@ public abstract class CommonDaoImpl extends HibernateDaoSupport implements
 							session.refresh(pojo);
 							session.delete(pojo);
 						}
-						session.flush();
 					}
+					session.flush();
 				}
 				return null;
 			}

@@ -17,9 +17,11 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.poi.hslf.model.TextRun;
 import org.apache.poi.hslf.usermodel.RichTextRun;
 import org.apache.poi.hslf.usermodel.SlideShow;
@@ -30,6 +32,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.ogpis.base.action.BaseAction;
 import com.ogpis.base.common.paging.IPageList;
 import com.ogpis.base.common.paging.PageListUtil;
 import com.ogpis.document.entity.PlanDocument;
@@ -38,7 +42,7 @@ import com.ogpis.plan.entity.Plan;
 import com.ogpis.plan.service.PlanService;
 
 @Controller
-public class PlanDocumentAction {
+public class PlanDocumentAction extends BaseAction {
 	
 	@Autowired
 	PlanDocumentService planDocumentService;
@@ -61,6 +65,7 @@ public class PlanDocumentAction {
 	@RequiresPermissions(value={"document:management"})
 	@RequestMapping(value = "/document/list")
 	public String list(HttpServletRequest request, ModelMap model) {
+		super.addMenuParams(request, model);
 		String selectCondition = request.getParameter("selectCondition");
 		String inputValue = request.getParameter("inputValue");
 		String selectValue = request.getParameter("selectValue");
@@ -83,6 +88,7 @@ public class PlanDocumentAction {
 	@RequiresPermissions(value={"document:management"})
 	@RequestMapping(value = "/document/trash")
 	public String trash(HttpServletRequest request, ModelMap model) {
+		super.addMenuParams(request, model);
 		int pageNo = ServletRequestUtils.getIntParameter(request,
 				PageListUtil.PAGE_NO_NAME, PageListUtil.DEFAULT_PAGE_NO);
 		int pageSize = 6;
