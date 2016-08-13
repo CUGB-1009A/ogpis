@@ -430,10 +430,10 @@ public class PlanAction {
 					if(i==4)
 						break;
 				}		
-				bean.setDocumentSize((int)fileSize + fileSizeUnit[i]);
+				bean.setDocumentSize((float)(Math.round(fileSize*100)/100) + fileSizeUnit[i]);
 				bean.setDocumentName(fileName);
 				bean.setPlan(plan);
-				bean.setDocumentType("规划相关文档");
+				bean.setDocumentType(fileName.substring(fileName.lastIndexOf(".")+1,fileName.length()));
 				/* planDocumentList.add(bean); */
 				planDocumentService.save(bean);
 			}
