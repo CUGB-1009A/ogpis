@@ -29,46 +29,15 @@
 	</nav>
 	<!--网页主体 -->
 <div id="page-wrapper" style="height:100%">
-		<%-- <div class="breadcrumbs" id="breadcrumbs" style="text-align: left;">
+		<div class="breadcrumbs" id="breadcrumbs" style="text-align: left;">
 			<ul class="breadcrumb">
 				<li>
-					<i class="icon-home home-icon"></i>
-					<a href="<c:url value='/main'/>">首页</a>
+					<i class="icon-star "></i>
+					<a href="<%=request.getContextPath()%>/plan/list?condition=">规划管理</a>
 				</li>
-				<li>
-					<a href="<%=path%>/plan/list?type=${type}&&condition=">
-					<c:if test='<%=type.equals("QG")%>'>
-							全国规划
-						</c:if>
-						
-						<c:if test='<%=type.equals("ZSY")%>'>
-							中石油规划
-						</c:if>
-						
-						<c:if test='<%=type.equals("ZSH")%>'>
-							中石化规划
-						</c:if>
-						
-						<c:if test='<%=type.equals("ZHY")%>'>
-							中海油规划
-						</c:if>
-						
-						<c:if test='<%=type.equals("YC")%>'>
-							延长石油规划
-						</c:if>
-						
-						<c:if test='<%=type.equals("ZLM")%>'>
-							中联煤规划
-						</c:if>
-						
-						<c:if test='<%=type.equals("QT")%>'>
-							其它公司规划
-						</c:if></a>
-				</li>
-				<li class="active">${plan.planName}</li>
-
+				<li class="active">规划编辑</li>
 			</ul>
-		</div> --%>
+		</div>
 		<div class="row">
 			<div class="col-xs-12" style="margin:0;padding:0">
 				<ul id="myTab" class="nav nav-tabs">		

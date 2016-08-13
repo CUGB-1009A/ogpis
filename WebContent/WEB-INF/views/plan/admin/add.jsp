@@ -27,6 +27,15 @@
 	</nav>
 	<!--网页主体 -->
 <div id="page-wrapper" style="height:100%;">
+		<div class="breadcrumbs" id="breadcrumbs" style="text-align: left;">
+			<ul class="breadcrumb">
+				<li>
+					<i class="icon-star "></i>
+					<a href="<%=request.getContextPath()%>/plan/list?condition=">规划管理</a>
+				</li>
+				<li class="active">新建规划</li>
+			</ul>
+		</div>
 		<div class="row">
 			<div class="col-sm-12">
 				<form class="form-horizontal" role="form" action="<%=path%>/plan/save"  method="post">
@@ -43,7 +52,7 @@
 					   	<div class="col-sm-4">
 						   	<div class="input-append date date_picker" data-date-format="dd MM yyyy" data-link-field="form-field-4" data-link-format="yyyy-mm-dd">
 						   		<input type="text" id="form-field-4" placeholder="发布时间..." name="releaseDate" class="col-sm-10" readonly>
-						   		<span class="add-on"><i class="col-sm-2 icon-th"></i></span>	
+						   		<span class="add-on" ><i class="col-sm-2 icon-th"></i></span>	
 						   	</div>		   
 						</div>
 					</div>
