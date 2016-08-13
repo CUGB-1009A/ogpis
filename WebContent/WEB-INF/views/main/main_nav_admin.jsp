@@ -86,7 +86,6 @@
 			var $expandingMenus = $("ul .in");
 			var appendURL = "&menus=";
 			for (var i = 0; i < $expandingMenus.length; i++) {
-
 				appendURL += $expandingMenus[i].id;
 				if (i != $expandingMenus.length - 1) {
 					appendURL += ",";

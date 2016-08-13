@@ -33,7 +33,7 @@
 			<ul class="breadcrumb">
 				<li>
 					<i class="icon-star "></i>
-					<a href="<%=request.getContextPath()%>/plan/list?condition=">规划管理</a>
+					<a href="<c:url value='/plan/list?condition='/>" class="menu">规划管理</a>
 				</li>
 				<li class="active">规划编辑</li>
 			</ul>
@@ -41,7 +41,7 @@
 		<div class="row">
 			<div class="col-xs-12" style="margin:0;padding:0">
 				<ul id="myTab" class="nav nav-tabs">
-					<li <c:if test='<%=flag.equals("1") %>'>class="active current"</c:if>>
+					<li <c:if test='<%=flag.equals("1") %>'>class="active"</c:if>>
 						<a href="<c:url value='/plan/show?type=${type}&id=${plan.id}&flag=1'/>" class="menu">规划概述</a>
 					</li> 	
 					<li <c:if test='<%=flag.equals("2") %>'>class="active current"</c:if>>

@@ -96,7 +96,7 @@
 													<td>
 														<p>
 														
-															<a  href="<c:url value='/plan/show?flag=1&&type=${type}&&id=${item1.get("plan").id}'/>" class="menu btn-sm btn-app btn-primary no-radius editPlan_${item1.get('plan').id}">
+															<a href="<c:url value='/plan/show?flag=1&&type=${type}&&id=${item1.get("plan").id}'/>" class="menu btn-sm btn-app btn-primary no-radius editPlan_${item1.get('plan').id}">
 																	<i class="icon-edit bigger-200"></i>
 																	编辑
 															</a>&nbsp;											
