@@ -24,7 +24,7 @@
 </head>
 <html>
 <body>
-	<div id="wrapper" style="height:100%">
+	<div id="wrapper" >
 		<!-- 网站头及导航栏 -->
 		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="z-index:1080">
 			<%@ include file="../main/main_header.jsp"%>

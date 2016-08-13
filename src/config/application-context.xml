@@ -54,6 +54,7 @@
 				<value>com.ogpis.system.entity</value>
 				<value>com.ogpis.plan.entity</value>
 				<value>com.ogpis.document.entity</value>
+				<value>com.ogpis.international.entity</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">

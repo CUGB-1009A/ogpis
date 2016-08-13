@@ -10,9 +10,9 @@
     <meta name="author" content="">
     <title>油气资源规划管理系统</title>
 </head>
-<html sytle="margin:0; height:100%;">
-<body sytle="margin:0; height:100%;">
-<div id="wrapper">
+<html >
+<body >
+<div id="wrapper" style="height:100%">
 <!-- 网站头及导航栏 -->
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="z-index:1080">
 		<%@ include file="../../main/main_header.jsp"%>
@@ -152,6 +152,7 @@
 </div>
 </body>
 <script type="text/javascript">
+
 var tempType = "${type}";
 /* Ajax删除规划 */
 function deletePlan(id)
