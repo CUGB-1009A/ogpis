@@ -34,6 +34,18 @@
 			<%@ include file="../../main/main_nav.jsp"%>
 		</c:if>
 	</nav>
+	<div id="page-wrapper" style="height:100%;">	
+		<c:if test="${listType.equals('preview')}">
+			<div class="breadcrumbs" id="breadcrumbs" style="text-align: left;">
+					<ul class="breadcrumb">
+						<li>
+							<i class="icon-star "></i>
+							<a href="<%=request.getContextPath()%>/plan/list?condition=">规划管理</a>
+						</li>
+						<li class="active">规划预览</li>
+					</ul>
+			</div>
+		</c:if>
        
       <!--  搜索div -->
       <c:if test="${listType.equals('user')}">
@@ -54,20 +66,7 @@
 				   </div>
 			</div>
 		</c:if>
-		
-		<c:if test="${listType.equals('preview')}">
-			<div class="breadcrumbs" id="breadcrumbs" style="text-align: left;">
-				<ul class="breadcrumb">
-					<li>
-						<i class="icon-star "></i>
-						<a href="<%=request.getContextPath()%>/plan/list?condition=">规划管理</a>
-					</li>
-					<li class="active">规划预览</li>
-				</ul>
-			</div>
-		</c:if>
 
-		
 		<!-- 规划内容开始容器div -->
 		<div class="panel-group" id="accordion" style="width:100%;height:100%;background:white">
 		    <c:forEach items="${mapList}" var="item1" varStatus="status">
@@ -133,6 +132,7 @@
 			</div>
 		</c:forEach>
 	</div>
+</div>
 </div>
 
 <script type="text/javascript">

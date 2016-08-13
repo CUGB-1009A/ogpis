@@ -30,15 +30,15 @@
 	<div id="page-wrapper" style="height:100%;">
 		<div class="breadcrumbs" id="breadcrumbs" style="text-align: left;">
 			<ul class="breadcrumb">
-				<li>
+				<!-- <li>
 					<i class="icon-home home-icon"></i>
 					<a href="#">首页</a>
 				</li>
 				<li>
 					<a href="#">系统管理</a>
-				</li>
+				</li> -->
 				<li>
-					<a href='<c:url value="/system/role/list"/>'>角色管理</a>
+					<a href='<c:url value="/system/role/list"/>'><i class="icon-lock"></i> 角色管理</a>
 				</li>
 				<li class="active">
 					<c:if test='<%=!isAdd %>'>编辑角色</c:if>
