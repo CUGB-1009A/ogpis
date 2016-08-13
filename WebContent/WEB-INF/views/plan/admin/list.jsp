@@ -9,12 +9,9 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>油气资源规划管理系统</title>
-    <%-- <%
-    	String type = request.getAttribute("type").toString();
-    %> --%>
 </head>
-<html>
-<body>
+<html sytle="margin:0; height:100%;">
+<body sytle="margin:0; height:100%;">
 <div id="wrapper">
 <!-- 网站头及导航栏 -->
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="z-index:1080">
@@ -94,7 +91,7 @@
 													<td>
 														<p>
 														
-															<a  href="javascript:editPlan('${item1.get('plan').id}')" class="btn-sm btn-app btn-primary no-radius editPlan_${item1.get('plan').id}">
+															<a  href="<c:url value='/plan/show?flag=1&&type=${type}&&id=${item1.get("plan").id}'/>" class="menu btn-sm btn-app btn-primary no-radius editPlan_${item1.get('plan').id}">
 																	<i class="icon-edit bigger-200"></i>
 																	编辑
 															</a>&nbsp;											

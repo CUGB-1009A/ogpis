@@ -13,6 +13,7 @@ import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.ogpis.base.action.BaseAction;
 import com.ogpis.base.common.paging.IPageList;
 import com.ogpis.base.common.paging.PageListUtil;
 import com.ogpis.system.entity.Role;
@@ -20,7 +21,7 @@ import com.ogpis.system.entity.User;
 import com.ogpis.system.service.RoleService;
 
 @Controller
-public class RoleAction {
+public class RoleAction   extends BaseAction{
 
 	@Autowired
 	private RoleService roleService;
@@ -28,6 +29,7 @@ public class RoleAction {
 	@RequiresPermissions(value={"system:management"})
 	@RequestMapping(value = "/system/role/list")
 	public String list(HttpServletRequest request, ModelMap model) {
+		super.addMenuParams(request, model);
 		List<Role> roles = roleService.getList();
 		model.addAttribute("roles", roles);
 		return "system/role/list";

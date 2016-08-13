@@ -55,7 +55,7 @@ public class IndexManagementServiceImpl extends
 	}
 
 	@Override
-	public List<IndexManagement> findByType(String type) {
-		return getIndexManagementDao().findByType(type);
+	public List<IndexManagement> findByIds(String[] ids){
+		return getIndexManagementDao().findByIds(ids);
 	}
 }

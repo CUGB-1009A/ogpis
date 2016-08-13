@@ -71,27 +71,30 @@
 		</div> --%>
 		<div class="row">
 			<div class="col-xs-12" style="margin:0;padding:0">
-				<ul id="myTab" class="nav nav-tabs">		
-					<c:if test='<%=flag.equals("1") %>'> 
-					   <li class="active"><a href="#overview" data-toggle="tab">规划概述</a></li> 
-					</c:if> 
-					<c:if test='<%=!flag.equals("1") %>'> 
-					   <li><a href="#overview" data-toggle="tab" onclick="Tab1()">规划概述</a></li> 
-		 			</c:if> 
+				<ul id="myTab" class="nav nav-tabs">
+					<li <c:if test='<%=flag.equals("1") %>'>class="active current"</c:if>>
+						<a href="<c:url value='/plan/show?type=${type}&id=${plan.id}&flag=1'/>" class="menu">规划概述</a>
+					</li> 	
+					<li <c:if test='<%=flag.equals("2") %>'>class="active current"</c:if>>
+						<a href="<c:url value='/plan/show?type=${type}&id=${plan.id}&flag=2'/>" class="menu">文档资料</a>
+					</li> 
+					<li <c:if test='<%=flag.equals("3") %>'>class="active current"</c:if>>
+						<a href="<c:url value='/plan/show?type=${type}&id=${plan.id}&flag=3'/>" class="menu">规划指标</a>
+					</li> 	
 		 			
-		 			<c:if test='<%=flag.equals("2") %>'> 
-					   <li class="active"><a href="#document" data-toggle="tab" >文档资料</a>	</li>
-					</c:if> 
-					<c:if test='<%=!flag.equals("2") %>'> 
-					     <li><a href="#document" data-toggle="tab" onclick="Tab2()">文档资料</a></li>
-		 			</c:if> 
+<%-- 		 			<c:if test='<%=flag.equals("2") %>'>  --%>
+<!-- 					   <li class="active"><a href="#document" data-toggle="tab" >文档资料</a>	</li> -->
+<%-- 					</c:if>  --%>
+<%-- 					<c:if test='<%=!flag.equals("2") %>'>  --%>
+<!-- 					     <li><a href="#document" data-toggle="tab" onclick="Tab2()">文档资料</a></li> -->
+<%-- 		 			</c:if>  --%>
 		 			
-		 			<c:if test='<%=flag.equals("3") %>'> 
-					   <li class="active"><a href="#indexEntry" data-toggle="tab">规划指标</a></li>
-					</c:if> 
-					<c:if test='<%=!flag.equals("3") %>'> 
-					   <li><a href="#indexEntry" data-toggle="tab" onclick="Tab3()">规划指标</a></li>
-		 			</c:if> 
+<%-- 		 			<c:if test='<%=flag.equals("3") %>'>  --%>
+<!-- 					   <li class="active"><a href="#indexEntry" data-toggle="tab">规划指标</a></li> -->
+<%-- 					</c:if>  --%>
+<%-- 					<c:if test='<%=!flag.equals("3") %>'>  --%>
+<!-- 					   <li><a href="#indexEntry" data-toggle="tab" onclick="Tab3()">规划指标</a></li> -->
+<%-- 		 			</c:if>  --%>
 		 			
 <%-- 		 			<c:if test='<%=flag.equals("4") %>'> 
 					   <li class="active"><a href="#completeEntry" data-toggle="tab">完成情况</a></li>
@@ -128,7 +131,7 @@ var id = "${plan.id}";
 var type = "${type}";
 function Tab1()
 {
-	window.location.href="<%=path%>/plan/show?type="+type+"&&id="+id+"&&flag=1";
+	window.location.href="<%=path%>/plan/show?type="+type+"&&id="+id+"&&flag=1&&menus=index";
 }
 
 function Tab2()

@@ -16,6 +16,7 @@ import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.ogpis.base.action.BaseAction;
 import com.ogpis.base.common.paging.IPageList;
 import com.ogpis.base.common.paging.PageListUtil;
 import com.ogpis.system.entity.Role;
@@ -24,7 +25,7 @@ import com.ogpis.system.service.RoleService;
 import com.ogpis.system.service.UserService;
 
 @Controller
-public class UserAction {
+public class UserAction extends BaseAction {
 
 	@Autowired
 	private UserService userService;
@@ -34,6 +35,7 @@ public class UserAction {
 	@RequiresPermissions(value={"system:management"})
 	@RequestMapping(value = "/system/user/list")
 	public String list(HttpServletRequest request, ModelMap model) {
+		super.addMenuParams(request, model);
 		int pageNo = ServletRequestUtils.getIntParameter(request,
 				PageListUtil.PAGE_NO_NAME, PageListUtil.DEFAULT_PAGE_NO);
 		int pageSize = ServletRequestUtils.getIntParameter(request,

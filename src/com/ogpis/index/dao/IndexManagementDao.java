@@ -17,7 +17,7 @@ public interface IndexManagementDao extends BaseDao< IndexManagement,String> {
 	List<IndexManagement> findAllIndexByPriority(String type);
 
 	List<IndexManagement> findByMineType(String mineType);
-
-	List<IndexManagement> findByType(String type);
+	
+	List<IndexManagement> findByIds(String[] ids);
 
 }

@@ -12,13 +12,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.ogpis.base.action.BaseAction;
 import com.ogpis.index.entity.IndexManagement;
 import com.ogpis.index.service.IndexManagementService;
 import com.ogpis.plan.entity.Plan;
 import com.ogpis.plan.service.PlanService;
 
 @Controller
-public class IndexManagementAction {
+public class IndexManagementAction  extends BaseAction {
 	
 	@Autowired IndexManagementService indexManagementService ;
 	@Autowired PlanService planService ;
@@ -30,7 +32,7 @@ public class IndexManagementAction {
 		List<IndexManagement> indexList = indexManagementService.findAllIndexByPriority(type);
 		model.addAttribute("indexList",indexList);
 		model.addAttribute("type",type);
-		model.addAttribute("navUL","index");//指定导航栏展开那个子菜单
+		super.addMenuParams(request, model);
 		return "index/list";	
 	}
 	

@@ -7,4 +7,5 @@ encoding//WebContent/WEB-INF/views/index.jsp=UTF-8
 encoding//WebContent/WEB-INF/views/main/main_header.jsp=UTF-8
 encoding//WebContent/WEB-INF/views/plan/user/list.jsp=UTF-8
 encoding//WebContent/WEB-INF/views/system/user/test.jsp=UTF-8
+encoding//src/config/jdbc.properties=UTF-8
 encoding/<project>=UTF-8

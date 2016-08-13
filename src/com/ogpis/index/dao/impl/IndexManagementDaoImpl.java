@@ -1,9 +1,12 @@
 package com.ogpis.index.dao.impl;
 
 import java.util.List;
+
 import org.springframework.stereotype.Repository;
+
 import com.ogpis.base.common.paging.IPageList;
 import com.ogpis.base.common.paging.PageListUtil;
+import com.ogpis.base.common.utils.StringUtil;
 import com.ogpis.base.dao.impl.BaseDaoImpl;
 import com.ogpis.index.dao.IndexManagementDao;
 import com.ogpis.index.entity.IndexManagement;
@@ -50,9 +53,9 @@ public class IndexManagementDaoImpl extends
 	@Override
 	public List<IndexManagement> findAllIndexByPriority(String type) {
 		// TODO Auto-generated method stub
-		List<IndexManagement> items = this
-				.queryByHql(
-						"from IndexManagement m where m.deleted=false and m.type ='"+type+"' order by priority asc",null);
+		List<IndexManagement> items = this.queryByHql(
+				"from IndexManagement m where m.deleted=false and m.type ='"
+						+ type + "' order by priority asc", null);
 		return items;
 	}
 
@@ -61,16 +64,17 @@ public class IndexManagementDaoImpl extends
 		// TODO Auto-generated method stub
 		List<IndexManagement> items = this
 				.queryByHql(
-						"from IndexManagement m where m.deleted=false and m.type='QG' and m.mineType ='"+mineType+"' order by indexType asc",null);
+						"from IndexManagement m where m.deleted=false and m.type='QG' and m.mineType ='"
+								+ mineType + "' order by indexType asc", null);
+		return items;
+	}
+
+	@Override
+	public List<IndexManagement> findByIds(String[] ids) {
+		List<IndexManagement> items = this.queryByHql(
+				"from IndexManagement m where m.deleted=false and m.id in ("
+						+ StringUtil.toIdString(ids) + ") order by indexType asc", null);
 		return items;
 	}
 	
-	@Override
-	public List<IndexManagement> findByType(String type) {
-		// TODO Auto-generated method stub
-		List<IndexManagement> items = this
-				.queryByHql(
-						"from IndexManagement m where m.deleted=false and m.type='QG' and m.type ='"+type+"' order by indexType asc",null);
-		return items;
-	}
 }

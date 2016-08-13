@@ -42,6 +42,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ogpis.base.AddDefaultIndex;
+import com.ogpis.base.action.BaseAction;
 import com.ogpis.base.common.paging.IPageList;
 import com.ogpis.base.common.paging.PageListUtil;
 import com.ogpis.document.entity.PlanDocument;
@@ -61,7 +62,7 @@ import com.ogpis.system.service.UserService;
 import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 
 @Controller
-public class PlanAction {
+public class PlanAction extends BaseAction {
 	Logger log = Logger.getLogger(PlanAction.class);
 
 	@Autowired
@@ -79,13 +80,15 @@ public class PlanAction {
 
 	@SuppressWarnings("rawtypes")
 	private ArrayList idList = new ArrayList();
+
 	/*
 	 * 读取规划列表函数,根据type查询不同类型的规划
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({"unchecked", "rawtypes" })
 	@RequestMapping(value = "/plan/list")
 	public String list(HttpServletRequest request, ModelMap model, String type,
 			String condition) {
+		super.addMenuParams(request, model);
 		LinkedHashMap map;
 		List<LinkedHashMap> mapList = new ArrayList<LinkedHashMap>();
 		// 先判断当前用户是不是管理员
@@ -119,21 +122,22 @@ public class PlanAction {
 		model.addAttribute("condition", condition);// 查询条件回显到前台
 		if (isManager)
 			return "plan/admin/list";
-		else
-		{
-			model.addAttribute("listType","user");
+		else {
+			model.addAttribute("listType", "user");
 			return "plan/user/list";
 		}
-			
+
 	}
+
+	
 
 	@RequestMapping(value = "/plan/user_detail")
 	public String user_detail(HttpServletRequest request, ModelMap model,
-			String id,String listType) {
+			String id, String listType) {
 		Plan plan = planService.findById(id);
 		model.addAttribute("plan", plan);
 		model.addAttribute("type", plan.getPlanType());
-		model.addAttribute("listType",listType);
+		model.addAttribute("listType", listType);
 		/*
 		 * model.addAttribute("charts2", result2); model.addAttribute("charts3",
 		 * result3);
@@ -180,15 +184,14 @@ public class PlanAction {
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value = "/plan/preview")
-	public String preview(HttpServletRequest request, ModelMap model,
-			String id) {
+	public String preview(HttpServletRequest request, ModelMap model, String id) {
 		LinkedHashMap map = new LinkedHashMap();
 		List<LinkedHashMap> mapList = new ArrayList<LinkedHashMap>();
 		Plan plan = planService.findById(id);
 		map.put("plan", plan);
 		mapList.add(map);
 		model.addAttribute("mapList", mapList);
-		model.addAttribute("listType","preview");
+		model.addAttribute("listType", "preview");
 		return "/plan/user/list";
 	}
 
@@ -199,8 +202,11 @@ public class PlanAction {
 	@RequestMapping(value = "/plan/toEditPage")
 	public String toEditPage(HttpServletRequest request, ModelMap model,
 			String type) {
-/*		List<IndexManagement> indexs = indexManagementService.findAllIndexByPriority();
-		model.addAttribute("indexs",indexs);*/
+		/*
+		 * List<IndexManagement> indexs =
+		 * indexManagementService.findAllIndexByPriority();
+		 * model.addAttribute("indexs",indexs);
+		 */
 		model.addAttribute("type", type);
 		return "/plan/admin/add";
 	}
@@ -211,8 +217,8 @@ public class PlanAction {
 	@RequiresPermissions(value = { "plan:add", "plan:edit" }, logical = Logical.OR)
 	@RequestMapping(value = "/plan/save", method = RequestMethod.POST)
 	public String save(HttpServletRequest request, boolean isAdd,
-			ModelMap model, String id, Plan plan, String type,String indexIds) {
-		Plan bean = null;			
+			ModelMap model, String id, Plan plan, String type, String indexIds) {
+		Plan bean = null;
 		if (isAdd) {
 			bean = new Plan();
 			bean.setPlanType(type);
@@ -225,7 +231,7 @@ public class PlanAction {
 		bean.setTargetAndFinished(plan.getTargetAndFinished());
 		bean.setOutputDescription(plan.getOutputDescription());
 		bean.setStorageDescription(plan.getOutputDescription());
-		//bean.setPlanType(type);
+		// bean.setPlanType(type);
 		bean.setPlanCode(plan.getPlanCode());
 		bean.setPlanDescription(plan.getPlanDescription());
 		bean.setReleaseUnit(plan.getReleaseUnit());
@@ -236,7 +242,7 @@ public class PlanAction {
 		model.addAttribute("type", type);
 		model.addAttribute("condition", "");
 		if (isAdd) {
-			planService.save(bean);	
+			planService.save(bean);
 			return "redirect:list";
 		} else {
 			planService.update(bean);
@@ -273,8 +279,8 @@ public class PlanAction {
 	@RequiresPermissions(value = { "plan:edit" })
 	@RequestMapping(value = "/plan/show")
 	public String show(HttpServletRequest request,
-			HttpServletResponse response, ModelMap model, String id,
-			String flag) throws UnsupportedEncodingException {
+			HttpServletResponse response, ModelMap model, String id, String flag)
+			throws UnsupportedEncodingException {
 		HashMap hasMap = new HashMap();
 		List<IndexDataManagement> indexDataManagement;
 		Plan plan = this.planService.findById(id);
@@ -295,11 +301,12 @@ public class PlanAction {
 			// IPageList<IndexManagement> indexs =
 			// indexManagementService.getOnePlanIndexs(pageNo, pageSize,
 			// plan.getId());
-			//System.out.println("size: " + plan.getPlan_indexs().size());
-			//System.out.println("type: " + type);
+			// System.out.println("size: " + plan.getPlan_indexs().size());
+			// System.out.println("type: " + type);
 
-			//这里要加入指标类型的筛选，确定是全国的还是各公司的
-			List<IndexManagement> allIndexs = indexManagementService.findAllIndexByPriority(plan.getPlanType());
+			// 这里要加入指标类型的筛选，确定是全国的还是各公司的
+			List<IndexManagement> allIndexs = indexManagementService
+					.findAllIndexByPriority(plan.getPlanType());
 			model.addAttribute("allIndexs", allIndexs);
 			model.addAttribute("plan_indexs", plan.getPlan_indexs());
 			model.addAttribute("flag", 3);
@@ -319,6 +326,7 @@ public class PlanAction {
 		if (flag.equals("5")) {
 			model.addAttribute("flag", 5);
 		}
+		super.addMenuParams(request, model);
 		model.addAttribute("type", plan.getPlanType());
 		return "/plan/admin/detail";
 	}
@@ -365,7 +373,7 @@ public class PlanAction {
 	public void uploadFiles(HttpServletResponse resp,
 			HttpServletRequest request, ModelMap model) throws Exception {
 		float fileSize = 0;
-		String[] fileSizeUnit = { "B","KB","MB","GB","TB" };
+		String[] fileSizeUnit = { "B", "KB", "MB", "GB", "TB" };
 		final HttpSession hs = request.getSession();
 
 		String id = request.getParameter("planId");
@@ -408,8 +416,10 @@ public class PlanAction {
 				fileName = fileName.substring(fileName.lastIndexOf("\\") + 1,
 						fileName.length());
 				String prefix = System.currentTimeMillis() + "";
-				File file = new File(request.getServletContext().getRealPath("/")+ "planFileUpload\\"+ type);
-				if(!file.exists())
+				File file = new File(request.getServletContext().getRealPath(
+						"/")
+						+ "planFileUpload\\" + type);
+				if (!file.exists())
 					file.mkdirs();
 				File uploadedFile = new File(request.getServletContext()
 						.getRealPath("/")
@@ -420,17 +430,16 @@ public class PlanAction {
 				item.write(uploadedFile);
 				bean.setDocumentAddress("planFileUpload\\" + type + "\\"
 						+ prefix + fileName);
-				/*bean.setDocumentDescription(fileDescription);*/
+				/* bean.setDocumentDescription(fileDescription); */
 				bean.setUploadDate(new Date());
-				int i = 0;//记录除了多少次1024，为了用0-1024间的数字+合适的单位来表示文件的大小
-				while(fileSize>1024)
-				{
-					fileSize = fileSize /1024 ;
+				int i = 0;// 记录除了多少次1024，为了用0-1024间的数字+合适的单位来表示文件的大小
+				while (fileSize > 1024) {
+					fileSize = fileSize / 1024;
 					i++;
-					if(i==4)
+					if (i == 4)
 						break;
-				}		
-				bean.setDocumentSize((int)fileSize + fileSizeUnit[i]);
+				}
+				bean.setDocumentSize((int) fileSize + fileSizeUnit[i]);
 				bean.setDocumentName(fileName);
 				bean.setPlan(plan);
 				bean.setDocumentType("规划相关文档");
@@ -576,8 +585,8 @@ public class PlanAction {
 	 * 保存目标值
 	 */
 	@RequestMapping(value = "/plan/admin/savePlan_Index", method = RequestMethod.POST)
-	public String savePlan_Index(String plan_IndexId,Plan_Index plan_Index,
-			 ModelMap model) {
+	public String savePlan_Index(String plan_IndexId, Plan_Index plan_Index,
+			ModelMap model) {
 		Plan_Index bean = plan_IndexService.findById(plan_IndexId);
 		if (bean != null) {
 			bean.setTargetValue(plan_Index.getTargetValue());
@@ -612,20 +621,15 @@ public class PlanAction {
 		model.addAttribute("id", planId);
 		model.addAttribute("flag", 3);
 		model.addAttribute("type", type);
-		List<IndexManagement> indexs = new ArrayList<IndexManagement>();
-		IndexManagement index = null;
-		if(indexIds!=null&&indexIds.length>0){
-			for (String indexId : indexIds) {
-				index = indexManagementService.findById(indexId);
-				if (index != null) {
-					indexs.add(index);
-				}
-			}
-		}
-		Plan plan = planService.findById(planId);
-		plan_IndexService.batchAdd(plan, indexs);
-		return "redirect:/plan/show";
 
+		if (indexIds != null && indexIds.length != 0){
+			List<IndexManagement> indexs = indexManagementService
+					.findByIds(indexIds);
+			Plan plan = planService.findById(planId);
+			plan_IndexService.batchAdd(plan, indexs);
+			
+		}
+		return "redirect:/plan/show";
 	}
 
 }

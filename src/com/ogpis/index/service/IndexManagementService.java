@@ -18,7 +18,6 @@ public interface IndexManagementService extends BaseService<IndexManagement,Stri
 
 	List<IndexManagement> findByMineType(String mineType);
 
-	List<IndexManagement> findByType(String type);
-
+	List<IndexManagement> findByIds(String[] ids);
 
 }
