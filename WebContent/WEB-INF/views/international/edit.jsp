@@ -36,7 +36,7 @@
 				 <!-- 加载编辑器的容器 -->
 				 <form action="<%=path%>/international/save" method="post">
 				 	<input type="hidden" name="companyName" value="${international.companyName}">
-				    <script id="container" name="content" type="text/plain" style="">${international.content}</script>
+				    <script id="container" name="content" type="text/plain">${international.content}</script>
 		    		<button type="submit">保存</button>
 		    	</form>
 			    <!-- 配置文件 -->
@@ -45,22 +45,7 @@
 			    <script type="text/javascript" src="<%=path%>/assets/UEditor/ueditor.all.js"></script>
 			    <!-- 实例化编辑器 -->
 			    <script type="text/javascript">
-			        var ue = UE.getEditor('container',
-			        		{
-			        	/* toolbars:[  
-			        	            ['fullscreen', 'source', '|', 'undo', 'redo', '|',  
-			        	                'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', '|',  
-			        	                'rowspacingtop', 'rowspacingbottom', 'lineheight', '|',  
-			        	                'customstyle', 'paragraph', 'fontfamily', 'fontsize', '|',  
-			        	                'directionalityltr', 'directionalityrtl', 'indent', '|',  
-			        	                'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'touppercase', 'tolowercase', '|',  
-			        	                'link', 'unlink', 'anchor', '|', 'imagenone', 'imageleft', 'imageright', 'imagecenter', '|',  
-			        	                'insertimage', 'emotion', 'scrawl', 'insertvideo', 'music', 'attachment', 'map', 'gmap', 'insertframe','insertcode', 'webapp', 'pagebreak', 'template', 'background', '|',  
-			        	                'horizontal', 'date', 'time', 'spechars', 'snapscreen', 'wordimage', '|',  
-			        	                'inserttable', 'deletetable', 'insertparagraphbeforetable', 'insertrow', 'deleterow', 'insertcol', 'deletecol', 'mergecells', 'mergeright', 'mergedown', 'splittocells', 'splittorows', 'splittocols', 'charts', '|',  
-			        	                'print', 'preview', 'searchreplace', 'help', 'drafts']  
-			        	        ] */
-			        		});
+			        var ue = UE.getEditor('container');
 			    </script>
 		    </div>
 	    </div>	

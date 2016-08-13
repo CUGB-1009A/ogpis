@@ -7,16 +7,22 @@
 			<div  class="col-xs-12 contentDiv">				
 					 <div class="form-group">
 						<div class="col-sm-12" >
-						   <%--  <textArea style="height:100px" placeholder="规划描述..." class="col-xs-10 col-sm-5" name="planDescription" >${plan.planDescription}</textArea> --%>
-						 <%--    <script type="text/javascript">CKEDITOR.replace('planDescription',
-						    		{   
-										filebrowserImageUploadUrl : '<%=request.getContextPath()%>/uploadImg',  
-										language : 'zh-cn',
-										height:430,
-										toolbar:[['About','Maximize']]
-									});
-						    </script> --%>
-						    ${plan.planDescription}
+						   <script id="container" name="planDescription" type="text/plain" style="height:300px">${plan.planDescription}</script>
+												 <!-- 配置文件 -->
+						    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/UEditor/ueditor.config.js"></script>
+						    <!-- 编辑器源码文件 -->
+						    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/UEditor/ueditor.all.js"></script>
+						    <!-- 实例化编辑器 -->
+						    <script type="text/javascript">
+						    var ue = UE.getEditor('container',
+					        		 
+				        			 {
+				        	toolbars:[],
+				        	wordCount:false,  
+			                //关闭elementPath  
+			                elementPathEnabled:false
+				        			 });
+			    			</script>
 						</div>
 					</div> 
 			</div><!-- /span -->

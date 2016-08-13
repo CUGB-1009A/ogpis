@@ -36,7 +36,7 @@
 				<li class="active">新建规划</li>
 			</ul>
 		</div>
-		<div class="row">
+		<div class="row" style="background:white">
 			<div class="col-sm-12">
 				<form class="form-horizontal" role="form" action="<%=path%>/plan/save"  method="post">
 					<input type="hidden" value="true" name="isAdd"/>
@@ -117,12 +117,21 @@
 					 <div class="form-group">
 						<label class="col-sm-2 control-label no-padding-right" for="form-field-8">规划背景和依据</label>
 						<div class="col-sm-10">
-						    <textArea id="form-field-8"  style="height:70px"  class="col-sm-12" name="planDescription"></textArea>
+						   <%--  <textArea id="form-field-8"  style="height:70px"  class="col-sm-12" name="planDescription"></textArea>
 							<script type="text/javascript">CKEDITOR.replace('planDescription',
 									{   
 										filebrowserImageUploadUrl : '<%=path%>/uploadImg',  
 										language : 'zh-cn',  
-									});</script>
+									});</script> --%>
+									 <script id="container" name="planDescription" type="text/plain" style="height:300px"></script>
+									 <!-- 配置文件 -->
+			    <script type="text/javascript" src="<%=path%>/assets/UEditor/ueditor.config.js"></script>
+			    <!-- 编辑器源码文件 -->
+			    <script type="text/javascript" src="<%=path%>/assets/UEditor/ueditor.all.js"></script>
+			    <!-- 实例化编辑器 -->
+			    <script type="text/javascript">
+			        var ue = UE.getEditor('container');
+			    </script>
 						</div>
 					</div>  
 					

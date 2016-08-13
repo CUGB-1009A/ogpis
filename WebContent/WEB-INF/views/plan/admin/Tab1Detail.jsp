@@ -91,13 +91,22 @@
 				   <div class="form-group">
 						<label class="col-sm-2 control-label no-padding-right" for="form-field-7">规划背景和依据</label>
 						<div class="col-sm-9">
-						    <textArea id="form-field-7"  style="height:100px" placeholder="规划描述..." class="col-sm-12" name="planDescription" >${plan.planDescription}</textArea>
+						    <%-- <textArea id="form-field-7"  style="height:100px" placeholder="规划描述..." class="col-sm-12" name="planDescription" >${plan.planDescription}</textArea>
 						    <script type="text/javascript">CKEDITOR.replace('planDescription',
 						    		{   
 										filebrowserImageUploadUrl : '<%=request.getContextPath()%>/uploadImg',  
 										language : 'zh-cn',  
 									});
-						    </script>
+						    </script> --%>
+						    <script id="container" name="planDescription" type="text/plain" style="height:300px">${plan.planDescription}</script>
+												 <!-- 配置文件 -->
+						    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/UEditor/ueditor.config.js"></script>
+						    <!-- 编辑器源码文件 -->
+						    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/UEditor/ueditor.all.js"></script>
+						    <!-- 实例化编辑器 -->
+						    <script type="text/javascript">
+						        var ue = UE.getEditor('container');
+			    			</script>
 						</div>
 					</div> 
 					
