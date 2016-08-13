@@ -99,13 +99,16 @@
 						<label class="col-sm-2 control-label no-padding-right" for="form-field-11">规划类型</label>
 						<div class="col-sm-4">
 							<select id="planType" name="type" class="selectpicker col-sm-10" data-style="btn-success">
-							    	<option value='QG'>全国规划</option>
+							<c:forEach items="${planType}" var="item" >
+								<option value='${item.key}'>${item}</option>
+							</c:forEach>
+							    	<!-- <option value='QG'>全国规划</option>
 							    	<option value='ZSY'>中石油规划</option>
 							    	<option value='ZSH'>中石化规划</option>
 							    	<option value='ZHY'>中海油规划</option>
 							    	<option value='YC'>延长石油规划</option>
 							    	<option value='ZLM'>中联煤规划</option>
-							    	<option value='QT'>其他公司规划</option>
+							    	<option value='QT'>其他公司规划</option> -->
 							</select>
 						</div>
 					</div> 

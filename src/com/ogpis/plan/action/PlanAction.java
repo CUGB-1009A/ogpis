@@ -52,6 +52,7 @@ import com.ogpis.index.entity.IndexManagement;
 import com.ogpis.index.service.IndexDataManagementService;
 import com.ogpis.index.service.IndexManagementService;
 import com.ogpis.plan.entity.Plan;
+import com.ogpis.plan.entity.PlanType;
 import com.ogpis.plan.entity.Plan_Index;
 import com.ogpis.plan.service.PlanService;
 import com.ogpis.plan.service.Plan_IndexService;
@@ -199,8 +200,8 @@ public class PlanAction {
 	@RequestMapping(value = "/plan/toEditPage")
 	public String toEditPage(HttpServletRequest request, ModelMap model,
 			String type) {
-/*		List<IndexManagement> indexs = indexManagementService.findAllIndexByPriority();
-		model.addAttribute("indexs",indexs);*/
+		//PlanType[] planType = PlanType.values();
+		model.addAttribute("planType",PlanType.values());
 		model.addAttribute("type", type);
 		return "/plan/admin/add";
 	}
