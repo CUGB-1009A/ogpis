@@ -74,51 +74,5 @@
 </div>
 <script type="text/javascript">
 
-	$(function() {
-		//alert("${navUL}");
-		var expandingMenus= "${menus}";
-		var expandingMenusArray = expandingMenus.split(',')
-		for (var i = 0; i < expandingMenusArray.length; i++) {
-			expendMenu($("#"+expandingMenusArray[i]));
-		}
-		
-		$(".menu").click(function(e){
-			addParam(e.target);
-			alert(e.target.href)
-		});
-	});
-
-	/**
-	* 展开菜单
-	*/
-	function expendMenu($ul) {
-		if ($ul.length) {
-			$ul.addClass("in").css("height", "auto");
-		}
-	}
-
 	
-	/**
-	 *为URL添加状态参数
-	 */
-	function addParam($a) {
-		var url = $a.href + "";
-		alert(url)
-		//alert(url);
-		if (url.indexOf("#") == -1) {
-			var $expandingMenus = $("ul .in");
-			var appendURL = "&menus=";
-			for (var i = 0; i < $expandingMenus.length; i++) {
-				appendURL += $expandingMenus[i].id;
-				if (i != $expandingMenus.length - 1) {
-					appendURL += ",";
-				}
-				//alert($expendMenus[i].id);
-				///$a.href+=$expendMenus[i].id;
-			}
-			$a.href = url + appendURL;
-			alert($a.href)
-			//alert($a.href);
-		}
-	}
 </script>

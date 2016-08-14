@@ -42,7 +42,9 @@
 															编辑
 														</a>
 														&nbsp;
-														<a href="javascript:delIndex('<c:url value='/plan/admin/deleteIndex?planId=${item.plan.id}&&indexId=${item.index.id}&&type=${type}'/>');" class="btn-sm btn-app btn-danger no-radius" >
+														<a href="<c:url value='/plan/admin/deleteIndex?planId=${item.plan.id}&&indexId=${item.index.id}&&type=${type}'/>"
+															onclick="return delIndex()" 
+															class="menu btn-sm btn-app btn-danger no-radius" >
 															<i class="icon-trash bigger-200"></i>
 															删除
 														</a>
@@ -137,6 +139,12 @@ function delIndex(url) {
 	if (isDel) {
 		window.location.href = url;
 	}
+}
+function delIndex(){
+	alert("sdf");
+	var isDel = confirm('确定删除该指标项？', '确认对话框');
+	return isDel;
+	
 }
 function isContains(plan){
 	

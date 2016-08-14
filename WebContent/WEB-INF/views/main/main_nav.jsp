@@ -5,7 +5,7 @@
     String timeStamp = System.currentTimeMillis()+"";
 %>
 <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
-<div class="collapse navbar-collapse navbar-ex1-collapse" align="left">
+<div id="navDiv" class="collapse navbar-collapse navbar-ex1-collapse" align="left">
     <ul class="nav navbar-nav side-nav pull-left">   
          <li>
             <a href="<%=basePath%>/plan/list?timeStamp=<%=timeStamp%>&&type=QG&&condition=" class="menu"><i class="glyphicon glyphicon-star"></i> 全国规划<i></i></a>
@@ -118,49 +118,6 @@
     </ul>
 </div>
 <script type="text/javascript">
-$(function() {
-	//alert("${navUL}");
-	var expandingMenus= "${menus}";
-	var expandingMenusArray = expandingMenus.split(',')
-	for (var i = 0; i < expandingMenusArray.length; i++) {
-		expendMenu($("#"+expandingMenusArray[i]));
-	}
-	
-	$(".menu").click(function(e){
-		addParam(e.target);
-	});
-});
-
-/**
-* 展开菜单
-*/
-function expendMenu($ul) {
-	if ($ul.length) {
-		$ul.addClass("in").css("height", "auto");
-	}
-}
-
-
-/**
- *为URL添加状态参数
- */
-function addParam($a) {
-	var url = $a.href + "";
-
-	if (url.indexOf("#") == -1) {
-		var $expandingMenus = $("ul .in");
-		var appendURL = "&menus=";
-		for (var i = 0; i < $expandingMenus.length; i++) {
-			appendURL += $expandingMenus[i].id;
-			if (i != $expandingMenus.length - 1) {
-				appendURL += ",";
-			}
-
-		}
-		$a.href = url + appendURL;
-	}
-}
-
 <%--  function addMenu(temp)
 {
 	if(temp.url!=null)
