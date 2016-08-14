@@ -14,13 +14,11 @@
 						    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/UEditor/ueditor.all.js"></script>
 						    <!-- 实例化编辑器 -->
 						    <script type="text/javascript">
-						    var ue = UE.getEditor('container',
-					        		 
-				        			 {
-				        	toolbars:[],
-				        	wordCount:false,  
-			                //关闭elementPath  
-			                elementPathEnabled:false
+						    var ue = UE.getEditor('container',{
+						        	toolbars:[],
+						        	wordCount:false,  
+					                //关闭elementPath  
+					                elementPathEnabled:false
 				        			 });
 			    			</script>
 						</div>
@@ -30,7 +28,4 @@
 	 </div>
 	<script>
 
-	 CKEDITOR.on('instanceReady', function (ev) {
-         ev.editor.setReadOnly(true); 
-     });
 	</script>

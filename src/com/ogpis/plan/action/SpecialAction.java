@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.ogpis.base.action.BaseAction;
 import com.ogpis.index.entity.IndexDataManagement;
 import com.ogpis.index.entity.IndexManagement;
 import com.ogpis.index.service.IndexManagementService;
@@ -19,7 +20,7 @@ import com.ogpis.plan.service.Plan_IndexService;
 
 
 @Controller
-public class SpecialAction {
+public class SpecialAction extends BaseAction {
 	@Autowired Plan_IndexService plan_IndexService;
 	@Autowired PlanService planService;
 	@Autowired IndexManagementService indexManagementService;
@@ -27,6 +28,7 @@ public class SpecialAction {
 
 	@RequestMapping(value = "/special/list")
 	public String list(HttpServletRequest request, ModelMap model,String mineType) {
+		super.addMenuParams(request, model);
 		StringBuilder result = new StringBuilder();
 		//第一步找出所有的全国规划
 		List<Plan> planList = planService.findAll(false, "QG", "");

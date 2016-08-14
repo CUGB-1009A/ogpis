@@ -44,10 +44,6 @@
 		<div class="breadcrumbs" id="breadcrumbs" style="text-align: left;">
 			<ul class="breadcrumb">
 				<li>
-					<i class="icon-home home-icon"></i>
-					<a href="<c:url value='/main'/>">首页</a>
-				</li>
-				<li>
 					<a href="<%=path%>/plan/list?type=${type}&&condition=">
 					<c:if test='<%=type.equals("QG")%>'>
 							全国规划
@@ -96,7 +92,9 @@
 									<h5><b>概述</b></h5>
 										<p style="font-family:楷体;text-indent: 30px;font-size: 15px;height: 275px;overflow:auto; width:100%">
 											<b>${plan.planName}</b>是<b>${plan.releaseUnit}</b>于<b><fmt:formatDate value="${plan.releaseDate}" pattern="YYYY-MM-dd"/></b>
-											发布的规划，规划代号为<b>${plan.planCode}</b>，规划时间段是从<b><fmt:formatDate value="${plan.startTime}" pattern="YYYY-MM-dd"/></b>到<b><fmt:formatDate value="${plan.endTime}" pattern="YYYY-MM-dd"/></b>。
+											发布的规划，规划代号为<b>${plan.planCode}</b>，规划时间段是从<b><fmt:formatDate value="${plan.startTime}" pattern="YYYY-MM-dd"/>
+											</b>到<b><fmt:formatDate value="${plan.endTime}" pattern="YYYY-MM-dd"/></b>。“规划的简短描述”：
+											${plan.planShortDescription}
 										</p>						
 								</div>
 						 </div>
@@ -135,14 +133,14 @@ var option = {
    },
    legend: {
 	 data:[],
-	 x:'left',
-     y:'top'
+	 x:'center',
+     y:'top',
+     padding:[30,0,0,0]
    },
    toolbox: {
        show : true,
        feature : {
-           saveAsImage : {show: true},
-           dataView : {show: true, readOnly: false}
+           saveAsImage : {show: true}
        }
    },
     grid: {
@@ -290,7 +288,7 @@ require(
 	        		tempLegend = tempLegend +obj[0].year + "]}";
 	        	for(var ii=0;ii<obj[0].year.length;ii++)
 	        		{
-						tempSeries = tempSeries + "{ itemStyle: {normal: {label : {show:true, position: 'insideRight',textStyle: {color: '#800080'},formatter:'{c} %'}}},type:'bar',stack:'总量',name:"+ obj[0].year[ii]+",data:[";
+						tempSeries = tempSeries + "{ itemStyle: {normal: {label : {show:true, position: 'right',textStyle: {color: '#800080'},formatter:'{c}%'}}},type:'bar',stack:'总量',name:"+ obj[0].year[ii]+",data:[";
 						for(var l=0;l<obj.length;l++)
 							{
 							tempSeries = tempSeries + (obj[l].value[ii]/obj[l].indexValue*100).toFixed(1)+","

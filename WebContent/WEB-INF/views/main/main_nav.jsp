@@ -59,7 +59,7 @@
         </li>
         
              <li>
-            <a href="#international" data-toggle="collapse" class="nav-header collapsed" ><i class="glyphicon glyphicon-plane" ></i> 国际形势<i class="fa fa-fw fa-caret-down"></i></a>
+            <a href="#international" data-toggle="collapse" class="nav-header collapsed" ><i class="glyphicon glyphicon-plane" ></i> 国际形势 <i class="fa fa-fw fa-caret-down"></i></a>
             <ul id="international" class="nav nav-list secondmenu collapse" style="height:0px;" >
                 <li>
             		<a href="<c:url value='/international/show?companyName=bp'/>" class="menu"><i class="glyphicon glyphicon-star"></i> BP公司<i></i></a>
@@ -80,7 +80,7 @@
          </li>
                  
          <li>           
-            <a href="<c:url value='/main'/>"><i class="glyphicon glyphicon-heart"></i> 我的收藏</a>
+            <a href="<c:url value='/main'/>"><i class="glyphicon glyphicon-heart" class="menu"></i> 我的收藏</a>
          </li>
        
     <%--     <shiro:hasPermission name="document:management">
@@ -118,10 +118,49 @@
     </ul>
 </div>
 <script type="text/javascript">
-	/*
-	 * 动态添加导航栏菜单
-	 *@temp:是topmenu
-	 */
+$(function() {
+	//alert("${navUL}");
+	var expandingMenus= "${menus}";
+	var expandingMenusArray = expandingMenus.split(',')
+	for (var i = 0; i < expandingMenusArray.length; i++) {
+		expendMenu($("#"+expandingMenusArray[i]));
+	}
+	
+	$(".menu").click(function(e){
+		addParam(e.target);
+	});
+});
+
+/**
+* 展开菜单
+*/
+function expendMenu($ul) {
+	if ($ul.length) {
+		$ul.addClass("in").css("height", "auto");
+	}
+}
+
+
+/**
+ *为URL添加状态参数
+ */
+function addParam($a) {
+	var url = $a.href + "";
+
+	if (url.indexOf("#") == -1) {
+		var $expandingMenus = $("ul .in");
+		var appendURL = "&menus=";
+		for (var i = 0; i < $expandingMenus.length; i++) {
+			appendURL += $expandingMenus[i].id;
+			if (i != $expandingMenus.length - 1) {
+				appendURL += ",";
+			}
+
+		}
+		$a.href = url + appendURL;
+	}
+}
+
 <%--  function addMenu(temp)
 {
 	if(temp.url!=null)

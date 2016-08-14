@@ -66,7 +66,7 @@
 				  		<c:forEach items="${indexList}" var="item"  varStatus="status">
 				  			<div id="tableDiv_${status.index}">
 				  				<table class="col-xs-12">
-									<caption align="top" id="caption_${status.index}"></caption>
+									<caption align="top" style="text-align:center" id="caption_${status.index}"></caption>
 									<thead id="thead_${status.index}">
 										<tr id="tr_${status.index}">
 											
@@ -95,13 +95,13 @@
 	
 	for(var t=0;t<obj.length;t++)//几个table
 		{
-		$("#caption_"+t)[0].innerHTML = obj[t].indexName+'各规划历年完成百分比';
+		$("#caption_"+t)[0].innerHTML = '<b>'+obj[t].indexName+'各规划历年完成百分比</b>';
 		for(var n=-1;n<obj[0].plans.length;n++)//table的行数
 			{
 			if(n==-1)//table的第一行
 				{
 				$("#tr_"+t).append("<td></td>");
-			 	$("#tr_"+t).append("<td>目标("+ obj[t].indexUnit +")</td>");
+			 	$("#tr_"+t).append("<td>目标<br>("+ obj[t].indexUnit +")</td>");
 				for(m=1;m<obj[0].plans[0].year.length+1;m++)
 					$("#tr_"+t).append("<td>第"+m+"年</td>");
 				$("#tr_"+t).append("<td>合计</td>");
@@ -142,27 +142,23 @@
 			        trigger: 'axis'
 			    },
 			    legend: {
-			        orient:'vertical',
-			        x:'left',
-			        y:'top'
+			        x:'center',
+			        y:'top',
+			        padding:[40,0,40,0]
 			        
 			    },
-			    grid: {
-			        x: '150px',
-			        x2:'40px'
-			    }, 
-			    xAxis : [
+			    yAxis : [
 			        {
 			            type : 'value',
 			            axisLabel: {
 			              	 show: true,
 			              	 interval: 'auto',
-			              	 formatter: '{value} %'
+			              	 formatter: '{value}%'
 			              	 },
 			            boundaryGap : [0, 0.01]
 			        }
 			    ],
-			    yAxis : [
+			    xAxis : [
 			        {
 			            type : 'category',
 			            data:[]
@@ -175,7 +171,7 @@
 	var option2 = {
 		    title: {
 		        text: '',
-		        x: 'right',            
+		        x: 'center',            
 		        y: 'top'
 		    },
 		    tooltip: {
@@ -183,14 +179,10 @@
 		    },
 		    legend: {
 		        data:[],
-		        orient:'vertical',
-		        x:'left',
-		        y:'top'
+		        x:'center',
+		        y:'top',
+		        padding:[40,0,40,0]
 		    },
-		    grid: {
-		        x: '150px',
-		        x2:'40px'
-		    }, 
 		    xAxis:  {
 		        type: 'category',
 		        boundaryGap: false,
@@ -203,17 +195,11 @@
 		    series: [
 		    ]
 		};
-	
-		require.config({
-		    paths: {
-		        echarts: '<%=request.getContextPath()%>/assets/dist'
-		    }
-		});
 		
 		option3 = {
 			    title : {
 			        text: '',
-			        x: 'right',            
+			        x: 'center',            
 			        y: 'top'
 			    },
 			    tooltip : {
@@ -221,9 +207,9 @@
 			    },
 			    legend: {
 			        data:['规划完成情况','目标值'],
-			        x: 'left',            
+			        x: 'center',            
 			        y: 'top',
-			        orient:'vertical'
+			        padding:[40,0,40,0]
 			    },
 			    xAxis : [
 			        {
@@ -245,7 +231,8 @@
 		        			{
 		        				label : 
 		        				{
-		        					show:true
+		        					show:true,
+		        					position: 'inside'
 		        				}
 		        	        }
 	                 },
@@ -260,7 +247,9 @@
 		        			{
 		        				label : 
 		        				{
-		        					show:true
+		        					show:true,
+		        					position: 'inside',
+		        					color: '#C1232B'
 		        				}
 		        	        }
 	                 },
@@ -269,7 +258,13 @@
 			            data:[]
 			        }
 			    ]
-			};                       
+			};  
+		
+		require.config({
+		    paths: {
+		        echarts: '<%=request.getContextPath()%>/assets/dist'
+		    }
+		});
 		// 使用
 		require(
 		    [
@@ -279,7 +274,7 @@
 		    ],
 		    function (ec) {
 				var legendData = "{\"legend\":[";
-				var yAxisData = "{\"yAxis\":[";
+				var xAxisData = "{\"xAxis\":[";
 				var tempSeries = "{\"series\":[";
 				for(var i=0;i<obj[0].plans.length;i++)
 					{
@@ -287,14 +282,14 @@
 					}
 				for(var j=0;j<obj.length;j++)
 					{
-					yAxisData = yAxisData +"'"+obj[j].indexName+"',";
+					xAxisData = xAxisData +"'"+obj[j].indexName+"',";
 					}
 				legendData = legendData.substring(0,legendData.length-1)+"]}";
-				yAxisData = yAxisData.substring(0,yAxisData.length-1)+"]}";
+				xAxisData = xAxisData.substring(0,xAxisData.length-1)+"]}";
 				
 				for(k=0;k<obj[0].plans.length;k++)
 					{
-						tempSeries = tempSeries + "{itemStyle:{normal:{label : {show:true,formatter:'{c} %'}} },name:'"+obj[0].plans[k].planName+"',type:'bar',data:[";
+						tempSeries = tempSeries + "{itemStyle:{normal:{label : {show:true,position:'inside',formatter:'{c}%'}} },name:'"+obj[0].plans[k].planName+"',type:'bar',data:[";
 						for(l=0;l<obj.length;l++)
 							{
 							tempSeries = tempSeries + (obj[l].plans[k].hasFinished/obj[l].plans[k].indexValue*100).toFixed(1)+",";
@@ -303,10 +298,10 @@
 					}
 				tempSeries = tempSeries.substring(0,tempSeries.length-1)+"]}";
 				var legend = eval("(" + legendData + ")");
-				var yAxis = eval("(" + yAxisData + ")");
+				var xAxis = eval("(" + xAxisData + ")");
 				var series = eval("(" + tempSeries + ")");					
 				option1.legend.data = legend.legend;
-				option1.yAxis[0].data = yAxis.yAxis;
+				option1.xAxis[0].data = xAxis.xAxis;
 				option1.series = series.series;
 		    	var myCharts = ec.init($(".charts1")[0]);
 		    	myCharts.setOption(option1);
@@ -327,7 +322,7 @@
 			    		var tempSeriesChart1 = "{\"series\":[";
 			    		for(k=0;k<obj[0].plans.length;k++)
 						{
-			    			tempSeriesChart1 = tempSeriesChart1 + "{itemStyle:{normal:{label : {show:true}} },name:'"+obj[0].plans[k].planName+"',type:'line',data:["+obj[ii].plans[k].value+"]},";
+			    			tempSeriesChart1 = tempSeriesChart1 + "{itemStyle:{normal:{label : {show:true,position: 'top'}}},name:'"+obj[0].plans[k].planName+"',type:'line',data:["+obj[ii].plans[k].value+"]},";
 			    		}
 			    		tempSeriesChart1 = tempSeriesChart1.substring(0,tempSeriesChart1.length-1)+"]}"	
 			    		var seriesChart1 = eval("(" + tempSeriesChart1 + ")");

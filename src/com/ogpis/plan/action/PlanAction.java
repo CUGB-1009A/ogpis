@@ -135,6 +135,7 @@ public class PlanAction extends BaseAction {
 	@RequestMapping(value = "/plan/user_detail")
 	public String user_detail(HttpServletRequest request, ModelMap model,
 			String id, String listType) {
+		super.addMenuParams(request, model);
 		Plan plan = planService.findById(id);
 		model.addAttribute("plan", plan);
 		model.addAttribute("type", plan.getPlanType());

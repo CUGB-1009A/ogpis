@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ogpis.base.action.BaseAction;
 import com.ogpis.document.entity.PlanDocument;
 import com.ogpis.plan.entity.Plan;
 import com.ogpis.system.entity.User;
@@ -23,7 +24,7 @@ import com.ogpis.system.service.MenuItemService;
 import com.ogpis.system.service.UserService;
 
 @Controller
-public class WelcomeAction {
+public class WelcomeAction extends BaseAction {
 	
 	@Autowired 
 	MenuItemService menuItemService;
@@ -54,6 +55,7 @@ public class WelcomeAction {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
 	public String main(HttpServletResponse resppose,HttpServletRequest request,ModelMap model) {
+		super.addMenuParams(request, model);
 		LinkedHashMap map ;
 		List<LinkedHashMap> mapList = new ArrayList<LinkedHashMap>();
 		String currentUserName = request.getUserPrincipal().getName();
