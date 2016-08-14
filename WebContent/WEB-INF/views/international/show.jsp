@@ -36,6 +36,13 @@
 		<div class="col-md-12">
 			<script id="container" name="content" type="text/plain" style="height:400px" >${international.content}</script>
 		    <!-- 配置文件 -->
+		    <c:if test="${international.fileName!=null}">
+						附件:${international.fileName}
+						<a  href="<c:url value='/international/download?companyName=${international.companyName}'/>" class="btn-sm btn-app btn-primary no-radius">
+							<i class="icon-arrow-down bigger-200"></i>
+							下载
+						</a>
+			</c:if>
 		    <script type="text/javascript" src="<%=path%>/assets/UEditor/ueditor.config.js"></script>
 		    <!-- 编辑器源码文件 -->
 		    <script type="text/javascript" src="<%=path%>/assets/UEditor/ueditor.all.js"></script>
