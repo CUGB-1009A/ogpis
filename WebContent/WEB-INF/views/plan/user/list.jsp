@@ -362,7 +362,15 @@ $("#collapseOne0").addClass("in");
 
 function showDetail(planId,listType)
 {
-	window.location.href = "<%=path%>/plan/user_detail?id="+planId+"&&listType="+listType;
+		var $expandingMenus = $("ul .in");
+		var appendURL = "&menus=";
+		for (var i = 0; i < $expandingMenus.length; i++) {
+			appendURL += $expandingMenus[i].id;
+			if (i != $expandingMenus.length - 1) {
+				appendURL += ",";
+			}
+	}
+	window.location.href = "<%=path%>/plan/user_detail?id="+planId+"&&listType="+listType+appendURL;
 }
 
 

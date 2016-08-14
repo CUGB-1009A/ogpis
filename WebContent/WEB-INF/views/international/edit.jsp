@@ -36,7 +36,7 @@
 				 <!-- 加载编辑器的容器 -->
 				 <form action="<%=path%>/international/save" method="post">
 				 	<input type="hidden" name="companyName" value="${international.companyName}">
-				    <script id="container" name="content" type="text/plain">${international.content}</script>
+				    <script id="container" name="content" type="text/plain" style="height:400px">${international.content}</script>
 		    		<button type="submit">保存</button>
 		    	</form>
 			    <!-- 配置文件 -->

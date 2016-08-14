@@ -44,10 +44,6 @@
 		<div class="breadcrumbs" id="breadcrumbs" style="text-align: left;">
 			<ul class="breadcrumb">
 				<li>
-					<i class="icon-home home-icon"></i>
-					<a href="<c:url value='/main'/>">首页</a>
-				</li>
-				<li>
 					<a href="<%=path%>/plan/list?type=${type}&&condition=">
 					<c:if test='<%=type.equals("QG")%>'>
 							全国规划
