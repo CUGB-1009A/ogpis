@@ -186,16 +186,22 @@ public class PlanDocumentAction extends BaseAction {
 			 Ids = Ids.substring(Ids.indexOf(",")+1,Ids.length());
 			 idList.add("\'"+idTemp+"\'");
 		 }
-		 PlanDocument planDocument = null;
+		 List<PlanDocument> planDocuments = new ArrayList<PlanDocument>();
 		 File filePath = null;
-		 String temp = "";
+		/* String temp = "";*/
 		 //第一步删除对应id的文件
-		for(int i=0;i<idList.size();i++)
+	/*	for(int i=0;i<idList.size();i++)
 		{
 			temp = idList.get(i).toString();
 			System.out.println(temp.substring(1,temp.length()));
-			planDocument = planDocumentService.findById(temp.substring(1,temp.length()-1));
+			
 			filePath = new File(request.getServletContext().getRealPath("/")+ planDocument.getDocumentAddress()); 
+			if(filePath.exists())
+				  filePath.delete();
+		}*/
+		for(PlanDocument temp : planDocuments)
+		{
+			filePath = new File(request.getServletContext().getRealPath("/")+ temp.getDocumentAddress()); 
 			if(filePath.exists())
 				  filePath.delete();
 		}

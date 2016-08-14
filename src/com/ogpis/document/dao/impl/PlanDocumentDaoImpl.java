@@ -72,6 +72,19 @@ public class PlanDocumentDaoImpl extends BaseDaoImpl<PlanDocument,String>impleme
 		this.getHibernateTemplate().bulkUpdate(hql,null);
 		
 	}
+	
+	@Override
+	public List<PlanDocument> findByIds(ArrayList idList) {
+		// TODO Auto-generated method stub
+		String temp="";
+		for(int i=0;i<idList.size();i++)
+		{
+			temp+=idList.get(i)+",";
+		}
+		temp=temp.substring(0, temp.length()-1);
+		String sql = "select * from PlanDocument m where m.id in ("+temp+")";
+		return this.queryBySql(sql);
+	}
 
 	@Override
 	public IPageList<PlanDocument> getDocumentsByPlan(String selectCondition, String inputValue, String selectValue,
@@ -130,5 +143,7 @@ public class PlanDocumentDaoImpl extends BaseDaoImpl<PlanDocument,String>impleme
 				.toString());
 		return PageListUtil.getPageList(count, pageNo, items, pageSize);
 	}
+
+
 
 }

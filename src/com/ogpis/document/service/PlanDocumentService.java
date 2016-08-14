@@ -1,6 +1,7 @@
 package com.ogpis.document.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.ogpis.base.common.paging.IPageList;
 import com.ogpis.base.service.BaseService;
@@ -22,5 +23,7 @@ public interface PlanDocumentService extends BaseService<PlanDocument,String>{
 	IPageList<PlanDocument> getTrashDocumentsCondition(String condition, int pageNo, int pageSize);
 
 	IPageList<PlanDocument> getOnePlanDocument(int pageNo, int pageSize, String id);
+
+	List<PlanDocument> findByIds(ArrayList idList);
 
 }

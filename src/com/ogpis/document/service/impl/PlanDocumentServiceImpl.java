@@ -1,6 +1,7 @@
 package com.ogpis.document.service.impl;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -64,6 +65,12 @@ implements PlanDocumentService{
 	public IPageList<PlanDocument> getOnePlanDocument(int pageNo, int pageSize, String id) {
 
 		return getPlanDocumentDao().getOnePlanDocument(pageNo,pageSize,id);
+	}
+
+	@Override
+	public List<PlanDocument> findByIds(ArrayList idList) {
+		// TODO Auto-generated method stub
+		return getPlanDocumentDao().findByIds(idList);
 	}
 
 }

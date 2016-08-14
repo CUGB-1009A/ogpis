@@ -1,6 +1,7 @@
 package com.ogpis.document.dao;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.ogpis.base.common.paging.IPageList;
 import com.ogpis.base.dao.BaseDao;
@@ -22,5 +23,7 @@ public interface PlanDocumentDao extends BaseDao<PlanDocument,String> {
 	IPageList<PlanDocument> getDocumentsByPlan(String condition, int pageNo, int pageSize);
 
 	IPageList<PlanDocument> getOnePlanDocument(int pageNo, int pageSize, String id);
+
+	List<PlanDocument> findByIds(ArrayList idList);
 
 }
