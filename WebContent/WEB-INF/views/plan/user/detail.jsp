@@ -288,7 +288,7 @@ require(
 	        		tempLegend = tempLegend +obj[0].year + "]}";
 	        	for(var ii=0;ii<obj[0].year.length;ii++)
 	        		{
-						tempSeries = tempSeries + "{ itemStyle: {normal: {label : {show:true, position: 'right',textStyle: {color: '#800080'},formatter:'{c}%'}}},type:'bar',stack:'总量',name:"+ obj[0].year[ii]+",data:[";
+						tempSeries = tempSeries + "{ itemStyle: {normal: {label : {show:true, position: 'insideRight',textStyle: {color: '#800080'},formatter:'{c}%'}}},type:'bar',stack:'总量',name:"+ obj[0].year[ii]+",data:[";
 						for(var l=0;l<obj.length;l++)
 							{
 							tempSeries = tempSeries + (obj[l].value[ii]/obj[l].indexValue*100).toFixed(1)+","

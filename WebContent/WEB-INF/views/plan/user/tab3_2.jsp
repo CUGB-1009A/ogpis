@@ -13,7 +13,7 @@
 						<c:if test="${item.index.indexType=='1'}">
 							<div class="row">
 									<div class="col-xs-12">  
-								    		
+								    		<h3 style="text-align:left">${status.index}、${item.index.indexName}完成情况</h3>
 								    		<div class="col-xs-6"> 
 												<div class="charts3" style="height:300px;width:600px;" align="center">	
 												

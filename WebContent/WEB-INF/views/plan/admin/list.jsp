@@ -43,7 +43,7 @@
 												<i class="icon-search bigger-200">&nbsp;查询</i>
 									</a>
 											&nbsp;&nbsp;
-									<a href="<%=path%>/plan/toEditPage?type=${type}" class="btn-sm btn-app btn-success no-radius">
+									<a href="<c:url value='/plan/toEditPage?type=${type}'/>" class="menu btn-sm btn-app btn-success no-radius">
 											<i class="icon-plus bigger-200">&nbsp;添加规划</i>
 									</a>
 										&nbsp;&nbsp;								

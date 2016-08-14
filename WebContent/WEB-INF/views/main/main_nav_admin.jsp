@@ -84,6 +84,7 @@
 		
 		$(".menu").click(function(e){
 			addParam(e.target);
+			alert(e.target.href)
 		});
 	});
 
@@ -102,6 +103,7 @@
 	 */
 	function addParam($a) {
 		var url = $a.href + "";
+		alert(url)
 		//alert(url);
 		if (url.indexOf("#") == -1) {
 			var $expandingMenus = $("ul .in");
@@ -115,6 +117,7 @@
 				///$a.href+=$expendMenus[i].id;
 			}
 			$a.href = url + appendURL;
+			alert($a.href)
 			//alert($a.href);
 		}
 	}

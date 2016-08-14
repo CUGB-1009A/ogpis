@@ -204,6 +204,7 @@ public class PlanAction extends BaseAction {
 	@RequestMapping(value = "/plan/toEditPage")
 	public String toEditPage(HttpServletRequest request, ModelMap model,
 			String type) {
+		super.addMenuParams(request, model);
 		model.addAttribute("planType",PlanType.values());
 		model.addAttribute("type", type);
 		return "/plan/admin/add";
