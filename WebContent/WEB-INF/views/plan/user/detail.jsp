@@ -17,8 +17,8 @@
 <html>
 <body>
 
-<script src="<%=path%>/assets/bootstrapTable/js/jquery.min.js"></script>
-<script src="<%=path%>/assets/bootstrapTable/js/bootstrap.min.js"></script>
+<%-- <script src="<%=path%>/assets/bootstrapTable/js/jquery.min.js"></script>
+<script src="<%=path%>/assets/bootstrapTable/js/bootstrap.min.js"></script> --%>
 <script src="<%=path%>/assets/bootstrapTable/js/tableExport.js"></script>
 <script src="<%=path%>/assets/bootstrapTable/js/jquery.base64.js"></script>
 <script src="<%=path%>/assets/bootstrapTable/js/bootstrap-table.js"></script>
