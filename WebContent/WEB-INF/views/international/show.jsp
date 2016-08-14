@@ -47,7 +47,8 @@
 		        	toolbars:[],
 		        	wordCount:false,  
 	                //关闭elementPath  
-	                elementPathEnabled:false
+	                elementPathEnabled:false,
+	                readonly:true
 		        			 });
 		    </script>
 		 </div>
