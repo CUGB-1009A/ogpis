@@ -38,6 +38,7 @@
 <script src="<%=path %>/assets/bootstrap/js/bootstrap-select.min.js"></script>
 <script src="<%=path %>/assets/js/jquery.backstretch.min.js"></script>
 <script src="<%=path %>/assets/js/scripts.js"></script>
+<script src="<%=path %>/assets/js/menus.js"></script>
 <%-- <script src="<%=path %>/js/main.js"></script> --%>
 
 <%-- <script src="<%=path %>/assets/js/ace-extra.min.js"></script> --%>
