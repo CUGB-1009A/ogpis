@@ -79,15 +79,29 @@
 						        </a>
 						        <span>发布时间：</span><fmt:formatDate value="${item1.get('plan').releaseDate}" pattern="YYYY-MM-dd"/>&nbsp;&nbsp;&nbsp;&nbsp;
 								<span>发布单位：${item1.get('plan').releaseUnit}</span>
+								<c:if test="${listType.equals('user')}">
+									<c:if test="${item1.get('isconcerned')}">
+										 <button class="disconcern" value="${item1.get('plan').id}" >取消收藏</button>
+										 <button class="concern" value="${item1.get('plan').id}" style="display:none">收藏</button>
+									</c:if>		
+									<c:if test="${!item1.get('isconcerned')}">
+										<button class="disconcern" value="${item1.get('plan').id}" style="display:none">取消收藏</button>
+										<button class="concern" value="${item1.get('plan').id}">收藏</button>
+									</c:if>						
+								 </c:if>
+								 <c:if test="${listType.equals('concern')}">
+										 <button class="disconcern_1" value="${item1.get('plan').id}" >取消收藏</button>
+								 </c:if>
 		               		</h4>
+		              
 		          		</div>
 		               
 			           <div id="collapseOne${status.index}" class="removeIn panel-collapse collapse in" style="width:100%;">
-						 <div class="panel-body">
+						 <div class="panel-body" style="padding-bottom:0px">
 				    		<div class="col-xs-12">  
 					    		<!-- 主图 -->	
 					    		<div class="col-xs-6"> 
-					    				<textarea class="inputsmain" style="display:none">${item1.get('plan').indexDataInPlanYear}</textarea>				
+					    			<textarea class="inputsmain" style="display:none">${item1.get('plan').indexDataInPlanYear}</textarea>				
 									<div class="charts charts_${status.index}" style="height:300px;width:100%" align="center" onclick="showDetail('${item1.get('plan').id}','${listType}')">	
 
 									</div>
@@ -110,7 +124,10 @@
 								</div>
 						 </div>
 					 </div>
-					 <c:if test="${listType.equals('user')}">
+					 <div class="panel-footer" style="text-align:center;background:white;margin-top:0px;padding:0px">
+						  ${item1.get('plan').planShortDescription}
+					  </div>
+					 <%-- <c:if test="${listType.equals('user')}">
 						 <div class="panel-footer" style="text-align:right;background:white">
 							<c:if test="${item1.get('isconcerned')}">
 								 <button class="disconcern" value="${item1.get('plan').id}" >取消收藏</button>
@@ -127,7 +144,7 @@
 					  	<div class="panel-footer" style="text-align:right;background:white">
 							 <button class="disconcern_1" value="${item1.get('plan').id}" >取消收藏</button>
 					 	</div>
-					 </c:if>
+					 </c:if> --%>
 				 </div>	
 			</div>
 		</c:forEach>
