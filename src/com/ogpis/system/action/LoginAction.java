@@ -15,12 +15,14 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.ogpis.base.common.utils.CookieUtil;
 import com.ogpis.system.entity.User;
 import com.ogpis.system.service.UserService;
 
 @Controller
 public class LoginAction {
-	@Autowired UserService userService ;
+	@Autowired
+	UserService userService;
 
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String test() {
@@ -29,21 +31,22 @@ public class LoginAction {
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String login(String username, String password,ModelMap model,
-			HttpServletRequest request) {
+	public String login(String username, String password, ModelMap model,
+			HttpServletRequest request, HttpServletResponse response) {
+		CookieUtil.delCookie(request, response, "menus");
 		System.out.println("login");
 		System.out.println("username:" + username);
 		System.out.println("password:" + password);
 		SecurityUtils.getSecurityManager().logout(SecurityUtils.getSubject());
 		// 登录后存放进shiro token
-		UsernamePasswordToken token = new UsernamePasswordToken(
-				username, password);
+		UsernamePasswordToken token = new UsernamePasswordToken(username,
+				password);
 		try {
 			System.out.println("login");
 			Subject subject = SecurityUtils.getSubject();
 			subject.login(token);
 			model.addAttribute("type", "QG");
-			model.addAttribute("condition","");
+			model.addAttribute("condition", "");
 			return "redirect:/plan/list";
 		} catch (AuthenticationException e) {
 			e.printStackTrace();
@@ -51,25 +54,27 @@ public class LoginAction {
 			return "index";
 		}
 	}
-	
+
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
-	public String logout(String username, String password,ModelMap model,
+	public String logout(String username, String password, ModelMap model,
 			HttpServletRequest request) {
-		System.out.println("logout");	
+		System.out.println("logout");
 		SecurityUtils.getSecurityManager().logout(SecurityUtils.getSubject());
 
-			return "index";
-		}
-	
-	@RequestMapping(value = "/getUserInfo", method = RequestMethod.GET)
-	public void getUserInfo(ModelMap model,HttpServletResponse resp,HttpServletRequest request) throws IOException {
-		 String currentUserName = request.getUserPrincipal().getName();
-	  	 User user = userService.findByUserName(currentUserName);
-	  	 String password = user.getPassword();
-	  	 String result = "{\"username\":\""+currentUserName+"\",\"password\":\""+password+"\"}";
-		 resp.setContentType("application/json");
-	     resp.setCharacterEncoding("utf-8");
-		 resp.getWriter().write(result);	
+		return "index";
+	}
 
-		}
+	@RequestMapping(value = "/getUserInfo", method = RequestMethod.GET)
+	public void getUserInfo(ModelMap model, HttpServletResponse resp,
+			HttpServletRequest request) throws IOException {
+		String currentUserName = request.getUserPrincipal().getName();
+		User user = userService.findByUserName(currentUserName);
+		String password = user.getPassword();
+		String result = "{\"username\":\"" + currentUserName
+				+ "\",\"password\":\"" + password + "\"}";
+		resp.setContentType("application/json");
+		resp.setCharacterEncoding("utf-8");
+		resp.getWriter().write(result);
+
+	}
 }
