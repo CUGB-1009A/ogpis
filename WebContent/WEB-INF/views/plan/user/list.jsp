@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>油气资源规划管理系统</title>
+    <title>油气资源规划信息系统</title>
      <%
     	/* String type = request.getAttribute("type").toString(); */
         /* String plansNumber = request.getAttribute("plansNumber").toString(); */

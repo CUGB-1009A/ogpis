@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>油气资源规划管理系统</title>
+    <title>油气资源规划信息系统</title>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -27,7 +27,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-8 col-sm-offset-2 text">
-                    <h1><strong>油气资源规划管理系统</strong></h1>
+                    <h1><strong>油气资源规划信息系统</strong></h1>
                     <div class="description">
                     	<p>
                      	管理油气资源规划

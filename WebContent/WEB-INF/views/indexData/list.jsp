@@ -10,7 +10,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
      <link href="<%=path%>/assets/bootstrap/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
-    <title>油气资源规划管理系统</title>
+    <title>油气资源规划信息系统</title>
 </head>
 <html>
 <body>
@@ -72,7 +72,7 @@
 								<table class="table table-striped table-bordered table-hover" id="data-table">
 									<thead>
 										<tr>
-											<th>录入时间</th>
+											<th>年度</th>
 											<th>完成量</th>											
 											<th>操作</th>
 										</tr>
@@ -80,7 +80,7 @@
 									<tbody>
 										<c:forEach items="${indexDataList}" var="item1" varStatus="status">
 											<tr class="tr_${item1.id}">
-												<td><fmt:formatDate value="${item1.collectedTime}" pattern="YYYY-MM-dd"/></td>
+												<td><fmt:formatDate value="${item1.collectedTime}" pattern="YYYY"/></td>
 												<td><input id="input_${item1.id}" class="input_${item1.id}" type="text" value="${item1.finishedWorkload}" lastValue="${item1.finishedWorkload}" disabled="true"></td>
 												<td>
 													<p>
