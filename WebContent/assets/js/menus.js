@@ -16,6 +16,10 @@ $(function() {
 	$('#navDiv .nav-list').on('hidden.bs.collapse', function() {
 		setCookie("menus", getExpandingMenus(), 15);
 	});
+	
+//	window.onresize = function(){
+//		location.reload();
+//	}
 
 });
 
