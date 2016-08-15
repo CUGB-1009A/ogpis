@@ -61,4 +61,10 @@ public interface BaseService<T, ID extends Serializable> {
 	 */
 	public void batchMarkDelete(ID[] items);
 
+	/**
+	 * 批量保存
+	 * @param items
+	 */
+	void batchSave(List<T> items);
+
 }
