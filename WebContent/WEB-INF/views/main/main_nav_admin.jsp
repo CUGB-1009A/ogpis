@@ -58,7 +58,7 @@
             </ul>
         </li>
         
-           <li>
+  <%--          <li>
             <a href="#sys" data-toggle="collapse" class="nav-header collapsed"><i class="glyphicon glyphicon-cog"></i> 系统管理 <i class="fa fa-fw fa-caret-down"></i></a>
             <ul id="sys" class="nav nav-list collapse secondmenu" style="height:0px;">
                 <li>
@@ -69,7 +69,7 @@
                     <a href="<c:url value='/system/role/list?'/>" ><i class="glyphicon glyphicon-lock"></i> 角色管理 </a>
                 </li>            
             </ul>
-        </li>
+        </li> --%>
     </ul>
 </div>
 <script type="text/javascript">

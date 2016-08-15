@@ -34,9 +34,9 @@
 		            <a href="<%=basePath%>/plan/list?type=ZLM&&condition="><i class="glyphicon glyphicon-file"></i> 中联煤规划<i></i></a>
 		         </li> 
 		        
-		         <li>
+		         <%-- <li>
 		            <a href="<%=basePath%>/plan/list?type=QT&&condition="><i class="glyphicon glyphicon-file"></i> 其它公司规划<i></i></a>
-		         </li> 
+		         </li>  --%>
             </ul>
         </li>
         

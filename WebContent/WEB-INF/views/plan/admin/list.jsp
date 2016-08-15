@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %> 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@include file="/WEB-INF/views/init.jsp" %>
 <head>
     <meta charset="utf-8">
@@ -8,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>油气资源规划管理系统</title>
+    <title>油气资源规划信息系统</title>
 </head>
 <html >
 <body >
@@ -62,7 +63,7 @@
 										<tr>
 											<th class="table-checkbox"><input type="checkbox" class="group-checkable" name="checkboxFirst"/>全选</th>
 											<th>规划名称</th>
-											<th>规划代号</th>
+											<!-- <th>规划代号</th> -->
 											<th>规划类型</th>
 											<th>信息</th>											
 											<th>操作</th>
@@ -77,7 +78,7 @@
 														</c:if>
 													</td>
 													<td>${item1.get('plan').planName}</td>
-													<td>${item1.get('plan').planCode}</td>
+													<%-- <td>${item1.get('plan').planCode}</td> --%>
 													<td>
 														<c:if test="${item1.get('plan').planType.equals('QG')}">全国</c:if>
 														<c:if test="${item1.get('plan').planType.equals('ZSY')}">中石油</c:if>
@@ -91,7 +92,7 @@
 														<i class="glyphicon glyphicon-file"></i> ${item1.get('plan').planDocument.size()}&nbsp;&nbsp;&nbsp;
 														指标个数 ${item1.get('plan').indexs.size()}&nbsp;&nbsp;&nbsp;
 														<i class="glyphicon glyphicon-heart"></i> <span class="concernNum_${item1.get('plan').id}">${item1.get('plan').users.size()}</span>&nbsp;&nbsp;&nbsp;
-														<i class="icon-time"> ${item1.get('plan').modifiedTime.toLocaleString()}</i>
+														<i class="icon-time"><fmt:formatDate value="${item1.get('plan').releaseDate}" pattern="YYYY-MM-dd"/></i>
 													</td>
 													<td>
 														<p>

@@ -10,7 +10,7 @@
     <link href="<%=path%>/assets/bootstrap/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
     <link href="<%=path%>/assets/css/webuploader.css" rel="stylesheet">
     <script type="text/javascript" src="<%=path%>/assets/js/webuploader.js"></script>
-    <title>油气资源规划管理系统</title>
+    <title>油气资源规划信息系统</title>
     <%
    		 String type = request.getAttribute("type").toString();
          String flag = request.getAttribute("flag").toString();

@@ -9,7 +9,7 @@
     <meta name="author" content="">
     <link href="<%=path%>/assets/bootstrap/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
     <script type="text/javascript" src="<%=path%>/assets/ckeditor/ckeditor.js"></script>
-    <title>油气资源规划管理系统</title>
+    <title>油气资源规划信息系统</title>
      <%
     	String type = request.getAttribute("type").toString();
     %>

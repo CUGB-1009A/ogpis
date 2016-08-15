@@ -6,17 +6,17 @@
 		<span class="icon-bar"></span>
 		<span class="icon-bar"></span>
 	</button>
-	<a class="navbar-brand"><span style="color:white">油气资源规划管理系统</span></a>
+	<a class="navbar-brand"><span style="color:white">油气资源规划信息系统</span></a>
 </div>
 <!-- Top Menu Items -->
 <ul class="nav navbar-right top-nav">
-	<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user">
-		</i> 欢迎 , <shiro:principal/> <b class="caret"></b></a>
-		<ul class="dropdown-menu">
+	<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user">
+		</i> 欢迎 , <shiro:principal/></a>
+		<%-- <ul class="dropdown-menu">
 			<li><a href="javascript:showUserInfo();"><i class="fa fa-fw fa-user"></i> 个人资料</a></li>
 			<li class="divider"></li>
 			<li><a href="<c:url value='/logout'/>"><i class="fa fa-fw fa-power-off"></i> 注销</a></li>
-		</ul>
+		</ul> --%>
 	</li>
 </ul>
 <!-- 修改用户密码的摸态框 -->

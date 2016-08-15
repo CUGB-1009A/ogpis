@@ -10,7 +10,7 @@
     <meta name="author" content="">
     <script type="text/javascript" src="<%=path%>/assets/js/webuploader.js"></script>
     <link href="<%=path%>/assets/css/webuploader.css" rel="stylesheet">
-    <title>油气资源规划管理系统</title>
+    <title>油气资源规划信息系统</title>
 </head>
 <html >
 <body >
