@@ -3,13 +3,20 @@
  */
 $(function() {
 	var expandingMenus = getCookie("menus");
+	//alert(expandingMenus);
 	var expandingMenusArray = expandingMenus.split(',')
 	for (var i = 0; i < expandingMenusArray.length; i++) {
 		expendMenu($("#" + expandingMenusArray[i]));
 	}
-	$("#navDiv .menu").click(function(e) {
+	//绑定下拉框展开的事件
+	$('#navDiv .nav-list').on('shown.bs.collapse', function() {
 		setCookie("menus", getExpandingMenus(), 15);
 	});
+	//绑定下拉框收起的事件
+	$('#navDiv .nav-list').on('hidden.bs.collapse', function() {
+		setCookie("menus", getExpandingMenus(), 15);
+	});
+
 });
 
 /**
@@ -31,7 +38,7 @@ function getExpandingMenus() {
 			menus += ",";
 		}
 	}
-	// alert(menus);
+	//alert(menus);
 	return menus;
 }
 // 设置cookie
