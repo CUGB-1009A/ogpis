@@ -25,11 +25,11 @@
 		<div class="breadcrumbs" id="breadcrumbs" style="text-align: left;">
 			<ul class="breadcrumb">	
 				<li class="active">
-				<c:if test="${international.companyName.equals('bp')}">BP公司</c:if>
-				<c:if test="${international.companyName.equals('kp')}">壳牌公司</c:if>
-				<c:if test="${international.companyName.equals('xfl')}">雪福龙公司</c:if>
-				<c:if test="${international.companyName.equals('dde')}">道达尔公司</c:if>
-				<c:if test="${international.companyName.equals('amfks')}">艾美浮克森公司</c:if>
+				<c:if test="${international.companyName.equals('bp')}">英国石油</c:if>
+				<c:if test="${international.companyName.equals('kp')}">壳牌</c:if>
+				<c:if test="${international.companyName.equals('xfl')}">雪佛龙</c:if>
+				<c:if test="${international.companyName.equals('dde')}">道达尔</c:if>
+				<c:if test="${international.companyName.equals('amfks')}">埃克森美孚</c:if>
 				</li>
 			</ul>
 		</div>	
@@ -45,7 +45,8 @@
 						<a  href="<c:url value='/international/download?companyName=${international.companyName}'/>" class="btn-sm btn-app btn-primary no-radius">
 							<i class="icon-arrow-down bigger-200"></i>
 							下载
-						</a>
+						</a>&nbsp;&nbsp;&nbsp;&nbsp;
+						
 					</c:if>
 					<button type="button" onclick="showModal('${international.companyName}')">选择附件...</button>&nbsp;&nbsp;&nbsp;
     				<button type="submit">保存</button>

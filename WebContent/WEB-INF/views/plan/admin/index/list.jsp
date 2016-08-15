@@ -141,7 +141,6 @@ function delIndex(url) {
 	}
 }
 function delIndex(){
-	alert("sdf");
 	var isDel = confirm('确定删除该指标项？', '确认对话框');
 	return isDel;
 	
