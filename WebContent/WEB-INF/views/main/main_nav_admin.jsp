@@ -27,19 +27,19 @@
             <a href="#international" data-toggle="collapse" class="nav-header collapsed" ><i class="glyphicon glyphicon-plane" ></i> 国际公司 <i class="fa fa-fw fa-caret-down"></i></a>
             <ul id="international" class="nav nav-list secondmenu collapse" style="height:0px;" >
                 <li>
-            		<a href="<c:url value='/international/edit?companyName=bp'/>" class="menu"><i class="glyphicon glyphicon-star"></i> BP公司<i></i></a>
+            		<a href="<c:url value='/international/edit?companyName=bp'/>" class="menu"><i class="glyphicon glyphicon-star"></i> 英国石油<i></i></a>
          		</li> 
                 <li>
-                    <a href="<c:url value='/international/edit?companyName=kp'/>" class="menu"><i class="glyphicon glyphicon-star"></i> 壳牌公司 </a>
+                    <a href="<c:url value='/international/edit?companyName=kp'/>" class="menu"><i class="glyphicon glyphicon-star"></i> 壳牌 </a>
                 </li>
                 <li>
-            		<a href="<c:url value='/international/edit?companyName=xfl'/>" class="menu"><i class="glyphicon glyphicon-star"></i> 雪福龙</a>
+            		<a href="<c:url value='/international/edit?companyName=xfl'/>" class="menu"><i class="glyphicon glyphicon-star"></i> 雪佛龙</a>
          		</li>
          		<li>
             		<a href="<c:url value='/international/edit?companyName=dde'/>" class="menu"><i class="glyphicon glyphicon-star"></i> 道达尔<i></i></a>
          		</li>
          		<li>
-            		<a href="<c:url value='/international/edit?companyName=amfks'/>" class="menu"><i class="glyphicon glyphicon-star"></i> 艾美浮克森<i></i></a>
+            		<a href="<c:url value='/international/edit?companyName=amfks'/>" class="menu"><i class="glyphicon glyphicon-star"></i> 埃克森美孚<i></i></a>
          		</li>
             </ul>
          </li>

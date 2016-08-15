@@ -23,11 +23,11 @@
 		<div class="breadcrumbs" id="breadcrumbs" style="text-align: left;">
 			<ul class="breadcrumb">	
 				<li class="active">
-				<c:if test="${international.companyName.equals('bp')}">BP公司</c:if>
-				<c:if test="${international.companyName.equals('kp')}">壳牌公司</c:if>
-				<c:if test="${international.companyName.equals('xfl')}">雪福龙公司</c:if>
-				<c:if test="${international.companyName.equals('dde')}">道达尔公司</c:if>
-				<c:if test="${international.companyName.equals('amfks')}">艾美浮克森公司</c:if>
+				<c:if test="${international.companyName.equals('bp')}">英国石油</c:if>
+				<c:if test="${international.companyName.equals('kp')}">壳牌</c:if>
+				<c:if test="${international.companyName.equals('xfl')}">雪佛龙</c:if>
+				<c:if test="${international.companyName.equals('dde')}">道达尔</c:if>
+				<c:if test="${international.companyName.equals('amfks')}">埃克森美孚</c:if>
 				</li>
 			</ul>
 		</div>		

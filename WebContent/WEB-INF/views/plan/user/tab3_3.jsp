@@ -4,8 +4,8 @@
 <!-- 第二层次的第一个tab页 -->
 		<div class="tab-pane fade" id="output" style="background: white;">	
 		<div class="col-xs-12"> 
-			<div align="center">	
-			<h2>油气产量总体情况</h2>
+			<div align="center" style="padding:50px">	
+				<h2>油气产量总体情况</h2>
 				${plan.outputDescription}
 			</div> 
 		</div>      
@@ -13,7 +13,7 @@
 							<c:if test="${item.index.indexType=='2'}">
 								<div class="row">
 										<div class="col-xs-12">  
-										<h3 style="text-align:left;padding:0,0,0,20px">${item.index.indexName}完成情况</h3>	
+										<h3 style="text-align:left;">${status.index}、${item.index.indexName}完成情况</h3>	
 								    		<div class="col-xs-6"> 
 												<div class="charts4" style="height:300px;width:600px;" align="center">	
 												
@@ -38,7 +38,7 @@
 												</div>
 												
 											<div class="col-xs-4"> 
-												<div style="height:300px;" align="center">
+												<div style="height:300px;padding:20px" align="center">
 												${item.indexPerformance}
 												</div> 
 											</div>									

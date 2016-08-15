@@ -229,7 +229,7 @@ public class PlanAction extends BaseAction {
 		bean.setPlanShortDescription(plan.getPlanShortDescription());
 		bean.setTargetAndFinished(plan.getTargetAndFinished());
 		bean.setOutputDescription(plan.getOutputDescription());
-		bean.setStorageDescription(plan.getOutputDescription());
+		bean.setStorageDescription(plan.getStorageDescription());
 		// bean.setPlanType(type);
 		bean.setPlanCode(plan.getPlanCode());
 		bean.setPlanDescription(plan.getPlanDescription());
