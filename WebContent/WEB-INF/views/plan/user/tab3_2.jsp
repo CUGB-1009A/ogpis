@@ -8,31 +8,33 @@
 						<h2>油气储量总体情况</h2>	
 						${plan.storageDescription}
 					</div> 
-				</div>		
+				</div>
+					<c:set var="temp1" value="0"/>	
 					<c:forEach items="${plan.orderedPlan_Index}" var="item" varStatus="status">
 						<c:if test="${item.index.indexType=='1'}">
+							<c:set var="temp1" value="${temp1+1}"/>
 							<div class="row">
 									<div class="col-xs-12">  
-								    		<h3 style="text-align:left">${status.index}、${item.index.indexName}完成情况</h3>
+								    		<h3 style="text-align:left;padding-left:30px">${temp1}、${item.index.indexName}</h3>
 								    		<div class="col-xs-6"> 
 												<div class="charts3" style="height:300px;width:600px;" align="center">	
 												
 												</div> 
 											</div>
 											
-											<div class="col-xs-2"> 
-												<div class="container" style="height:300px;width:100%" align="center">
-												    <table class='table_1'
+											<div class="col-xs-3"> 
+												<div class="container" style="width:100%" align="center">
+												    <table class='table_1 table table-striped table-bordered table-hover'
 												    	   id="table_1${status.index}"
 												           data-toggle="table_1${status.index}" 
 												           data-height="300">
-												        <thead>
-												        </thead>
+												       <!--  <thead>
+												        </thead> -->
 												    </table>
 												</div>	
 											</div>
 												
-											<div class="col-xs-4"> 
+											<div class="col-xs-3"> 
 												<div style="height:300px;padding:20px" align="center">
 												${item.indexPerformance}
 												</div> 

@@ -41,42 +41,55 @@
 	</nav>
 	<!--网页主体 -->
 <div id="page-wrapper" style="height:100%">
+	<c:if test="${listType.equals('preview')}">
 		<div class="breadcrumbs" id="breadcrumbs" style="text-align: left;">
 			<ul class="breadcrumb">
 				<li>
-					<a href="<%=path%>/plan/list?type=${type}&&condition=">
-					<c:if test='<%=type.equals("QG")%>'>
-							全国规划
-						</c:if>
-						
-						<c:if test='<%=type.equals("ZSY")%>'>
-							中石油规划
-						</c:if>
-						
-						<c:if test='<%=type.equals("ZSH")%>'>
-							中石化规划
-						</c:if>
-						
-						<c:if test='<%=type.equals("ZHY")%>'>
-							中海油规划
-						</c:if>
-						
-						<c:if test='<%=type.equals("YC")%>'>
-							延长石油规划
-						</c:if>
-						
-						<c:if test='<%=type.equals("ZLM")%>'>
-							中联煤规划
-						</c:if>
-						
-						<c:if test='<%=type.equals("QT")%>'>
-							其它公司规划
-						</c:if></a>
+					<a href="<%=path%>/plan/list?condition=">
+					<i class="icon-star "></i>规划管理
+					</a>
 				</li>
-				<li class="active">${plan.planName}</li>
-
+				<li>
+					<a href="<%=path%>/plan/preview?id=${plan.id}">
+					${plan.planName}
+					</a>
+				</li>
+				<li class="active">
+					详细信息
+				</li>
 			</ul>
 		</div>
+	</c:if>
+	
+	<c:if test="${listType.equals('user')}">
+		<div class="breadcrumbs" id="breadcrumbs" style="text-align: left;">
+			<ul class="breadcrumb">
+				<li>
+					<a href="<%=path%>/plan/list?type=${plan.planType}&&condition=">
+					${plan.planName}
+					</a>
+				</li>
+				<li class="active">
+					详细信息
+				</li>
+			</ul>
+		</div>
+	</c:if>
+	
+	<c:if test="${listType.equals('concern')}">
+		<div class="breadcrumbs" id="breadcrumbs" style="text-align: left;">
+			<ul class="breadcrumb">
+				<li>
+					<a href="<%=path%>/main">
+					${plan.planName}
+					</a>
+				</li>
+				<li class="active">
+					详细信息
+				</li>
+			</ul>
+		</div>
+	</c:if>
 		
 						<div class="col-xs-12">  
 					    		<!-- 主图 -->	
@@ -118,6 +131,12 @@
 </div>
 </body>
 <script type="text/javascript">
+var startYear = '${plan.startTime}';
+var endYear = '${plan.endTime}';
+startYear = startYear.substring(0,4);
+endYear = endYear.substring(0,4);
+
+
 var option = {
 		 title: {
            text: '规划每年完成情况',
@@ -325,8 +344,9 @@ require(
 		 	var tableId;
 		 	for(var kk=0;kk<obj_2.length;kk++)
 		 		{
+		 		 var hasFinished = 0;
 		 		 columns = [], data = [];
-		 		 option2.title.text = obj_2[kk].indexName+'历史数据';
+		 		 option2.title.text = obj_2[kk].indexName;
 		 		 option2.yAxis[0].name = obj_2[kk].indexUnit;
 		 		 option2.xAxis[0].data = obj_2[kk].year;
 		 		 option2.series[0].data = obj_2[kk].value;
@@ -336,23 +356,42 @@ require(
 		 		 });
 		 		columns.push({
 		 			field:'field1',
-		 			title:obj_2[kk].indexUnit
+		 			title:'完成('+obj_2[kk].indexUnit+')'
 		 		 });
-		 		    if(obj_2[kk].year.length>10)
+		 		columns.push({
+		 			field:'field2',
+		 			title:'比例'
+		 		 });
+		 		   /*  if(obj_2[kk].year.length>10) */
 		 		    	 option2.dataZoom.start = 0;
-		 		    else
-		 		    	 option2.dataZoom.start = 100-1000/obj_2[kk].year.length;
+/* 		 		    else
+		 		    	 option2.dataZoom.start = 100-1000/obj_2[kk].year.length; */
 					if(obj_2[kk].indexType=='1')
 						{
 							myCharts3 = ec.init($myCharts2[m]);
 	
 							//填充表格中数据
+
 							for(var ll = 0; ll<obj_2[kk].year.length; ll++)
-								{
-									row={};
-									row['field0']=obj_2[kk].year[ll];
-									row['field1']=obj_2[kk].value[ll];
-									data.push(row);
+								{	
+									if(obj_2[kk].year[ll]>=startYear&&obj_2[kk].year[ll]<=endYear)
+									{
+										row={};
+										hasFinished = hasFinished + obj_2[kk].value[ll];
+										row['field0']=obj_2[kk].year[ll];
+										row['field1']=obj_2[kk].value[ll].toFixed(2);
+										row['field2']=(obj_2[kk].value[ll]/obj_2[kk].indexValue*100).toFixed(1)+'%';
+										data.push(row);	
+									}
+									if(ll==obj_2[kk].year.length-1)
+										{
+										row={};
+										row['field0']='合计';
+										row['field1']=hasFinished.toFixed(2);
+										row['field2']=(hasFinished/obj_2[kk].indexValue*100).toFixed(1)+'%';
+										data.push(row);	
+										}
+									
 								}
 							var id = $('.table_1')[m].id;
 							$('#'+id).bootstrapTable('destroy').bootstrapTable({
@@ -368,10 +407,26 @@ require(
 							//填充表格中数据
 							for(var ll = 0; ll<obj_2[kk].year.length; ll++)
 								{
+									
+								
+								if(obj_2[kk].year[ll]>=startYear&&obj_2[kk].year[ll]<=endYear)
+								{
 									row={};
+									hasFinished = hasFinished + obj_2[kk].value[ll];
 									row['field0']=obj_2[kk].year[ll];
-									row['field1']=obj_2[kk].value[ll];
-									data.push(row);
+									row['field1']=obj_2[kk].value[ll].toFixed(2);
+									row['field2']=(obj_2[kk].value[ll]/obj_2[kk].indexValue*100).toFixed(1)+'%';
+									data.push(row);	
+								}
+								if(ll==obj_2[kk].year.length-1)
+									{
+									row={};
+									row['field0']='合计';
+									row['field1']=hasFinished.toFixed(2);
+									row['field2']=(hasFinished/obj_2[kk].indexValue*100).toFixed(1)+'%';
+									data.push(row);	
+									}		
+									
 								}
 							var id = $('.table_2')[n].id;
 							$('#'+id).bootstrapTable('destroy').bootstrapTable({

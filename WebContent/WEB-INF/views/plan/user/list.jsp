@@ -34,7 +34,8 @@
 			<%@ include file="../../main/main_nav.jsp"%>
 		</c:if>
 	</nav>
-	<div id="page-wrapper" style="height:100%;">	
+	<div id="page-wrapper" style="height:100%;">
+	<!-- admin预览上方导航栏	 -->
 		<c:if test="${listType.equals('preview')}">
 			<div class="breadcrumbs" id="breadcrumbs" style="text-align: left;">
 					<ul class="breadcrumb">
@@ -42,7 +43,9 @@
 							<i class="icon-star "></i>
 							<a href="<%=request.getContextPath()%>/plan/list?condition=">规划管理</a>
 						</li>
-						<li class="active">规划预览</li>
+						<c:forEach items="${mapList}" var="item_temp" varStatus="status">
+							<li class="active">${item_temp.get('plan').planName}</li>
+						</c:forEach>
 					</ul>
 			</div>
 		</c:if>
@@ -76,23 +79,26 @@
 			    		 <a data-toggle="collapse" data-parent="#accordion"  href="#collapseOne${status.index}">
 					    		<h3 class="panel-title" align="left" style="float:left">	       
 								         <b>${item1.get('plan').planName}</b>
-								        (<fmt:formatDate value="${item1.get('plan').startTime}" pattern="YYYY"/>~
+								        (<fmt:formatDate value="${item1.get('plan').startTime}" pattern="YYYY"/> ─
 								         <fmt:formatDate value="${item1.get('plan').endTime}" pattern="YYYY"/>)
 			               	    </h3>
 			               	    <h3 class="panel-title" align="right">	
 			               	     <c:if test="${listType.equals('user')}">		               	       
 									<c:if test="${item1.get('isconcerned')}">
-										 <button class="disconcern" value="${item1.get('plan').id}">取消收藏</button>
-										 <button class="concern" value="${item1.get('plan').id}" style="display:none">收藏</button>
+										<a type="button" class="disconcern btn btn-default" value="${item1.get('plan').id}">取消收藏</a>
+										<a type="button" class="disconcern btn btn-default" value="${item1.get('plan').id}" style="display:none">收藏</a>
 									</c:if>		
 									<c:if test="${!item1.get('isconcerned')}">
-										<button class="disconcern" value="${item1.get('plan').id}" style="display:none">取消收藏</button>
-										<button class="concern" value="${item1.get('plan').id}">收藏</button>
+										<a type="button" class="disconcern btn btn-default" value="${item1.get('plan').id}" style="display:none">取消收藏</a>
+										<a type="button" class="disconcern btn btn-default" value="${item1.get('plan').id}">收藏</a>
 										
 									</c:if>						
 								</c:if>
 								<c:if test="${listType.equals('concern')}">
-											<button class="disconcern_1" value="${item1.get('plan').id}">取消收藏</button>
+									<a type="button" class="disconcern_1 btn btn-default" value="${item1.get('plan').id}">取消收藏</a>
+								 </c:if>
+								 <c:if test="${listType.equals('preview')}">
+									<a type="button" class="btn btn-default"  value="${item1.get('plan').id}" style="visibility:hidden">取消</a>
 								 </c:if>
 							  </h3>
 		                 </a>

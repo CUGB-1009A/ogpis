@@ -8,36 +8,36 @@
 				<h2>油气产量总体情况</h2>
 				${plan.outputDescription}
 			</div> 
-		</div>      
+		</div>  
+			<c:set var="temp2" value="0"/>    
 			<c:forEach items="${plan.orderedPlan_Index}" var="item" varStatus="status">
 							<c:if test="${item.index.indexType=='2'}">
+							<c:set var="temp2" value="${temp2+1}"/>
 								<div class="row">
 										<div class="col-xs-12">  
-										<h3 style="text-align:left;">${status.index}、${item.index.indexName}完成情况</h3>	
+										<h3 style="text-align:left;padding-left:30px">${temp2}、${item.index.indexName}</h3>	
 								    		<div class="col-xs-6"> 
 												<div class="charts4" style="height:300px;width:600px;" align="center">	
 												
 												</div> 
 											</div>
 											
-											<div class="col-xs-2"> 											
-											   <div class="container" style="height:300px;width:100%" align="center">
-												    <table class="table_2"
+											<div class="col-xs-3"> 											
+											   <div class="container" style="width:100%" align="center">
+												    <table class="table_2 table table-striped table-bordered table-hover"
 												    	   id="table_2${status.index}"
 												           data-toggle="table_2${status.index}" 
 												           data-height="300">
-												        <thead>
+												      <!--   <thead>
 												        <tr>
-												            <!-- <th data-field="id" data-formatter="idFormatter">序号</th>
-												            <th data-field="year">年份</th>
-												            <th data-field="complete">完成量</th> -->
+												           
 												        </tr>
-												        </thead>
+												        </thead> -->
 												    </table>
 												</div>
 												</div>
 												
-											<div class="col-xs-4"> 
+											<div class="col-xs-3"> 
 												<div style="height:300px;padding:20px" align="center">
 												${item.indexPerformance}
 												</div> 
