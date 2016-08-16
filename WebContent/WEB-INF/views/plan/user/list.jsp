@@ -50,10 +50,10 @@
       <!--  搜索div -->
       <c:if test="${listType.equals('user')}">
 	       <div class="col-lg-12">
-					<div class="col-lg-6" style="float:left">				
-						
+					<div class="col-lg-6">				
+
 				    </div>
-					<div class="col-lg-6" style="float:left">			
+					<div class="col-lg-6">			
 						<form action="<%=path%>/plan/list" method="post">
 						     <div class="input-group" style="margin:5px">						
 								 <input type="hidden" name="type" value="${type}">
@@ -73,31 +73,36 @@
 		    	<div class="panel panel-default" style="width:100%;">
 			    		<div class="panel-heading plan${item1.get('plan').id}">
 			    		<input class="planId" type="hidden" value="${item1.get('plan').id}">
-				    		<h4 class="panel-title" align="left">
-						        <a data-toggle="collapse" data-parent="#accordion"  href="#collapseOne${status.index}">
-						          <b>${item1.get('plan').planName}</b>
-						        </a>
-						        <span>发布时间：</span><fmt:formatDate value="${item1.get('plan').releaseDate}" pattern="YYYY-MM-dd"/>&nbsp;&nbsp;&nbsp;&nbsp;
-								<span>发布单位：${item1.get('plan').releaseUnit}</span>
-								<c:if test="${listType.equals('user')}">
+			    		 <a data-toggle="collapse" data-parent="#accordion"  href="#collapseOne${status.index}">
+					    		<h3 class="panel-title" align="left" style="float:left">	       
+								         <b>${item1.get('plan').planName}</b>
+								        (<fmt:formatDate value="${item1.get('plan').startTime}" pattern="YYYY"/>~
+								         <fmt:formatDate value="${item1.get('plan').endTime}" pattern="YYYY"/>)
+			               	    </h3>
+			               	    <h3 class="panel-title" align="right">	
+			               	     <c:if test="${listType.equals('user')}">		               	       
 									<c:if test="${item1.get('isconcerned')}">
-										 <button class="disconcern" value="${item1.get('plan').id}" >取消收藏</button>
+										 <button class="disconcern" value="${item1.get('plan').id}">取消收藏</button>
 										 <button class="concern" value="${item1.get('plan').id}" style="display:none">收藏</button>
 									</c:if>		
 									<c:if test="${!item1.get('isconcerned')}">
 										<button class="disconcern" value="${item1.get('plan').id}" style="display:none">取消收藏</button>
 										<button class="concern" value="${item1.get('plan').id}">收藏</button>
+										
 									</c:if>						
+								</c:if>
+								<c:if test="${listType.equals('concern')}">
+											<button class="disconcern_1" value="${item1.get('plan').id}">取消收藏</button>
 								 </c:if>
-								 <c:if test="${listType.equals('concern')}">
-										 <button class="disconcern_1" value="${item1.get('plan').id}" >取消收藏</button>
-								 </c:if>
-		               		</h4>
-		              
+							  </h3>
+		                 </a>
+		                
+		          
+		               					              
 		          		</div>
 		               
 			           <div id="collapseOne${status.index}" class="removeIn panel-collapse collapse in" style="width:100%;">
-						 <div class="panel-body" style="padding-bottom:0px">
+						 <div class="panel-body">
 				    		<div class="col-xs-12">  
 					    		<!-- 主图 -->	
 					    		<div class="col-xs-6"> 
@@ -127,24 +132,6 @@
 					 <div class="panel-footer" style="text-align:center;background:white;margin-top:0px;padding:0px">
 						  ${item1.get('plan').planShortDescription}
 					  </div>
-					 <%-- <c:if test="${listType.equals('user')}">
-						 <div class="panel-footer" style="text-align:right;background:white">
-							<c:if test="${item1.get('isconcerned')}">
-								 <button class="disconcern" value="${item1.get('plan').id}" >取消收藏</button>
-								 <button class="concern" value="${item1.get('plan').id}" style="display:none">收藏</button>
-							</c:if>		
-							<c:if test="${!item1.get('isconcerned')}">
-								<button class="disconcern" value="${item1.get('plan').id}" style="display:none">取消收藏</button>
-								<button class="concern" value="${item1.get('plan').id}">收藏</button>
-							</c:if>						
-						 </div>
-					 </c:if>
-					 
-					 <c:if test="${listType.equals('concern')}">
-					  	<div class="panel-footer" style="text-align:right;background:white">
-							 <button class="disconcern_1" value="${item1.get('plan').id}" >取消收藏</button>
-					 	</div>
-					 </c:if> --%>
 				 </div>	
 			</div>
 		</c:forEach>
@@ -154,9 +141,12 @@
 
 <script type="text/javascript">
 //这个是收藏页面的取消收藏
-$(".disconcern_1").click(function(){
+$(".disconcern_1").bind("click",function(event){
+	event.preventDefault();
+	event.stopPropagation();
 	var planId = $(this).attr("value");
 	var getTimestamp = new Date().getTime();
+
 	//发布处理，处理成功后do
 	$.ajax({
 	url:"<%=request.getContextPath()%>/plan/disconcern?time="+getTimestamp,
@@ -175,7 +165,9 @@ $(".disconcern_1").click(function(){
 })
 
 /* 关注 和 取消关注  按钮的ajax提交 */
-$(".concern").click(function(){
+$(".concern").bind("click",function(event){
+	event.preventDefault();
+	event.stopPropagation();
 	var planId = $(this).attr("value");
 	var getTimestamp = new Date().getTime();
 	//关注处理，处理成功后do
@@ -188,6 +180,7 @@ $(".concern").click(function(){
 	success:function(result){
 		$(".concern[value="+planId+"]").get(0).style.display="none";
 		$(".disconcern[value="+planId+"]").get(0).style.display="";
+
 		alert('收藏成功');
 	},
 	error:function(){
@@ -197,7 +190,9 @@ $(".concern").click(function(){
 })
 
 //user查看时的取消收藏
-	$(".disconcern").click(function(){
+	$(".disconcern").bind("click",function(event){
+		event.preventDefault();
+		event.stopPropagation();
 		var planId = $(this).attr("value");
 		var getTimestamp = new Date().getTime();
 		//发布处理，处理成功后do

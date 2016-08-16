@@ -91,9 +91,8 @@
 								<!--规划概述-->							
 									<h5><b>概述</b></h5>
 										<p style="font-family:楷体;text-indent: 30px;font-size: 15px;height: 275px;overflow:auto; width:100%">
-											<b>${plan.planName}</b>是<b>${plan.releaseUnit}</b>于<b><fmt:formatDate value="${plan.releaseDate}" pattern="YYYY-MM-dd"/></b>
-											发布的规划，规划代号为<b>${plan.planCode}</b>，规划时间段是从<b><fmt:formatDate value="${plan.startTime}" pattern="YYYY-MM-dd"/>
-											</b>到<b><fmt:formatDate value="${plan.endTime}" pattern="YYYY-MM-dd"/></b>。“规划的简短描述”：
+											<b>${plan.planName}</b>是从<b><fmt:formatDate value="${plan.startTime}" pattern="YYYY"/>
+											</b>到<b><fmt:formatDate value="${plan.endTime}" pattern="YYYY"/></b>。“规划的简短描述”：
 											${plan.planShortDescription}
 										</p>						
 								</div>

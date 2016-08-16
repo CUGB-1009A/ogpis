@@ -67,22 +67,22 @@
 				   <div class="form-group">
 						<label class="col-sm-2 control-label no-padding-right" for="form-field-11">储量完成情况</label>
 						<div class="col-sm-4">
-							<textarea  id="form-field-11" placeholder="发布单位..." style="height:150px;" class="col-sm-12" name="storageDescription">${plan.storageDescription}</textarea>
+							<textarea  id="form-field-11" placeholder="储量完成情况..." style="height:150px;" class="col-sm-12" name="storageDescription">${plan.storageDescription}</textarea>
 						</div>
 						<label class="col-sm-2 control-label no-padding-right" for="form-field-12">产量完成情况</label>
 						<div class="col-sm-4">
-							<textarea  id="form-field-12" placeholder="发布单位..." style="height:150px;" class="col-sm-10" name="outputDescription"> ${plan.outputDescription}</textarea>
+							<textarea  id="form-field-12" placeholder="产量完成情况..." style="height:150px;" class="col-sm-10" name="outputDescription"> ${plan.outputDescription}</textarea>
 						</div>
 				   </div>
 				   <div class="space-4"></div>
 				     <div class="form-group">
 						<label class="col-sm-2 control-label no-padding-right" for="form-field-10">规划概述</label>
 						<div class="col-sm-4">
-							<textarea  id="form-field-10" style="height:150px;" class="col-sm-12" name="planShortDescription">${plan.planShortDescription}</textarea>
+							<textarea  id="form-field-10" placeholder="规划概述..." style="height:150px;" class="col-sm-12" name="planShortDescription">${plan.planShortDescription}</textarea>
 						</div>
 						<label class="col-sm-2 control-label no-padding-right" for="form-field-10">规划目标和总体情况</label>
 						<div class="col-sm-4">
-							<textarea  id="form-field-10" style="height:150px;" class="col-sm-10" name="targetAndFinished">${plan.targetAndFinished}</textarea>
+							<textarea  id="form-field-10" placeholder="规划目标和总体情况..." style="height:150px;" class="col-sm-10" name="targetAndFinished">${plan.targetAndFinished}</textarea>
 						</div>
 				   </div>
 				

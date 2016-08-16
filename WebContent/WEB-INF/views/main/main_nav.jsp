@@ -62,19 +62,19 @@
             <a href="#international" data-toggle="collapse" class="nav-header collapsed" ><i class="glyphicon glyphicon-plane" ></i> 国际形势 <i class="fa fa-fw fa-caret-down"></i></a>
             <ul id="international" class="nav nav-list secondmenu collapse" style="height:0px;" >
                 <li>
-            		<a href="<c:url value='/international/show?companyName=bp'/>" ><i class="glyphicon glyphicon-star"></i> BP公司<i></i></a>
+            		<a href="<c:url value='/international/show?companyName=bp'/>" ><i class="glyphicon glyphicon-star"></i> 英国石油<i></i></a>
          		</li> 
                 <li>
-                    <a href="<c:url value='/international/show?companyName=kp'/>" ><i class="glyphicon glyphicon-star"></i> 壳牌公司 </a>
+                    <a href="<c:url value='/international/show?companyName=kp'/>" ><i class="glyphicon glyphicon-star"></i> 壳牌 </a>
                 </li>
                 <li>
-            		<a href="<c:url value='/international/show?companyName=xfl'/>" ><i class="glyphicon glyphicon-star"></i> 雪福龙</a>
+            		<a href="<c:url value='/international/show?companyName=xfl'/>" ><i class="glyphicon glyphicon-star"></i> 雪佛龙</a>
          		</li>
          		<li>
             		<a href="<c:url value='/international/show?companyName=dde'/>" "><i class="glyphicon glyphicon-star"></i> 道达尔<i></i></a>
          		</li>
          		<li>
-            		<a href="<c:url value='/international/show?companyName=amfks'/>" ><i class="glyphicon glyphicon-star"></i> 艾美浮克森<i></i></a>
+            		<a href="<c:url value='/international/show?companyName=amfks'/>" ><i class="glyphicon glyphicon-star"></i> 埃克森美孚<i></i></a>
          		</li>
             </ul>
          </li>

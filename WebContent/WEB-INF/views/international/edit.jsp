@@ -34,7 +34,14 @@
 			</ul>
 		</div>	
 		<div class="row" style="background:white">
-		<div class="col-md-12">
+				<div class="col-md-12">
+				<h2>
+						<c:if test="${international.companyName.equals('bp')}">英国石油</c:if>
+						<c:if test="${international.companyName.equals('kp')}">壳牌</c:if>
+						<c:if test="${international.companyName.equals('xfl')}">雪佛龙</c:if>
+						<c:if test="${international.companyName.equals('dde')}">道达尔</c:if>
+						<c:if test="${international.companyName.equals('amfks')}">埃克森美孚</c:if>公司发展规划与最新动态
+				</h2>
 				 <!-- 加载编辑器的容器 -->
 				 <form action="<%=path%>/international/save" method="post" >
 				 	<input type="hidden" name="companyName" value="${international.companyName}">
@@ -72,7 +79,7 @@
 								<div class="modal-content">
 									<div class="modal-header">
 									<button type="button"  id="closeFileUploadModel" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-										<h3 class="modal-title">文件上传(只允许上传一个文件)</h3>
+										<h3 class="modal-title">文件上传(文件个数：1)</h3>
 									</div>
 									<div class="modal-body">
 

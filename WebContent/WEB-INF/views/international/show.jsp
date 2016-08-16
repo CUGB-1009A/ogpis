@@ -34,6 +34,13 @@
 		
 		<div class="row" style="background:white">
 		<div class="col-md-12">
+		<h2>
+			<c:if test="${international.companyName.equals('bp')}">英国石油</c:if>
+			<c:if test="${international.companyName.equals('kp')}">壳牌</c:if>
+			<c:if test="${international.companyName.equals('xfl')}">雪佛龙</c:if>
+			<c:if test="${international.companyName.equals('dde')}">道达尔</c:if>
+			<c:if test="${international.companyName.equals('amfks')}">埃克森美孚</c:if>公司发展规划与最新动态
+			</h2>
 			<script id="container" name="content" type="text/plain" style="height:400px" >${international.content}</script>
 		    <!-- 配置文件 -->
 		    <c:if test="${international.fileName!=null}">
