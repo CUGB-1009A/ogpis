@@ -40,5 +40,13 @@ public abstract class BaseServiceImpl<T, ID extends Serializable> implements
 	public void batchMarkDelete(ID[] items){
 		this.baseDao.batchMarkDelete(items);
 	}
+	
+	/**
+	 * 批量保存
+	 */
+	@Override
+	public void batchSave(List<T> items){
+		this.baseDao.batchSave(items);
+	}
 
 }
