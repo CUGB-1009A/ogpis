@@ -262,7 +262,12 @@ var option2 = {
 	            type:'bar',
 	            data:[] ,
 	            markLine:{
-	            	color:"#123456",
+	            	itemStyle:{
+	            		normal:{
+	            			color:"#FF0000"
+	            		}
+	            	},
+	            	color:"#FF0000",
 	            	data:[
 	            	       [
 	            	        {name:'规划目标值',value:0,xAxis:-1,yAxis:0},

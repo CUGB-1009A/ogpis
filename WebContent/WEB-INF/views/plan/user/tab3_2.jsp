@@ -36,7 +36,9 @@
 												
 											<div class="col-xs-3"> 
 												<div style="height:300px;padding:20px" align="center">
-												${item.indexPerformance}
+												<p style="font-family:楷体;text-indent: 30px;font-size: 15px;height: 275px;overflow:auto; width:100%">
+													${item.indexPerformance}
+												</p>
 												</div> 
 											</div>		
 											
