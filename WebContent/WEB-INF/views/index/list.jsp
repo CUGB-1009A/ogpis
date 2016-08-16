@@ -28,27 +28,33 @@
 		<div class="row">
             <div class="col-md-12">
             	<div class="portlet box light-grey">
-					<div class="portlet-title">
+					<div class="portlet-title" style="float:left">
+						<c:forEach items="${planType}" var="item" >
+							<c:if test="${item.key.equals(type)}"><h3><b>${item}规划指标项定制</b></h3></c:if>
+						</c:forEach>	
 					</div>
 						<div class="portlet-body">
-						<div class="table-toolbar" style="text-align: right;">
-							<div class="btn-group">
-									<select id="selectType" name="type" class="selectpicker" data-style="btn-danger">
-							    		<option value='QG' <c:if test="${type.equals('QG')}">selected</c:if>>全国</option>
-							    		<option value='ZSY' <c:if test="${type.equals('ZSY')}">selected</c:if>>中石油</option>
-							    		<option value='ZSH' <c:if test="${type.equals('ZSH')}">selected</c:if>>中石化</option>
-							    		<option value='ZHY' <c:if test="${type.equals('ZHY')}">selected</c:if>>中海油</option>
-							    		<option value='YC' <c:if test="${type.equals('YC')}">selected</c:if>>延长石油</option>
-							    		<option value='ZLM' <c:if test="${type.equals('ZLM')}">selected</c:if>>中联煤</option>
-							    		<option value='QT' <c:if test="${type.equals('QT')}">selected</c:if>>其他</option>	
-							        </select>
-							        &nbsp;&nbsp;
-									<a href="<%=path%>/index/add?type=${type}" class="btn-sm btn-app btn-success no-radius">
-											<i class="icon-plus bigger-200">&nbsp;添加指标</i>
-									</a>
-									&nbsp;&nbsp;								
+							<div class="table-toolbar" style="text-align: right;">
+								<div class="btn-group">
+										<select id="selectType" name="type" class="selectpicker" data-style="btn-danger">
+								    		<%-- <option value='QG' <c:if test="${type.equals('QG')}">selected</c:if>>全国</option>
+								    		<option value='ZSY' <c:if test="${type.equals('ZSY')}">selected</c:if>>中石油</option>
+								    		<option value='ZSH' <c:if test="${type.equals('ZSH')}">selected</c:if>>中石化</option>
+								    		<option value='ZHY' <c:if test="${type.equals('ZHY')}">selected</c:if>>中海油</option>
+								    		<option value='YC' <c:if test="${type.equals('YC')}">selected</c:if>>延长石油</option>
+								    		<option value='ZLM' <c:if test="${type.equals('ZLM')}">selected</c:if>>中联煤</option>
+								    		<option value='QT' <c:if test="${type.equals('QT')}">selected</c:if>>其他</option> --%>
+								    		<c:forEach items="${planType}" var="item" >
+												<option value='${item.key}' <c:if test="${item.key.equals(type)}">selected</c:if>>${item}</option>
+											</c:forEach>	
+								        </select>
+								        &nbsp;&nbsp;
+										<a href="<%=path%>/index/add?type=${type}" class="btn-sm btn-app btn-success no-radius">
+												<i class="icon-plus bigger-200">&nbsp;添加指标</i>
+										</a>
+										&nbsp;&nbsp;								
+								</div>
 							</div>
-					</div>
 						
 						<div class="dataTables_wrapper form-inline" role="grid">
 							<div class="table-scrollable">

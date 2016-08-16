@@ -55,7 +55,7 @@
 						</a>&nbsp;&nbsp;&nbsp;&nbsp;
 						
 					</c:if>
-					<button type="button" onclick="showModal('${international.companyName}')">选择附件...</button>&nbsp;&nbsp;&nbsp;
+					<button type="button" onclick="showModal('${international.companyName}')">选择附件上传...</button>&nbsp;&nbsp;&nbsp;
     				<button type="submit">保存</button>
 
 		    	</form>

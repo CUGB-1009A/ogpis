@@ -17,6 +17,7 @@ import com.ogpis.base.action.BaseAction;
 import com.ogpis.index.entity.IndexManagement;
 import com.ogpis.index.service.IndexManagementService;
 import com.ogpis.plan.entity.Plan;
+import com.ogpis.plan.entity.PlanType;
 import com.ogpis.plan.service.PlanService;
 
 @Controller
@@ -30,6 +31,7 @@ public class IndexManagementAction  extends BaseAction {
 		String type = request.getParameter("type");
 		System.out.println(type);
 		List<IndexManagement> indexList = indexManagementService.findAllIndexByPriority(type);
+		model.addAttribute("planType",PlanType.values());
 		model.addAttribute("indexList",indexList);
 		model.addAttribute("type",type);
 		super.addMenuParams(request, model);

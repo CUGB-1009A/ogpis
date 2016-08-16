@@ -134,7 +134,7 @@
 		mineName = '页岩气'
 		var option1 = {
 			    title : {
-			         text:'全国规划'+mineName+'专题情况',
+			         text:'全国'+mineName+'规划指标完成比例',
 			         x: 'center',            
 			         y: 'top'
 			    },
@@ -172,7 +172,8 @@
 		    title: {
 		        text: '',
 		        x: 'center',            
-		        y: 'top'
+		        y: 'top',
+		        padding:[0,0,0,0]
 		    },
 		    tooltip: {
 		        trigger: 'axis'
@@ -181,7 +182,7 @@
 		        data:[],
 		        x:'center',
 		        y:'top',
-		        padding:[40,0,40,0]
+		        padding:[25,0,20,0]
 		    },
 		    xAxis:  {
 		        type: 'category',
@@ -200,19 +201,23 @@
 			    title : {
 			        text: '',
 			        x: 'center',            
-			        y: 'top'
+			        y: 'top',
+			        padding:[0,0,0,0]
 			    },
 			    tooltip : {
 			        trigger: 'axis'
 			    },
 			    legend: {
-			        data:['规划完成情况','目标值'],
+			        data:['规划完成量','目标值'],
 			        x: 'center',            
 			        y: 'top',
-			        padding:[40,0,40,0]
+			        padding:[25,0,20,0]
 			    },
 			    xAxis : [
 			        {
+			        	axisLabel: {
+			        		rotate: 10
+			        		},
 			            type : 'category',
 			           data:[]
 			        }
@@ -236,7 +241,7 @@
 		        				}
 		        	        }
 	                 },
-			            name:'规划完成情况',
+			            name:'规划完成量',
 			            type:'bar',
 			            data:[]
 			        },
@@ -327,7 +332,7 @@
 			    		tempSeriesChart1 = tempSeriesChart1.substring(0,tempSeriesChart1.length-1)+"]}"	
 			    		var seriesChart1 = eval("(" + tempSeriesChart1 + ")");
 			    		var charts2 = ec.init($charts2[ii]);
-			    		option2.title.text = obj[ii].indexName+"规划年间各年情况";
+			    		option2.title.text = obj[ii].indexName+"规划各年完成量";
 			    		option2.legend.data = legend.legend;
 			    		option2.yAxis.name = obj[ii].indexUnit;
 			    		option2.xAxis.data = xAxis.xAxis;
@@ -342,8 +347,8 @@
 		    		var seriesData2 = "{\"series\":[";
 		    		for(k=0;k<obj[0].plans.length;k++)
 					{
-		    			seriesData1 = seriesData1 +obj[jj].plans[k].hasFinished+",";
-		    			seriesData2 = seriesData2 +obj[jj].plans[k].indexValue+",";
+		    			seriesData1 = seriesData1 +obj[jj].plans[k].hasFinished.toFixed(1)+",";
+		    			seriesData2 = seriesData2 +obj[jj].plans[k].indexValue.toFixed(1)+",";
 		    		}
 		    		seriesData1= seriesData1.substring(0,seriesData1.length-1)+"]}"
 		    		seriesData2= seriesData2.substring(0,seriesData2.length-1)+"]}"
@@ -353,7 +358,7 @@
 		    		option3.series[0].data = series1.series;
 		    		option3.series[1].data = series2.series;
 		    		option3.xAxis[0].data = legend.legend;
-		    		option3.title.text = obj[jj].indexName+"规划年间完成情况";
+		    		option3.title.text = obj[jj].indexName+"规划完成量";
 		    		option3.yAxis[0].name = obj[jj].indexUnit;	
 		    		charts3.setOption(option3);
 		    	}
