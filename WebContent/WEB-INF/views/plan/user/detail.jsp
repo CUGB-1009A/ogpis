@@ -260,7 +260,16 @@ var option2 = {
 	    series : [
 	        {
 	            type:'bar',
-	            data:[]
+	            data:[] ,
+	            markLine:{
+	            	color:"#123456",
+	            	data:[
+	            	       [
+	            	        {name:'规划目标值',value:0,xAxis:-1,yAxis:0},
+	            	        {xAxis:20,yAxis:0}
+	            	        ]
+	            	       ]
+	            } 
 	        }  
 	    		] 
 	    };
@@ -350,6 +359,10 @@ require(
 		 		 option2.yAxis[0].name = obj_2[kk].indexUnit;
 		 		 option2.xAxis[0].data = obj_2[kk].year;
 		 		 option2.series[0].data = obj_2[kk].value;
+		 		 option2.series[0].markLine.data[0][0].value = (obj_2[kk].indexValue/(endYear-startYear+1)).toFixed(1);
+		 		 option2.series[0].markLine.data[0][0].yAxis = (obj_2[kk].indexValue/(endYear-startYear+1)).toFixed(1);
+		 		 option2.series[0].markLine.data[0][1].yAxis = (obj_2[kk].indexValue/(endYear-startYear+1)).toFixed(1);
+		 		 /*alert((obj_2[kk].indexValue/(endYear-startYear+1)).toFixed(1)) */
 		 		 columns.push({
 		 			field:'field0',
 		 			title:'年份'
