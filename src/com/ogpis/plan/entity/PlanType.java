@@ -1,7 +1,7 @@
 package com.ogpis.plan.entity;
 
 public enum PlanType {
-	全国("QG"), 中石油("ZSY"), 中石化("ZSH"), 中海油("ZHY"), 延长石油("YC"), 中联煤("ZLM"), 其他("QT") ;
+	全国("QG"), 中石油("ZSY"), 中石化("ZSH"), 中海油("ZHY"), 延长石油("YC"), 中联煤("ZLM"), 三五八("358") ;
 
 	// 定义私有变量
 	private String key;

@@ -121,6 +121,7 @@ public class PlanAction extends BaseAction {
 		model.addAttribute("mapList", mapList);// 返回规划
 		model.addAttribute("type", type);// 返回公司名称
 		model.addAttribute("condition", condition);// 查询条件回显到前台
+		model.addAttribute("planType",PlanType.values());
 		if (isManager)
 			return "plan/admin/list";
 		else {
@@ -303,8 +304,13 @@ public class PlanAction extends BaseAction {
 			// System.out.println("size: " + plan.getPlan_indexs().size());
 			// System.out.println("type: " + type);
 
-			// 这里要加入指标类型的筛选，确定是全国的还是各公司的
-			List<IndexManagement> allIndexs = indexManagementService
+			// 这里要加入指标类型的筛选，确定是全国的还是各公司的(三五八规划算是全国的一种，在这里先把它强行转化一下）
+			List<IndexManagement> allIndexs = new ArrayList<IndexManagement>();
+			if(plan.getPlanType().equals("358"))
+				 allIndexs = indexManagementService
+				.findAllIndexByPriority("QG");
+			else
+				 allIndexs = indexManagementService
 					.findAllIndexByPriority(plan.getPlanType());
 			model.addAttribute("allIndexs", allIndexs);
 			model.addAttribute("plan_indexs", plan.getPlan_indexs());

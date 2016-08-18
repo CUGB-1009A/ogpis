@@ -8,7 +8,11 @@
 <div id="navDiv" class="collapse navbar-collapse navbar-ex1-collapse" align="left">
     <ul class="nav navbar-nav side-nav pull-left">   
          <li>
-            <a href="<%=basePath%>/plan/list?timeStamp=<%=timeStamp%>&&type=QG&&condition=" class="menu"><i class="glyphicon glyphicon-star"></i> 全国规划<i></i></a>
+            <a href="<%=basePath%>/plan/list?timeStamp=<%=timeStamp%>&&type=QG&&condition=" class="menu"><i class="glyphicon glyphicon-star"></i> 全国五年规划<i></i></a>
+         </li> 
+         
+          <li>
+            <a href="<%=basePath%>/plan/list?type=358&&condition=" class="menu"><i class="glyphicon glyphicon-star"></i> “三五八”规划<i></i></a>
          </li> 
          
          <li>

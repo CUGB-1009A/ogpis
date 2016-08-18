@@ -86,11 +86,11 @@
 			               	     <c:if test="${listType.equals('user')}">		               	       
 									<c:if test="${item1.get('isconcerned')}">
 										<a type="button" class="disconcern btn btn-default" value="${item1.get('plan').id}">取消收藏</a>
-										<a type="button" class="disconcern btn btn-default" value="${item1.get('plan').id}" style="display:none">收藏</a>
+										<a type="button" class="concern btn btn-default" value="${item1.get('plan').id}" style="display:none">收藏</a>
 									</c:if>		
 									<c:if test="${!item1.get('isconcerned')}">
 										<a type="button" class="disconcern btn btn-default" value="${item1.get('plan').id}" style="display:none">取消收藏</a>
-										<a type="button" class="disconcern btn btn-default" value="${item1.get('plan').id}">收藏</a>
+										<a type="button" class="concern btn btn-default" value="${item1.get('plan').id}">收藏</a>
 										
 									</c:if>						
 								</c:if>

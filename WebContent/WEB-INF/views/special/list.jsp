@@ -215,9 +215,9 @@
 			    },
 			    xAxis : [
 			        {
-			        	axisLabel: {
+			        	/* axisLabel: {
 			        		rotate: 10
-			        		},
+			        		}, */
 			            type : 'category',
 			           data:[]
 			        }

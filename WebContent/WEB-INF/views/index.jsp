@@ -70,7 +70,7 @@
 </body>
 	<script type="text/javascript">
 	$(function(){
-		var isSuccess = ${isSuccess};
+		var isSuccess = '${isSuccess}';
 		if(isSuccess=='0')
 			alert("用户名或密码错误！");
 	});

@@ -114,13 +114,19 @@
 		<div class="row">
 			<div class="col-xs-12" style="margin:0;padding:0">
 				<ul id="myTab" class="nav nav-tabs">		
-					   <li class="active"><a href="#overview" data-toggle="tab">规划背景和依据</a></li> 
+					   <li class="active"><a href="#overview" data-toggle="tab">规划背景</a></li>
+					   <c:if test="${plan.planType.equals('QG')}"> <!-- 如果是全国规划，再加一个相关历史数据Tab页 -->
+					  		 <li><a href="#historyData" data-toggle="tab">相关历史数据</a></li>
+					   </c:if> 
 					   <li><a href="#planDistination" data-toggle="tab">规划目标</a></li>
 					   <li><a href="#planComplete" data-toggle="tab">规划跟踪与评价</a></li>
 					   <li><a href="#planDocument" data-toggle="tab">相关文档</a></li>	  
 				</ul>				
 				<div id="myTabContent" class="tab-content">
 					<%@ include file="tab1_user.jsp"%>
+					<c:if test="${plan.planType.equals('QG')}">
+					  	<%@ include file="historyData.jsp"%>
+					</c:if> 
 					<%@ include file="tab2_user.jsp"%>
 					<%@ include file="tab3_user.jsp"%>
 					<%@ include file="tab4_user.jsp"%>	
@@ -261,6 +267,24 @@ var option2 = {
 	        {
 	            type:'bar',
 	            data:[] ,
+	            itemStyle:
+        		{
+        			normal: 
+        			{
+        				color:function(params){
+        					console.log(params.dataIndex)
+        					if(params.value)
+        						return '#FF0000';
+        					else
+        						return '#00FF00';
+        				},
+        				label : 
+        				{
+        					show:true
+        				}
+       					
+        	        }
+             },
 	            markLine:{
 	            	itemStyle:{
 	            		normal:{
@@ -320,7 +344,7 @@ require(
 	        		tempLegend = tempLegend +obj[0].year + "]}";
 	        	for(var ii=0;ii<obj[0].year.length;ii++)
 	        		{
-						tempSeries = tempSeries + "{ itemStyle: {normal: {label : {show:true, position: 'insideRight',textStyle: {color: '#800080'},formatter:'{c}%'}}},type:'bar',stack:'总量',name:"+ obj[0].year[ii]+",data:[";
+						tempSeries = tempSeries + "{ itemStyle: {normal: {label : {show:false, position: 'insideRight',textStyle: {color: '#800080'},formatter:'{c}%'}}},type:'bar',stack:'总量',name:"+ obj[0].year[ii]+",data:[";
 						for(var l=0;l<obj.length;l++)
 							{
 							tempSeries = tempSeries + (obj[l].value[ii]/obj[l].indexValue*100).toFixed(1)+","
@@ -453,6 +477,7 @@ require(
 					        }); 
 							n = n + 1 ;
 						}
+					/* myCharts3.on("click", function (param) { var hz = param.name;alert(hz);});  */
 					myCharts3.setOption(option2);					
 		 		}
 		 	

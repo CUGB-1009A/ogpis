@@ -80,13 +80,16 @@
 													<td>${item1.get('plan').planName}</td>
 													<%-- <td>${item1.get('plan').planCode}</td> --%>
 													<td>
-														<c:if test="${item1.get('plan').planType.equals('QG')}">全国</c:if>
+													<c:forEach items="${planType}" var="item">
+														<c:if test="${item1.get('plan').planType.equals(item.key)}">${item}</c:if>
+													</c:forEach>
+														<%-- <c:if test="${item1.get('plan').planType.equals('QG')}">全国</c:if>
 														<c:if test="${item1.get('plan').planType.equals('ZSY')}">中石油</c:if>
 														<c:if test="${item1.get('plan').planType.equals('ZSH')}">中石化</c:if>
 														<c:if test="${item1.get('plan').planType.equals('ZHY')}">中海油</c:if>
 														<c:if test="${item1.get('plan').planType.equals('YC')}">延长</c:if>
 														<c:if test="${item1.get('plan').planType.equals('ZLM')}">中联煤</c:if>
-														<c:if test="${item1.get('plan').planType.equals('QT')}">其他</c:if>
+														<c:if test="${item1.get('plan').planType.equals('QT')}">其他</c:if> --%>
 													</td>
 													<td>
 														<i class="glyphicon glyphicon-file"></i> ${item1.get('plan').planDocument.size()}&nbsp;&nbsp;&nbsp;
