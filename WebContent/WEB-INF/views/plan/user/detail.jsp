@@ -158,13 +158,13 @@ var option = {
    legend: {
 	 data:[],
 	 x:'center',
-     y:'top',
-     padding:[30,0,0,0]
+     y:'top'
    },
    toolbox: {
        show : true,
        feature : {
-           saveAsImage : {show: true}
+           saveAsImage : {show: true},
+           dataView:{show:true}
        }
    },
     grid: {
@@ -235,7 +235,7 @@ var option1 = {
 	           ]
     };
     
-var option2 = {
+ /* var option2 = {
 		title:{
 			text: '',
             x: 'center',            
@@ -247,7 +247,7 @@ var option2 = {
 	    dataZoom : {
 	        show : true,
 	        realtime : true,
-	     /*   动态配置能看的起始位置 start */
+	     //   动态配置能看的起始位置 start 
 	        end : 100
 	    },
 	    xAxis : [
@@ -301,8 +301,8 @@ var option2 = {
 	            } 
 	        }  
 	    		] 
-	    };
-    
+	    }; 
+     */
 
 require.config({
     paths: {
@@ -331,9 +331,10 @@ require(
 			var $myCharts2 = $(".charts3");
 			var $myCharts3 = $(".charts4");
 			var data2 = $(".inputs3")[0].value;
+			alert(data2)
 			var obj_2 = eval("(" + data2 + ")");
 			
-		 	var tempLegend = "{\"legend\":[";
+		 	var tempLegend = "{\"legend\":['',";
 		 	var tempYdata = "{\"yData\":[";
         	var tempSeries = "{\"series\":["
 				for(var j=0;j<obj.length;j++)
@@ -382,6 +383,78 @@ require(
 		 	var tableId;
 		 	for(var kk=0;kk<obj_2.length;kk++)
 		 		{
+		 		var firstIndex = 1000;
+		 		for(i=0;i<obj_2[kk].year.length;i++)
+		 			{
+		 			if(obj_2[kk].year[i]==startYear)
+		 				firstIndex = i;
+		 			}
+		 		var option2 = {
+		 				title:{
+		 					text: '',
+		 		            x: 'center',            
+		 		            y: 'top'
+		 				},
+		 			    tooltip : {
+		 			        trigger: 'axis'
+		 			    },
+		 			    dataZoom : {
+		 			        show : true,
+		 			        realtime : true,
+		 			     /*   动态配置能看的起始位置 start */
+		 			        end : 100
+		 			    },
+		 			    xAxis : [
+		 			        {
+		 			            type : 'category',
+		 			            name:'年份',
+		 			            data : []
+		 			        }
+		 			    ],
+		 			    yAxis : [
+		 			        {
+		 			        	name:'',
+		 			            type : 'value'
+		 			        }
+		 			    		],
+		 			    series : [
+		 			        {
+		 			            type:'bar',
+		 			            data:[] ,
+		 			            itemStyle:
+		 		        		{
+		 		        			normal: 
+		 		        			{
+		 		        				color:function(params){
+		 		        					if(params.dataIndex>=firstIndex)
+		 		        						return '#FF0000';
+		 		        					else
+		 		        						return '#00FF00';
+		 		        				},
+		 		        				label : 
+		 		        				{
+		 		        					show:true
+		 		        				}
+		 		       					
+		 		        	        }
+		 		             },
+		 			            markLine:{
+		 			            	itemStyle:{
+		 			            		normal:{
+		 			            			color:"#0000FF"
+		 			            		}
+		 			            	},
+		 			            	color:"#FF0000",
+		 			            	data:[
+		 			            	       [
+		 			            	        {name:'规划目标值',value:0,xAxis:-1,yAxis:0},
+		 			            	        {xAxis:20,yAxis:0}
+		 			            	        ]
+		 			            	       ]
+		 			            } 
+		 			        }  
+		 			    		] 
+		 			    };
 		 		 var hasFinished = 0;
 		 		 columns = [], data = [];
 		 		 option2.title.text = obj_2[kk].indexName;

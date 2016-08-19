@@ -123,18 +123,20 @@
 														   	<div class="col-sm-8">
 															   	<div class="input-append date date_picker" data-date-format="dd MM yyyy" data-link-field="collectedTime" data-link-format="yyyy-mm-dd">
 															   		<input type="text" id="collectedTime" name="collectedTime" class="col-sm-10" readonly>
-															   		<span class="add-on col-sm-2" style="padding:0;margin:0"><i style="padding:0;margin:0" class="icon-th"></i></span>	
+															   		<span class="add-on col-sm-2"><i class="icon-th"></i></span>	
 															   	</div>		   
 															</div>
 														 </div> 
-							 
-														 <div class="form-group">
+							 							
+														 <div class="form-group" style="margin-top:10px">
 															<label class="col-sm-4 control-label no-padding-right" for="form-field-2">完成量的</label>
-															<div class="col-sm-8" style="margin:0;">
-																	<input type="text"  id="finishedWorkload" placeholder="完成量" class="col-sm-10" style="margin:0" name="finishedWorkload" >
+															<div class="col-sm-8">
+																	<input type="text"  id="finishedWorkload" placeholder="完成量" class="col-sm-10" name="finishedWorkload" >
+																	<span class="add-on col-sm-2"></span>	
 															</div>
 														 </div> 
-														 <div class="col-sm-12">
+													
+														 <div class="col-sm-12" style="margin-top:10px">
 															<button class="btn-sm btn-success no-radius" type="button" onclick="addIndexData('${id}')">
 																<i class="icon-edit bigger-200"></i>
 																录入

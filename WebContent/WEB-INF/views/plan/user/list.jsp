@@ -267,23 +267,30 @@ var option1 = {
         },
         xAxis: {
             data: [],
-        	name:'年份'
+        	name:'年份',
+        	color:function(param)
+        	{
+        	console.log(param);	
+        	}
         },
         yAxis: {
         	name:''     	
         },
         series: [
 	                 {
-		        		itemStyle: 
+		        	/* 	itemStyle: 
 		        		{
 		        			normal: 
 		        			{
+		        				color:function(params){
+		        					console.log(params);
+		        				},
 		        				label : 
 		        				{
 		        					show:true
 		        				}
 		        	        }
-	                 },
+	                 }, */
 		
 		            name: '已经完成的情况',
 		            type: 'bar',

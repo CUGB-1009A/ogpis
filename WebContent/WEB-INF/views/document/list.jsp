@@ -81,7 +81,7 @@
 										<tr>
 											<th class="table-checkbox"><input type="checkbox" class="group-checkable" name="checkboxFirst"/>全选</th>
 											<th>文档名称</th>
-											<th>文档概述</th>
+											<!-- <th>文档概述</th> -->
 											<th>上传时间</th>											
 											<th>对应规划</th>
 											<th>操作</th>
@@ -94,7 +94,7 @@
 												 <input type="checkbox" class="checkboxes" name="checkbox" value="${item.id}" />
 												</td>
 												<td><a target="_blank" href="<c:url value='/document/previewDocument?id=${item.id}&&editType=0'/>">${item.documentName}</a></td>
-												<td>${item.documentDescription}</td>
+												<%-- <td>${item.documentDescription}</td> --%>
 												<td><fmt:formatDate value="${item.uploadDate}" pattern="YYYY-MM-dd"/></td>
 												<td>${item.plan.planName}</td>
 												<td>

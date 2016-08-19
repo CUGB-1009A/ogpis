@@ -143,9 +143,7 @@
 			    },
 			    legend: {
 			        x:'center',
-			        y:'top',
-			        padding:[40,0,40,0]
-			        
+			        y:'top'   
 			    },
 			    yAxis : [
 			        {
@@ -172,8 +170,7 @@
 		    title: {
 		        text: '',
 		        x: 'center',            
-		        y: 'top',
-		        padding:[0,0,0,0]
+		        y: 'top'
 		    },
 		    tooltip: {
 		        trigger: 'axis'
@@ -181,8 +178,7 @@
 		    legend: {
 		        data:[],
 		        x:'center',
-		        y:'top',
-		        padding:[25,0,20,0]
+		        y:'top'
 		    },
 		    xAxis:  {
 		        type: 'category',
@@ -201,17 +197,15 @@
 			    title : {
 			        text: '',
 			        x: 'center',            
-			        y: 'top',
-			        padding:[0,0,0,0]
+			        y: 'top'
 			    },
 			    tooltip : {
 			        trigger: 'axis'
 			    },
 			    legend: {
-			        data:['规划完成量','目标值'],
+			        data:['','规划完成量','目标值'],
 			        x: 'center',            
-			        y: 'top',
-			        padding:[25,0,20,0]
+			        y: 'top'
 			    },
 			    xAxis : [
 			        {
@@ -278,7 +272,7 @@
 		        'echarts/chart/line'
 		    ],
 		    function (ec) {
-				var legendData = "{\"legend\":[";
+				var legendData = "{\"legend\":['',";
 				var xAxisData = "{\"xAxis\":[";
 				var tempSeries = "{\"series\":[";
 				for(var i=0;i<obj[0].plans.length;i++)
