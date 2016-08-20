@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-unauthorized
+500
 </body>
 </html>

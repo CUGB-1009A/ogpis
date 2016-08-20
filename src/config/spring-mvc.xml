@@ -21,10 +21,9 @@
 		<property name="suffix" value=".jsp" />
 	</bean>
 
-	<!--  <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"> 
-		<property name="defaultEncoding" value="utf-8"/> 
-		<property name="maxUploadSize" value="10240000000"/> 
-		<property name="maxInMemorySize" value="40960"/> </bean>  -->
+	<!-- <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"> 
+		<property name="defaultEncoding" value="utf-8"/> <property name="maxUploadSize" 
+		value="10240000000"/> <property name="maxInMemorySize" value="40960"/> </bean> -->
 
 
 	<!-- <bean id="loginAction" class="com.niexiao.action.LoginAction"></bean> -->
@@ -43,10 +42,9 @@
 		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
 		<property name="exceptionMappings">
 			<props>
-				<prop key="org.apache.shiro.authz.UnauthorizedException">/error/unauthorized</prop>
+				<prop key="java.lang.Exception">/error/exception</prop>
+				<prop key="org.apache.shiro.authz.AuthorizationException">/index</prop>
 			</props>
 		</property>
 	</bean>
-
-
 </beans>
