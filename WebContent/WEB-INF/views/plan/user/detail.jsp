@@ -115,7 +115,7 @@
 			<div class="col-xs-12" style="margin:0;padding:0">
 				<ul id="myTab" class="nav nav-tabs">		
 					   <li class="active"><a href="#overview" data-toggle="tab">规划背景</a></li>
-					   <c:if test="${plan.planType.equals('QG')}"> <!-- 如果是全国规划，再加一个相关历史数据Tab页 -->
+					   <c:if test="${plan.planType.equals('QG')||plan.planType.equals('358')}"> <!-- 如果是全国规划（或358），再加一个相关历史数据Tab页 -->
 					  		 <li><a href="#historyData" data-toggle="tab">相关历史数据</a></li>
 					   </c:if> 
 					   <li><a href="#planDistination" data-toggle="tab">规划目标</a></li>
@@ -124,7 +124,7 @@
 				</ul>				
 				<div id="myTabContent" class="tab-content">
 					<%@ include file="tab1_user.jsp"%>
-					<c:if test="${plan.planType.equals('QG')}">
+					<c:if test="${plan.planType.equals('QG')||plan.planType.equals('358')}">
 					  	<%@ include file="historyData.jsp"%>
 					</c:if> 
 					<%@ include file="tab2_user.jsp"%>
@@ -141,7 +141,8 @@ var startYear = '${plan.startTime}';
 var endYear = '${plan.endTime}';
 startYear = startYear.substring(0,4);
 endYear = endYear.substring(0,4);
-
+var planType= '${plan.planType}';
+alert(planType)
 
 var option = {
 		 title: {
@@ -371,20 +372,23 @@ require(
 			var $myCharts5 = $(".charts5");
 			var data2 = $(".inputs3")[0].value;
 			var obj_2 = eval("(" + data2 + ")");
-			
-			var data5 = $(".inputs5")[0].value;
-			var obj_5 = eval("(" + data5 + ")");
-			
-		 	var myCharts5;
-			for(var xx=0;xx<obj_5.length;xx++)
-	 		{
-	 		   myCharts5 = ec.init($myCharts5[xx]);
-			   option5.yAxis[0].name = obj_5[xx].indexUnit;
-			   option5.title.text =obj_5[xx].indexName
-			   option5.xAxis[0].data = obj_5[xx].year;
-			   option5.series[0].data = obj_5[xx].value;
-			   myCharts5.setOption(option5);
-	 		} 
+			//console(planType)
+			if(planType=='QG'||planType=='358')
+			{
+				//console.log(planType);
+				var data5 = $(".inputs5")[0].value;
+				var obj_5 = eval("(" + data5 + ")");
+			 	var myCharts5;
+				for(var xx=0;xx<obj_5.length;xx++)
+		 		{
+		 		   myCharts5 = ec.init($myCharts5[xx]);
+				   option5.yAxis[0].name = obj_5[xx].indexUnit;
+				   option5.title.text =obj_5[xx].indexName
+				   option5.xAxis[0].data = obj_5[xx].year;
+				   option5.series[0].data = obj_5[xx].value;
+				   myCharts5.setOption(option5);
+		 		} 
+			}
 			
 			
 		 	var tempLegend = "{\"legend\":['',";
