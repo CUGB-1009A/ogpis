@@ -22,6 +22,48 @@ public class Plan extends PlanEntity {
 		Collections.sort(list);
 		return list;
 	}
+	//为了画相关历史数据，取（跟踪和非跟踪的）所有指标项的历史数据（规划年间的数据）展示出来
+	@SuppressWarnings({ "unchecked"})
+	public String getAllIndexHistory() {
+		StringBuilder result = new StringBuilder();
+		ArrayList<Float> indexValue = new ArrayList<Float>();
+		ArrayList<Integer> year = new ArrayList<Integer>();
+		List<IndexDataManagement> indexDataAll =  new ArrayList<IndexDataManagement>();//对应所有的完成情况
+		List<IndexDataManagement> indexDataInPlanYear =  new ArrayList<IndexDataManagement>();//对应的规划外的十年完成情况
+		//List<IndexManagement> indexTemp = new ArrayList<IndexManagement>();
+		//indexTemp.addAll(this.getIndexs());
+		List<Plan_Index> plan_index = new ArrayList<Plan_Index>();
+		plan_index.addAll(this.getPlan_indexs());
+		Collections.sort(plan_index);
+		//Collections.sort(indexTemp);
+		result.append("[");
+		for(Plan_Index tempPlan_Index : plan_index)
+		{
+			year.clear();
+			indexValue.clear();
+			indexDataAll.clear();
+			indexDataInPlanYear.clear();
+			indexDataAll.addAll(tempPlan_Index.getIndex().getIndexData());		
+			Collections.sort(indexDataAll); //根据年份排序（2000----2010）
+			for(IndexDataManagement temp:indexDataAll) //记录处在规划期内的完成记录
+			{
+				if(temp.getCollectedTime().getTime()<super.endTime.getTime())
+					indexDataInPlanYear.add(temp);
+			}
+			for(IndexDataManagement indexDataTemp : indexDataInPlanYear)
+			{
+				year.add(Integer.parseInt(indexDataTemp.getCollectedTime().toString().substring(0, 4)));
+				indexValue.add(indexDataTemp.getFinishedWorkload());
+			}
+			result.append("{\"indexType\":\""+tempPlan_Index.getIndex().getIndexType()+"\",\"indexUnit\":\"" + tempPlan_Index.getIndex().getIndexUnit() + "\",\"indexName\":\"" + tempPlan_Index.getIndex().getIndexName()
+			+ "\",\"year\":"+ year.toString() + ",\"value\":" + indexValue.toString() + "},");
+		}
+		result.deleteCharAt(result.length() - 1);
+		result.append("]");
+		return result.toString();
+	}
+	
+	
 	//为了画十年的历史数据（规划起始年份前十年的数据）和规划期内每年目标
 	@SuppressWarnings({ "unchecked"})
 	public String getTenHistoryIndexData() {
@@ -30,7 +72,11 @@ public class Plan extends PlanEntity {
 		List<IndexDataManagement> indexDataAll =  new ArrayList<IndexDataManagement>();//对应所有的完成情况
 		List<IndexDataManagement> indexDataTen =  new ArrayList<IndexDataManagement>();;//对应的规划外的十年完成情况
 		List<Plan_Index> plan_index = new ArrayList<Plan_Index>();
-		plan_index.addAll(this.getPlan_indexs());
+		for(Plan_Index temp:this.getPlan_indexs())
+		{
+			if(temp.getIndex().isTrack())
+				plan_index.add(temp);
+		}
 		Collections.sort(plan_index);
 		ArrayList<Float> indexValue = new ArrayList<Float>();
 		ArrayList<String> year = new ArrayList<String>();
@@ -83,7 +129,11 @@ public class Plan extends PlanEntity {
 		List<IndexDataManagement> indexDataAll =  new ArrayList<IndexDataManagement>();//对应所有的完成情况
 		List<IndexDataManagement> indexDataInPlanYear =  new ArrayList<IndexDataManagement>();//对应的规划外的十年完成情况
 		List<Plan_Index> plan_index = new ArrayList<Plan_Index>();
-		plan_index.addAll(this.getPlan_indexs());
+		for(Plan_Index temp:this.getPlan_indexs())
+		{
+			if(temp.getIndex().isTrack())
+				plan_index.add(temp);
+		}
 		Collections.sort(plan_index);
 		result.append("[");
 		for(Plan_Index tempPlan_Index : plan_index)
@@ -139,7 +189,11 @@ public class Plan extends PlanEntity {
 		//List<IndexManagement> indexTemp = new ArrayList<IndexManagement>();
 		//indexTemp.addAll(this.getIndexs());
 		List<Plan_Index> plan_index = new ArrayList<Plan_Index>();
-		plan_index.addAll(this.getPlan_indexs());
+		for(Plan_Index temp:this.getPlan_indexs())
+		{
+			if(temp.getIndex().isTrack())
+				plan_index.add(temp);
+		}
 		Collections.sort(plan_index);
 		//Collections.sort(indexTemp);
 		result.append("[");
@@ -172,7 +226,7 @@ public class Plan extends PlanEntity {
 		return result.toString();
 	}
 	
-	//获取指标对应的所有历史数据（规划截止时间前的所有历史数据）
+	//获取指标（跟踪指标）对应的所有历史数据（规划截止时间前的所有历史数据）
 	@SuppressWarnings("unchecked")
 	public String getAllHistoryIndexData(){	
 		StringBuilder result = new StringBuilder();
@@ -183,7 +237,11 @@ public class Plan extends PlanEntity {
 		//List<IndexManagement> indexTemp = new ArrayList<IndexManagement>();
 		//indexTemp.addAll(this.getIndexs());
 		List<Plan_Index> plan_index = new ArrayList<Plan_Index>();
-		plan_index.addAll(this.getPlan_indexs());
+		for(Plan_Index temp:this.getPlan_indexs())
+		{
+			if(temp.getIndex().isTrack())
+				plan_index.add(temp);
+		}
 		Collections.sort(plan_index);
 		//Collections.sort(indexTemp);
 		result.append("[");

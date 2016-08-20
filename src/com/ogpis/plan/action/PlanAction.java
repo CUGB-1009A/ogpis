@@ -597,6 +597,7 @@ public class PlanAction extends BaseAction {
 		if (bean != null) {
 			bean.setTargetValue(plan_Index.getTargetValue());
 			bean.setIndexPerformance(plan_Index.getIndexPerformance());
+			bean.setHistoryDescription(plan_Index.getHistoryDescription());
 		}
 		plan_IndexService.update(bean);
 		model.addAttribute("id", bean.getPlan().getId());

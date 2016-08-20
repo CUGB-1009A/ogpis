@@ -118,15 +118,19 @@
 									</div>
 								</div>
 								
-								<!-- 几个指标几个图 -->	
+								<!-- 几跟踪个指标几个图 -->	
 								<div class="col-xs-6"> 
 								 <textarea class="inputsindex" style="display:none"> ${item1.get('plan').indexDataInBoth}</textarea>
 									<div id="lunbo${status.index}"  class="carousel slide" style="height:300px;width:100%">
 									<div class="carousel-inner activeCharts">
-											<c:forEach items="${item1.get('plan').indexs}" varStatus = "indexstatus">
-												<div class="item">	
-													<div class="mainCharts maincharts_${status.index} first_${indexstatus.index}" style="height:300px;width:100%;" onclick="showDetail('${item1.get('plan').id}','${listType}')"></div>
-												</div>
+											<c:set var="temp" value="0"/> 
+											<c:forEach items="${item1.get('plan').indexs}" var = "indexTemp">
+												<c:if test="${indexTemp.track}">	
+													<div class="item">	
+														<div class="mainCharts maincharts_${status.index} first_${temp}" style="height:300px;width:100%;" onclick="showDetail('${item1.get('plan').id}','${listType}')"></div>
+													</div>
+													<c:set var="temp" value="${temp+1}"/>
+												</c:if>
 											</c:forEach>
 										</div>
 										 <a class="carousel-control left" href="#lunbo${status.index}" data-slide="prev" style="padding-top:15%;">&lsaquo;</a>

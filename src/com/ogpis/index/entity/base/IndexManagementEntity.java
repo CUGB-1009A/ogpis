@@ -53,6 +53,18 @@ public class IndexManagementEntity extends BaseEntity {
 	@OneToMany(fetch=FetchType.LAZY,cascade = { CascadeType.ALL }, mappedBy = "index")
 	protected List<IndexDataManagement> indexData;
 	
+	@Column(name = "是否需要跟踪")
+	private boolean track;
+	
+	
+	public boolean isTrack() {
+		return track;
+	}
+
+	public void setTrack(boolean track) {
+		this.track = track;
+	}
+
 	@Deprecated
 	@Column(name = "目标值")
 	protected float indexValue;

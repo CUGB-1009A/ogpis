@@ -43,18 +43,16 @@ public class PlanEntity extends BaseEntity {
 	protected boolean released;
 
 	//指规划实际发文的时间
-	@Column(columnDefinition="DATE",name = "发布时间")
+	@Column(name = "发布时间")
 	@DateTimeFormat( pattern = "yyyy-MM-dd" )
 	protected Date releaseDate;
 
-
-
 	// 这个是指是全国、各大石油公司、其他规划；还是以后从其他维度的规划
-	@Column(columnDefinition="DATE",name = "规划开始时间")
+	@Column(name = "规划开始时间")
 	@DateTimeFormat( pattern = "yyyy-MM-dd" )
 	protected Date startTime;
 	
-	@Column(columnDefinition="DATE",name = "规划结束时间")
+	@Column(name = "规划结束时间")
 	@DateTimeFormat( pattern = "yyyy-MM-dd" )
 	protected Date endTime;
 	

@@ -103,6 +103,7 @@ public class IndexManagementAction  extends BaseAction {
 			bean.setIndexName(indexManagement.getIndexName());
 			bean.setIndexType(indexManagement.getIndexType());
 			bean.setIndexUnit(indexManagement.getIndexUnit());
+			bean.setTrack(indexManagement.isTrack());
 			bean.setPriority(indexManagement.getPriority());
 			indexManagementService.save(bean);
 			}
@@ -114,6 +115,7 @@ public class IndexManagementAction  extends BaseAction {
 			bean.setIndexName(indexManagement.getIndexName());
 			bean.setIndexType(indexManagement.getIndexType());
 			bean.setIndexUnit(indexManagement.getIndexUnit());
+			bean.setTrack(indexManagement.isTrack());
 			bean.setPriority(indexManagement.getPriority());
 			indexManagementService.update(bean);
 			}
@@ -124,8 +126,8 @@ public class IndexManagementAction  extends BaseAction {
 	@RequestMapping(value = "/index/delete")
 	public String delete(HttpServletRequest request, ModelMap model,String id) {	
 		IndexManagement bean = indexManagementService.findById(id);
-		bean.setDeleted(true);
-		indexManagementService.update(bean);
+			bean.setDeleted(true);
+			indexManagementService.update(bean);
 		model.addAttribute("type",bean.getType());
 		return "redirect:/index/list";
 	}

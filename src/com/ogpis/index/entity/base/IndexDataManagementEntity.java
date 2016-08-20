@@ -19,7 +19,7 @@ public class IndexDataManagementEntity extends BaseEntity {
 	@JoinColumn(name = "对应指标id")
 	protected IndexManagement index;
 	
-	@Column(columnDefinition="DATE",name = "采集时间")
+	@Column(name = "采集时间")
 	@DateTimeFormat( pattern = "yyyy-MM-dd" )
 	protected Date collectedTime;
 	

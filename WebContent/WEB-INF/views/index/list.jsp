@@ -97,7 +97,7 @@
 																	<i class="icon-edit bigger-200"></i>
 																	编辑
 															</a>&nbsp;
-															<a href="javascript:deleteIndex('${item1.id}');" class="btn-sm btn-app btn-danger no-radius">
+															<a href="javascript:deleteIndex('${item1.id}','${item1.plan_indexs.size()}');" class="btn-sm btn-app btn-danger no-radius">
 																<i class="icon-trash bigger-200"></i>
 																删除
 															</a>&nbsp;
@@ -117,15 +117,21 @@
 </div>
 </body>
 <script type="text/javascript">
+
+
 $("#selectType").change(function(){
 	var type = $("#selectType").val()
 	window.location.href="<%=path%>/index/list?type="+type;
 });
 
-function deleteIndex(id){
+function deleteIndex(id,isDeleted){
 	var isDel =  confirm('确定删除该指标吗？删除后将不再提供给新的规划使用', '确认对话框');
 	if(isDel){
-		window.location.href="<%=path%>/index/delete?id="+id;
+		if(isDeleted==0)//判断是否在使用中，是的话不允许删除
+			window.location.href="<%=path%>/index/delete?id="+id;
+		else
+			alert("该指标已经在使用中，不能删除");
+				
 	}
 }
 </script>

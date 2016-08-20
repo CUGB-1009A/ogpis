@@ -100,6 +100,19 @@
 						</div>
 					</div>
 					
+					<div class="space-4"></div><!-- 是否需要跟踪的单选框 -->
+					<div class="form-group">
+						<label class="col-sm-3 control-label no-padding-right" for="selectIndex">是否跟踪</label>
+						<div class="col-sm-9" style="text-align:left">
+							<label class="checkbox-inline">
+						      <input type="radio" name="track"  value="<%=true%>" <c:if test="${index.track}">checked</c:if> > 是
+						   </label>
+							<label class="checkbox-inline">
+						      <input type="radio" name="track"  value="<%=false%>" <c:if test="${!index.track}">checked</c:if>> 否
+							</label>
+						</div>
+					</div>
+					
 					<div class="space-4"></div>
 					<div class="form-group">
 						<label class="col-sm-3 control-label no-padding-right" for="indexType">优先级</label>

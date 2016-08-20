@@ -38,21 +38,27 @@
 							<input type="text" readonly="readonly" id="indexName" placeholder="指标项名称" class="col-xs-10 col-sm-5" name="indexName" value="${plan_Index.index.indexName}">
 						</div>
 					</div>
-
-					<div class="form-group">
-						<label class="col-sm-3 control-label no-padding-right" for="targetValue">目标值</label>
-
-						<div class="col-sm-9">
-							<input type="text" id="targetValue" placeholder="目标值..." required="required" class="col-xs-10 col-sm-5" name="targetValue" value="${plan_Index.targetValue}">
+					<c:if test="${plan_Index.index.track}">
+						<div class="form-group">
+							<label class="col-sm-3 control-label no-padding-right" for="targetValue">目标值</label>
+							<div class="col-sm-9">
+								<input type="text" id="targetValue" placeholder="目标值..." required="required" class="col-xs-10 col-sm-5" name="targetValue" value="${plan_Index.targetValue}">
+							</div>
 						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-sm-3 control-label no-padding-right" for="indexPerformance">完成情况</label>
-
-						<div class="col-sm-9">
-							<textarea  id="indexPerformance" placeholder="完成情况..."  class="col-xs-10 col-sm-5" name="indexPerformance" style="height:250px; ">${plan_Index.indexPerformance}</textarea>
+					
+						<div class="form-group">
+							<label class="col-sm-3 control-label no-padding-right" for="indexPerformance">完成情况</label>
+							<div class="col-sm-9">
+								<textarea  id="indexPerformance" placeholder="完成情况..."  class="col-xs-10 col-sm-5" name="indexPerformance" style="height:250px; ">${plan_Index.indexPerformance}</textarea>
+							</div>
 						</div>
-					</div>
+					</c:if>
+						<div class="form-group">
+							<label class="col-sm-3 control-label no-padding-right" for="targetValue">历史数据描述</label>
+							<div class="col-sm-9">
+								<textarea   placeholder="历史数据描述..."  class="col-xs-10 col-sm-5" name="historyDescription" style="height:250px; ">${plan_Index.historyDescription}</textarea>
+							</div>
+						</div>
 					<div class="clearfix form-actions">
 						<div class="col-md-12">
 							<button class="btn-sm btn-success no-radius" type="submit">

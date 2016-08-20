@@ -235,6 +235,44 @@ var option1 = {
 	           ]
     };
     
+ var option5 = {
+		title:{
+			text: '',
+		    x: 'center',            
+		    y: 'top'
+		},
+		tooltip : {
+		    trigger: 'axis'
+		},
+		dataZoom : {
+		    show : true,
+		    realtime : true,
+			start : 0,
+		    end : 100
+		},
+		xAxis : [
+		    {
+		        type : 'category',
+		        name:'年份',
+		        data : []
+		    }
+		],
+		yAxis : [
+		    {
+		    	name:'',
+		        type : 'value'
+		    }
+				],
+		series : [
+		    {
+		        type:'bar',
+		        data:[]
+		
+		    }  
+				] 
+}; 
+
+    
  /* var option2 = {
 		title:{
 			text: '',
@@ -330,9 +368,24 @@ require(
 			//按指标的类型分 indexType
 			var $myCharts2 = $(".charts3");
 			var $myCharts3 = $(".charts4");
+			var $myCharts5 = $(".charts5");
 			var data2 = $(".inputs3")[0].value;
-			alert(data2)
 			var obj_2 = eval("(" + data2 + ")");
+			
+			var data5 = $(".inputs5")[0].value;
+			var obj_5 = eval("(" + data5 + ")");
+			
+		 	var myCharts5;
+			for(var xx=0;xx<obj_5.length;xx++)
+	 		{
+	 		   myCharts5 = ec.init($myCharts5[xx]);
+			   option5.yAxis[0].name = obj_5[xx].indexUnit;
+			   option5.title.text =obj_5[xx].indexName
+			   option5.xAxis[0].data = obj_5[xx].year;
+			   option5.series[0].data = obj_5[xx].value;
+			   myCharts5.setOption(option5);
+	 		} 
+			
 			
 		 	var tempLegend = "{\"legend\":['',";
 		 	var tempYdata = "{\"yData\":[";

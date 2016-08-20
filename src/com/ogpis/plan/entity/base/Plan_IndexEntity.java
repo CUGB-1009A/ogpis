@@ -30,6 +30,17 @@ public class Plan_IndexEntity extends BaseEntity {
 	
 	@Column(name = "指标完成情况")
 	private String indexPerformance;
+	
+	@Column(name = "历史数据描述")
+	private String historyDescription;
+
+	public String getHistoryDescription() {
+		return historyDescription;
+	}
+
+	public void setHistoryDescription(String historyDescription) {
+		this.historyDescription = historyDescription;
+	}
 
 	/**
 	 * @return the plan

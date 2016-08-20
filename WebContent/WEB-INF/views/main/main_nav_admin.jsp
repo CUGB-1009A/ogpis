@@ -23,7 +23,7 @@
             </ul>
          </li>
          
-           <li>
+     <%--       <li>
             <a href="#international" data-toggle="collapse" class="nav-header collapsed" ><i class="glyphicon glyphicon-plane" ></i> 国际公司 <i class="fa fa-fw fa-caret-down"></i></a>
             <ul id="international" class="nav nav-list secondmenu collapse" style="height:0px;" >
                 <li>
@@ -42,7 +42,7 @@
             		<a href="<c:url value='/international/edit?companyName=amfks'/>" ><i class="glyphicon glyphicon-star"></i> 埃克森美孚<i></i></a>
          		</li>
             </ul>
-         </li>
+         </li> --%>
                  
 
           <li>

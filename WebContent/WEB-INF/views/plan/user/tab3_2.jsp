@@ -11,7 +11,7 @@
 				</div>
 					<c:set var="temp1" value="0"/>	
 					<c:forEach items="${plan.orderedPlan_Index}" var="item" varStatus="status">
-						<c:if test="${item.index.indexType=='1'}">
+						<c:if test="${item.index.indexType=='1'&&item.index.track}">
 							<c:set var="temp1" value="${temp1+1}"/>
 							<div class="row">
 									<div class="col-xs-12">  
