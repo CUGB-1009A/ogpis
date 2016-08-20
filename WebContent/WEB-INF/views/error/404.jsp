@@ -1,11 +1,31 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@include file="/WEB-INF/views/init.jsp" %>
 <html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
-</head>
-<body>404
-</body>
+	<head>
+		<title>页面未找到</title>
+		<meta charset="utf-8">
+		<link href="<%=path%>/assets/error/css/style.css" rel="stylesheet" type="text/css"  media="all" />
+	</head>
+	<body>
+		<!--start-wrap--->
+		<div class="wrap">
+			<!---start-header---->
+				<!--<div class="header">
+					<div class="logo">
+						<h1><a href="#">åºéå¦ï¼</a></h1>
+					</div>
+				</div>-->
+			<!---End-header---->
+			<!--start-content------>
+			<div class="content">
+				<img src="<%=path%>/assets/error/images/error-img.png" title="error" />
+				<p><span>哎呀.....</span>您访问的页面不存在</p>
+				<a href="<%=path%>/plan/list?type=QG">返回首页</a>
+   			</div>
+			<!--End-Cotent------>
+		</div>
+		<!--End-wrap--->
+	</body>
 </html>
+
