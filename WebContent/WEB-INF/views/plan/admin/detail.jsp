@@ -50,34 +50,6 @@
 					<li <c:if test='<%=flag.equals("3") %>'>class="active current"</c:if>>
 						<a href="<c:url value='/plan/show?type=${type}&id=${plan.id}&flag=3'/>" class="menu">规划指标</a>
 					</li> 	
-		 			
-<%-- 		 			<c:if test='<%=flag.equals("2") %>'>  --%>
-<!-- 					   <li class="active"><a href="#document" data-toggle="tab" >文档资料</a>	</li> -->
-<%-- 					</c:if>  --%>
-<%-- 					<c:if test='<%=!flag.equals("2") %>'>  --%>
-<!-- 					     <li><a href="#document" data-toggle="tab" onclick="Tab2()">文档资料</a></li> -->
-<%-- 		 			</c:if>  --%>
-		 			
-<%-- 		 			<c:if test='<%=flag.equals("3") %>'>  --%>
-<!-- 					   <li class="active"><a href="#indexEntry" data-toggle="tab">规划指标</a></li> -->
-<%-- 					</c:if>  --%>
-<%-- 					<c:if test='<%=!flag.equals("3") %>'>  --%>
-<!-- 					   <li><a href="#indexEntry" data-toggle="tab" onclick="Tab3()">规划指标</a></li> -->
-<%-- 		 			</c:if>  --%>
-		 			
-<%-- 		 			<c:if test='<%=flag.equals("4") %>'> 
-					   <li class="active"><a href="#completeEntry" data-toggle="tab">完成情况</a></li>
-					</c:if> 
-					<c:if test='<%=!flag.equals("4") %>'> 
-					   <li><a href="#completeEntry" data-toggle="tab" onclick="Tab4()">完成情况</a></li>
-					</c:if> 
-		 			
-		 			<c:if test='<%=flag.equals("5") %>'> 
-					   <li class="active"><a href="#track" data-toggle="tab">规划跟踪</a></li>
-					</c:if> 
-					<c:if test='<%=!flag.equals("5") %>'> 
-					   <li><a href="#track" data-toggle="tab" onclick="Tab5()">规划跟踪</a></li>
-		 			</c:if>  --%> 		  
 				</ul>
 				
 				<div id="myTabContent" class="tab-content">
@@ -98,25 +70,6 @@ var uploader ;
 var flag = ${flag} ;
 var id = "${plan.id}";
 var type = "${type}";
-function Tab1()
-{
-	window.location.href="<%=path%>/plan/show?type="+type+"&&id="+id+"&&flag=1&&menus=index";
-}
-
-function Tab2()
-{
-	window.location.href="<%=path%>/plan/show?type="+type+"&&id="+id+"&&flag=2";
-}
-
-function Tab3()
-{
-	window.location.href="<%=path%>/plan/show?type="+type+"&&id="+id+"&&flag=3";
-}
-
-function Tab4()
-{
-	window.location.href="<%=path%>/plan/show?type="+type+"&&id="+id+"&&flag=4";
-}
  
 
 /* 回显时间和规划描述字段，去掉时分秒（虽然在库中没有，但获取的时候自动添0了) */
@@ -146,84 +99,6 @@ $(function(){
 		$("#track").toggleClass("in active");
 }); 
 
-/* 初始化模态框，清空模态框一切信息，设置上传按钮可用，警示信息隐藏 */
-function showModal()
-{	
-	var planId=id;
-	$('#myModal').modal({backdrop: 'static', keyboard: false});
-	$('#thelist').empty();
-	uploader = WebUploader.create({
-	    // swf文件路径
-	    swf: '<%=path%>/assets/js/Uploader.swf',
-	    // 文件接收服务端。
-	    server: '<%=path%>/plan/uploadFiles?type=${type}&time=1&planId=${plan.id}',
-	    // 内部根据当前运行是创建，可能是input元素，也可能是flash.
-	    pick: '#picker'
-	});
-	var total = 0;
-	var success = 0;
-	var f = 1 ;//为了重新选择文件所用
-	var hasFile = 0 ;
-	var fileId = "";
-    
-         //webuploader注册监听事件 添加文件前先重置uploader
-	uploader.on( 'beforeFileQueued', function( file ){
-	     if(f==1)
-	    	 {
-	    	 total = 0;
-	    	 uploader.reset();
-	    	 $('#thelist').empty();
-	    	 f=0;
-	    	 }
-		 
-	}); 
-
-	//文件加入队列之后触发
-	uploader.on( 'fileQueued', function( file ) {
-		fileId = fileId + file.id ;
-		total = total +1 ;
-	    $('#thelist').append( '<div class="item">' +
-	        '<h4 class="info">' + file.name + '</h4><div class="progress" style="width: 100%"><div id="'+file.id+'1"class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" style="width: 0%">'+
-				'<span id="'+file.id+'"></span></div></div></div>' );
-	});
-
-	//当一批文件添加进队列以后触发
-	uploader.on( 'filesQueued', function( files ) {
-	    hasFile = 1;
-		f=1;
-	});
-
-	uploader.on( 'uploadSuccess', function( file ) {
-		 success = success + 1 ;
-		 
-	}); 
-
-	uploader.on( 'uploadComplete', function( file ) {
-
-		if(total == success)
-			{
-			$("#myModal").modal("hide");
-			window.location.href = "<%=path%>/plan/show?type="+type+"&&id="+id+"&&flag=2";
-			}
-			
-	});
-
-	uploader.on( 'uploadProgress', function( file , percentage) {
-
-		$('#'+file.id+'1').css('width',percentage*100+''+'%');  
-	    $('#'+file.id)[0].innerHTML = percentage*100;  	
-
-	});
-	
-	$('#ctlBtn').on("click",function(){
-		if(hasFile == 0)
-			alert("请选择文件再上传");
-		else
-			{
-			uploader.upload();
-			}		
-	});	
-}
 
 $(function(){
 	$("#closeFileUploadModel").click(function(){

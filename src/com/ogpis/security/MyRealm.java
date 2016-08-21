@@ -30,6 +30,7 @@ public class MyRealm extends AuthorizingRealm {
 	protected AuthenticationInfo doGetAuthenticationInfo(
 			AuthenticationToken authcToken) throws AuthenticationException {
 		// TODO Auto-generated method stub
+		System.out.println("--doGetAuthenticationInfo");
 		UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
 		String username = token.getUsername();
 		if (username != null && !"".equals(username)) {
@@ -50,6 +51,7 @@ public class MyRealm extends AuthorizingRealm {
 	protected AuthorizationInfo doGetAuthorizationInfo(
 			PrincipalCollection principals) {
 		// 给用户授权
+		System.out.println("--doGetAuthorizationInfo");
 		String username = (String) principals.getPrimaryPrincipal();
 		User user = userService.findByUserName(username);
 		SimpleAuthorizationInfo auth = new SimpleAuthorizationInfo();

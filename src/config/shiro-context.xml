@@ -27,10 +27,13 @@
 
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
 		<property name="realm" ref="authorizingRealm" />
+<!-- 		<property name="sessionManager" ref="sessionManager" /> -->
 	</bean>
 
 	<bean id="authorizingRealm" class="com.ogpis.security.MyRealm" />
-
+	<bean id="sessionManager" class="org.apache.shiro.session.mgt.DefaultSessionManager" >
+		<property name="globalSessionTimeout" value="5000" />
+	</bean>
 
 	<!-- 开启Shiro注解的Spring配置方式的beans。在lifecycleBeanPostProcessor之后运行 -->
 	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />

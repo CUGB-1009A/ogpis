@@ -37,14 +37,15 @@ public class LoginAction {
 		System.out.println("login");
 		System.out.println("username:" + username);
 		System.out.println("password:" + password);
-		SecurityUtils.getSecurityManager().logout(SecurityUtils.getSubject());
+		Subject subject = SecurityUtils.getSubject();
+		SecurityUtils.getSecurityManager().logout(subject);
 		// 登录后存放进shiro token
 		UsernamePasswordToken token = new UsernamePasswordToken(username,
 				password);
 		try {
 			System.out.println("login");
-			Subject subject = SecurityUtils.getSubject();
 			subject.login(token);
+			subject.getSession().setTimeout(1000 * 60 * 60 * 8);//将seesion过期时间设置为8小时
 			model.addAttribute("type", "QG");
 			model.addAttribute("condition", "");
 			return "redirect:/plan/list";
