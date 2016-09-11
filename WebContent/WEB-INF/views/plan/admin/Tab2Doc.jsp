@@ -138,9 +138,9 @@
 		uploader = WebUploader
 				.create({
 			// swf文件路径
-			swf : '<%=path%>/assets/js/Uploader.swf',
+			swf : '<%=request.getContextPath()%>/assets/js/Uploader.swf',
 		    // 文件接收服务端。
-		    server: '<%=path%>/plan/uploadFiles?type=${type}&time=1&planId=${plan.id}',
+		    server: '<%=request.getContextPath()%>/plan/uploadFiles?type=${type}&time=1&planId=${plan.id}',
 		    // 内部根据当前运行是创建，可能是input元素，也可能是flash.
 		    pick: '#picker'
 		});
@@ -189,7 +189,7 @@
 			if(total == success)
 				{
 				$("#myModal").modal("hide");
-				window.location.href = "<%=path%>/plan/show?type="+type+"&&id="+id+"&&flag=2";
+				window.location.href = "<%=request.getContextPath()%>/plan/show?type="+type+"&&id="+id+"&&flag=2";
 				}
 				
 		});
